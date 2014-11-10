@@ -1,2 +1,0 @@
-27/09/2014 11:04 /home/u415690/beta.rzdz.ru/www/lib/spec.php:67 SQL_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND ( (date='2014-09-15' AND spec_id<21) OR date<'2014-09-15' )
-						ORDER BY d' at line 2
