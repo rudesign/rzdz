@@ -56,10 +56,13 @@ if(@$save)
 		$name_en = escape_string(from_form(@$name_en));
 		$anons = escape_string(from_form(@$anons));
 		$anons_en = escape_string(from_form(@$anons_en));
+        $profile = escape_string(from_form(@$profile));
+        $profile_en = escape_string(from_form(@$profile_en));
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 		$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', anons='$anons', anons_en='$anons_en',
+		    profile='$profile', profile_en='$profile_en',
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 				
@@ -322,6 +325,10 @@ if($cure_id)
 			" WHERE parent=$cure_id AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']) : '';
 		$subcure['name'] = HtmlSpecialChars($subcure['name']);
 		$subcure['name_en'] = HtmlSpecialChars($subcure['name_en']);
+        $subcure['anons'] = HtmlSpecialChars($subcure['anons']);
+        $subcure['anons_en'] = HtmlSpecialChars($subcure['anons_en']);
+        $subcure['profile'] = HtmlSpecialChars($subcure['profile']);
+        $subcure['profile_en'] = HtmlSpecialChars($subcure['profile_en']);
 		$subcure['description'] = HtmlSpecialChars($subcure['description']);
 		$subcure['description_en'] = HtmlSpecialChars($subcure['description_en']);
 		$tinymce_elements = 'description, description_en';
