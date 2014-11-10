@@ -1,0 +1,19 @@
+<div id="pdescription">
+<?=$description?>
+</div>
+
+	
+  
+	 
+<?if(count($photos)){?>
+
+<div class="fotos">
+    <? foreach ($photos as $v) {?>
+	<div class="li">
+         <a href="<?=$v['bigphoto']?>" class="colorbox" rel="gal" title="<?=$v['alt']?>"><img src="<?=$v['photo']?>" alt="<?=$v['alt']?>" <?=$v['smallsize']?> border="0"></a>
+    </div>
+	<?}?>
+
+</div>
+<?}?>
+

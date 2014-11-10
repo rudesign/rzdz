@@ -1,0 +1,9 @@
+
+		  <ul class="menu_header_bottom clearfix">
+		   <?foreach($list as $k=>$v){?>
+            <?if($k){?><li class="sep_li">&nbsp;</li>
+			<?}?>
+		    <li <?if($v['sel']){?>class="active_mhb"<?}?>><a href="<?=$v['link']?>" <?if($k+1==count($list)){?>class="need_pad_chh"<?}?>><?=$v['name']?></a></li>
+			<?}?>		  			
+          </ul><!--menu_header_top-->
+	 

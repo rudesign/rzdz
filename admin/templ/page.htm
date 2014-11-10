@@ -1,0 +1,94 @@
+<?if($level<2 && $parent!=1){?><p><a href="?p=site&addpage=1&parent=<?=$page_id?>">Добавить подраздел ›››</a></p><?}?>
+<?if($parent==1){?>
+<p>
+<strong><?=$name?></strong> 
+<?foreach($photo_list as $k=>$v){?> &nbsp; | &nbsp;
+<a href="?p=site&page_id=<?=$page_id?>&<?=$v?>"><?=$photo_name[$k]?> (<?=${"${v}_count"}?>)</a> 
+<?}?>
+</p>
+<?}?>
+
+<table><tr>
+<td>
+	<FORM method="post" enctype="multipart/form-data">
+	<table border="0" cellpadding="3" >
+	<tr><td>Отображается на сайте? </td><td width="300"><?=$public_select?></td>
+		<?if($parent==1 || $parent==6){?>
+		<td rowspan="11">
+			<p>Маленькое фото<br />
+			<?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
+			<a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+			<?}else{?>(размер 163px * 105px)<br /><input type="file" name="photo" size="5"><?}?>
+			</p>
+			<?if($parent==1){?><p>Иконка для брошюр<br />
+			<?if($brochure){?><img src="<?=$brochure?>" border=0 <?=$brochure_smallsize?>><br>
+			<a href="<?=$brochure_del_link?>" onclick="javascript: return delete_confirm('иконку')">Удалить</a>
+			<?}else{?>(размер 163px * 105px)<br /><input type="file" name="brochure" size="5"><?}?>
+			</p><?}?>
+		</td>
+		<?}?>
+	</tr>
+	<tr><td>Порядок отображения </td><td><?=$ord_select?></td></tr>
+	<?if($page_id>3){?><tr><td>Возможность оставлять отзыв </td><td><?=$opinion_select?></td></tr><?}?>
+	
+	<tr><td>Раздел (лат. буквы): </td><td><input type="text" name="dir" value="<?=$dir?>" maxlength="255" size="50"><br>&nbsp;</td></tr>
+	<!--tr><td>Страница контактов </td><td><?=$contacts?></td-->
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
+	<?if($page_id!=2 && $page_id!=3){?>
+	<tr><td>TITLE: </td><td nowrap="nowrap"><input type="text" name="title" value="<?=$title?>" maxlength="255" size="50"></tr>
+	<tr><td>TITLE eng: </td>
+		<td nowrap="nowrap">  <input type="text" name="title_en" value="<?=$title_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>DESCRIPTION: </td><td><input type="text" name="mdescription" value="<?=$mdescription?>" maxlength="255" size="50"> </td></tr>
+	<tr><td>DESCRIPTION eng: </td><td><input type="text" name="mdescription_en" value="<?=$mdescription_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS: </td><td><input type="text" name="keywords" value="<?=$keywords?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS eng: </td><td><input type="text" name="keywords_en" value="<?=$keywords_en?>" maxlength="255" size="50"></td></tr>
+	<?}?>
+	<?if($page_id>3 && $parent!=1){?><tr><td>Фотогалерея: </td><td><?=$gallery_select?></td></tr><?}?>
+	<?if($parent==1){?>
+	<tr><td>Ссылка на сайт: </td><td><input type="text" name="url" value="<?=$url?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Регион: </td><td><?=$region_select?></td></tr>
+	<tr><td>Город: </td><td><?=$city_select?></td></tr>
+	<tr><td>Звездность: </td><td><?=$stars_select?></td></tr>
+	<tr><td>Цена от: </td><td><input type="text" name="price" value="<?=$price?>" maxlength="255" size="10"> руб.</td></tr>
+	<!--tr><td>Ссылка на брошюру: </td><td><input type="text" name="brochure_url" value="<?=$brochure_url?>" maxlength="255" size="50"></td></tr-->
+	<?}?>
+	<tr><td>Описание: </td><td colspan="2">
+	
+		<input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
+	<textarea name="description1" id="description1" rows="15" cols="80" style="display:none" ><?=$description?></textarea></td></tr>
+	<tr><td>Описание eng: </td><td colspan="2">
+		<input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
+	<textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$description_en?></textarea></td></tr>
+	
+	<tr><td>не отображать на карте сайта: </td><td><input type="checkbox" name="nositemap" value="1" <?if($nositemap){?>checked="checked"<?}?>></td></tr>
+	<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="page_id" value="<?=$page_id?>">
+	<input type="hidden" name="p" value="site">
+	</table>
+	</FORM>
+</td>
+</tr></table>
+
+<!--
+<?if($parent==1){?>
+<p>Рекомендуемые разделы</p>
+<FORM method="post" >
+<table border="0">
+	<tr><td colspan="2"><?=$page_select?></td><td><input type="submit" name="addrecom" value="Добавить" class="button"><br />&nbsp;</td></tr>
+	<?foreach($recom_list as $v){?>
+	<tr><td><a href="<?=$v['link']?>"><?=$v['name']?></a></td><td><a href="<?=$v['dellink']?>" onclick="return delete_confirm('категорию из списка ');"><img src="images/del.gif" border="0" alt="Удалить"></a></td><td></td></tr>
+	<?}?>
+</table>
+	<input type="hidden" name="page_id" value="<?=$page_id?>">
+	<input type="hidden" name="p" value="site"></FORM>
+<?}?>
+-->

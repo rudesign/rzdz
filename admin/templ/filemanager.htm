@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<title>Файловый редактор</title>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/func.js"></script>
+<script language="JavaScript">
+function delete_confirm(str) {
+if(confirm('Вы действительно желаете удалить '+str+'?')) return true;
+else return false;
+}
+function paste_img(src, width, height) {
+	opener.dialogwin.document.forms[0].elements['<?=$field_name?>'].value = src;
+	try	{ opener.dialogwin.document.forms[0].elements['<?=$field_name?>'].onchange(); }
+	catch (e){}
+	try { opener.dialogwin.document.forms[0].elements['width'].value = width; }
+	catch (e){}
+	try { opener.dialogwin.document.forms[0].elements['height'].value = height; }
+	catch (e){}
+	try { opener.dialogwin.document.forms[0].elements['width2'].value = ''; }
+	catch (e){}
+	try { opener.dialogwin.document.forms[0].elements['height2'].value = ''; }
+	catch (e){}
+	
+	opener.dialogwin.focus();
+	close();
+}
+</script>
+</head>
+
+<body>
+<table cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
+<tr><td>Новый файл: </td><td style="padding-left:10px;">
+	<form method="post" enctype="multipart/form-data" name="load">
+	<input type="file" name="photo" size="20"> &nbsp;
+	<input type="checkbox" name="wtm" value="1" class="chb_input" <?=$water_mark?>>водяной знак 	
+	</td><td style="padding-left:10px;">
+	<input type="hidden" name="cdir" value="<?=$cdir?>">
+	<input type="hidden" name="field_name" value="<?=$field_name?>">
+	<input type="hidden" name="type" value="<?=$type?>">
+	<input type="submit" class="button" value="Загрузить" 
+		onclick="this.disabled=true;loading.innerHTML='Подождите, идет загрузка...';load.submit();">
+	</form>
+	</td></tr>
+<tr><td colspan="3" align="center"><div id="loading"></div></td></tr>
+<!--tr><td>Новая библиотека: </td><td style="padding-left:10px;">
+	<form method="post" enctype="multipart/form-data">
+	<input type="text" name="dir" size="33">
+	</td><td style="padding-left:5px;">
+	<input type="hidden" name="url" value="<?=$cdir?>">
+	<input type="submit" class="button" value="&nbsp; Создать ">
+	</form>
+</td></tr-->
+</table>
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr><td><hr size="1" width="100%"></td></tr>
+<tr><td align="center">Текущая библиотека: &nbsp;&nbsp; <b><?=$dir_select?></b></td></tr>
+<tr><td><hr size="1" width="100%"></td></tr>
+</table>
+<table cellpadding="5" cellspacing="0" border="0" width="100%">
+<tr align="center">
+	<?foreach ($img_list as $k=>$v) {?>
+	<td>
+		<?if($v['ext']=='swf'){?>
+		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="<?=$v['wk']?>" height="<?=$v['hk']?>"><param name="movie" value="<?=$v['src']?>" /><param name="quality" value="high" /><param name="menu" value="false" /><param name="wmode" value="" /><embed src="<?=$v['src']?>" wmode="" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="<?=$v['wk']?>" height="<?=$v['hk']?>"></embed></object>
+		<?}else{?>
+		<img src="<?=$v['src']?>" border=0 width="100">
+		<?}?>
+		<br><?=$v['name']?>
+		<?if($v['w']){?><br><?=$v['w']?>x<?=$v['h']?><?}?><br>
+		<A href="javascript://" onClick="paste_img('<?=$v['src']?>', '<?=$v['w']?>', '<?=$v['h']?>')">Вставить</A> &nbsp;&nbsp;
+		<A href="<?=$v['del_link']?>" onClick="javascript: return delete_confirm('фото')">Удалить</A><br>&nbsp;
+	</td>
+	<?if(!(($k+1)%3)){?></tr><tr align="center"><?}?>
+	<?}?>
+</tr>
+</table>
+</body>
+<?=$message?>
+</html>

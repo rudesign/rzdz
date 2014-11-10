@@ -1,0 +1,64 @@
+	
+		   <a name="form"></a>
+              <ul class="voice_list faq_list">
+			 <?foreach($list as $k=>$v){?>
+			    <li class="clearfix<?if($k%2) echo ' grey_vl_info';?>">
+				  <p><strong><?=$v['name']?></strong><br /><?=$v['text']?></p>
+				  <?if($v['answer']){?>
+				  <?if($print_page){?><p class="for_answer_ql"><?=$v['answer']?></p>
+				  <?}else{?>
+				  <p class="for_answer_ql" style="display:none;" id="answer<?=$v['gest_id']?>"><?=$v['answer']?></p>
+				  <a class="open_ql rd" href="javascript:void(0);" onclick="answer<?=$v['gest_id']?>.style.display='none';close<?=$v['gest_id']?>.style.display='';this.style.display='none';" id="open<?=$v['gest_id']?>" style="display:none"><span><?=$lang_phrases['svernut']?></span></a>
+				  <a class="close_ql rd" href="javascript:void(0);" onclick="answer<?=$v['gest_id']?>.style.display='';open<?=$v['gest_id']?>.style.display='';this.style.display='none';" id="close<?=$v['gest_id']?>"><span><?=$lang_phrases['otvet']?></span></a>
+				  <?}?>
+				<?}?> 
+				</li>
+			<?}?>		
+			</ul>
+		 	 
+		 <?if(!$print_page){?>
+		 <?=$pages?>
+		 
+		   <?if($err_name){?>
+		   <p align="center"><strong><font color="#CC0000"><?=$lang_phrases['err_name']?></font></strong> </p>
+		   <?}?>
+		   
+		   <?if($err_email){?>
+		   <p align="center"><strong><font color="#CC0000"><?=$lang_phrases['err_email']?></font></strong> </p>
+		   <?}?>
+		   
+		   <?if($err_text){?>
+		   <p align="center"><strong><font color="#CC0000"><?=$lang_phrases['err_text']?></font></strong> </p>
+		   <?}?>
+		   		   
+		   <?if($err_digit){?>
+		   <p align="center"><strong><font color="#CC0000"><?=$lang_phrases['err_captcha']?></font></strong></p>
+		   <?}?>
+
+			
+		   <form name="gestform" method="post" action="<?=$order_url?>" >
+			<div class="simple_content">
+              <div class="back_form clearfix">
+			    <p class="title_back_form"><?=$lang_phrases['zadaite']?><br />&nbsp;</p>
+			    <div class="left_back_form ld">
+				  <ul class="list_bfo">
+				    
+					<li><input type="text" class="form_bfo1" name="name" size="3" value="<?=$name?>" placeholder="<?=$lang_phrases['name']?>"/></li>
+					<li><input type="text" class="form_bfo1" name="email" value="<?=$email?>" size="3" placeholder="<?=$lang_phrases['email']?>"/></li>
+					<li><p><?=$lang_phrases['gtema_choise']?></p><div class="own_select"><?=$gtema_select?></div></li>
+					<li class="system_capcha"><img src="captcha.php" alt="" /></li> 
+					<li><p><?=$lang_phrases['captcha1']?></p><input type="text" class="form_bfo2" name="ucaptcha" size="3" placeholder=""/></li>
+                  </ul><!--list_bfo-->				  
+				</div><!--left_back_form--->
+				<div class="right_back_form rd">
+				  <textarea cols="5" rows="10" class="for_blist_area" name="text" placeholder="<?=$lang_phrases['vash_vopros']?>" ><?=$text?></textarea>  
+				  <input type="submit" class="button_back bat" value="" />
+				</div><!--right_back_form-->
+			  </div><!--back_form-->
+              <div class="clear"></div>			  
+			</div>
+		 <input type="hidden" name="mode" value="send">
+		 </form>
+		 <?}?>
+			
+			

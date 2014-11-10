@@ -1,0 +1,13 @@
+<P><a href="<?=ADMIN_URL?>?p=slider&addslider=1">Добавить картинку ›››</a></P>
+<table cellpadding="2">
+<?foreach($sliders as $v){?>
+<tr>
+	<td>
+		<a href="<?=$v['edit_link']?>"  style="<?if($slider_id==$v['slider_id']){?>font-weight: bold;<?}?><?if(!$v['public']){?>color : #787878;<?}?>"><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><?if($v['del_link']){?><!--a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a-->
+		<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+</tr>
+<?}?>
+</table>
+

@@ -1,0 +1,21 @@
+<a href="<?=$orders_link?>">Заявки</a><br><br>
+
+
+<table border="0"><tr valign="top"><td>
+	<FORM method="post">
+	<table>
+	<tr><td>Дата: </td><td>&nbsp;</td><td><?=$date?></td></tr>
+	<?foreach($data as $v){?>
+	<tr><td><?=$v['name']?></td><td>&nbsp;</td><td><?=$v['value']?></td></tr>
+	<?if($v['line']){?><tr><td colspan="3"><hr width="100%" size="1"></td></tr>
+	<tr><?}?>
+	<?}?>
+	<tr><td colspan="2" align="center"><br>
+	<input type="submit" name="saveorder" value="Удалить" class="button" onclick="return delete_confirm('заявку');"></td></tr>
+	<input type="hidden" name="del_order" value="<?=$order_id?>">
+	<input type="hidden" name="p" value="order">
+	<input type="hidden" name="page" value="<?=$current_page?>">
+	</table>
+	</FORM>
+</td>
+</tr></table>

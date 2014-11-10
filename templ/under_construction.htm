@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+        <title>The page is under construction</title>
+        <meta content="text/html; charset=windows-1251" http-equiv=Content-Type>
+        <meta name="Description" content="" />
+        <meta name="Keywords" content="" />
+        <base href="http://<?=DOMAIN?>/">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="/css/under_construction.css" media="screen" />
+  </head>
+  <body>
+    <div class="wrapper">
+        <div class="content">
+            <a href=""><img src="/img_extra/clean_logo.png" /></a>
+            <h1>Under construction</h1>
+            <?
+                if(preg_match('/rzdz/i', $_SERVER['HTTP_REFERER'])){
+                    $backUrl = $_SERVER['HTTP_REFERER'];
+                }else{
+                    $backUrl = 'http://beta.rzdz.ru';
+                }
+
+                echo '<a href="'.$backUrl.'">Our website in russian</a>';
+            ?>
+        </div>
+
+    </div>
+  </body>
+</html>

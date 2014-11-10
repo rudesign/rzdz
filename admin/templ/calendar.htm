@@ -1,0 +1,23 @@
+<table  border="1" cellspacing="0" cellpadding="3" style="border-collapse: collapse;" width="160">
+<tr align="center">
+	<td>Ïí</td>
+	<td>Âò</td>
+	<td>Ñð</td>
+	<td>×ò</td>
+	<td>Ïò</td>
+	<td>Ñá</td>
+	<td>Âñ</td>
+</tr>
+<?foreach($week as $w){?>
+<tr align=center>
+	<?foreach($w['days'] as $d){?>
+	<td style="<?if($d['today']){?>background: #ECECFF;<?}elseif($d['dow']<6){?>color: #000000<?}else{?>color: #ff0000<?}?>"
+		><?if($d['day']){?><?if($d['date_link']){?><a href="<?=$d['date_link']?>"><?=$d['day']?></a
+		><?}else{?><?=$d['day']?><?}?><?}else{?>&nbsp;<?}?></td><?}?>
+</tr>
+<?}?>
+</table>
+<form>
+<?=$select_month?> <?=$select_year?> <input type="submit" value="›››" class="button">
+<input type="hidden" name="p" value="<?=$part?>">
+</form>

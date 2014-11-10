@@ -1,0 +1,14 @@
+
+            <div class="for_menu_lc">
+			  <p class="title_menu_lc "><?=$pname?></p>
+			  <ul class="menu_lc_in">
+			    <?foreach($list as $k=>$v){?>
+				<li class="<?if($v['sel']){?>dcjq-current-parent<?}?><?if($k+1==count($list)){?> rds<?}?>">
+				  <?if($v['sel']){?><a class="open_type" href="javascript://"><span><?=$v['name']?></span></a>
+				  <?}else{?><a href="<?=$v['link']?>"><?=$v['name']?></a>
+				  <?}?>
+				</li>
+				<?}?>	
+			  </ul><!--menu_lc_in-->
+			</div><!--for_menu_lc-->
+			

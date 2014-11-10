@@ -1,0 +1,16 @@
+
+<table><tr valign="top">
+<td>
+	<FORM method="post">
+	<table>
+	<tr><td>Код для вставки: </td><td>[:form<?=$form_id?>:]</td></tr>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="48"></td></tr>
+	<tr><td>E-Mail админа: </td><td><input type="text" name="email" value="<?=$email?>" maxlength="255" size="48"></td></tr>
+	<tr><td>Кнопка: </td><td><input type="text" name="butt" value="<?=$butt?>" maxlength="255" size="48"></td></tr>
+	<tr><td></td><td><input type="submit" name="saveform" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="form_id" value="<?=$form_id?>">
+	<input type="hidden" name="p" value="field2">
+	</table>
+	</FORM>
+</td>
+</tr></table>

@@ -1,0 +1,214 @@
+  		
+		  <div class="landing_block">		  
+            <div class="standart_land">
+		      <div class="width_control">
+				<div class="form_fixed_ow">
+				  <p class="title_armor"><?=$lang_phrases['bystroe']?>:</p>
+				  <div  id="booking-0"><p align="center"><img src="img/loading.gif" style="margin-top:20px"></p></div>					
+				</div><!--form_fixed-->		  		    
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="<?=$lprefix?>/news"><span><?=$lang_phrases['news']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+			
+			<div class="landing_info for_slider_li">
+			  <div id="wrapper" class="clearfix width_control">
+				<div class="d-carousel">
+				  <ul class="carousel">
+					<?foreach($news_anons as $v){?>
+					<li>
+					  <a href="<?=$v['link']?>">
+					    <span><?=$v['date']?></span>
+						<div class="for_img_slider">
+						  <img src="<?=$v['photo']?>" alt="" />
+						</div>
+						<div class="slider_cont">
+						  <p><?=$v['name']?></p>
+						</div>
+					  </a>
+					</li>
+					<?}?>
+				  </ul>
+				</div><!--d-carousel-->
+			  </div><!--#wrapper-->	 
+			</div><!--landing_info-->
+          </div><!--landing_block-->
+		  
+          <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="javascript:void(0)"><span><?=$lang_phrases['san_kur_lechenie']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+			<div class="landing_info clearfix for_flowers_li">
+			  <ul class="list_candle rd">
+			    <li><input type="submit" class="for_candle_a bat"  value="" /></li>
+				<li><input type="submit" class="for_candle_b bat" value="" /></li>
+              </ul><!--list_candle-->			  
+			</div><!--landing_info-->
+          </div><!--landing_block-->
+		  
+          <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="/sanatorium"><span><?=$lang_phrases['sanatorii']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+<div id="wrapper_parallax">
+<div class="moveleft"></div>
+<div class="moveright"></div>
+<div id="pan">
+    <div class="parallax-1 parallax"></div>
+
+    <div class="parallax-2 parallax">
+        <div class="first">
+            <ul class="main bg">
+                <?foreach($sanatorii as $k=>$v){?><li class="house-<?=$v['photo_id']?>"><a><span></span></a></li><?}?>
+            </ul>
+
+            <ul class="main link">
+                <?foreach($sanatorii as $k=>$v){?>
+				<li class="house-<?=$v['photo_id']?>">
+                    <div class="tip">
+                        <div class="tipsy-inner">
+                            <?=$v['name']?>
+                        </div>
+                        <div class="tipsy-left"></div>
+                        <div class="tipsy-right"></div>
+                        <div class="tipsy-str"></div>
+                    </div>
+                    <a href="<?= $v['url'] ?>" class="move" target="_blank"><span></span></a>
+                    <div class="bubble">
+                        <div class="bubble-c"></div>
+                        <div class="bubble-t"></div>
+                        <div class="bubble-m">
+                            <div class="name"><?=$v['name']?></div>
+                            <?=$v['teaser']?>
+                            <?if($v['url']):?><div class="more"><a href="<?=$v['url']?>">Подробнее ></a></div><?endif;?>
+                        </div>
+                        <div class="bubble-b"></div>
+                    </div>
+                </li>
+				<?}?>
+            </ul>
+        </div>
+    </div>
+    <div class="parallax-5 parallax">
+        <ul class="grass-1">
+            <li></li>
+        </ul>
+    </div></div>
+</div>
+
+
+<div id="nav">
+    <div class="nav-head"><a href="" class="nav-left"></a> <?=$lang_phrases['sanatorii']?> <a href="" class="nav-right"></a></div>
+    <div class="nav-scroll">
+        <ul>
+            <?foreach($sanatorii as $k=>$v){?>
+            <!--<li class="front" rel="house-<?=$k==0?2:($k==1?1:$k+1)?>" title="<?= $v['name'] ?>"><img src="img_paralax/house-<?=$k==0?2:($k==1?1:$k+1)?>.jpg" alt="" /><span class="house-<?=$k==0?2:($k==1?1:$k+1)?>"></span></li>-->
+            <li class="front" rel="house-<?=$v['photo_id']?>" title="<?=$v['name']?>"><img src="img_paralax/house-<?=$v['photo_id']?>.jpg" alt="" /><span class="house-<?=$v['photo_id']?>"></span></li>
+			<?}?>
+        </ul>
+    </div>
+</div>
+
+          </div><!--landing_block-->
+		  
+          <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="<?=$lprefix?>/#"><span><?=$lang_phrases['spec']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+			<div class="landing_info for_slider_li for_slider_li_chh">
+			  <div id="wrapper"  class="clearfix width_control">
+				<div class="d-carousel">
+				  <ul class="carousel for_luft_hcc_cl">
+					<?foreach($spec_anons as $v){?>
+					<li>
+					  <a href="<?=$v['link']?>">
+						<div class="for_img_slider">
+						  <img src="<?=$v['photo']?>" alt="" />
+						</div>
+						<div class="slider_cont">
+						  <p><?=$v['name']?></p>
+						</div>
+					  </a>
+					</li>
+					<?}?>
+				  </ul>
+				</div><!--d-carousel-->
+			  </div><!--#wrapper-->							  
+			</div><!--landing_info-->
+          </div><!--landing_block-->
+
+          <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="javascript:void(0)"><span><?=$lang_phrases['zhd']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+			<div class="landing_info for_ticket_li">
+			  <a class="take_ticket<?=$englang?>" href="javascript:void(0)"></a>   
+			  <a class="take_ticket avia<?=$englang?>" href="javascript:void(0)"></a>
+			</div><!--landing_info-->
+          </div><!--landing_block-->
+		  
+		  <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="/media"><span><?=$lang_phrases['media']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+			<div class="landing_info for_press_li">
+              <ul class="press_list width_control">
+			    <li><a class="press1" href="<?=$lprefix?>/media/?m=item"><?=$lang_phrases['item']?><img src="img/press_arrow.png" alt="" /></a></li>
+				<li><a class="press2" href="<?=$lprefix?>/media/?m=virtual"><?=$lang_phrases['virtual']?> <img src="img/press_arrow.png" alt="" /></a></li>
+				<li><a class="press3" href="<?=$lprefix?>/media/?m=video"><?=$lang_phrases['video']?><img src="img/press_arrow.png" alt="" /></a></li>
+				<li><a class="press4" href="<?=$lprefix?>/media/?m=pdf"><?=$lang_phrases['pdf']?> <img src="img/press_arrow.png" alt="" /></a></li>
+			  </ul><!--press_list-->
+			</div><!--landing_info-->
+          </div><!--landing_block-->
+		  
+		  
+		  <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="<?=$lprefix?>/partners"><span><?=$lang_phrases['partners']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+			<div class="landing_info width_control">
+			  <ul class="simple_partner clearfix">
+			    <?foreach($partners as $k=>$v){?>
+				<li <?if($k+1==count($partners)){?> class="margin_r"<?}?>><a href="<?=$v['link']?>"><img src="<?=$v['photo']?>" alt="" /></a></li>
+				<?}?>
+              </ul><!--simple_partner-->			  
+			</div><!--landing_info-->
+          </div><!--landing_block-->
+		  
+		  
+		  <div class="landing_block">
+            <div class="standart_land">
+		      <div class="width_control">
+			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+		        <a class="title_land" href="javascript:void(0)"><span><?=$lang_phrases['oplata']?></span></a>		  
+			    <span class="arrow_land"></span>
+			  </div><!--width_control-->
+            </div><!--standart_land-->
+          </div><!--landing_block-->	
+		
+		  

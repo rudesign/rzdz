@@ -1,0 +1,81 @@
+
+<?if($subcure_id){?>
+
+		<?=$profile?>
+		<div id="pdescription"><?=$subcure['description']?></div>
+		
+            <div class="medicine-sanatorium-services section">
+                <div class="title">
+                    <?=$cure['inhotel']?>
+                </div>
+                <div class="grid">
+                    <?foreach($curehotel as $v){?>
+					<div class="items">
+                        <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
+                        <?=$v['name']?> <br /><?=$v['city']?> <br /><?=$v['price']?>
+                    </div>
+					<?}?>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+<?}elseif($cure_id){?>
+
+	<?if($cure['type']<3){?>
+	
+		<?if($cure['cure_id']==1 && !$extrasite_id){?>
+		<?=$profile?>
+		
+		<?}else{?>
+		
+		<div class="medicine-services-list">
+			<ul>
+			<?foreach($cure_list as $k=>$v){?>
+					<li><a href="<?=$v['url']?>"><?=$v['name']?></a> <p><?=$v['anons']?></p></li>
+			<?}?>
+			</ul>
+		</div>
+		
+		<?}?>
+		
+	<?}elseif($cure['type']==4){?>
+		<div id="pdescription"><?=$cure['description']?></div>
+		
+		
+	<?}elseif($cure['type']==5){?>
+			  <ul class="news_list clearfix">
+			    <?foreach($list as $k=>$v){?>
+				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
+				  <a href="<?=$v['link']?>" class="news_block clearfix">
+					<div class="left_news ld">
+					  <p class="date_news"><?=$v['date']?></p>    
+					  <?if($v['photo']){?><img width="170" src="<?=$v['photo']?>" /> 
+					  <?}else{?><div style="width:170px; height:90px;"></div><?}?>
+					  
+					</div><!--left_news-->
+					<div class="right_news">
+					  <p class="title_news"><?=$v['name']?></p>  
+					  <p><?=$v['descr']?></p>
+					  <p class="more_news"><?=$lang_phrases['more']?></p>
+					</div><!--right_news-->				
+				  </a><!--news_block-->				  
+				</li>
+				<?}?>
+			  </ul><!--news_list-->
+			
+		 <?=$pages?>
+	<?}?>
+
+<?}else{?>
+
+            <?=$profile?>
+            <div class="medicine-main-grid">
+                <?foreach($blocks as $k=>$v){?>
+				<div class="items" style="background-image:url(<?=$v['photo']?>)">
+                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a></div>
+                </div>
+				<?}?>
+            </div>
+<?}?>
+  
+	 

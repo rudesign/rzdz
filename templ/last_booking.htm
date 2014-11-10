@@ -1,0 +1,17 @@
+
+ <div id="lastbooking">
+    <h2 class="lb_h2">Последние бронирования на сайте:</h2><br >
+
+	<table>
+	<?foreach($last_arr as $v){?>
+	<tr><td><img src="<?=$v['photo']?>" width="67" height="45" alt="" /> </td>
+    <td style="vertical-align:top; padding:0 0 10px 10px">
+		<?if(!$v['curd']){?><? echo $v['yesterd'] ? 'вчера '.$v['time'] : $v['date']?> <?}else{?>сегодня <?=$v['time']?><?}?><br />
+        <a class="bb" href="<?=$v['link']?>"><?=$v['name']?></a><br />
+        <?=$v['city']?>
+	</td></tr>
+	<?}?>
+	</table>
+
+</div>
+

@@ -1,0 +1,52 @@
+<table border="0"><tr valign="top"><td>
+	<FORM method="post">
+	<table>
+	<tr><td>Включен </td><td><?=$public_select?></td></tr>
+	<tr><td>Порядок отображения </td><td><?=$ord_select?></td></tr>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$replace['name']?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$replace['name_en']?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Ссылка: </td><td><input type="text" name="url" value="<?=$replace['url']?>" maxlength="255" size="50"></td></tr>
+<tr><td>Где показывать: </td><td colspan="2">
+	<table width="100%"><tr><td>
+	<?foreach($page_box as $v){?>
+		<input type="checkbox" class="chb_input" name="page[<?=$v['i']?>]" 
+		value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+		<?if($v['newcol']){?></td><td><?}?>
+	<?}?>
+	</td></tr></table>
+</td></tr>
+	<!--tr><td>Для главной? </td><td><?=$firstpage_select?></td></tr-->
+	<tr><td></td><td><input type="submit" name="savetopimg" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="topimg_id" value="<?=$replace['topimg_id']?>">
+	<input type="hidden" name="p" value="topimg">
+	</table>
+	</FORM>
+</td>
+</tr></table>
+
+<table><tr>
+<td>
+	<?if(count($replace['photos'])<$replace['photo_limit']){?>
+		<form method="post" enctype="multipart/form-data">
+		<p>Добавление фотографии</p>
+		<input type="file" name="photo"><br><br>
+		<input type="submit" value="Добавить" class="button">
+		<input type="hidden" name="topimg_id" value="<?=$replace['topimg_id']?>">
+		<input type="hidden" name="p" value="topimg">
+		</form>
+	<?}?>
+	<? foreach ($replace['photos'] as $v) {?>
+	<p><strong>Фото <!--№<?=$v['number']?>--></strong></p>
+	<?if($v['ext']=='swf'){?>
+	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" <?=$v['smallsize']?>><param name="movie" value="<?=$v['photo']?>" /><param name="quality" value="high" /><param name="menu" value="false" /><param name="wmode" value="" /><embed src="<?=$v['photo']?>" wmode="" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" <?=$v['smallsize']?>></embed></object>
+	<?}else{?>
+	<?if($v['bigsize']){?>
+		<A href="javascript://" onclick="javascript: window.open('../pict.php?photo_id=<?=$v['photo_id']?>&dir=topimg&ext=<?=$v['ext_b']?>', '_blank', '<?=$v['bigsize']?>');"
+		onmouseover="window.status='Увеличить'; return true;" onmouseout="window.status=''; return true;" title="Увеличить"
+		><?}?><img src="<?=$v['photo']?>" border=0 <?=$v['smallsize']?>><?if($v['bigsize']){?></A><?}?>
+	<?}?><br>
+		<A href="<?=$v['del_link']?>" onclick="javascript: return delete_confirm('фото')">Удалить</A>
+	<?}?>
+</td>
+</tr></table>
+

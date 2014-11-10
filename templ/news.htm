@@ -1,0 +1,30 @@
+
+              <div class="open_news clearfix">
+				<!--<?if($photo){?><img alt="" src="<?=$photo?>" style="float:left; margin: 0 20px 0 0"  <?=$photosize?> ><?}?>-->
+			   <div id="pdescription"><?=$description?></div>
+			   
+              </div><!--open_news-->
+			  
+			  <div class="navigation_open_news clearfix">
+			    <?if($prev_link){?><div class="left_column_non ld">
+				  <a class="button_left_non ld" href="<?=$prev_link?>"></a>
+				  <ul class="list_none rd">
+				    <li><span class="date_non"><?=$prev_date?></span></li>
+				    <li><span class="non_separator rd"></span><div class="clear"></div></li>
+				    <li class="news_anons"><a href="<?=$prev_link?>"><?=$prev_name?></a></li>
+				  </ul>
+			    </div><?}?>
+			   <?if($next_link){?>
+			    <div class="right_column_non rd">
+				  <a class="button_right_non rd" href="<?=$next_link?>"></a>
+				  <ul class="list_none ld">
+				    <li><span class="date_non"><?=$next_date?></span></li>
+				    <li><span class="non_separator"></span></li>
+				    <li class="news_anons"><a href="<?=$next_link?>"><?=$next_name?></a></li>
+				  </ul>					
+			    </div>
+				<?}?>
+			  </div><!--navigation_open_news-->	
+    
+
+			

@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<title><?=$title?></title>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="/func.js"></script>
+<script language="JavaScript">
+function delete_confirm(str) {
+if(confirm('Вы действительно желаете удалить '+str+'?')) return true;
+else return false;
+}
+</script>
+<?if($p=='gallery' || ($p=='site' && isset($media))){?>
+<script type="text/javascript" src="/js/colorbox/jquery-1.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/colorbox/colorbox.css" />
+<script type="text/javascript" src="/js/colorbox/jquery.colorbox.js"></script>
+<script type="text/javascript">
+jQuery(function(){
+jQuery(".colorbox").colorbox();
+});
+</script>
+<?}?>
+<?=$tinymce_head?>
+</head>
+
+<body>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="menutable">
+<tr><td>Пользователь: &nbsp;&nbsp; <b><?=$_SESSION['admin_name']?></b> &nbsp;&nbsp; <a href="?logout=1">выход</a>
+	<br></td>
+	<td align="right"><a href="<?=MAIN_URL?>" target="_blank"><?=MAIN_URL?></a></td></tr>
+<tr valign="top"><td align="center" colspan="3"><hr size="1" width="100%" color="#808080">
+	<?=$menu?><hr size="1" width="100%" color="#808080"></td></tr>
+</table>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:10px;">
+<tr><td width="<?if($left_menu){?>250<?}else{?>10<?}?>" valign="top"><?=$left_menu?></td>
+<td width="20">&nbsp;</td>
+<td valign="top"><?=$content?></td></tr>
+</table>
+</body>
+<?=$message?><?=$confirm?>
+</html>

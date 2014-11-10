@@ -1,0 +1,102 @@
+<p>
+<a href="?p=site<?=@$extra?>&page_id=<?=$page_id?>"><?=$name?></a>
+<?foreach($photo_list as $k=>$v){?> &nbsp; | &nbsp;
+	<?if(${$v}){?>
+	<strong><?=$photo_name[$k]?> (<?=${"${v}_count"}?>)</strong>
+	<?}else{?>
+	<a href="?p=site<?=@$extra?>&page_id=<?=$page_id?>&<?=$v?>"><?=$photo_name[$k]?> (<?=${"${v}_count"}?>)</a> 
+	<?}?>
+<?}?>
+</p>
+	<?if(count($photos)<$photo_limit){?>
+		<form method="post" enctype="multipart/form-data" name="load" >
+		<p>Добавление медиа-файлов к разделу <?=$name?></p>
+		<table cellpadding="0">
+		<?if($media=='pdf'){?>
+		<tr><td>файл (pdf) </td><td><input type="file" name="photo_b"></td></tr>
+		<tr><td><strong>или</strong> ссылка на брошюру </td><td><input type="text" name="description" value="" maxlength="255" size="33"></td></tr>
+		<?}else{?>
+		<tr><td>мал. </td><td><input type="radio" name="small_auto" value="0" checked class="chb_input"
+						onclick="photo.disabled=false;" <?=$small_load?>>файл &nbsp;&nbsp;
+						<input id="photo" type="file" name="photo" <?=$disabled?>><br>
+					
+					<input type="radio" name="small_auto" value="1" class="chb_input" 
+						onclick="photo.disabled=true;" <?=$small_auto?>>автоматическое уменьшение <br>
+					ширина <input type="text" name="width" maxlength="3" size="4" value="<?=$im_width?>"> px &nbsp;
+					высота <input type="text" name="height" maxlength="3" size="4" value="<?=$im_height?>"> px</td>
+					<?if($media=='video' || $media=='virtual' || ($media=='item' && @$extra)){?><td rowspan="4" style="padding-left:15px"><?if($media=='video'){?>Код видео<?}elseif($media=='item' && @$extra){?>Описание<?}else{?>Ссылка на виртуальный тур<?}?><br /><textarea name="description" id="description"  rows="7" cols="45" ></textarea></td><?}?>
+					</tr>
+		<tr><td>бол. </td><td><input type="file" name="photo_b"></td></tr>
+		<?if($media!='video'){?><tr><td>водяной знак </td><td>
+			<input type="checkbox" name="wtm" value="1" class="chb_input" <?=$watermark?>></td></tr><?}?>
+		<?}?>
+		<tr><td>комментарий </td><td><input type="text" name="alt" value="" maxlength="255" size="33"></td></tr>
+		<tr><td>комментарий eng</td><td><input type="text" name="alt_en" value="" maxlength="255" size="33"></td></tr>
+		</table>
+		<input type="submit" value="Добавить" name="addphoto" class="button"
+			onclick="this.disabled=true;loading.innerHTML='Подождите, идет загрузка...';load.submit();">
+		<input type="hidden" name="page_id" value="<?=$page_id?>">
+		<input type="hidden" name="media" value="<?=$media?>">
+		<input type="hidden" name="p" value="site<?=@$extra?>">
+		<span id="loading"></span>
+		</form>
+	<?}?>
+		
+<script language="JavaScript">
+function remove_photo(photo_id) { 
+	var win = window.open('gallery.php?photo_id='+photo_id, 'photos',  'scrollbars=1, menubar=0, resizable=1,width=300, height=400'); 
+	win.focus();
+	return; 
+}
+</script>
+	<table border="0" cellpadding="10"><tr valign="top">
+	<? foreach ($photos as $v) {?>
+	<td>
+		<FORM name="photo<?=$v['photo_id']?>">
+	<?if($media=='pdf'){?><?if($v['f']){?><a href="<?=$v['f']?>" target="_blank"><?=$v['f']?></a><?}else{?>
+		<input type="text" name="description" value="<?=$v['description']?>" maxlength="255" size="30">
+		<?}?>
+	<?}else{?>
+	<?if($v['bigphoto']){?><a href="<?=$v['bigphoto']?>" class="colorbox" rel="gal"><?}?><?if($v['photo']){?><img src="<?=$v['photo']?>" border=0 <?=$v['smallsize']?> ><?}else{?>[без фото]<?}?><?if($v['bigphoto']){?></a><?}?>
+	<?}?>
+	<br>
+		отображать? <input type="checkbox" name="public" value="1" <?if($v['public']){?> checked="checked"<?}?>><br />
+		<input type="hidden" name="savephoto" value="1">
+		ком. <input type="text" name="alt" value="<?=$v['alt']?>" maxlength="255" size="18"><br>
+		eng <input type="text" name="alt_en" value="<?=$v['alt_en']?>" maxlength="255" size="18"><br>
+		<?if($media=='video' || $media=='virtual' || $media=='item'){?><textarea name="description" id="description"  rows="3" cols="20" ><?=$v['description']?></textarea><br /><?}?>
+		№ &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ord" value="<?=$v['ord']?>" maxlength="2" style="width: 20px;">
+		<input type="submit" value="OK" class="button">
+		
+		<input type="hidden" name="page_id" value="<?=$page_id?>">
+		<input type="hidden" name="media" value="<?=$media?>">
+		<input type="hidden" name="p" value="site<?=@$extra?>">
+		<input type="hidden" name="remove_page_id" value="0">
+		<input type="hidden" name="photo_id" value="<?=$v['photo_id']?>">
+		</FORM>
+		<A href="<?=$v['del_link']?>" onclick="javascript: return delete_confirm('фото')">Удалить</A>
+		<?if(($media=='item' || $media=='cure') && !@$extra){?>
+			<p>Большое фото:</p>
+			<?if($v['superphoto']){?>
+			<table><tr>
+				<td><a href="<?=$v['superphoto']?>" target="_blank">Открыть</a></td>
+				<td style="padding-left:20px"><a href="<?=$v['del_super']?>" onclick="return delete_confirm('фото');"><img src="images/del.gif" border="0"></a></td>
+			</tr></table>
+			<?}else{?>
+			<form method="post" enctype="multipart/form-data" name="load<?=$v['photo_id']?>" >
+			<input type="file" name="photo_super" style="width:170px"><br />
+			<input type="submit" value="Добавить" name="addphoto" class="button"
+				onclick="this.disabled=true;loading<?=$v['photo_id']?>.innerHTML='Подождите, идет загрузка...';load<?=$v['photo_id']?>.submit();">
+			<input type="hidden" name="page_id" value="<?=$page_id?>">
+		<input type="hidden" name="photo_id" value="<?=$v['photo_id']?>">
+			<input type="hidden" name="p" value="site">
+		<input type="hidden" name="media" value="<?=$media?>">
+			<span id="loading<?=$v['photo_id']?>"></span>
+			</form>
+			<?}?>
+		<?}?>
+	</td>
+	<?if(!($v['number']%4)){?></tr><tr valign="top"><?}?>
+	<?}?>
+	</tr></table>
+	

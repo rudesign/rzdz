@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+<title><?=$title?></title>
+<meta content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<meta name="Description" content="<?=$description?>" />
+<meta name="Keywords" content="<?=$keywords?>" />
+<base href="http://<?=DOMAIN?>/">
+<meta content="width=1050,maximum-scale=1.0" name="viewport">
+
+<script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+<script src="/js/flash_detect_min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="https://booking.rzdz.ru/modules/frontend/booking/javascript.php?template=infosochi&hl=ru&au=RUB&hotelgroup=rzdz&ac=1"></script>
+<link rel="stylesheet" href="https://booking.rzdz.ru/modules/frontend/booking/stylesheet.php?template=infosochi&ac=1" type="text/css" media="all" />
+
+<!--[if IE]>
+<script type="text/javascript" src="scripts/html5.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/ie.css" media="screen" />
+<![endif]-->
+
+<script type="text/javascript" src="/js/jquery.selection.js"></script>
+<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+	  $("#booking-0").booking({ layout: 1, corporate_rate: true, coupon_code: true });
+    });
+</script>
+
+<link rel="stylesheet" type="text/css" href="/css/extra-gallery.css" media="screen" />
+<script src="/js/extra-gallery.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+<link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
+<script src="js/jquery.nivo.slider.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $(window).load(function() {
+    $('#slider').nivoSlider({
+      effect:'fade'
+    });
+  });
+</script>
+<script type="text/javascript" src="js/customInput.jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+    $('input').customInput();
+});
+</script>
+    <?if($medicine){?><link href="css/medicine.css" rel="stylesheet" /><?}?>
+<?if($part){?>
+<LINK href="js/calendar/calendar.css" type=text/css rel=stylesheet>
+<script language=javascript>
+// язык интерфейса
+var tasksLanguage = '<?if($englang){?>en<?}else{?>ru<?}?>'
+</script>
+<SCRIPT language=javascript src="js/calendar/calendar_n.js"></SCRIPT>
+<SCRIPT language=javascript src="js/calendar/calendar-design.js"></SCRIPT>
+
+<script type="text/javascript" src="js/dcjqaccordion/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/dcjqaccordion/jquery.hoverIntent.minified.js"></script>
+<script type="text/javascript" src="js/dcjqaccordion/jquery.dcjqaccordion.2.7.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function($){
+    $('#menu-l').dcAccordion({
+        eventType: 'click',
+        autoClose: true,
+        saveState: false,
+        speed: 'slow',
+        showCount: false,
+        autoExpand: true,
+        cookie	: 'dcjq-accordion-1',
+        classExpand	 : 'dcjq-current-parent',
+        disableLink: false
+    });
+});
+</script>
+<?if($menu2){?>
+<script type="text/javascript">
+$(document).ready(function($){
+    $('#menu-2').dcAccordion({
+        eventType: 'click',
+        autoClose: true,
+        saveState: false,
+        speed: 'slow',
+        showCount: false,
+        autoExpand: true,
+        cookie	: 'dcjq-accordion-1',
+        classExpand	 : 'dcjq-current-parent',
+        disableLink: false
+    });
+    });
+</script>	
+<?}?>
+	<script type="text/javascript" src="/js/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".fancybox").fancybox({
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic'
+			});
+		});
+	</script>
+<?}else{?>
+    <script type="text/javascript" src="js/jquery.jcarousel.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
+		// Initialise the first and second carousel by class selector.
+		// Note that they use both the same configuration options (none in this case).
+		jQuery('.d-carousel .carousel').jcarousel({
+			scroll: 1
+		});
+	});
+	</script>	
+		
+
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/jquery.jscrollpane.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="js/jquery.jscrollpane.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="js/jquery.mwheelIntent.js"></script>
+    <script type="text/javascript" src="js/jquery.event.frame-1.0.js"></script>
+    <script type="text/javascript" src="js/jquery.jparallax.js"></script>
+    <script type="text/javascript" src="js/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/parallax.js"></script>
+
+<?}?>
+		
+</head>
+<body onLoad="<?=$message?>">
+    <div class="sticker">
+      <span class="scrollToTheTopBtn"></span>
+      <a href="https://vk.com/rzdz_official" target="_blank"></a>
+      <a href="https://www.facebook.com/pages/%D0%A0%D0%96%D0%94-%D0%97%D0%94%D0%9E%D0%A0%D0%9E%D0%92%D0%AC%D0%95/570310432989436" class="fb" target="_blank"></a>
+    </div>
+
+    <div class="submit-selection">
+      <div class="extra-gallery-close" onClick="collapseExtraGallery('submit-selection');"></div>
+        <div class="inner">
+            <form method="POST">
+                <div class="text">
+                    <span class="b">Вы отправляете: </span> <span class="placeholder"></span>
+                </div>
+                <div class="suggestion">
+                    <dl><span class="b">Предложите замену: </span></dl>
+                    <textarea name="body"></textarea>
+                </div>
+                <div class="addr"><span class="b">Адрес страницы:</span> http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?></div>
+                <div class="submit-btn">
+                    <a href="javascript:void(0);" onClick="submitSelection(); return false;" opt="Подождите...">Отправить</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="header_chh clearfix">
+        <div class="header_top_chh clearfix">
+	    <a href="<?if($part){?><?=$lprefix?>/<?}else{?>javascript://<?}?>"   title="<?=$lang_phrases['home']?>"
+			class="logo_chh ld" style="background:url('img/logo1<?=$englang?>.png')"></a>
+		<div class="center_chh clearfix ld">
+		  <?=$menu_top ?>
+		  <div class="func_chh clearfix">
+		  <form action="<?=$lprefix?>/search/">
+		    <div class="search-string-wrapper">
+                <input type="text" class="search-string" name="word" size="3" placeholder="<?=$lang_phrases['search']?>"/>
+                <input type="image" src="/img/for_loop.png" class="send-btn" value="" name="send" />
+            </div>
+		    <div class="search-area-switcher">
+                <dl><input type="radio" name="how" value="1" class="" id="ch1" /><label for="ch1"><?=$lang_phrases['search_site']?></label></dl>
+                <dl><input type="radio" name="how" value="2" class="" id="ch2"><label for="ch2"><span><?=$lang_phrases['search_cure']?></span></label></dl>
+                <div class="clear"></div>
+		    </div>
+            <div class="clear"></div>
+		  </form>		  		  		
+		  </div><!--func_chh-->
+		</div><!--center_chh-->
+		<div class="right_chh rd">
+		  <div class="contact_header">
+		    <ul class="menu_iconh clearfix">
+			  <li><a href="<?=$lprefix?>/" title="<?=$lang_phrases['home']?>"><img src="img/iconh1.png" alt="" /></a></li>
+			  <li><a href="<?=$lprefix?>/sitemap" title="<?=$lang_phrases['sitemap']?>"><img src="img/iconh2.png" alt="" /></a></li>
+			  <li><a href="<?=$lprefix?>/faq" title="<?=$lang_phrases['faq']?>"><img src="img/iconh3.png" alt="" /></a></li>
+			  <li><a href="<?=$lprefix?>/company/contacts"><img src="img/iconh4.png" alt="" /></a></li>
+			  <li><a href="<?=$lprefix?>/media"><img src="img/iconh5.png" alt="" /></a></li>
+			  <li><a href="javascript:void(0)" title="<?=$lang_phrases['favourites']?>" 
+			  	 onclick="return add_favorite(this);"><img src="img/iconh6.png" alt="" /></a></li>
+			  <li class="margin_r"><a href="<?=$print_url?>" target="_blank" title="<?=$lang_phrases['print']?>"><img src="img/iconh7.png" alt="" /></a></li>
+			</ul><!--menu_iconh--> 
+			<div class="number_header">
+			  <p><img src="img/num_main.png" alt="" /></p>
+			</div><!--number_header-->
+			<div class="double_header_net clearfix">
+			  <ul class="menu_net_header ld clearfix">
+			    <li><a class="neth2" target="_blank" href="https://www.facebook.com/pages/%D0%A0%D0%96%D0%94-%D0%97%D0%94%D0%9E%D0%A0%D0%9E%D0%92%D0%AC%D0%95/570310432989436"></a></li>
+				<li><a class="neth3" target="_blank" href="https://vk.com/rzdz_official"></a></li>
+			    <li>
+				<div id="SkypeButton_Call_rzd-zdorovie_1">
+				  <script type="text/javascript">
+					Skype.ui({
+					  "name": "call",
+					  "element": "SkypeButton_Call_rzd-zdorovie_1",
+					  "participants": ["rzd-zdorovie"],
+					  "imageSize": 24
+					});
+				  var el = document.getElementById('SkypeButton_Call_rzd-zdorovie_1');
+				  var skypeimg = $('img', el);
+				  skypeimg[0].style.margin = '1px 0 0 0';
+				  skypeimg[0].style.verticalAlign = 0; 
+				  </script>
+				</div>
+				</li>
+			  </ul><!--menu_net_header-->
+			  <ul class="select_header_lang clearfix rd">
+				<li><a href="<?=$eng_url?>"><img src="img/lang2.png" alt="" /></a></li>			 
+                <li><a href="<?=$rus_url?>"><img src="img/lang1.png" alt="" /></a></li>
+			  </ul><!--select_header-->
+			</div><!--double_header_net-->
+		  </div><!--contact_header-->		
+		</div><!--right_chh-->		
+      </div><!--header_top_chh-->
+	  <?=$menu_center ?>  
+    </div><!--header-->
+
+    <div class="slider_content<?if(!$part){?> main<?}?>">
+        <div class="slider-wrapper">
+            <div id="slider" class="nivoSlider">
+                <?foreach($slider as $v){?>
+                <?if($v['url']){?><a href="<?=$v['url']?>" title="<?=$v['name']?>"><?}?><img src="<?=$v['photo']?>"/><?if($v['url']){?></a><?}?>
+                <?}?>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div><!--slider_content-->
+
+    <div class="all<?if(!$part){?>_main<?}?>">
+
+        <div class="content">
+
+            <div class="main_content clearfix">
+		  <?if(!$part){?>
+		  <?=$content?>
+		  <?}else{?>
+		  <div class="landing_block" style="margin-bottom:0!important;">
+		      <div class="width_control">
+				<div class="form_fixed_ow">
+				  <p class="title_armor"><?=$lang_phrases['bystroe']?>:</p>
+				  <div  id="booking-0"><p align="center"><img src="img/loading.gif" style="margin-top:20px"></p></div>					
+				</div><!--form_fixed-->		  
+			  </div><!--width_control-->
+          </div><!--landing_block-->
+
+                <div class="installFlash notification">Для использования всех возможностей сайта, установите <a href="http://get.adobe.com/ru/flashplayer/" target="_blank">Flash Plugin</a></div>
+
+            <div class="left_column ld">
+			<?=$menu2?>
+			<?=$menu_sanat?>
+			<div class="simple_banner"><?=$banner?></div>
+			<div class="for_people_lc clearfix">
+				<form name="sendform" id="sendform" method="post" action="/sendphone.php" target="sendphone" 
+					onSubmit="var obj=window.open('', 'sendphone', 		'location=0,status=1,scrollbars=1,dialog=0,minimizable=1,modal=1,resizable=1,width=400,height=200');sendform.submit();obj.focus();">	
+			  <ul class="list_lc_people">
+			    <li><span>Оставьте свой номер и наши операторы свяжутся с Вами</span></li>
+				<li><input type="text" class="form_people_lc" name="name" size="3" placeholder="<?=$lang_phrases['name']?>"/></li>
+				<li><input type="text" class="form_people_lc" name="phone" size="3" placeholder="<?=$lang_phrases['phone_number']?>"/></li>
+				<li>
+				  <ul class="for_bad_scg clearfix">
+				    <li class="for_num_img"><img src="/digit.php" alt="" /></li>
+					<li><input type="text" class="form_scg" name="ucaptcha" size="3" placeholder="<?=$lang_phrases['captcha2']?>"/></li>
+					<li><input type="submit" class="scg_button" value="<?=$lang_phrases['sendphone']?>" /></li>
+				  </ul>
+				</li>
+              </ul><!--list_lc_people-->	              
+              	<input type="hidden" name="en" value="<?=$englang?>">
+				</form>  
+			</div><!--for_people_lc-->
+			<?foreach($news_anons as $v){?>
+			<div class="for_news_lc">
+			  <img src="<?=$v['photo']?>" alt="" /> 
+              <a href="<?=$v['link']?>" class="real_info_news">
+			    <div class="style_news">
+			      <span class="date_span"><?=$v['date']?></span>	
+				  <p> <?=$v['name']?></p>
+				  <span class="more_span"><?=$lang_phrases['more']?></span>
+			    </div><!--style_news-->
+			  </a><!--real_info_news-->		  
+			</div><!--for_news_lc-->
+			<?}?>
+		  </div><!--left_column-->
+		  <div class="right_column rd">
+		    <div class="top_standart_title">
+			  <h1 ><?=$navig[count($navig)-1]['name']?></h1>
+			  <ul class="nav_list clearfix">
+			    <?foreach($navig as $k=>$v){?> <?if($k){?> <li> > </li> <?}?>
+				<li><?if($v['link']){?><a href="<?=$v['link']?>"><?}?><?=$v['name']?><?if($v['link']){?></a><?}?></li>
+				<?}?>
+			  </ul>
+            </div><!--top_standart_title-->
+			<div class="simple_content">
+			  <?=$content?>
+			</div><!--simple_content-->			
+		  </div><!--left_column-->
+		  <?}?>	  
+		</div><!--main_page-->        
+	  </div><!--content-->
+	</div><!--all-->
+	
+	<div class="for_wave <?if($part){?> for_mar_wave<?}?>luft_landing_bottom">
+      <div class="for_wave_in clearfix">
+	    <div class="left_wave ld">
+		    <?if($englang){?>
+	    <p >Uvazhaemye gosti! </p>  
+		    <p>Putevki v zdravnicy RZD-Zdorovie vy mozhete oplatit lubym sposobom </p>
+			<?}else{?>
+	    <p>Уважаемые гости!</p>
+		    <p>Путевки в здравницы ОАО «РЖД-ЗДОРОВЬЕ» Вы можете оплатить любым удобным для Вас способом оплаты. Сотрудник компании сообщит Вам номер Вашего счета.  В форме «Выберите получателя» выбирается здравница, по которой будет производиться оплата. В форме «Оплатить счет» вводится номер счета. После выбора здравницы и введения номера счета, в форме появится необходимая информация для осуществления платежа. </p>
+		  <p>В данной форме также можно проверить зачисление денежных средств по Вашему счету.</p>
+			<?}?>
+        </div><!--left_wave-->
+        <div class="right_wave ld clearfix">
+		
+		
+		
+		
+		    <script type="text/javascript" src="//d3oe3cumn3db7.cloudfront.net/uw3/js/uw3.min.js" charset="utf-8" id="uw3js"    data-invoice-fields="description, customer, id, expires"        data-key="WKKuM6DaagTNqpVem2bGrg5Z"        data-css="http://rzdz.ru/pay_form_unipag.css"></script>
+        </div><!--right_wave-->		
+	  </div><!--for_wave_in-->
+	</div><!--pay_money_part-->   
+
+	<div class="all">
+	  <div class="footer clearfix">
+        <div class="inf_footer_block rd fx_wi_3">
+		  <img src="/img/phones_b.png" />
+		  <span class="footer_separator"></span>
+		  <div class="grey_footer">
+		    <?if($englang){?>
+			<p>Vse prava<br/> prinadlezhat OAO «RZHD-ZDOROVIE»</p>
+			<p>Razrabotka saita <a href="http://rudes.ru" target="_blank">«RuDesign»<br/> Informacia o saite</a></p>
+			<?}else{?>
+			<p>&copy; Все права на опубликованные материалы<br/> принадлежат ОАО «РЖД-ЗДОРОВЬЕ»</p>
+			<p>Разработка сайта <a href="http://rudes.ru" target="_blank">«РУДизайн»</a></p>
+			<?}?>
+		  </div><!--grey_footer-->
+        </div><!--inf_footer_block-->	  
+        <div class="inf_footer_block rd fx_wi_2">
+		  <?=$menu_bottom_right ?>
+		  <span class="footer_separator"></span>
+          <ul class="footer_network clearfix">
+			
+			<li><a class="neth2" target="_blank" href="https://www.facebook.com/pages/%D0%A0%D0%96%D0%94-%D0%97%D0%94%D0%9E%D0%A0%D0%9E%D0%92%D0%AC%D0%95/570310432989436"></a></li>
+			<li><a class="neth3" target="_blank" href="https://vk.com/rzdz_official"></a></li>
+			<li><div id="SkypeButton_Call_rzd-zdorovie_2">
+				  <script type="text/javascript">
+					Skype.ui({
+					  "name": "call",
+					  "element": "SkypeButton_Call_rzd-zdorovie_2",
+					  "participants": ["rzd-zdorovie"],
+					  "imageSize": 24
+					});
+				  var el = document.getElementById('SkypeButton_Call_rzd-zdorovie_2');
+				  var skypeimg = $('img', el);
+				  skypeimg[0].style.margin = '1px 0 0 0';
+				  skypeimg[0].style.verticalAlign = 0; 
+				  </script>
+				</div>
+			</li>
+          </ul><!--footer_network-->
+          <div class="grey_footer"><p>Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.</p></div>
+        </div><!--inf_footer_block-->
+        <div class="inf_footer_block rd fx_wi_1">
+		 <?=$menu_bottom_left ?>		  
+        </div><!--inf_footer_block-->		
+	  </div><!--footer-->
+	</div><!--all-->
+  </body>
+</html>

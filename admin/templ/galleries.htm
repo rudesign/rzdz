@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title><?=$title?></title>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+function change_gallery(id) {
+	opener.photo<?=$photo_id?>.remove_gallery_id.value = id;
+	opener.photo<?=$photo_id?>.submit();
+	opener.focus();
+	window.close();
+}
+</script>
+</head>
+
+<body onunload="javascript:opener.itemlist.mode.value=0;opener.focus();">
+<table width="100%">
+<tr><td align="right"><a href="javascript://" 
+onclick="javascript:window.close();">Закрыть окно</a></td></tr>
+</table>
+
+<table cellpadding="2">
+<tr><td>Выберите раздел, куда Вы хотите переместить фото</td></tr>
+<?foreach($galleries as $v){?>
+<tr>
+	<td><?if($gallery_id==$v['gallery_id']){?><b><?=$v['name']?></b>
+		<?}else{?><a href="javascript://" onclick="javascript: change_gallery(<?=$v['gallery_id']?>);"><?=$v['name']?></a><?}?>
+	</td>
+	<?foreach($v['level2'] as $v2){?>
+</tr>
+<tr>
+	<td style="padding-left: 15px">
+		<?if($gallery_id==$v2['gallery_id']){?><b><?=$v2['name']?></b>
+		<?}else{?><a href="javascript://" onclick="javascript: change_gallery(<?=$v2['gallery_id']?>);"><?=$v2['name']?></a><?}?>
+	</td>
+	<?}?>
+</tr>
+<?}?>
+</table>
+</body>
+</html>
+

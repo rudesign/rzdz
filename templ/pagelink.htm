@@ -1,0 +1,8 @@
+
+              <ul class="new_page_navigation clearfix">
+			    <li class="left_li" onclick="window.location='<?=$prev_link?>'"></li>
+				<li class="text_li grey_bg"><span><?=$lang_phrases['pages']?> </span></li>
+				<?foreach($list as $k=>$v){?><li class="page_li grey_bg<?if($k+1==count($list)){?> last<?}?>"><a href="<?=$v['link']?>" 
+					class="<?if($v['sel']){?>active<?}?>"><?=$v['i']?></a></li><?}?>
+				<li class="right_li" onclick="window.location='<?=$next_link?>'"></li>
+              </ul><!--page_navigation-->

@@ -1,0 +1,5 @@
+	  
+	  <ul class="menu_aqua clearfix width_aqua">
+		   <?foreach($list as $k=>$v){if($k){ echo '<li class="sep_li">&nbsp;</li>'; }?><li <?if($v['sel']){?>class="active_menu_aqua"<?}?>><a href="<?=$v['link']?>" <?if($k+1==count($list)){?>class="pad_aq"<?}?>><?=$v['name']?></a></li><?}?>
+	  </ul><!--menu_aqua-->  
+	 

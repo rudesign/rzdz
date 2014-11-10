@@ -1,0 +1,186 @@
+/** Stage container **/
+.connected-carousels{
+    width: 570px;
+    float: left;
+}
+
+.type1 .connected-carousels{
+    margin: 0 auto;
+    float: none;
+}
+
+.connected-carousels .stage {
+    width: 570px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.connected-carousels .photo-credits {
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+    font-size: 13px;
+    color: #fff;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.85);
+    opacity: .66;
+}
+
+.connected-carousels .photo-credits a {
+    color: #fff;
+}
+
+/** Navigation container **/
+
+.connected-carousels .navigation {
+    width: 570px;
+    position: relative;
+}
+
+/** Shared carousel styles **/
+
+.connected-carousels .carousel {
+    overflow: hidden;
+    position: relative;
+}
+
+.connected-carousels .carousel ul {
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.connected-carousels .carousel li {
+    position: relative;
+    float: left;
+}
+
+.connected-carousels .carousel li div{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #008C95;
+}
+.connected-carousels .carousel li div div{
+    padding: 8px 15px 12px;
+    text-align: center;
+    color: #fff;
+}
+
+/** Stage carousel specific styles **/
+
+.connected-carousels .carousel-stage {
+    height: 360px;
+}
+
+/** Navigation carousel specific styles **/
+
+.connected-carousels .carousel-navigation {
+    width: 342px;
+    height: 67px;
+    margin: 0 auto;
+}
+
+.connected-carousels .carousel-navigation li {
+    cursor: pointer;
+    margin-right: 10px;
+}
+.connected-carousels .carousel-navigation li:last-child {
+    margin-right: 0;
+}
+
+
+.connected-carousels .carousel-navigation li img {
+    display: block;
+}
+.connected-carousels .carousel-navigation li:last-child img {
+    margin-right: 0;
+}
+
+.connected-carousels .carousel-navigation li.active img {
+    border-color: #008C95;
+}
+
+/** Stage carousel controls **/
+
+.connected-carousels .prev-stage,
+.connected-carousels .next-stage {
+    display: block;
+    position: absolute;
+    z-index: 20;
+    top: 50%;
+    width: 60px;
+    height: 30px;
+    margin-top: -15px;
+    color: #fff;
+    outline: 0;
+}
+
+.connected-carousels .prev-stage {
+    left: 0;
+}
+
+.connected-carousels .next-stage {
+    right: 0;
+}
+
+.connected-carousels .prev-stage.inactive,
+.connected-carousels .next-stage.inactive {
+    display_: none;
+    opacity: 0.2;
+}
+
+.connected-carousels .prev-stage span,
+.connected-carousels .next-stage span {
+    display_: none;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background-image: url("../../img_extra/fancybox_sprite.png");
+    background-position: 0 -36px;
+    opacity: 0.7;
+}
+
+.connected-carousels .prev-stage span {
+    left: 20px;
+}
+
+.connected-carousels .next-stage span {
+    right: 20px;
+    background-position: 0 -72px;
+}
+
+.connected-carousels .prev-stage:hover span,
+.connected-carousels .next-stage:hover span {
+    display: block;
+}
+
+/** Navigation carousel controls **/
+
+.connected-carousels .prev-navigation,
+.connected-carousels .next-navigation {
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 63px;
+    background-image: url("../../img_extra/lrarr1.png");
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    outline: 0;
+}
+
+.connected-carousels .prev-navigation {
+    left: 20px;
+}
+
+.connected-carousels .next-navigation {
+    right: 20px;
+    background-position: -25px 50%;
+}
+
+.connected-carousels .prev-navigation.inactive,
+.connected-carousels .next-navigation.inactive {
+    opacity: .5;
+    cursor: default;
+}

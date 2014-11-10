@@ -1,0 +1,21 @@
+
+<table cellpadding="2">
+<?foreach($dirs as $v){?>
+<tr>
+	<td>
+		<a href="<?=$v['edit_link']?>" class="linkvis" <?if($dir_id==$v['dir_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><font class="hid"><?=$v['icount']?></font></td>
+	<?foreach($v['level2'] as $v2){?>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="<?=$v2['edit_link']?>" class="<?if($v2['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($dir_id==$v2['dir_id']){?>style="font-weight: bold;"<?}?>><?=$v2['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><font class="hid"><?=$v2['icount']?></font></td>
+	<?}?>
+</tr>
+<?}?>
+</table>
+

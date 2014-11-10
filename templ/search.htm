@@ -1,0 +1,38 @@
+
+	   <?if($all_only){?>
+              <p class="title_finde_info"><?=$lang_phrases['po_zaprosu']?> <span><?=$word?></span> <?=$lang_phrases['naideno']?>: <span><?=$all_only?></span></p>
+			  <ul class="list_result_fii">			  
+		
+		<?if(count($pagelist)){?>
+			  <?foreach($pagelist as $v){?>	  
+			    <li  <?if(($v['i']+2)%2){?>class="fii_gr_bgr"<?}?>>
+				  <div class="num"><?=$v['i']?>.</div>
+				  <div class="dec">
+				    <p><?if($v['parent_id']){?><a href="<?=$v['parent_link']?>"><?=$v['parent_name']?></a>
+					/ <?}?><a href="<?=$v['link']?>"><?=$v['name']?></a> <?=$v['description']?> </p>
+				  </div>
+				</li>
+			  <?}?>
+		<?}?>
+			
+		<?if(count($newss)){?>
+			  <?foreach($newss as $v){?> 
+			    <li  <?if(($v['i']+2)%2){?>class="fii_gr_bgr"<?}?>>
+				  <div class="num"><?=$v['i']?>.</div>
+				  <div class="dec">
+				    <p><a href="<?=$v['news_link']?>"><?=$lang_phrases['news']?></a> / 
+						<a href="<?=$v['link']?>"><?=$v['date']?> - <?=$v['name']?></a> 
+					<?=$v['description']?> </p>
+				  </div>
+				</li>
+			  <?}?>
+		<?}?>
+			
+			  </ul><!--list_result_fii-->
+		<?=$pages?>
+		
+	   <?}else{?>
+              <p class="title_finde_info"><?=$lang_phrases['po_zaprosu']?> <span><?=$word?></span> <?=$lang_phrases['ne_naideno']?></p>
+	   <?}?>
+	   	
+	   

@@ -1,0 +1,21 @@
+
+            <div class="for_menu_lc">
+			  <p class="title_menu_lc title_menu_pages"><?if($media){?><?=$lang_phrases['media']?><?}else{?><?=$lang_phrases['nashy_san']?><?}?></p>
+			  <ul class="menu_lc_in" id="menu-l">
+			    <?foreach($regions as $k=>$v){?>
+				<li class="<?if($v['sel']){?>dcjq-current-parent<?}?>">
+				  <?if($v['sel']){?><a class="<?if($k+1==count($regions) && !$v['sel']){?> rds<?}?>" href="javascript://"><span><?=$v['name']?></span></a>
+				  <?}else{?><a href="javascript://" class="<?if($k+1==count($regions) && !$v['sel']){?> rds<?}?>"><?=$v['name']?></a>
+				  <?}?>
+				  <?if(count($v['list'])){?>
+				  <ul class="menu_lc_level">
+					<?foreach($v['list'] as $kk=>$san){?>
+				    <li class="<?if($v['sel']){?>dcjq-current-parent<?}?>"><a class="<?if($san['sel']){?>active_page_level<?}?><?if($kk+1==count($v['list']) && $k+1==count($regions)){?> <?}?>" href="<?=$san['link']?>"><span><?=$san['name']?>, ã. <?=$san['city']?></span></a></li>
+					<?}?>
+				  </ul><!--menu_lc_level-->
+				  <?}?>
+				</li>
+				<?}?>		
+			  </ul><!--menu_lc_in-->
+			</div><!--for_menu_lc-->
+				

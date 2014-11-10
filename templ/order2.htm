@@ -1,0 +1,65 @@
+			
+	   <?if($sendorder){?>
+	   <p align="center"><strong>Спасибо! </strong><br>Ваш заказ будет обработан в ближайшее время.</p>
+	   <?}else{?>
+	
+	   <?if($err){?>
+       <div align="center"><strong><font color="#FF0000"><?if($english){?>Error!<?}else{?>ОШИБКА!<?}?></font></strong><br>
+         <font color="#993333">Выделенные  поля <br> не заполнены или заполнены неверно.
+         </font><br>
+         <br>
+       </div>
+	   <?}?>
+			
+			<form name="fls" method="post" action="<?=$order_url?>"> 
+           <table  border="0" cellpadding="5" cellspacing="0"  id="bron">
+			<?foreach($fields as $v){?>	
+			<tr> 
+				<td   class="rig dop" >
+					<?if($v['name']){?><?=$v['name']?>:<?if($v['checkfield']){?><FONT 
+				  color=#ff0000><STRONG>*</STRONG></FONT><?}?><?}?>
+				</td>
+                        
+							<td     <?if($v['err']){?>class="td_error"<?}?>>
+				<?if($v['type']==0){?><input  type="text" name="value_<?=$v['field_id']?>" value="<?=$v['value']?>"  >
+				<?}elseif($v['type']==1){?><textarea name="value_<?=$v['field_id']?>" rows="10" ><?=$v['value']?></textarea>
+				<?}elseif($v['type']==2){?><select name="value_<?=$v['field_id']?>">
+					<?=$v['value']?></select>
+				<?}elseif($v['type']==3){?>
+								       <SCRIPT language=JavaScript>
+											<!--
+												// класс LSCalendar должен присутствовать в системе, массив LSCalendars объявлен
+												LSCalendars["value_<?=$v['field_id']?>"]=new LSCalendar();
+												LSCalendars["value_<?=$v['field_id']?>"].SetFormat("dd.mm.yy");
+											//-->
+										</SCRIPT>
+										<div class="pic">
+											<div class="datas1" onclick="setCalendarDateByStr('value_<?=$v['field_id']?>', fls.value_<?=$v['field_id']?>.value); showCalendarForElement('value_<?=$v['field_id']?>', event); return false;"></div>
+											<input type="text" class="pol" name="value_<?=$v['field_id']?>" value="<?=$v['value']?>" />
+										</div>
+										<DIV id=value_<?=$v['field_id']?>Ptr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" 
+									      width="1" type="block" /></DIV>
+				<?}elseif($v['type']==4){?>
+					<table><tr><td >
+					<?foreach($v['value'] as $ch){?>
+				    <input type="checkbox" id="value_<?=$v['field_id']?>_<?=$ch['i']?>"
+					 name="value_<?=$v['field_id']?>[<?=$ch['i']?>]" 
+					 value="1" <?=$ch['checked']?> style="width: 10px"> <?=$ch['name']?>
+				    <?}?>
+					</td></tr></table>
+				<?}elseif($v['type']==5){?><select name="value_<?=$v['field_id']?>">
+					<?=$v['value']?></select>
+					
+				<?}?>
+				</td>
+			</tr>
+			<?}?>
+			<tr>
+				<td></td>
+				<td><button class="butr" type="submit" name="zak"><?=$button?></button></td>
+			</tr>
+		</table>
+		<input type="hidden" name="mode" value="send">
+		</form>
+		<?}?>
+

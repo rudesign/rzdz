@@ -1,0 +1,22 @@
+
+<table cellpadding="2">
+<?foreach($banner_type as $bt){?>
+	<tr>
+		<td colspan="3"><strong><?=$bt['name']?></strong><br />
+		<a href="<?=ADMIN_URL?>?p=banner&addbanner=1&type=<?=$bt['type']?>">Добавить баннер ›››</a><br />&nbsp;
+		</td>
+	</tr>
+	<?foreach($bt['banners'] as $v){?>
+	<tr>
+		<td>
+			<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($banner_id==$v['banner_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+		<td width="10">&nbsp;</td>
+		<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('спецпредложение \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+			<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+	</tr>
+	<?}?>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+<?}?>
+</table>

@@ -1,0 +1,47 @@
+<?if(!$faq){?><div id="pdescription"><?}?>
+<?=$description?>
+<?if(!$faq){?></div><?}?>
+
+<?if(count($photos)){
+    $first = reset($photos);
+?>
+
+<div class="fotos">
+    <div class="first">
+        <div class="extra-gallery-tabs">
+            <ul>
+                <li onclick="expandExtraGallery(<?=$type?>, <?=$owner_id?>, 0, 0);" class="photo active"></li>
+                <li onclick="expandExtraGallery(<?=$type?>, <?=$owner_id?>, 1, 0);" class="video"></li>
+                <li onclick="expandExtraGallery(<?=$type?>, <?=$owner_id?>, 2, 0);" class="panorama"></li>
+            </ul>
+        </div>
+        <a href="javascript:expandExtraGallery(<?=$type?>, <?=$owner_id?>, 0, 0);" title="<?$first['alt']?>">
+            <img src="<?echo $first['bigphoto']; ?>" />
+        </a>
+    </div>
+    <ul class="galery_list clearfix">
+    <? foreach ($photos as $index=>$v) {?>
+        <li>
+            <a href="javascript:expandExtraGallery(<?=$type?>, <?=$owner_id?>, 0, <?=$index?>);" title="<?=$v['alt']?>">
+                <img src="<?=$v['photo']?>" title="<?=$v['alt']?>" <?=$v['smallsize']?> border="0">
+                <p></p>
+            </a>
+        </li>
+    <?}?>
+    </ul><!--galery_list-->
+</div>
+<?}?>
+
+
+<?if($parent==1){?>
+    <ul class="button_gallery_list clearfix">
+        <li><a href="/media/?s_id=<?=$page_id?>" title="" class="redbut"><?=$lang_phrases['media']?></a></li>
+        <!--li><a href="/order/?s_id=<?=$page_id?>" title="" class="redbut">Заказать путевку</a></li-->
+        <li><a href="javascript:void(0)"><?=$lang_phrases['zakazat']?></a></li>
+        <li><a href="/opinion/add/?s_id=<?=$page_id?>" title="" class="redbut"><?=$lang_phrases['ostavit_otziv']?></a></a></li>
+    </ul><!--button_gallery_list-->
+<?}?>
+	
+
+  
+	 

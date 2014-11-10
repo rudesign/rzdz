@@ -1,0 +1,13 @@
+
+<!--P><a href="?p=cure&addcure=0">Добавить раздел ›››</a></P-->
+<table cellpadding="2">
+<?foreach($pages as $v){?>
+<tr>
+	<td style="<?if($v['partof']){?>padding-left:15px<?}?>">
+		<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" 
+			style="<?if($cure_id==$v['cure_id']){?>font-weight: bold;<?}?>"><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+</tr>
+<?}?>
+</table>
+

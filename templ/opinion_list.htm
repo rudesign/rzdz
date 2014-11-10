@@ -1,0 +1,116 @@
+<form name="opinionform" method="post" id="opinionform">
+    <input type="hidden" name="opinionlink" value="<?=$opinionlink?>">
+    <input type="hidden" name="add_opinion" value="1">
+    <div class="feedback-form clearfix">
+        <?
+            if(!$extrasite_id){?>
+                <div class="rows">
+                    <div class="title"><?=$lang_phrases['choose_an_office']?></div>
+                    <select name="fsanator">
+                    <?foreach($sanat_list as $san){?>
+                        <option value="<?=$san['page_id']?>" style="background-color:#FFFFFF;" <?=$san['selected']?>><?=$san['name']?> (<?=$san['city']?>)</option>
+                    <?}?>
+                    </select>
+                </div>
+            <?}else{?>
+                <input type="hidden" name="fsanator" value="<?=$extrasite_id?>">
+            <?}?>
+        <!-- lc -->
+        <div class="lc">
+            <div class="rows">
+                <div class="title"><?=$lang_phrases['dobavit_otziv']?></div>
+                <div class="inputs">
+                    <input type="text" name="u_name" size="3" value="<?=$u_name?>" placeholder="<?=$lang_phrases['name']?>" />
+                </div>
+            </div>
+            <div class="rows">
+                <div class="inputs">
+                    <input type="text" name="u_email" value="<?=$u_email?>" size="3" placeholder="<?=$lang_phrases['email']?>" />
+                </div>
+            </div>
+            <div class="rows">
+                <div class="title"><?=$lang_phrases['kogda_otdyh']?></div>
+                <div class="dates clearfix">
+                    <div class="lc">
+                        <div class="date1" onclick="setCalendarDateByStr('date_from', opinionform.date_from.value); showCalendarForElement('date_from', event); return false;">
+                            <SCRIPT language=JavaScript>
+                                <!--
+                                LSCalendars["date_from"]=new LSCalendar();
+                                LSCalendars["date_from"].SetFormat("<?if($englang){?>mm/dd/yyyy<?}else{?>dd.mm.yyyy<?}?>");
+                                //-->
+                            </SCRIPT>
+                            <input type="text" class="date_field" name="date_from" placeholder="<?=$lang_phrases['from']?>" value="<?=$date_from?>"  />
+                            <DIV id=date_fromPtr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" width="1" type="block" /></DIV>
+                        </div>
+                    </div>
+                    <div class="rc">
+                        <div class="date1" onclick="setCalendarDateByStr('date_to', opinionform.date_to.value); showCalendarForElement('date_to', event); return false;">
+                            <SCRIPT language=JavaScript>
+                                <!--
+                                LSCalendars["date_to"]=new LSCalendar();
+                                LSCalendars["date_to"].SetFormat("<?if($englang){?>mm/dd/yyyy<?}else{?>dd.mm.yyyy<?}?>");
+                                //-->
+                            </SCRIPT>
+                            <input type="text" class="date_field" name="date_to" placeholder="<?=$lang_phrases['to']?>" value="<?=$date_to?>"  />
+                            <DIV id=date_toPtr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" width="1" type="block" /></DIV>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rows">
+                <div class="dates captcha">
+                    <div class="lc">
+                        <div class="title"><?=$lang_phrases['captcha1']?></div>
+                        <input type="text" name="ucaptcha" size="3" placeholder="" autocomplete="off" />
+                    </div>
+                    <div class="rc">
+                        <img src="captcha.php" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- rc -->
+        <div class="rc">
+            <div class="rows">
+                <textarea name="text" placeholder="<?=$lang_phrases['vash_otzyv']?>" ><?=$opinion_text?></textarea>
+            </div>
+            <input type="submit" value="" class="button_back bat">
+        </div>
+    </div>
+</form>
+
+              <?if(count($opinion_list)){?>		
+			  
+			  <?if(!$extrasite_id){?><div class="ch_bgr_select" style="margin: 0 0 23px 190px">
+			<select class="ch_bgr_fx" onchange="window.location=(this.value>0)?'/opinion/?page_id='+this.value:'/opinion/';">
+						<?foreach($page_list as $v){?>
+							<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?></option>
+						<?}?>
+			</select>
+			</div><?}?>
+					
+              <ul class="voice_list">
+				<?foreach($opinion_list as $k=>$v){?>
+				<li class="<?if(($k+1)%2){?>white_vl_inf<?}else{?>grey_vl_info<?}?> clearfix">
+				  <div class="left_vl ld">
+					<p class="name_vl"><?=$v['name']?></p>
+					<p class="date_vl"><?=$v['date']?></p>
+                  </div><!--left_vl-->			
+                  <div class="right_vl rd">
+					<p class="title_open_vl"><a href="<?=$v['page_link']?>"><?=$v['page_name']?></a>
+						<?=$v['date_from']?><?if($v['date_from'] && $v['date_to']){?> - <?}?><?=$v['date_to']?></p>
+					<p><?=$v['text']?><?if($v['more']){?><span id="mnogotochie<?=$v['opinion_id']?>">...</span><span style="display:none" id="more<?=$v['opinion_id']?>"><?=$v['more']?></span><?}?> </p>
+					<?if($v['more']){?>	
+				  <a class="open_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='none';mnogotochie<?=$v['opinion_id']?>.style.display='';close<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="open<?=$v['opinion_id']?>" style="display:none"><span><?=$lang_phrases['skryt']?></span></a>
+				  <a class="close_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='';mnogotochie<?=$v['opinion_id']?>.style.display='none';open<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="close<?=$v['opinion_id']?>"><span><?=$lang_phrases['raskryt']?></span></a>
+					  <?}?>
+                  </div><!--right_vl-->				  
+				</li>
+				 <?}?>
+              </ul><!--voice_list-->
+			  
+			  <?}?>
+			  	
+			  
+				<?=$pages?>
+				

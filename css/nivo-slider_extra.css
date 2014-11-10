@@ -1,0 +1,123 @@
+/*
+ * jQuery Nivo Slider v3.1
+ * http://nivo.dev7studios.com
+ *
+ * Copyright 2012, Dev7studios
+ * Free to use and abuse under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+ 
+/* The Nivo Slider styles */
+.nivoSlider {
+    position: absolute;
+    width: 100%;
+	overflow-x: hidden !important;
+	height:auto;
+	text-align:center;
+	margin-bottom:50px!important;
+}
+.nivoSlider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+    max-width: none;
+    height: 414px!important;
+}
+.nivo-main-image {
+	display: block !important;
+	position: relative !important; 
+	width: 100% !important;
+}
+
+/* If an image is wrapped in a link */
+.nivoSlider a.nivo-imageLink {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	border:0;
+	padding:0;
+	margin:0;
+	z-index:6;
+	display:none;
+}
+/* The slices and boxes in the Slider */
+.nivo-slice {
+	display:block;
+	position:absolute;
+	z-index:5;
+	height:100%;
+	top:0;
+}
+.nivo-box {
+	display:block;
+	position:absolute;
+	z-index:5;
+	overflow:hidden;
+}
+.nivo-box img { display:block; }
+
+
+
+/* Direction nav styles (e.g. Next & Prev) */
+.nivo-directionNav{
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+}
+.nivo-directionNav a {
+	position:absolute;
+	top:-275px;
+	z-index:9;
+	cursor:pointer;
+	font-size:0px;
+}
+.nivo-prevNav {
+    background:url(../img/left_ar.png) no-repeat;
+    display:block;
+	width:38px;
+	height:38px;
+	left:375px;
+}
+.nivo-nextNav {
+	position:absolute;
+    background:url(../img/right_ar.png) no-repeat;
+    display:block;
+	width:38px;
+	height:38px;
+	right:65px;
+}
+/* Control nav styles (e.g. 1,2,3...) */
+.nivo-controlNav {
+	position:absolute;
+	z-index:5;
+    bottom: -45px;
+    width: 100%;
+}
+.nivo-controlNav .inner-wrapper{
+    width: 1000px;
+    margin: 0 auto;
+}
+.nivo-controlNav .centered-wrapper{
+    width: 625px;
+    margin-left: 375px;
+    text-align: center;
+}
+.nivo-controlNav a {
+	cursor:pointer;
+	background:url(../img/point_bgr.png) no-repeat;
+	width:43px;
+	height:23px;
+	display:inline-block;
+	font-size:13px;
+	line-height:22px;
+	margin-right:15px;
+	color:#008c95;
+	font-size:0px!important;
+	}
+.nivo-controlNav a.active {
+	font-weight:bold;
+	background:url(../img/point_bgr2.png) no-repeat;
+	color:#fff;
+}

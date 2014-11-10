@@ -1,0 +1,41 @@
+
+			<form name="opinionform" method="post" id="opinionform" enctype="multipart/form-data" >			
+			<table id="bron">
+				<tr align="center"> 
+				  <td class="rig">Выберите здравницу<FONT color=#ff0000><STRONG>*</STRONG></FONT></td>
+				  <td><select name="add" >
+                           <?foreach($sanat_list as $san){?>
+						   <option value="<?=$san['page_id']?>" <?=$san['selected']?>><?=$san['name']?> (<?=$san['city']?>)</option>
+						   <?}?>
+                        </select></td>
+				</tr>
+			  <tr>
+				<td class="rig">Название фото<FONT color=#ff0000><STRONG>*</STRONG></FONT></td>
+				<td><input name="alt"  value="<?=$alt?>" /></td>
+			  </tr>
+			  <tr>
+				<td class="rig">Файл (не более 5 Мб)</td>
+				<td><input name="photo"  type="file" class="ifile" size="20" /></td>
+			  </tr>
+			  <tr>
+				<td class="rig">Текст на картинке<FONT color=#ff0000><STRONG>*</STRONG></FONT></td>
+				<td><input type="text"  name="ucaptcha"  /><br /><img src="captcha.php" alt="" /></td>
+			  </tr>
+			  <tr>
+			  <tr>
+				<td class="rig">Я подтверждаю, что являюсь автором данного фото, и даю согласие на его публикацию</td>
+				<td><input type="checkbox"  name="confirm" value="1" style="width: 10px" <?=$confirm?>/></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td>
+					<input type="hidden" name="add_photo" value="1">
+					<button class="butr" type="submit" name="zak" onclick="this.style.cursor='default';this.innerHTML='Подождите...'" >Отправить</button></td>
+				</tr>
+				<tr>
+				 <td colspan="2">&nbsp;</td>
+				</tr>
+			</table>
+			</form>
+			
+				

@@ -1,0 +1,22 @@
+<P><a href="<?=ADMIN_URL?>?p=gallery&addgallery=1">Добавить галерею ›››</a></P>
+<table cellpadding="2">
+<?foreach($gallerys as $v){?>
+<tr>
+	<td>
+		<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($gallery_id==$v['gallery_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+		<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+	<?foreach($v['level2'] as $v2){?>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="<?=$v2['edit_link']?>" class="<?if($v2['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($gallery_id==$v2['gallery_id']){?>style="font-weight: bold;"<?}?>><?=$v2['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><a href="<?=$v2['del_link']?>" onclick="return delete_confirm('подраздел \'<?=$v2['name']?>\'');"><img src="images/del.gif" border="0"></a></td>
+	<?}?>
+</tr>
+<?}?>
+</table>
+

@@ -1,0 +1,22 @@
+
+            <div class="for_menu_lc">
+			  <p class="title_menu_lc  title_menu_pages"><?=$pname?></p>
+			  <ul class="menu_lc_in" id="menu-2">
+			    <?foreach($list as $k=>$v){?>
+				<li class="<?if($v['sel']){?>dcjq-current-parent<?}?><?if($k+1==count($list)){?> rds<?}?>">
+				  <?if($v['sel']){?><a class="open_type" href="javascript://"><span><?=$v['name']?></span></a>
+				  <?}else{?><a href="<?=$v['link']?>"><?=$v['name']?></a><?}?>
+				  <?if(@count($v['list'])){?>
+				  <ul class="menu_lc_level">
+					<?foreach($v['list'] as $kk=>$san){?>
+					<li class="<?if($san['sel']){?>dcjq-current-parent<?}?>"><a class="<?if($san['sel']){?>active_page_level<?}?>" href="<?=$san['link']?>"><span><?=$san['name']?></span></a></li>
+					<?}?>
+				  </ul><!--menu_lc_level-->
+				  
+				  <?}?>
+				</li>
+				<?}?>		
+			  </ul><!--menu_lc_in-->
+			</div><!--for_menu_lc-->
+			
+				

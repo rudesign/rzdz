@@ -1,0 +1,160 @@
+.extra-gallery-container{
+    margin-bottom: 23px;
+}
+.extra-gallery, .submit-selection{
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    width: 925px;
+    z-index: 99999;
+    display: none;
+    margin-left: -461px;
+    background: none repeat scroll 0 0 #efefef;
+    box-shadow: 0 5px 5px rgba(68, 68, 68, 0.6);
+        -moz-box-shadow: 0 5px 5px rgba(68, 68, 68, 0.6);
+        -webkit-box-shadow: 0 5px 5px rgba(68, 68, 68, 0.6);
+}
+
+.extra-gallery-close{
+    position: absolute;
+    z-index: 10;
+    top: 7px;
+    right: 7px;
+    width: 19px;
+    height: 19px;
+    background-color: #008C95;
+    background-image: url("../img_extra/extra_gallery_close.png");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 19px;
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    cursor: pointer;
+}
+
+.extra-gallery-close:hover{
+    background-color: #999999;
+}
+
+.extra-gallery-wait{
+    background-image: url("../img_extra/async64.gif");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    height: 120px;
+}
+
+.extra-gallery-inner{
+    position: relative;
+}
+
+.extra-gallery-info{
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 10px;
+    width: 295px;
+    padding: 25px 15px 25px;
+    margin-left: 20px;
+    font: 13px/1.3em tahoma, arial, sans-serif;
+    border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    background-image: url("../img_extra/white50.png");
+}
+
+.extra-gallery-tabs{
+    position: relative;
+    margin-bottom: 5px;
+}
+.extra-gallery-tabs ul{
+    position: absolute;
+    z-index: 20;
+    top: 20px;
+    left: 20px;
+}
+.extra-gallery-tabs li{
+    display: inline-block;
+    float: left;
+    width: 41px;
+    height: 27px;
+    cursor: pointer;
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+}
+.extra-gallery-tabs li:last-child{
+    float: none;
+}
+.extra-gallery-tabs li.photo{
+    background-image: url("../img_extra/mednav11.png");
+}
+.extra-gallery-tabs li.photo.active{
+    background-image: url("../img_extra/mednav1.png");
+}
+.extra-gallery-tabs li.video{
+    background-image: url("../img_extra/mednav22.png");
+}
+.extra-gallery-tabs li.video.active{
+    background-image: url("../img_extra/mednav2.png");
+}
+.extra-gallery-tabs li.panorama{
+    background-image: url("../img_extra/mednav44.png");
+}
+.extra-gallery-tabs li.panorama.active{
+    background-image: url("../img_extra/mednav4.png");
+}
+
+
+.extra-gallery-info a{
+    color: #008C95;
+}
+.extra-gallery-info h1{
+    color: #636363;
+    font-size: 21px;
+    line-height: 1.2em;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.extra-gallery-info li{
+    margin-left: 1em;
+    list-style-position: outside;
+}
+
+.extra-gallery-info .items{
+    display: none;
+}
+
+.submit-selection .inner{
+    padding: 15px;
+}
+.submit-selection form div{
+    width: 95%;
+    margin-bottom: 20px;
+}
+.submit-selection form div:last-child{
+    margin-bottom: 0;
+}
+.submit-selection .suggestion dl{
+    margin-bottom: 5px;
+}
+.submit-selection .suggestion textarea{
+    width: 100%;
+    height: 3em;
+}
+
+.submit-selection .submit-btn a{
+    display: inline-block;
+    line-height: 1em;
+    padding: 8px 15px 9px;
+    color: #fff;
+    background-color: #008193;
+    border-top: 1px solid #28a4ac;
+    border-bottom: 1px solid #0f707e;
+    text-decoration: none;
+}
+
+.submit-selection .submit-btn a:hover{
+    background-color: #28a4ac;
+    transition: all 0.2s ease 0s;
+
+}

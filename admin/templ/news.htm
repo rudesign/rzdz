@@ -1,0 +1,107 @@
+<table><tr>
+<td>
+	<FORM method="post">
+	<table>
+	<tr><td>Отображается на сайте? </td><td><?=$public_select?></td></tr>
+	<tr><td>Дата: </td><td><?=$date_select?></td></tr>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Привязка к санаторию<br /> для бронирования: </td><td><?=$page_select?></td></tr>
+<tr><td>Где показывать: </td><td colspan="2">
+	<table width="100%"><tr><td>
+	<?foreach($page_box as $v){?>
+		<input type="checkbox" class="chb_input" name="page[<?=$v['i']?>]" 
+		value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+		<?if($v['newcol']){?></td><td><?}?>
+	<?}?>
+	</td></tr></table>
+</td></tr>
+	<tr><td>Раздел (лат. буквы): </td><td><input type="text" name="dir" value="<?=$dir?>" maxlength="255" size="50"><br>&nbsp;</td></tr>
+	<tr><td>TITLE: </td><td nowrap="nowrap"><input type="text" name="title" value="<?=$title?>" maxlength="255" size="50"></tr>
+	<tr><td>TITLE eng: </td>
+		<td nowrap="nowrap">  <input type="text" name="title_en" value="<?=$title_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>DESCRIPTION: </td><td><input type="text" name="mdescription" value="<?=$mdescription?>" maxlength="255" size="50"> </td></tr>
+	<tr><td>DESCRIPTION eng: </td><td><input type="text" name="mdescription_en" value="<?=$mdescription_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS: </td><td><input type="text" name="keywords" value="<?=$keywords?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS eng: </td><td><input type="text" name="keywords_en" value="<?=$keywords_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Анонс: </td><td>
+	
+		<input type="radio" name="edit" value="0"  checked="checked" onclick="document.getElementById('descr0').style.display='';document.getElementById('descr1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="edit" value="1" onclick="document.getElementById('descr0').style.display='none';document.getElementById('descr1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="descr0"><textarea name="descr" id="descr" rows="10" cols="80" style="width: 100%"><?=$descr?></textarea> </div>
+	<textarea name="descr1" id="descr1" rows="10" cols="80" style="display:none" ><?=$descr?></textarea></td></tr>
+	<tr><td>Анонс eng: </td><td>
+		<input type="radio" name="edit_en" value="0" checked="checked" onclick="document.getElementById('descr_en0').style.display='';document.getElementById('descr_en1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="edit_en" value="1" onclick="document.getElementById('descr_en0').style.display='none';document.getElementById('descr_en1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="descr_en0"><textarea name="descr_en" id="descr_en" rows="10" cols="80" style="width: 100%"><?=$descr_en?></textarea> </div>
+	<textarea name="descr_en1" id="descr_en1" rows="10" cols="80" style="display:none" ><?=$descr_en?></textarea></td></tr>
+	<tr><td>Описание: </td><td>
+	
+		<input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
+	<textarea name="description1" id="description1" rows="15" cols="80" style="display:none" ><?=$description?></textarea></td></tr>
+	<tr><td>Описание eng: </td><td>
+		<input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
+	<textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$description_en?></textarea></td></tr>
+	<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="news_id" value="<?=$news_id?>">
+	<input type="hidden" name="date" value="<?=$date?>">
+	<input type="hidden" name="sy" value="<?=$sy?>">
+	<input type="hidden" name="sm" value="<?=$sm?>">
+	<input type="hidden" name="p" value="news">
+	</table>
+	</FORM>
+</td>
+</tr></table>
+
+<table><tr>
+<td>
+<p><strong>Фото для анонса (242 x 122 px)</strong></p>
+<?if(count($photos)<$photo_limit){?>
+	<form method="post" enctype="multipart/form-data">
+	<p>Добавление фотографии</p>
+	<input type="file" name="photo"><br><br>
+	<input type="submit" value="Добавить" class="button">
+	<input type="hidden" name="news_id" value="<?=$news_id?>">
+	<input type="hidden" name="date" value="<?=$date?>">
+	<input type="hidden" name="sy" value="<?=$sy?>">
+	<input type="hidden" name="sm" value="<?=$sm?>">
+	<input type="hidden" name="p" value="news">
+	</form>
+<?}?>
+<? foreach ($photos as $v) {?>
+<img src="<?=$v['photo']?>" border=0 <?=$v['smallsize']?>><br>
+<A href="<?=$v['del_link']?>" onclick="javascript: return delete_confirm('фото')">Удалить</A>
+<?}?>
+</td>
+<td style="padding-left:40px">
+<p><strong>Фото для блока слева 310 x 178 px</strong></p>
+<?if(count($blocks)<$block_limit){?>
+	<form method="post" enctype="multipart/form-data">
+	<p>Добавление фотографии</p>
+	<input type="file" name="block"><br><br>
+	<input type="submit" value="Добавить" class="button">
+	<input type="hidden" name="news_id" value="<?=$news_id?>">
+	<input type="hidden" name="date" value="<?=$date?>">
+	<input type="hidden" name="sy" value="<?=$sy?>">
+	<input type="hidden" name="sm" value="<?=$sm?>">
+	<input type="hidden" name="p" value="news">
+	</form>
+<?}?>
+<? foreach ($blocks as $v) {?>
+<img src="<?=$v['photo']?>" border=0 <?=$v['smallsize']?> ><br>
+<A href="<?=$v['del_link']?>" onclick="javascript: return delete_confirm('фото')">Удалить</A>
+<?}?>
+</td>
+</tr></table>

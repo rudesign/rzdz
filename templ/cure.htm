@@ -1,0 +1,33 @@
+
+		<table cellspacing="0" cellpadding="0" class="border">
+		<tr>
+			<td></td>
+			<?foreach($sanatorii as $san){?>
+			<td><a href="<?=$san['link']?>" title="<?=$san['name']?> <?=$san['city']?>"><img src="<?=$san['photo']?>" width="40"/></a><br />
+				<a href="/order/?s_id=<?=$san['page_id']?>" title="Забронировать санаторий <?=$san['name']?> <?=$san['city']?>" class="curebron"></a>
+				<a href="<?=$san['link']?>#opinion" title="Отзывы <?=$san['name']?> <?=$san['city']?>" class="cureopinion"></a></td>
+			<?}?>
+		</tr>
+		<?foreach($cure_box as $cure){?>
+		<tr>
+			<td align="right"><b><?=$cure['name']?></b></td>
+			<td colspan="<?=count($sanatorii)+1?>"></td>
+		</tr>
+		<?foreach($cure['list'] as $v){?>
+		<tr align="center">
+			<td align="right"><?=$v['name']?></td>
+			<?foreach($sanatorii as $san){?>
+			<td><?if(ereg("(^|,)$v[cure_id](,|$)", $san['cures'])){?>&bull;<?}?></td>
+			<?}?>
+		</tr>
+		<?}?>		
+		<?}?>
+		<tr>
+			<td></td>
+			<?foreach($sanatorii as $san){?>
+			<td><a href="<?=$san['link']?>" title="<?=$san['name']?> <?=$san['city']?>"><img src="<?=$san['photo']?>" width="40"/></a><br />
+				<a href="/order/?s_id=<?=$san['page_id']?>" title="Забронировать санаторий <?=$san['name']?> <?=$san['city']?>" class="curebron"></a>
+				<a href="<?=$san['link']?>#opinion" title="Отзывы <?=$san['name']?> <?=$san['city']?>" class="cureopinion"></a></td>
+			<?}?>
+		</tr>
+		</table>

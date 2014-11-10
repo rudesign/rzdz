@@ -1,0 +1,35 @@
+			
+			<div class="simple_content">
+              <div class="map_site clearfix">
+			    <p class="title_map"><a href="<?=$homelink?>"><?=$lang_phrases['home']?></a></p>
+				<ul class="list_map ld">
+				
+		<?foreach($pages as $k=>$v){?>
+				<?if($v['page_id']==1){?>	
+				   <?if(!$extrasite_id){?>  
+				   <li  class="light_href"><a href="<?=$lprefix?>/spec/"><?=$lang_phrases['spec']?></a></li>
+				   <li  class="light_href"><a href="<?=$lprefix?>/opinion/"><?=$lang_phrases['opinion']?></a></li> 
+				   <?}?>
+				<?}?>
+				<?if($v['dir']=='faq' && !$extrasite_id){?>
+				   <li  class="light_href"><a href="<?=$lprefix?>/news/"><?=$lang_phrases['news']?></a></li>
+				   <li  class="light_href"><a href="<?=$lprefix?>/media/"><?=$lang_phrases['media']?></a></li>  
+				<?}?>	
+				
+				<?if($v['level']==1){?>
+				   <li  class="light_href"><a href="<?=$v['link']?>"><?=$v['name']?></a></li>
+				<?}elseif($v['level']==2){?>
+					<li><a href="<?=$v['link']?>"><?=$v['name']?> <?if($v['parent']==1){?>(<?=$v['city']?>)<?}?></a></li>
+				<?}elseif($v['level']==3){?>
+					<li style="margin-left:65px"><a href="<?=$v['link']?>"><?=$v['name']?></a></li>
+				<?}elseif($v['level']==4){?>
+					<li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>
+				<?}?>
+		   <?}?>
+						
+				</ul><!--list_map-->
+              </div><!--map_site-->			  
+              <div class="clear"></div>			  
+			</div>
+ 
+			 

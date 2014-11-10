@@ -1,0 +1,48 @@
+
+    <div class="cure-map-wrapper">
+        <div class="hover">
+            <a href="<?=$link_medicine?>30" class="s1 hands<?if($subcure_id==30){?> active<?}?>"></a>
+            <a href="<?=$link_medicine?>30" class="s2 hands<?if($subcure_id==30){?> active<?}?>"></a>
+            <a href="<?=$link_medicine?>31" class="s3 abdominal<?if($subcure_id==31){?> active<?}?>"></a>
+            <a href="<?=$link_medicine?>32" class="s4 legs<?if($subcure_id==32){?> active<?}?>"></a>
+            <a href="<?=$link_medicine?>35" class="s5 back<?if($subcure_id==35){?> active<?}?>"></a>
+            <a href="<?=$link_medicine?>36" class="s6 ass<?if($subcure_id==36){?> active<?}?>"></a>
+        </div>
+        <div class="links">
+            <a href="<?=$link_medicine?>30" class="s1" rel="hands">Руки</a>
+            <a href="<?=$link_medicine?>31" class="s3" rel="abdominal">Живот</a>
+            <a href="<?=$link_medicine?>32" class="s4" rel="legs">Ноги</a>
+            <a href="<?=$link_medicine?>35" class="s5" rel="back">Спина</a>
+            <a href="<?=$link_medicine?>36" class="s6" rel="ass">Ягодицы</a>
+        </div>
+        <div class="info">
+            <h2>Что Вас беспокоит?</h2>
+            Вам следует определить область боли. Для этого необходимо навести курсор и кликнуть на ту часть тела (на рисунке - руки, спина и т.п.), где вы испытываете болевой синдром.
+        </div>
+    </div>
+    <script language="JavaScript">
+        $(document).ready(function(){
+            var container = $('.cure-map-wrapper');
+            var hover =  container.find('.hover');
+            var hands =  container.find('.hover .hands');
+            var links =  container.find('.links a');
+            var rel = '';
+
+            hands.bind('mouseover', function(){
+                hands.addClass('active');
+            });
+            hands.bind('mouseout', function(){
+                hands.removeClass('active');
+            });
+
+            links.bind('mouseover', function(){
+                rel = $(this).prop('rel');
+                hover.find('.'+rel).addClass('active');
+            });
+            links.bind('mouseout', function(){
+                rel = $(this).prop('rel');
+                hover.find('.'+rel).removeClass('active');
+            });
+        });
+    </script>
+	

@@ -1,0 +1,74 @@
+<script language="JavaScript">
+function check_order(id) {
+	if(document.getElementById('order['+id+']').checked)
+	{
+		orderlist.sel_ordercount.value++;
+		document.getElementById('tr'+id).style.background =  '#ECECFF';
+	}
+	else
+	{
+		orderlist.sel_ordercount.value--;
+		document.getElementById('tr'+id).style.background =  '#FFFFFF';
+	}
+}
+function check_all(check) {
+	for(i=1;i<=<?=count($orders)?>;i++) {
+		if(document.getElementById('order['+i+']').checked != check) 
+		{
+			document.getElementById('order['+i+']').checked=check;
+			check_order(i);
+		}
+	}
+	orderlist.sel_ordercount.value = (check) ? orderlist.ordercount.value : 0;
+}
+function change_mode() { 
+	if(orderlist.mode.value==0) return; 
+	if(orderlist.sel_ordercount.value < 1) { alert("Выберите заявку!"); orderlist.mode.value=0; return; }
+	if(orderlist.mode.value=='del') { if(!delete_confirm('заявки')) {orderlist.mode.value=0; return;} } 
+	orderlist.submit();
+}
+</script>
+
+<?if(count($orders)){?>
+<table border="1" style="border-collapse: collapse;" cellpadding="3">
+<tr align="center">
+	<td>&nbsp;</td>
+	<td>Дата</td>
+	<td>Новая заявка</td>
+	<td>Данные</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+<FORM method="post" name="orderlist">
+<?foreach($orders as $v){?>
+<tr id="tr<?=$v['j']?>" align="center">
+	<td width="20">
+		<input type="checkbox" id="order[<?=$v['j']?>]" name="order[<?=$v['j']?>]" value="<?=$v['order_id']?>" 
+		class="chb_input" onclick="javascript: check_order(<?=$v['j']?>)"></td>
+	<td><?=$v['date']?></td>
+	<td><?if($v['new']){?><font color="red">new</font><?}?></td>
+	<td><?=$v['data']?></td>
+	<td><a href="<?=$v['edit_link']?>"><img src="images/edit.gif" border="0" alt="Подробная информация"></a></td>
+	<td><a href="<?=$v['del_link']?>" onclick="return delete_confirm('заявку');"><img src="images/del.gif" border="0" alt="Удалить"></a></td>
+</tr>
+<?}?>
+</table>
+<input type="hidden" name="ordercount" value="<?=count($orders)?>">
+<input type="hidden" name="sel_ordercount" value="0">
+<input type="hidden" name="page" value="<?=$current_page?>">
+<input type="hidden" name="p" value="order">
+<p>
+<a href="javascript://" onclick="javascript: check_all(true);">Выбрать все</a> 
+| <a href="javascript://"  onclick="javascript: check_all(false);">Отменить все</a> &nbsp;&nbsp;&nbsp;
+С отмеченными: 
+<select name="mode"  onchange="change_mode()">
+<option value="0">
+<option value="old">установить признак прочитанного
+<option value="del">удалить
+</select>
+</p>
+</FORM>
+<p>Всего заказов: <b><?=$all?></b> &nbsp;&nbsp; 
+Выводить строк <?=$onpage_select?> &nbsp;&nbsp; <?=$pages?></p>
+<?}else{?><p>Нет заказов</p>
+<?}?>

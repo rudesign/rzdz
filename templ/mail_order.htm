@@ -1,0 +1,9 @@
+<p>Уведомление о новой заявке на <a href="<?=MAIN_URL?>"><?=DOMAIN?></a></p>
+<?if(isset($form_name)){?><p><b><?=$form_name?></b></p><?}?>
+<table>
+<?foreach($list as $v){?>
+<tr><td><?=$v['name']?></td><td>&nbsp;</td><td><?=$v['value']?></td></tr>
+<?if($v['line']){?><tr><td colspan="3"><hr width="100%" size="1"></td></tr>
+<tr><?}?>
+<?}?>
+</table>

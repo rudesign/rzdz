@@ -1,0 +1,13 @@
+<P><a href="<?=ADMIN_URL?>?p=block&addblock=1">Добавить блок ›››</a></P>
+<table cellpadding="2">
+<?foreach($blocks as $v){?>
+<tr>
+	<td>
+		<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($block_id==$v['block_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('блок \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+		<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+</tr>
+<?}?>
+</table>
+

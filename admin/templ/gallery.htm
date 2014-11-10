@@ -1,0 +1,75 @@
+<p><?if(!$parent){?><a href="?p=gallery&addgallery=1&parent=<?=$gallery_id?>">Добавить подраздел ›››</a><?}?>&nbsp;</p>
+
+<table><tr valign="top">
+<td>
+	<FORM method="post">
+	<table>
+	<tr><td>Отображается на сайте? </td><td><?=$public_select?></td></tr>
+	<tr><td>Порядок отображения </td><td><?=$ord_select?></td></tr>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="48"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="48"></td></tr>
+	<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="gallery_id" value="<?=$gallery_id?>">
+	<input type="hidden" name="p" value="gallery">
+	</table>
+	</FORM>
+</td>
+</tr></table>
+
+
+	<?if(count($photos)<$photo_limit){?>
+		<form method="post" enctype="multipart/form-data" name="load" >
+		<p>Добавление фотографий к разделу</p>
+		<table cellpadding="0">
+		<tr><td>мал. </td><td><input type="radio" name="small_auto" value="0" checked class="chb_input"
+						onclick="photo.disabled=false;" <?=$small_load?>>файл &nbsp;&nbsp;
+						<input id="photo" type="file" name="photo" <?=$disabled?>><br>
+					
+					<input type="radio" name="small_auto" value="1" class="chb_input" 
+						onclick="photo.disabled=true;" <?=$small_auto?>>автоматическое уменьшение <br>
+					ширина <input type="text" name="width" maxlength="3" size="4" value="<?=$im_width?>"> px &nbsp;
+					высота <input type="text" name="height" maxlength="3" size="4" value="<?=$im_height?>"> px</td></tr>
+		<tr><td>бол. </td><td><input type="file" name="photo_b"></td></tr>
+		<tr><td>водяной знак </td><td>
+			<input type="checkbox" name="wtm" value="1" class="chb_input" <?=$watermark?>></td></tr>
+		<tr><td>комментарий </td><td><input type="text" name="alt" value="" maxlength="255" size="33"></td></tr>
+		<tr><td>коммен. eng </td><td><input type="text" name="alt_en" value="" maxlength="255" size="33"></td></tr>
+		</table>
+		<input type="submit" value="Добавить" class="button"
+			onclick="this.disabled=true;loading.innerHTML='Подождите, идет загрузка...';load.submit();">
+		<input type="hidden" name="gallery_id" value="<?=$gallery_id?>">
+		<input type="hidden" name="p" value="gallery">
+		<span id="loading"></span>
+		</form>
+	<?}?>
+		
+<script language="JavaScript">
+function remove_photo(photo_id) { 
+	var win = window.open('gallery.php?photo_id='+photo_id, 'photos',  'scrollbars=1, menubar=0, resizable=1,width=300, height=400'); 
+	win.focus();
+	return; 
+}
+</script>
+	<table border="0" cellpadding="10"><tr valign="top">
+	<? foreach ($photos as $v) {?>
+	<td>
+		<img src="<?=$v['photo']?>" border=0 <?=$v['smallsize']?> <?if($v['bigsize']){?>style="CURSOR: pointer" alt="Увеличить" onclick="OpenImageWin('<?=$v['bigphoto']?>','<?=$v['alt']?>',<?=$v['bigsize']?>);"<?}?>><br>
+		<FORM name="photo<?=$v['photo_id']?>">
+		<input type="hidden" name="savephoto" value="1">
+		ком. <input type="text" name="alt" value="<?=$v['alt']?>" maxlength="255" size="18"><br>
+		eng <input type="text" name="alt_en" value="<?=$v['alt_en']?>" maxlength="255" size="18"><br>
+		описание <textarea name="description" style="width: 100%; height: 4em;"><?=$v['description']?></textarea><br>
+		№ &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ord" value="<?=$v['ord']?>" maxlength="2" style="width: 20px;">
+		<input type="submit" value="OK" class="button">
+		
+		<input type="hidden" name="gallery_id" value="<?=$gallery_id?>">
+		<input type="hidden" name="p" value="gallery">
+		<input type="hidden" name="remove_gallery_id" value="0">
+		<input type="hidden" name="photo_id" value="<?=$v['photo_id']?>">
+		</FORM>
+		<!--A href="javascript://" onclick="javascript: remove_photo(<?=$v['photo_id']?>)">Переместить</A> &nbsp;&nbsp;-->
+		<A href="<?=$v['del_link']?>" onclick="javascript: return delete_confirm('фото')">Удалить</A>
+	</td>
+	<?if(!($v['number']%5)){?></tr><tr valign="top"><?}?>
+	<?}?>
+	</tr></table>

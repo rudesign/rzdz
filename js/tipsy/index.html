@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<head> 
+<title>DM: Tipsy Tooltip Plugin</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="Частная коллекция готовых дизайнерских решений, для вашего сайта в системе uCoz и не только."/>
+<meta name="keywords" content="DM: Tipsy Tooltip Plugin" />
+<link rel="shortcut icon" href="http://center-dm.ru/favicon.ico"/>
+<link rel="stylesheet" href="img/style.css" type="text/css" /> 
+<link rel="stylesheet" href="http://www.center-dm.ru/img/st/demo/top.css" type="text/css" /> 
+<script type="text/javascript" src="http://s105.ucoz.net/src/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="http://s105.ucoz.net/src/uwnd.js?2"></script>
+<style type="text/css">.UhideBlock {display:none}</style>
+</head>
+<body>   
+
+<!-- Основной каркас --> 
+ <div id="container">
+  
+  <table id='gravity' cellspacing='5'>
+  <tr>
+    <td>
+      <a class='north' href='#' title='Подсказка  появляется снизу (Север)'>North | Север</a>
+    </td>
+    <td>
+      <a class='south' href='#' title='Подсказка  появляется сверху (Юг)'>South | Юг</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a class='east' href='#' title='Подсказка появляется слева (Восток)'>East | Восток</a>
+    </td>
+    <td>
+      <a class='west' href='#' title='Подсказка появляется справа (Запад)'>West |  Запад</a>
+    </td>
+  </tr>
+</table>    
+
+ </div>
+<!-- /Основной каркас -->
+
+<!-- Вверх Demo --><div id="top_dm"><div id="top_os"><div class="left logo_demo"><a href="http://center-dm.ru" title="Перейти на главную страницу блога Сenter-dm.ru" target="_blank">Сenter-<span>dm</span>.ru</a></div><div class="left"><div class="cell_urok">[ <a href="http://center-dm.ru/" title="Прочитать статью данного примера полностью" target="_blank">Читать статью полностью</a> => ]</div></div><div class="urok_dm"><a href="#" class="ugg">Выбрать другой урок</a><div class="urok_dd"><span class="urok_ugol1"></span><div class="urok_content"><script type="text/javascript" src="http://www.center-dm.ru/informer/3"></script></div></div></div></div></div><!-- /Вверх Demo -->
+
+<script type="text/javascript" src="js/tipsy.js"></script>
+<script type='text/javascript'>
+  $(function() {    
+    $('.north').tipsy({gravity: 'n'});
+    $('.south').tipsy({gravity: 's'});
+    $('.east').tipsy({gravity: 'e'});
+    $('.west').tipsy({gravity: 'w'});    
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+<table width="100%" cellpadding="1" cellspacing="0">
+	<tr><td width="<?=(int)(100/count($menu_array)*2)?>%">
+	<?foreach($menu_array as $k=>$v){?>
+	 <?if($v['link']){?><a href="<?=$v['link']?>"><?=$v['name']?></a><?}else{?><font style="color: red" href="<?=$v['link']?>"><?=$v['name']?></font><?}?><br>
+	 <?if($k%2){?></td><td width="<?=(int)(100/count($menu_array)*2)?>%" ><?}?>
+	<?}?>
+	</td></tr>
+</table>

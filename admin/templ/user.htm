@@ -1,0 +1,22 @@
+<a href="<?=$users_link?>">Пользователи</a><br><br>
+
+<table><tr valign="top"><td>
+	<FORM method="post">
+	<table>
+	<tr><td>Логин: </td><td>&nbsp;</td><td><input type="text" name="login" value="<?=$login?>" maxlength="255" size="30"></td></tr>
+	<tr><td>Пароль: </td><td></td><td><input type="text" name="password" value="<?=$password?>" maxlength="255" size="30"></td></tr>
+	<tr><td>Доступ: </td><td></td>
+		<td><?foreach($sect_box as $v){?>
+			<?if($v['disabled'] && $v['checked']){?><input type="hidden" name="section[<?=$v['i']?>]" value="<?=$v['sect']?>"><?}?>
+			<input type="checkbox" class="chb_input" name="section[<?=$v['i']?>]" 
+			value="<?=$v['sect']?>" <?=$v['checked']?> <?=$v['disabled']?> ><?=$v['name']?><br>
+		<?}?></td>
+	</tr>
+	<tr><td></td><td></td><td><input type="submit" name="saveuser" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="user_id" value="<?=$user_id?>">
+	<input type="hidden" name="p" value="user">
+	</table>
+	</FORM>
+</td>
+</tr></table>
+

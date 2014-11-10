@@ -1,0 +1,24 @@
+<P><a href="<?=ADMIN_URL?>?p=field2&addform=1">Добавить форму ›››</a></P>
+<?foreach($forms as $form){?>
+	<table cellpadding="2" style="margin-left:5px; margin-top:20px">
+	<tr>
+		<td>
+			<a href="<?=$form['edit_link']?>" <?if($form_id==$form['form_id']){?>style="font-weight: bold;"<?}?>><?=$form['name']?></a></td>
+		<td width="10">&nbsp;</td>
+		<td><a href="<?=$form['del_link']?>" onclick="return delete_confirm('форму \'<?=$form['name']?>\'');"><img src="images/del.gif" border="0"></a></td>
+	</tr>
+	</table>
+	<P style="margin-left:10px"><a href="<?=ADMIN_URL?>?p=field2&addfield=<?=$form['form_id']?>">Добавить поле ›››</a></P>
+	<table cellpadding="2" style="margin-left:20px">
+	<?foreach($form['fields'] as $v){?>
+	<tr>
+		<td>
+			<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($field_id==$v['field_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+		<td width="10">&nbsp;</td>
+		<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+			<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+	</tr>
+	<?}?>
+	</table>
+<?}?>
+

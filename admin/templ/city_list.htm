@@ -1,0 +1,37 @@
+<P><a href="?p=site&addcity=1">Добавить город ›››</a></P>
+<table>
+<tr>
+<td>
+	<table border="1" style="border-collapse: collapse;" cellpadding="3">
+	<?foreach($citys as $v){?>
+	<tr>
+		<td width="150">
+			<a href="<?=$v['edit_link']?>" <?if($city_id==$v['city_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+		<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('город \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+			<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+	</tr>
+	<?}?>
+	</table>
+</td>
+<?if($city_id){?>
+<td style="padding-left:30px">
+	<FORM method="post" enctype="multipart/form-data">
+	<table border="0" cellpadding="3" >
+	<tr><td>Раздел (лат. буквы): </td><td><input type="text" name="dir" value="<?=$dir?>" maxlength="255" size="50"><br>&nbsp;</td></tr>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Порядок отображения: </td><td><input type="text" name="ord" value="<?=$ord?>" maxlength="7" style="width: 35px;"></td></tr>
+	<!--tr><td>TITLE: </td><td><input type="text" name="title" value="<?=$title?>" maxlength="255" size="50"></td></tr>
+	<tr><td>DESCRIPTION: </td><td><input type="text" name="mdescription" value="<?=$mdescription?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS: </td><td><input type="text" name="keywords" value="<?=$keywords?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Фотогалерея: </td><td><?=$gallery_select?></td></tr>
+	<tr><td>Описание: </td><td colspan="2"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea></td></tr-->
+	<tr><td></td><td><input type="submit" name="savecity" value="Сохранить" class="button"></td></tr>
+	</table>
+	<input type="hidden" name="city_id" value="<?=$city_id?>">
+	<input type="hidden" name="p" value="site">
+	</FORM>	
+</td>
+<?}?>
+</tr>
+</table>

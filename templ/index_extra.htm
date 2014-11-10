@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+<title><?=$title?></title>
+<meta content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<meta name="Description" content="<?=$description?>" />
+<meta name="Keywords" content="<?=$keywords?>" />
+<base href="http://<?=DOMAIN?>/">
+<meta content="width=1050,maximum-scale=1.0" name="viewport">
+
+<script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+<script src="/js/flash_detect_min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="https://booking.rzdz.ru/modules/frontend/booking/javascript.php?template=infosochi&hl=ru&au=RUB&hotelgroup=rzdz&ac=1"></script>
+<link rel="stylesheet" href="https://booking.rzdz.ru/modules/frontend/booking/stylesheet.php?template=infosochi&ac=1" type="text/css" media="all" />
+
+<link href="/css/jquery-ui.css" media="all" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/css/main_extra.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/extra-gallery.css" media="screen" />
+<!--[if IE]>
+<script type="text/javascript" src="scripts/html5.js"></script>
+<link rel="stylesheet" type="text/css" href="styles/ie.css" media="screen" />
+<![endif]-->
+    <?if($medicine){?><link href="css/medicine.css" rel="stylesheet" /><?}?>
+
+<link rel="stylesheet" type="text/css" href="/jcarousel/css/jcarousel.connected-carousels.css" media="screen" />
+<script type="text/javascript" src="/jcarousel/js/jquery.jcarousel.min.js"></script>
+<script type="text/javascript" src="/js/extra-gallery.js"></script>
+
+<script type="text/javascript" src="/js/jquery.selection.js"></script>
+<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+	
+<script type="text/javascript">
+	$(document).ready(function () {
+        $("#booking-0").booking({ layout: 1, corporate_rate: true, coupon_code: true });
+    });
+</script> 
+
+    <link rel="stylesheet" href="css/nivo-slider_extra.css" type="text/css" media="screen" />
+    <script src="js/jquery.nivo.slider.js" type="text/javascript"></script>
+	<script type="text/javascript">
+      $(window).load(function() {
+        $('#slider').nivoSlider({
+		  effect:'fade'
+		});
+      });
+    </script>
+	<script type="text/javascript" src="js/customInput.jquery.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		$('input').customInput();
+	});
+	</script>
+	
+<LINK href="js/calendar/calendar.css" type=text/css rel=stylesheet>
+<script language=javascript>
+// язык интерфейса
+var tasksLanguage = '<?if($englang){?>en<?}else{?>ru<?}?>'
+</script>
+<SCRIPT language=javascript src="js/calendar/calendar_n.js"></SCRIPT>
+<SCRIPT language=javascript src="js/calendar/calendar-design.js"></SCRIPT>
+		
+<script type="text/javascript" src="js/dcjqaccordion/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/dcjqaccordion/jquery.hoverIntent.minified.js"></script>
+<script type="text/javascript" src="js/dcjqaccordion/jquery.dcjqaccordion.2.7.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function($){
+    $('#menu-l').dcAccordion({
+        eventType: 'click',
+        autoClose: true,
+        saveState: false,
+        speed: 'slow',
+        showCount: false,
+        autoExpand: true,
+        cookie	: 'dcjq-accordion-1',
+        classExpand	 : 'dcjq-current-parent',
+        disableLink: false
+    });
+});
+</script>
+		
+	<script type="text/javascript" src="/js/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".fancybox").fancybox({
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic'
+			});
+		});
+	</script>
+  </head>
+  <body onLoad="<?=$message?>">
+    <div class="sticker">
+        <span class="scrollToTheTopBtn"></span>
+        <a href="https://vk.com/rzdz_official" target="_blank"></a>
+        <a href="https://www.facebook.com/pages/%D0%A0%D0%96%D0%94-%D0%97%D0%94%D0%9E%D0%A0%D0%9E%D0%92%D0%AC%D0%95/570310432989436" class="fb" target="_blank"></a>
+    </div>
+
+    <div class="installFlash notification">Для использования всех возможностей сайта установите <a href="http://get.adobe.com/ru/flashplayer/" target="_blank">Flash Plugin</a></div>
+
+    <div class="submit-selection">
+        <div class="extra-gallery-close" onClick="collapseExtraGallery('submit-selection');"></div>
+        <div class="inner">
+            <form method="POST">
+                <div class="text">
+                    <span class="b">Вы отправляете: </span> <span class="placeholder"></span>
+                </div>
+                <div class="suggestion">
+                    <dl><span class="b">Предложите замену: </span></dl>
+                    <textarea name="body"></textarea>
+                </div>
+                <div class="addr"><span class="b">Адрес страницы:</span> http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?></div>
+                <div class="submit-btn">
+                    <a href="javascript:void(0);" onClick="submitSelection(); return false;" opt="Подождите...">Отправить</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="extra-gallery"><div class="extra-gallery-wait"></div></div>
+    <div  class="aqua_header clearfix">
+
+        <div class="aqua_header_top width_aqua clearfix">
+            <div class="clearfix">
+                <a class="logo_aqua ld" href="<?=$request[0]?>" style="background:url(<?=$logo_img?>) no-repeat;"></a>
+                <div class="center_header_aqua ld">
+                  <ul class="small_menu_aqua clearfix">
+                    <li><a href="<?=$request[0]?>"><img src="img_extra/aq_m1.png" alt="" /></a></li>
+                    <li><a href="<?=$request[0]?>/sitemap"><img src="img_extra/aq_m2.png" alt="" /></a></li>
+                    <li><a href="/faq" target="_blank"><img src="img_extra/aq_m3.png" alt="" /></a></li>
+                    <li><a href="<?=$request[0]?>/contacts"><img src="img_extra/aq_m4.png" alt="" /></a></li>
+                    <li><a href="/media/?s_id=<?=$extrasite_id?>" target="_blank"><img src="img_extra/aq_m5.png" alt="" /></a></li>
+                    <li><a href="javascript:void(0)" title="<?=$lang_phrases['favourites']?>"
+                         onclick="return add_favorite(this);"><img src="img_extra/aq_m6.png" alt="" /></a></li>
+                    <li><a href="<?=$print_url?>" target="_blank" title="<?=$lang_phrases['print']?>"><img src="img_extra/aq_m7.png" alt="" /></a></li>
+                    <li><a href="http://<? echo $_SERVER['HTTP_HOST']; ?>/en/" title=""><img src="img_extra/gbFlag.png" alt="" /></a></li>
+                    <li><a href="<?=$request[0]?>" title=""><img src="img_extra/ruFlag.png" alt="" /></a></li>
+                  </ul><!--small_menu_aqua-->
+                  <ul class="double_header_aqua clearfix">
+                    <li><a href="/sanatorium" target="_blank">Все санатории ОАО «РЖД-ЗДОРОВЬЕ»</a></li>
+                    <li class="margin_r"><a href="/" target="_blank">Сайт ОАО «РЖД-ЗДОРОВЬЕ»</a></li>
+                  </ul><!--double_header_aqua-->
+                  <div class="for_aqua_finde clearfix">
+                  <form action="<?=$lprefix?>/<?=$request[0]?>/search/">
+                      <input type="text" class="form_aqua" name="word" size="3" placeholder="<?=$lang_phrases['search']?>"/>
+                      <input type="submit" class="for_loop bat" value="" />
+                  </form>
+                  </div><!--for_aqua_finde-->
+                </div><!--center_header_aqua-->
+                <div class="right_aqua_center rd">
+                    <img src="<?=$phone_img?>" />
+                </div><!--right_aqua_center-->
+            </div>
+            <?=$menu_center ?>
+	    </div><!--aqua_header_top-->
+    </div><!--header-->
+
+    <div class="slider_content">
+        <div class="slider-wrapper for_aqc_slider">
+            <div id="slider" class="nivoSlider">
+                <?foreach($slider as $v){?>
+                <?if($v['url']){?><a href="<?=$v['url']?>" title="<?=$v['name']?>"><?}?><img src="<?=$v['photo']?>"/><?if($v['url']){?></a><?}?>
+                <?}?>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div><!--slider_content-->
+
+    <div class="all clearfix">
+	  <div class="content clearfix">
+
+		<div class="main_content clearfix">
+
+            <div class="form_fixed_ow">
+                <p class="title_armor"><?=$lang_phrases['bystroe']?>:</p>
+                <div  id="booking-0"><p align="center"><img src="img/loading.gif" style="margin-top:20px"></p></div>
+            </div><!--form_fixed-->
+
+            <div class="left_column clearfix ld">
+		    <?=$menu2?>
+			<div class="ad simple_banner"><?=$banner?></div>
+            <!-- weather -->
+            <div class="weather simple_banner">
+                <?=$weather_informer?>
+            </div>
+              <div class="for_people_lc clearfix">
+				<form name="sendform" id="sendform" method="post" action="/sendphone.php" target="sendphone" 
+					onSubmit="var obj=window.open('', 'sendphone', 		'location=0,status=1,scrollbars=1,dialog=0,minimizable=1,modal=1,resizable=1,width=400,height=200');sendform.submit();obj.focus();">	
+			  <ul class="list_lc_people">
+			    <li><span>Оставьте свой номер и наши операторы свяжутся с Вами</span></li>
+				<li><input type="text" class="form_people_lc" name="name" size="3" placeholder="<?=$lang_phrases['name']?>"/></li>
+				<li><input type="text" class="form_people_lc" name="phone" size="3" placeholder="<?=$lang_phrases['phone_number']?>"/></li>
+				<li>
+				  <ul class="for_bad_scg clearfix">
+				    <li class="for_num_img"><img src="/digit.php" alt="" /></li>
+					<li><input type="text" class="form_scg" name="ucaptcha" size="3" placeholder="<?=$lang_phrases['captcha2']?>"/></li>
+					<li><input type="submit" class="scg_button"  value="<?=$lang_phrases['sendphone']?>" /></li>
+				  </ul>
+				</li>
+              </ul><!--list_lc_people-->           
+              	<input type="hidden" name="en" value="<?=$englang?>">
+				</form>  			  
+			</div><!--for_people_lc-->
+		  </div><!--left_column-->
+		  <div class="right_column clearfix for_aqc_styles ld">
+		    <div class="top_standart_title">
+			  <h1 ><?=$navig[count($navig)-1]['name']?></h1>
+			  <ul class="nav_list clearfix">
+			    <?foreach($navig as $k=>$v){?> <?if($k){?> <li> > </li> <?}?>
+				<li><?if($v['link']){?><a href="<?=$v['link']?>"><?}?><?=$v['name']?><?if($v['link']){?></a><?}?></li>
+				<?}?>
+			  </ul>
+            </div><!--top_standart_title-->
+			<div class="simple_content clearfix">
+			    <?=$content?>
+			</div><!--simple_content-->			
+		  </div><!--left_column-->
+		</div><!--main_page-->        
+	  </div><!--content-->
+	</div><!--all-->	
+	<div class="for_wave for_mar_wave luft_landing_bottom">
+      <div class="for_wave_in clearfix">
+	    <div class="left_wave ld">
+		  <p>Уважаемые гости!</p>
+		  <p>Путевки в здравницы ОАО «РЖД-ЗДОРОВЬЕ» Вы можете оплатить любым удобным для Вас способом оплаты. Сотрудник компании сообщит Вам номер Вашего счета. В форме «Выберите получателя» выбирается здравница, по которой будет производиться оплата. В форме «Оплатить счет» вводится номер счета. После выбора здравницы и введения номера счета, в форме появится необходимая информация для осуществления платежа. </p>
+		  <p>В данной форме также можно проверить зачисление денежных средств по Вашему счету.</p>
+        </div><!--left_wave-->
+        <div class="right_wave ld clearfix">
+		    <script type="text/javascript" src="//d3oe3cumn3db7.cloudfront.net/uw3/js/uw3.min.js" charset="utf-8" id="uw3js" data-invoice-fields="description, customer, id, expires"        data-key="WKKuM6DaagTNqpVem2bGrg5Z"        data-css="http://rzdz.ru/pay_form_unipag.css"></script>
+        </div><!--right_wave-->		
+	  </div><!--for_wave_in-->
+	</div><!--pay_money_part-->
+    <div class="footer clearfix">
+	  <div class="aqua_footer_in width_aqua clearfix">
+	    <div class="footer_position">
+		  <div class="top_fop clearfix">
+			<ul class="left_tfop ld">
+			  <?foreach($menu_bottom as $k=>$v){if($k>=5)break;?>
+			  <li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>
+			  <?}?>
+			</ul><!--left_tfop-->
+		    <ul class="left_tfop ld" style="width:120px;">
+			  <?foreach($menu_bottom as $k=>$v){if($k<5)continue;?>
+			  <li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>
+			  <?}?>
+			  <li>
+			    <ul class="in_net_aqua clearfix">
+				<li><a class="net_aq1" target="_blank" href="https://www.facebook.com/pages/%D0%A0%D0%96%D0%94-%D0%97%D0%94%D0%9E%D0%A0%D0%9E%D0%92%D0%AC%D0%95/570310432989436"></a></li>
+				<li><a class="net_aq2" target="_blank" href="https://vk.com/rzdz_official""></a></li>
+				<li>
+                    <div id="SkypeButton_Call_rzd-zdorovie_2">
+					  <script type="text/javascript">
+						Skype.ui({
+						  "name": "call",
+						  "element": "SkypeButton_Call_rzd-zdorovie_2",
+						  "participants": ["rzd-zdorovie"],
+						  "imageSize": 24
+						});
+					  var el = document.getElementById('SkypeButton_Call_rzd-zdorovie_2');
+					  var skypeimg = $('img', el);
+					  skypeimg[0].style.margin = 0;
+					  skypeimg[0].style.verticalAlign = 0; 
+					  </script>
+					</div>
+				</li>
+				</ul>
+			  </li>
+			</ul><!--left_tfop-->
+            <div class="similar_aqua rd">
+                <img src="<?=$phone_img?>" />
+                <br /><br />
+                <span style="color:#fff;">Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.</span>
+            </div><!--similar_aqua-->
+		  </div><!--top_fop-->
+		  <div class="bottom_fop clearfix">
+		        <?require("templ/footer_$extrasite_id.htm");?>
+              <div class="similar_aqua rd">
+                  &copy; Все права на опубликованные материалы принадлежат<br />ОАО «РЖД-ЗДОРОВЬЕ»
+                  <br /><br />
+                  Разработка сайта <a target="_blank" href="http://rudes.ru">«РУДизайн»</a>
+              </div>
+
+		  </div><!--bottom_fop-->
+		</div><!--footer_position-->
+	  </div><!--aqua_footer_in-->
+    </div><!--footer-->
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-40956198-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <!-- /Google Analytics -->
+  </body>
+</html>

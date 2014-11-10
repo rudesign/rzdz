@@ -1,0 +1,19 @@
+
+<a href="?p=user&adduser=1">Добавить пользователя ›››</a><br><br>
+
+<table border="1" style="border-collapse: collapse;" cellpadding="3">
+<tr align="center">
+	<td>&nbsp;</td>
+	<td>Логин</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+<?foreach($users as $v){?>
+<tr align="center">
+	<td><?=$v['j']?></td>
+	<td width="200"><?=$v['login']?></td>
+	<td><a href="<?=$v['edit_link']?>"><img src="images/edit.gif" border="0" alt="Подробная информация"></a></td>
+	<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('пользователя');"><img src="images/del.gif" border="0" alt="Удалить"></a><?}?></td>
+</tr>
+<?}?>
+</table>

@@ -1,0 +1,10 @@
+<FORM method="post">
+<table>
+<?foreach($list as $v){?>
+<tr><td><?=$v['name']?>: <br>&nbsp;</td>
+	<td><input type="text" name="<?=$v['field']?>" value="<?=$v['val']?>" maxlength="255" size="50"></td></tr>
+<?}?>
+<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+<input type="hidden" name="p" value="settings">
+</table>
+</FORM>

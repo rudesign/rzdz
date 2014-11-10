@@ -1,0 +1,15 @@
+<P><a href="<?=ADMIN_URL?>?p=field&addfield=1">Добавить поле ›››</a></P>
+<table cellpadding="2">
+<?foreach($fields as $v){?>
+<?if($v['title']){?><tr><td colspan="3" align="center"><?=$v['title']?></td></tr><?}?>
+<tr>
+	<td>
+		<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($field_id==$v['field_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+		<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+</tr>
+<?if($v['line']){?><tr><td colspan="3"><hr width="100%" size="1"></td></tr><?}?>
+<?}?>
+</table>
+

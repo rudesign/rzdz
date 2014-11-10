@@ -1,0 +1,115 @@
+.extra-gallery, .submit-selection{
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    width: 925px;
+    z-index: 99999;
+    display: none;
+    margin-left: -461px;
+    background: none repeat scroll 0 0 #efefef;
+    box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
+    -moz-box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
+}
+
+.extra-gallery-close{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 19px;
+    height: 19px;
+    background-color: #008C95;
+    background-image: url("../img_extra/extra_gallery_close.png");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 19px;
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    cursor: pointer;
+}
+
+.extra-gallery-wait{
+    background-image: url("../img_extra/async64.gif");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    height: 120px;
+}
+
+.extra-gallery-close:hover{
+    background-color: #ff9900;
+}
+
+.extra-gallery-inner{
+    margin: 20px;
+}
+
+.extra-gallery-info{
+    float: left;
+    width: 295px;
+    margin-left: 20px;
+    font: 13px/1.3em tahoma, arial, sans-serif;
+}
+
+.extra-gallery-tabs{
+    margin-bottom: 5px;
+}
+.extra-gallery-tabs li{
+    display: inline-block;
+    float: left;
+    padding: 15px 20px;
+    margin-right: 1px;
+    background-color: #008C95;
+    color: #fff;
+    line-height: 1em;
+    cursor: pointer;
+}
+.extra-gallery-tabs li:last-child{
+    float: none;
+}
+.extra-gallery-tabs li.active{
+    background-color: #00b1bc;
+}
+
+.extra-gallery-info a{
+    color: #008C95;
+}
+.extra-gallery-info h1{
+    color: #636363;
+    font-size: 21px;
+    line-height: 1.2em;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.extra-gallery-info li{
+    margin-left: 1em;
+    list-style-position: outside;
+}
+
+.extra-gallery-info .items{
+    display: none;
+}
+
+.submit-selection form div{
+    width: 95%;
+    margin-bottom: 20px;
+}
+.submit-selection form div:last-child{
+    margin-bottom: 0;
+}
+
+.submit-selection .submit-btn a{
+    display: inline-block;
+    line-height: 1em;
+    padding: 8px 15px 9px;
+    color: #fff;
+    background-color: #008193;
+    border-top: 1px solid #28a4ac;
+    border-bottom: 1px solid #0f707e;
+    text-decoration: none;
+}
+
+.submit-selection .submit-btn a:hover{
+    background-color: #28a4ac;
+    transition: all 0.2s ease 0s;
+
+}

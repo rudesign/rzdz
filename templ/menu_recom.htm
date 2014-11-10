@@ -1,0 +1,17 @@
+
+ <div class="wrr">
+    <h2>— этой здравницей чаще
+всего просматривают:</h2><br >
+
+<div class="exp">
+	<?foreach($recom_images as $v){?>
+    <div class="tem">
+        <img src="<?=$v['photo']?>" width="67" height="45" alt="" />
+        <a class="bb" href="<?=$v['link']?>"><?=$v['name']?></a>
+        <a class="us"><?=$v['city']?></a>
+    </div>
+	<?}?>
+</div>	
+
+</div>
+

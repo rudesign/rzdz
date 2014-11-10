@@ -1,0 +1,26 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    font-family: tahoma, arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.3em;
+}
+
+h1{
+    font-size: 30px;
+    line-height: 1em;
+    margin: 1.5em 0;
+    font-weight: 400;
+}
+
+a{ color: #008C95; }
+a:hover{ text-decoration: none; }
+
+.wrapper{
+    width: 900px;
+    margin:  80px auto;
+}
+
+.content{
+    text-align: center;
+}

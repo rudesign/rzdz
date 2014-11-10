@@ -1,0 +1,70 @@
+
+<LINK href="../js/calendar/calendar.css" type=text/css rel=stylesheet>
+<SCRIPT language=javascript src="../js/calendar/calendar_n.js"></SCRIPT>
+<SCRIPT language=javascript src="../js/calendar/calendar-design.js"></SCRIPT>
+
+
+<form method="post" name="searchf">
+<table>
+<tr>
+<td><SCRIPT language=JavaScript>
+			<!--
+				LSCalendars["mindate"]=new LSCalendar();
+				LSCalendars["mindate"].SetFormat("dd.mm.yy");
+				LSCalendars["maxdate"]=new LSCalendar();
+				LSCalendars["maxdate"].SetFormat("dd.mm.yy");
+			//-->
+			</SCRIPT>
+			С: &nbsp;
+				<input type="text" name="mindate" size="11">
+				<input type="button" name=""  value=">>" class="button" 
+					onclick="showCalendarForElement('mindate', event); return false;">
+				<DIV id=mindatePtr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" width="1" type="block" /></DIV>
+</td>
+<td width="20">&nbsp;</td>
+<td>
+По: 
+		
+				<input type="text" name="maxdate" size="11">
+				<input type="button" name=""  value=">>" class="button" 
+					onclick="showCalendarForElement('maxdate', event); return false;">
+				<DIV id=maxdatePtr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" width="1" type="block" /></DIV>
+		
+			<SCRIPT type=text/javascript>
+			<!--
+				setCalendarDateByStr('mindate', '<?=$mindate?>');
+				setCalendarDateByStr('maxdate', '<?=$maxdate?>');
+			//-->
+			</SCRIPT>
+</td>
+<td width="20">&nbsp;</td>
+<td><input type="submit" value="Искать" class="button" /></td>
+</tr>
+</table>
+
+<input type="hidden" name="p" value="searchstat" />
+<input type="hidden" name="sort" value="<?=$sort?>" />
+<input type="hidden" name="sortdirect" value="<?=$sortdirect?>" />
+<input type="hidden" name="search" value="1" />
+</form>
+
+
+<table border="1" bordercolor="#C0C0C0" style="border-collapse: collapse;" cellpadding="2">
+<tr align="center">
+	
+	<td><a href="javascript://" onclick="javascript: searchf.sort.value='word'; searchf.sortdirect.value='<?if($sort=='word' && $sortdirect=='asc'){?>desc<?}else{?>asc <?}?>'; searchf.submit();">Поисковая фраза</a><?if($sort=='word' && $sortdirect=='desc'){?> &#8595;<?}elseif($sort=='word' && $sortdirect=='asc'){?> &#8593;<?}?></td>
+
+	<td><a href="javascript://" onclick="javascript: searchf.sort.value='amountsum'; searchf.sortdirect.value='<?if($sort=='amountsum' && $sortdirect=='desc'){?>asc<?}else{?>desc<?}?>'; searchf.submit();">Количество запросов</a><?if($sort=='amountsum' && $sortdirect=='desc'){?> &#8595;<?}elseif($sort=='amountsum' && $sortdirect=='asc'){?> &#8593;<?}?></td>
+
+</tr>
+
+<?foreach($list as $v){?>
+<tr id="tr<?=$v['j']?>" align="center">
+	<td><?=$v['word']?></td>
+	<td><?=$v['amountsum']?></td>
+</tr>
+<?}?>
+</table>
+<p>Всего запросов: <b><?=$all?></b> &nbsp;&nbsp;
+Выводить строк <?=$onpage_select?> &nbsp;&nbsp; <br />
+<?=$pages?></p>

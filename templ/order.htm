@@ -1,0 +1,80 @@
+
+	   <?if($sendorder){?>
+	   <p align="center"><strong>Спасибо! </strong><br>Ваш заказ будет обработан в ближайшее время.</p>
+	   <?}else{?>
+	
+	   <?if($err){?>
+       <div align="center"><strong><font color="#FF0000"><?if($english){?>Error!<?}else{?>ОШИБКА!<?}?></font></strong><br>
+         <font color="#993333">Выделенные  поля <br> не заполнены или заполнены неверно.
+         </font><br>
+         <br>
+       </div>
+	   <?}?>
+
+
+		   <form name="fls" method="post" action="/order/"> 
+           <table  border="0" cellpadding="5" cellspacing="0"  id="bron">
+				<tr align="center"> 
+				  <td class="rig">Выберите здравницу<FONT 
+                              color=#ff0000><STRONG>*</STRONG></FONT></td><td>&nbsp;</td>
+				  <td><select name="fsanator" >
+                           <?foreach($sanat_list as $san){?>
+						   <option value="<?=$san['page_id']?>" <?=$san['selected']?>><?=$san['name']?> (<?=$san['city']?>)</option>
+						   <?}?>
+                        </select></td>
+				</tr>
+				<?foreach($fields as $v){?>		
+					<?if($v['title']){?>
+		                    <tr align="center"> 
+		                      <td colspan="3"><STRONG><?=$v['title']?></STRONG></td>
+		                    </tr><?}?>
+		                    <tr> 
+                            <td   class="rig<?if($v['type']==1){?> dop<?}?>" >
+								<?if($v['name']){?><?=$v['name']?>:<?if($v['checkfield']){?><FONT 
+                              color=#ff0000><STRONG>*</STRONG></FONT><?}?><?}?>
+							</td>
+                            
+							<td    <?if($v['err']){?>class="td_error"<?}?>><?if($v['plus']){?><?=$v['plus']?><?}?></td>
+							
+							<td     <?if($v['err']){?>class="td_error"<?}?> <?if(!$v['plus']){?>colspan="2"<?}?>>
+								<?if($v['type']==0){?><input  type="text" name="value_<?=$v['field_id']?>"
+										value="<?=$v['value']?>" class="order_input">
+									<?}elseif($v['type']==1){?><textarea name="value_<?=$v['field_id']?>" 
+										rows=5  class="order_input"><?=$v['value']?></textarea>
+									<?}elseif($v['type']==2){?><select name="value_<?=$v['field_id']?>"  class="order_input" 
+										><?=$v['value']?>
+                            			</select>
+									<?}elseif($v['type']==3){?>
+								       <SCRIPT language=JavaScript>
+											<!--
+												// класс LSCalendar должен присутствовать в системе, массив LSCalendars объявлен
+												LSCalendars["value_<?=$v['field_id']?>"]=new LSCalendar();
+												LSCalendars["value_<?=$v['field_id']?>"].SetFormat("dd.mm.yy");
+											//-->
+										</SCRIPT>
+										<div class="pic">
+											<div class="datas1" onclick="setCalendarDateByStr('value_<?=$v['field_id']?>', fls.value_<?=$v['field_id']?>.value); showCalendarForElement('value_<?=$v['field_id']?>', event); return false;"></div>
+											<input type="text" class="pol" name="value_<?=$v['field_id']?>" value="<?=$v['value']?>" />
+										</div>
+										<DIV id=value_<?=$v['field_id']?>Ptr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" 
+									      width="1" type="block" /></DIV>
+									<?}?>
+							</td>
+                          </tr>
+						  <?if($v['line']){?>
+                          <tr> 
+                            <td colspan="3"><p><hr size="1"></p></td>
+                          </tr>
+						  <?}?>
+						  <?}?>
+                          
+						  <tr>
+							  <td>&nbsp;</td><td>&nbsp;</td><td>
+							  <button class="butr" type="submit" name="zak">Заказать</button>
+							  <button class="clear" type="submit" name="reset" onclick="fls.mode.value='reset';">Очистить</button>
+							 </td>
+						  </tr>
+         </table>
+		 <input type="hidden" name="mode" value="send">
+		 </form>
+		<?}?>

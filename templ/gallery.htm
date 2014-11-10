@@ -1,0 +1,26 @@
+		
+        <?if($photo){?>
+			  <tr> 
+                <td align="center" bgcolor="#FFFFFF" class="text"><img src="<?=$photo?>" <?=$photosize?> border=1></td>
+              </tr>
+              <tr> 
+                <td align="center" valign="top" bgcolor="#FFFFFF" class="text"><em><?=$photoname?></em></td>
+              </tr>
+		<?}?>
+              <tr> 
+                <td align="center" valign="top" bgcolor="#FFFFFF" class="text">&nbsp;</td>
+              </tr>
+              <tr> 
+                <td align="center" bgcolor="#FFFFFF" class="text"> 
+                  <table width="600" border="0" cellpadding="2" cellspacing="0" class="temp">
+                    <tr align="center"> 
+						<? foreach ($photos as $v) {?>
+			            <td width="110"><a href="<?=$v['biglink']?>"><img src="<?=$v['photo']?>" alt="<?=$v['alt']?>" border=0 <?=$v['smallsize']?>></a></td>
+							<?if($v['i']==count($photos) && $v['i']%5){?><?for($i=$v['i']%5;$i<5;$i++){?><td width="85" height="15">&nbsp;</td><?}?><?}?>
+							<?if(!($v['i']%5)){?></tr>
+					  <tr align="center"> 
+							<?}?>
+						<?}?>
+                    </tr>
+                  </table></td>
+              </tr>

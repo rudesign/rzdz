@@ -1,0 +1,34 @@
+<p><a href="?p=site&regions">Регионы</a><br />
+<a href="?p=site&citys">Города</a></p>
+
+<P><a href="<?=ADMIN_URL?>?p=site&addpage=1">Добавить раздел ›››</a></P>
+<table cellpadding="2">
+<?foreach($pages as $v){?>
+<tr>
+	<td>
+		<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($page_id==$v['page_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+		<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
+	<?foreach($v['level2'] as $v2){?>
+</tr>
+<tr>
+	<td style="padding-left: 10px">
+		<a href="<?=$v2['edit_link']?>" class="<?if($v2['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($page_id==$v2['page_id']){?>style="font-weight: bold;"<?}?>><?=$v2['name']?></a></td>
+	<td width="10">&nbsp;</td>
+	<td><?if($v2['del_link']){?><a href="<?=$v2['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v2['name']?>\'');"><img src="images/del.gif" border="0"></a>
+		<?}else{?><font class="hid"><?=$v2['icount']?></font><?}?></td>
+		<?foreach($v2['level3'] as $v3){?>
+	</tr>
+	<tr>
+		<td style="padding-left: 20px">
+			<a href="<?=$v3['edit_link']?>" class="<?if($v3['public']){?>linkvis<?}else{?>linkhid<?}?>" <?if($page_id==$v3['page_id']){?>style="font-weight: bold;"<?}?>><?=$v3['name']?></a></td>
+		<td width="10">&nbsp;</td>
+		<td><?if($v3['del_link']){?><a href="<?=$v3['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v3['name']?>\'');"><img src="images/del.gif" border="0"></a>
+			<?}else{?><font class="hid"><?=$v3['icount']?></font><?}?></td>
+		<?}?>
+	<?}?>
+</tr>
+<?}?>
+</table>
+
