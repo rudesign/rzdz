@@ -1,9 +1,9 @@
 <?
 
 // конфигурация базы данных
-$config['dbhost']='u415690.mysql.masterhost.ru';
-$config['dbname']='';
-$config['dblogin']='';
+$config['dbhost']='localhost';
+$config['dbname']='zdor';
+$config['dblogin']='root';
 $config['dbpassword']='';
 
 // домен

@@ -128,7 +128,7 @@ if($cure_id)
 	
 if($subcure_id)
 {
-	$sql = mysql_query("SELECT cure_id, name$englang as name, description$englang as description
+	$sql = mysql_query("SELECT cure_id, name$englang as name, profile$englang as profile, description$englang as description
 		FROM ".TABLE_CURE." WHERE cure_id=$subcure_id AND public") or Error(1, __FILE__, __LINE__);
 	if(!($subcure = @mysql_fetch_array($sql))) {page404();return;}
 	
