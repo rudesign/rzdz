@@ -99,9 +99,9 @@ while($arr = @mysql_fetch_array($sql))
 	{
 		$f_big = "images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]"; 
 		if(!file_exists($f_big) && $mm=='item') continue;
-		//$page['photo'] = "/".$f;
-		//if(!file_exists($f)) $page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
-		$page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+		$page['photo'] = "/".$f;
+		if(!file_exists($f)) $page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+		//$page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 
 		if($m=='item') $page['big'] =  is_file($bf="images/big/$arr[photo_id].jpg") ? "/".$bf : '';
 		else $page['big'] =  '';
@@ -145,7 +145,7 @@ if($page_id)
 	
 	for($i=1;$i<=4;$i++)
 	{
-		$menu_link[$m_list[$i]] = "$lprefix/media/?s_id=$page_id&m=$m_list[$i]";
+		$menu_link[$m_list[$i]] = "$lprefix/media/?s_id=$page_id".($m_list[$i] != 'item' ? "&m=$m_list[$i]" : '');
 		$m_sel[$m_list[$i]] = $m == $m_list[$i] ? 1 : 0;
 	}
 }
@@ -160,7 +160,7 @@ else
 	
 	for($i=1;$i<=4;$i++)
 	{
-		$menu_link[$m_list[$i]] = "$lprefix/media/?m=$m_list[$i]";
+		$menu_link[$m_list[$i]] = "$lprefix/media/".($m_list[$i] != 'item' ? "?m=$m_list[$i]" : '');
 		if(isset($lastest)) $menu_link[$m_list[$i]] .= "&lastest";
 		if(isset($popular)) $menu_link[$m_list[$i]] .= "&popular";
 		$m_sel[$m_list[$i]] = $m == $m_list[$i] ? 1 : 0;
