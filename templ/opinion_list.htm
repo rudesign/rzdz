@@ -8,7 +8,7 @@
                     <div class="title"><?=$lang_phrases['choose_an_office']?></div>
                     <select name="fsanator">
                     <?foreach($sanat_list as $san){?>
-                        <option value="<?=$san['page_id']?>" style="background-color:#FFFFFF;" <?=$san['selected']?>><?=$san['name']?> (<?=$san['city']?>)</option>
+                        <option value="<?=$san['page_id']?>" style="background-color:#FFFFFF;" <?=$san['selected']?>><?=$san['name']?>, ã. <?=$san['city']?></option>
                     <?}?>
                     </select>
                 </div>
