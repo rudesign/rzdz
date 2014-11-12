@@ -1520,6 +1520,14 @@ color:#FFFFFF;
 .feedback-form textarea{
     width: 100%;
 }
+.feedback-form .textarea-wrapper{
+    padding: 5px 0;
+    margin-top: 28px;
+    border-radius: 4px;
+    background-color: white;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
 .feedback-form textarea{
     height: 196px;
     resize: none;
@@ -1537,14 +1545,7 @@ color:#FFFFFF;
     cursor:pointer;
     width: 124px !important;
 }
-.feedback-form .textarea-wrapper{
-    padding: 5px 0;
-    margin-top: 28px;
-    border-radius: 4px;
-    background-color: white;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-}
+
 .feedback-form .captcha img{
     margin-top: 8px;
 }

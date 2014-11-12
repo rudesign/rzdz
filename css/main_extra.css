@@ -3021,9 +3021,16 @@ color:#fff;
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
 }
-.feedback-form textarea{
+.feedback-form .textarea-wrapper{
+    padding: 5px 0;
     margin-top: 28px;
-    height: 206px;
+    border-radius: 4px;
+    background-color: white;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+.feedback-form textarea{
+    height: 196px;
     resize: none;
 }
 .feedback-form .rows{
