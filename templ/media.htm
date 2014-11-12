@@ -10,9 +10,7 @@
     <?foreach($photo_list as $k=>$v){?>
     <li <?if(!(($k+3)%3)){?>class="first"<?}?>>
         <div class="wrapper">
-
             <?
-
             echo '<a href="'.$v['bigphoto'].'"'.($v['mm']=='pdf' ? ' althref="/images/brochure/pdf/'.$v[photo_id].'.pdf"' : '').' title="'.$v['alt'].'"';
 
             if($v['mm']=='item' || $v['mm']=='video' || ($v['mm']=='pdf' && !@$v['file'])){
