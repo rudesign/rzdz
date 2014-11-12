@@ -7,7 +7,6 @@ imglib
 captcha.php
 digit.php
 sendphone.php
-admin/config_site.php
 error.log
 src
 admin/pma
