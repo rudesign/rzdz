@@ -1037,7 +1037,7 @@ display:block;
 padding-left:45px;
 }
 .mednav3:hover{
-background:url(../img/mednav3.png) no-repeat 0 50%;
+background:url(../img/mednav3.png) no-repeat 0 55%;
 }
 .active_med_3{
 background:url(../img/mednav3.png) no-repeat 0 50%!important;
@@ -1051,8 +1051,6 @@ padding-left:45px;
 }
 .mednav4:hover{
 background:url(../img/mednav44.png) no-repeat 0 50%;
-margin-top:-1px;
-padding-top:1px;
 }
 .active_med_4{
 background:url(../img/mednav44.png) no-repeat 0 50%!important;
