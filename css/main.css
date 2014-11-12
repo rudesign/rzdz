@@ -2049,21 +2049,21 @@ margin:0px auto;
     display:block;
     width:100%;
     height:288px;
-    padding-top:211px;
+    padding-top:233px;
     text-align: center;
 }
 .for_press_li{
-background:url(../img/for_press_li.jpg) no-repeat 50% 0;
-display:block;
-width:100%;
-height:625px;
-position:relative;
+    background:url(../img/for_press_li.jpg) no-repeat 50% 0;
+    display:block;
+    width:100%;
+    height:625px;
+    position:relative;
 }
 .take_ticket{
     display: inline-block;
     background:url(../img/take_ticket.png) no-repeat;
-    width:415px;
-    height:63px;
+    width:218px;
+    height:40px;
 }
 .take_ticket_en{/*nika*/
     background:url(../img/take_ticket_en.png) no-repeat;
