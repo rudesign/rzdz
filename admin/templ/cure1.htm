@@ -41,7 +41,7 @@
 	<input type="hidden" name="p" value="cure">
 </form>
 
-<?if($type<3){?>
+<?if($type<3 || $type==4){?>
 <P><a href="?p=cure&addcure=<?=$cure_id?>">Добавить подраздел ›››</a></P>
 	<table cellpadding="2" border="0">
 	<tr><td style="width:200px">
@@ -64,8 +64,8 @@
 	<?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td></tr><?}?>
 	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$subcure['name']?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['name_en']?>" maxlength="255" size="50"></td></tr>
-	<tr><td>Анонс: </td><td><textarea name="anons" cols="48" rows="5"><?=$subcure['anons']?></textarea></td></tr>
-	<tr><td>Анонс eng: </td><td><textarea name="anons_en" cols="48" rows="5"><?=$subcure['anons_en']?></textarea></td></tr>
+	<?if($type!=4){?><tr><td>Анонс: </td><td><textarea name="anons" cols="48" rows="5"><?=$subcure['anons']?></textarea></td></tr>
+	<tr><td>Анонс eng: </td><td><textarea name="anons_en" cols="48" rows="5"><?=$subcure['anons_en']?></textarea></td></tr><?}?>
         <?if($cure_id==1){?><tr><td>Текст для выбора профиля: </td><td><textarea name="profile" cols="48" rows="5"><?=$subcure['profile']?></textarea></td></tr>
         <tr><td>Текст для выбора профиля eng: </td><td><textarea name="profile_en" cols="48" rows="5"><?=$subcure['profile_en']?></textarea></td></tr><?}?>
         <tr><td>Описание: </td><td colspan="2">
@@ -83,7 +83,8 @@
 			<label for="ed1">html</label><br />  
 		<div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$subcure['description_en']?></textarea> </div>
 	<textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$subcure['description_en']?></textarea></td></tr>
-	<tr><td>Санатории:</td><td>
+	
+	<?if($type!=4){?><tr><td>Санатории:</td><td>
 	<table>
 	<tr><td>Наличие</td><td>Цена</td></tr>
 	<?foreach($subcure['page_box'] as $k=>$v){?>
@@ -96,6 +97,7 @@
 	<?}?>
 	</table>
 	</td></tr>
+	<?}?>
 	<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
 	</table>
 	<input type="hidden" name="cure_id" value="<?=$cure_id?>">

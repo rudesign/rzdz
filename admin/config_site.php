@@ -2,8 +2,8 @@
 
 // конфигурация базы данных
 $config['dbhost']='localhost';
-$config['dbname']='';
-$config['dblogin']='';
+$config['dbname']='zdor';
+$config['dblogin']='root';
 $config['dbpassword']='';
 
 // домен
