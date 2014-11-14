@@ -24,7 +24,7 @@ if(@$dirs[0] == $default) $lib = @$dirs[1];
 else $lib = '';
 
 
-if(!$lib && (@$del_img || @$photo))
+if(!$lib && (@$del_img || @$_FILES['photo']))
 {
 	$dg = @opendir($default_dir);
 	while(($e = @readdir($dg)) !==false)
