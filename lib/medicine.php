@@ -141,26 +141,29 @@ if($subcure_id)
 	$cure['inhotel'] = str_replace("[service]", $subcure['name'], $cure['inhotel']);
 	
 	$curehotel = array();
-	$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, h.price , 
-		fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
-		FROM ".TABLE_PAGE." p
-		LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=$subcure_id AND h.page_id=p.page_id)
-		LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
-		LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
-		LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
-		LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
-		WHERE p.parent=1 AND p.public AND h.cure_id
-		GROUP BY p.page_id
-		ORDER BY p.ord") 
-		or Error(1, __FILE__, __LINE__);
-	while($info = @mysql_fetch_array($sql)) 
+	if(!$extrasite_id)
 	{
-		$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
-		$info['name'] = htmlspecialchars($info['name']);
-		$info['city'] = htmlspecialchars($info['city']);
-		$info['price'] = htmlspecialchars($info['price']);
-		$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine" : "$lprefix/media/?s_id=$info[page_id]"; 
-		$curehotel[] = $info;	
+		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, h.price , 
+			fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
+			FROM ".TABLE_PAGE." p
+			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=$subcure_id AND h.page_id=p.page_id)
+			LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+			LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
+			LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
+			LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
+			WHERE p.parent=1 AND p.public AND h.cure_id
+			GROUP BY p.page_id
+			ORDER BY p.ord") 
+			or Error(1, __FILE__, __LINE__);
+		while($info = @mysql_fetch_array($sql)) 
+		{
+			$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+			$info['name'] = htmlspecialchars($info['name']);
+			$info['city'] = htmlspecialchars($info['city']);
+			$info['price'] = htmlspecialchars($info['price']);
+			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine" : "$lprefix/media/?s_id=$info[page_id]"; 
+			$curehotel[] = $info;	
+		}
 	}
 	$replace['curehotel'] = $curehotel;		
 	
