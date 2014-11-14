@@ -659,7 +659,7 @@ function menu_medicine()
 		{
 			$arr['list'] = array();
 			$sql1 = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE."  
-				WHERE parent=$arr[cure_id] AND public
+				WHERE parent=$arr[cure_id] AND public AND inmenu
 				ORDER BY ord") or Error(1, __FILE__, __LINE__);
 			while($arr1 = @mysql_fetch_array($sql1))
 			{

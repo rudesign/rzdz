@@ -60,6 +60,8 @@ if(@$save)
         $profile_en = escape_string(from_form(@$profile_en));
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 		$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
+		$inmenu = (int)@$inmenu;
+		if($cure_type==4) $sql_ord .= ", inmenu='$inmenu'";
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', anons='$anons', anons_en='$anons_en',
 		    profile='$profile', profile_en='$profile_en',
@@ -364,7 +366,7 @@ if($cure_id)
 	}
 	
 	//$content = get_template("templ/cure$cure_type.htm", $replace);
-	$content = get_template("templ/cure1.htm", $replace);
+	$content = get_template("templ/cure.htm", $replace);
 	return;
 }
 
