@@ -61,7 +61,9 @@ if(@$save)
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 		$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 		$inmenu = (int)@$inmenu;
-		if($cure_type==4) $sql_ord .= ", inmenu='$inmenu'";
+		if($cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
+		$page_id = (int)@$page_id;
+		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', anons='$anons', anons_en='$anons_en',
 		    profile='$profile', profile_en='$profile_en',
@@ -337,29 +339,40 @@ if($cure_id)
 		$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 		
 		$curehotel = array();
-		$sql = mysql_query("SELECT page_id, price FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
-			or Error(1, __FILE__, __LINE__);
-		while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = $info[1];
-			
-		$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
-			LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
-			WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
-			or Error(1, __FILE__, __LINE__);
-		$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
-		
 		$page_box = array();
-		$i = 0;	
-		while($info = @mysql_fetch_array($sql_f))
-		{ 
-			$i++; 
-			$newcol = !(($i+$all)%$all) ? 1 : 0; 
-			$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
-			//if(preg_match("/долина/i", $info['name'])) 
-				$info['name'] .= " ($info[city])";
-			$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
-									'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+		if($cure_type!=4 && $cure_type!=7)
+		{
+			$sql = mysql_query("SELECT page_id, price FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
+				or Error(1, __FILE__, __LINE__);
+			while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = $info[1];
+				
+			$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
+				LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+				WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
+				or Error(1, __FILE__, __LINE__);
+			$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
+			
+			$i = 0;	
+			while($info = @mysql_fetch_array($sql_f))
+			{ 
+				$i++; 
+				$newcol = !(($i+$all)%$all) ? 1 : 0; 
+				$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
+				//if(preg_match("/долина/i", $info['name'])) 
+					$info['name'] .= " ($info[city])";
+				$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
+										'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+			}
 		}
 		$subcure['page_box'] = $page_box;
+		
+		if($cure_type==7)
+		{
+			$subcure['san_select'] = mysql_select('page_id', 
+					"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
+					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
+					$subcure['page_id']);
+		}
 		
 		
 		$replace['subcure'] = $subcure;

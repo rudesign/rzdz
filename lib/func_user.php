@@ -655,7 +655,7 @@ function menu_medicine()
 			}				
 		}
 		
-		if($arr['type']==4)
+		if($arr['type']==4 || ($arr['type']==7 && !$extrasite_id))
 		{
 			$arr['list'] = array();
 			$sql1 = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE."  
@@ -671,6 +671,14 @@ function menu_medicine()
 				
 				$arr['list'][] = $arr1;
 			}				
+		}
+		
+		if($arr['type']==7 && $extrasite_id)
+		{
+			$sql1 = mysql_query("SELECT count(*) FROM ".TABLE_CURE."  
+				WHERE parent=$arr[cure_id] AND public AND page_id=$extrasite_id") or Error(1, __FILE__, __LINE__);
+			$arr1 = @mysql_fetch_array($sql1);
+			if(!$arr1[0]) continue;
 		}
 
 		$list[] = $arr;

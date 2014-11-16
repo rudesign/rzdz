@@ -66,6 +66,24 @@
 			  </ul><!--news_list-->
 			
 		 <?=$pages?>
+	<?}elseif($cure['type']==7){?>
+		<?if($extrasite_id){?>
+		<div id="pdescription"><?=$cure['description']?></div>
+		<?}else{?>
+		<div id="pdescription"><?=$cure['description']?></div>
+			<div class="medicine-sanatorium-services section">
+                <div class="grid">
+                    <?foreach($curehotel as $v){?>
+					<div class="items">
+                        <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
+                        <?=$v['name']?> <br /><?=$v['city']?> 
+                    </div>
+					<?}?>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+		<?}?>
+		
 	<?}?>
 
 <?}else{?>
