@@ -83,23 +83,40 @@ if($cure_id)
 		{
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
 			if($extrasite_id) 
-				$query ="SELECT c.cure_id, c.name$englang as name, anons$englang as anons,  h.price FROM ".TABLE_CURE." c 
+				$query ="SELECT c.cure_id, c.name$englang as name, anons$englang as anons, h.cure_id, h.price$englang as  price
+					FROM ".TABLE_CURE." c 
 				LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
-				WHERE c.parent=$cure_id AND c.public AND h.cure_id
+				WHERE c.parent=$cure_id AND c.public
 				GROUP BY c.cure_id
 				ORDER BY $ord";
 			else
-				$query ="SELECT c.cure_id, c.name FROM ".TABLE_CURE." c WHERE c.parent=$cure_id AND c.public ORDER BY $ord";
+				$query ="SELECT c.cure_id, anons$englang as anons, c.name$englang as name 
+					FROM ".TABLE_CURE." c WHERE c.parent=$cure_id AND c.public ORDER BY $ord";
 			$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 			
 			$cures = array(); 
 			$sql_count = mysql_num_rows($sql); $col_count = 3;
 			$in_col = ($sql_count%$col_count) ? (int)($sql_count/$col_count)+1 : $sql_count/$col_count; 
-			$k=0;
+			$k=0; $title = '';
 			while($info = @mysql_fetch_array($sql))
 			{ 
+				if($extrasite_id && !@$info['cure_id']) 
+				{
+					$title = HtmlSpecialChars($info['anons']);
+					continue;
+				}
 				$k++; 
-				$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;		
+				$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+				
+				if($cure['type']!=2 )
+				{
+					$info['title'] = HtmlSpecialChars($info['anons']);
+					if($extrasite_id && !$info['anons'] && $title)
+					{
+						$info['title'] = $title; $title = '';
+					}
+				}
+				else $info['title'] = '';
 				
 				$info['url'] = $link_medicine."$cure_id/"."$info[cure_id]/";
 				
@@ -178,10 +195,20 @@ if($subcure_id)
 	
 	$cure['inhotel'] = str_replace("[service]", $subcure['name'], $cure['inhotel']);
 	
+	if($extrasite_id)
+	{ 
+		$sql = mysql_query("SELECT description$englang as description, h.price$englang as  price 
+			FROM ".TABLE_CUREHOTEL." h  
+			WHERE (h.cure_id=$subcure_id AND h.page_id=$extrasite_id)") or Error(1, __FILE__, __LINE__);
+		$info = @mysql_fetch_array($sql);
+		
+		if(@$info['description']) $subcure['description'] = $info['description'];
+	}
+	
 	$curehotel = array();
 	if(!$extrasite_id)
 	{
-		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, h.price , 
+		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, h.price$englang as  price , 
 			fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 			FROM ".TABLE_PAGE." p
 			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=$subcure_id AND h.page_id=p.page_id)

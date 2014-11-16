@@ -30,13 +30,21 @@
 		
 		<?}else{?>
 		
-		<div class="medicine-services-list">
-			<ul>
-			<?foreach($cure_list as $k=>$v){?>
-					<li><a href="<?=$v['url']?>"><?=$v['name']?></a> <p><?=$v['anons']?></p></li>
+		
+		<table class="zebra">
+		<?foreach($cure_list as $k=>$v){?>
+			<?if($v['title']){?>
+				<?if($k){?></table><p>&nbsp;</p><table class="zebra"><?}?>
+				<thead><tr><td><strong><span style="color: #159fa7;"><?=$v['title']?></span></strong></td>
+				<?if($extrasite_id){?><td width="168"><div align="center"><strong>Цена</strong></div></td><?}?>
+				</tr></thead>
 			<?}?>
-			</ul>
-		</div>
+			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td>
+				<?if($extrasite_id){?><td width="168"><div align="center"><strong><?=$v['price']?></strong></div></td><?}?>
+			</tr>
+		<?}?>
+			
+		</table>
 		
 		<?}?>
 		
