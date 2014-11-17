@@ -140,7 +140,8 @@ if($word && strlen($word) >= 2)
 		
 	if($extra_parent_id>0) $where_page .= " AND (c.page_id=$extra_parent_id 
 		OR r.page_id=$extra_parent_id OR r1.page_id=$extra_parent_id)";
-	else $where_page .= " AND !p.site AND !c.site AND !r.site AND !r1.site";
+	else $where_page .= " AND (!p.site OR p.site IS NULL) AND (!c.site OR c.site IS NULL) 
+		AND (!r.site OR r.site IS NULL) AND (!r1.site OR r1.site IS NULL)";
 
 	$sql = mysql_query("
 		SELECT 

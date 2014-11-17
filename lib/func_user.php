@@ -619,6 +619,7 @@ function menu_medicine()
 	global $englang, $lprefix, $request, $lang_phrases, $extrasite_id;
 	
 	$cure_id = $extrasite_id ? (int)$request[2] : (int)$request[1];
+	$subcure_id = $extrasite_id ? (int)$request[3] : (int)$request[2];
 
 	$link_medicine =  "$lprefix/$request[0]/";
 	if($extrasite_id) $link_medicine .= "$request[1]/";
@@ -654,14 +655,41 @@ function menu_medicine()
 			}				
 		}
 		
+		if($arr['type']==4 || ($arr['type']==7 && !$extrasite_id))
+		{
+			$arr['list'] = array();
+			$sql1 = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE."  
+				WHERE parent=$arr[cure_id] AND public AND inmenu
+				ORDER BY ord") or Error(1, __FILE__, __LINE__);
+			while($arr1 = @mysql_fetch_array($sql1))
+			{
+				$arr1['sel'] = $subcure_id==$arr1['cure_id'] ? 1 : 0;
+				if($arr1['sel']) $arr['sel']=1;
+				$arr1['name'] = HtmlSpecialChars($arr1['name'], null, 'cp1251');
+				
+				$arr1['link'] =  $link_medicine."$arr[cure_id]/$arr1[cure_id]";
+				
+				$arr['list'][] = $arr1;
+			}				
+		}
+		
+		if($arr['type']==7 && $extrasite_id)
+		{
+			$sql1 = mysql_query("SELECT count(*) FROM ".TABLE_CURE."  
+				WHERE parent=$arr[cure_id] AND public AND page_id=$extrasite_id") or Error(1, __FILE__, __LINE__);
+			$arr1 = @mysql_fetch_array($sql1);
+			if(!$arr1[0]) continue;
+		}
+
 		$list[] = $arr;
 	}
 	
 	/*$sel = $request[1]=='news' ? 1 : 0;
 	$list[] = array('name'=>$lang_phrases['news'], 'link'=>"$lprefix/$request[0]/news", 'sel'=>$sel, 'type'=>4);*/
 
-	$file = $extrasite_id ? "menu_medicine_extra.htm" : "menu_medicine.htm";
-	return  get_template("templ/$file", array('list'=>$list)); 
+	//$file = $extrasite_id ? "menu_medicine_extra.htm" : "menu_medicine.htm";
+	$file = "menu_medicine.htm";
+	return  get_template("templ/$file", array('list'=>$list, 'extrasite_id'=>$extrasite_id)); 
 }
 
 function slider_images($dir_sanatorium)

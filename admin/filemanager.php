@@ -9,7 +9,7 @@ session_start();
 
 dbconnect($config['dbhost'], $config['dbname'], $config['dblogin'], $config['dbpassword']);
 
-if(!$_SESSION['admin_id']) {echo "Нет прав доступа"; exit;}
+if(!@$_SESSION['admin_id']) {echo "Нет прав доступа"; exit;}
 
 $default = 'imglib';
 $default_dir = "../$default";
@@ -24,7 +24,7 @@ if(@$dirs[0] == $default) $lib = @$dirs[1];
 else $lib = '';
 
 
-if(!$lib && (@$del_img || @$photo))
+if(!$lib && (@$del_img || @$_FILES['photo']))
 {
 	$dg = @opendir($default_dir);
 	while(($e = @readdir($dg)) !==false)

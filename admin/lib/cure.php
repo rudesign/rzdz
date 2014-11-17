@@ -2,7 +2,7 @@
 $cure_id = (int)@$cure_id;
 $subcure_id = (int)@$subcure_id;
 $cure_type_list = array(1=>'программы', 2=>'список в алфавитном пор€дке',3=>'объедин€ющий раздел', 
-	4=>'информационный раздел',5=>'новости', 6=>'галере€');
+	4=>'информационный раздел',5=>'новости', 6=>'галере€', 7=>'лицензии');
 
 if(isset($addcure))
 {	
@@ -60,6 +60,10 @@ if(@$save)
         $profile_en = escape_string(from_form(@$profile_en));
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 		$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
+		$inmenu = (int)@$inmenu;
+		if($cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
+		$page_id = (int)@$page_id;
+		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', anons='$anons', anons_en='$anons_en',
 		    profile='$profile', profile_en='$profile_en',
@@ -75,7 +79,7 @@ if(@$save)
 		}
 			
 		if(is_array(@$sanat)) 
-		{
+		{ 
 			$sql_f = mysql_query("SELECT p.page_id, ch.cure_id, ch.price FROM ".TABLE_PAGE." p 
 				LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.page_id=p.page_id AND ch.cure_id=$subcure_id)			
 				WHERE p.parent=1 GROUP BY p.page_id ORDER BY p.ord") 
@@ -101,6 +105,9 @@ if(@$save)
 					or Error(1, __FILE__, __LINE__);
 			}
 		}
+		else 
+			mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
+			or Error(1, __FILE__, __LINE__);
 	}
 	else
 	{
@@ -154,6 +161,24 @@ if(@$save)
 		}
 	}
 	
+	Header("Location: ".$url);
+	exit;
+}
+
+if(@$savedescr)
+{
+
+	$price = escape_string(from_form(@$price));
+	$price_en = escape_string(from_form(@$price_en));
+	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
+	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
+		
+	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='$price' , price_en='$price_en',
+		description='$description', description_en='$description_en'
+		WHERE cure_id=$subcure_id AND page_id='$page_id'") 
+	or Error(1, __FILE__, __LINE__);
+	
+	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
 	Header("Location: ".$url);
 	exit;
 }
@@ -321,50 +346,85 @@ if($cure_id)
 		$sql = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE cure_id=$subcure_id") or Error(1, __FILE__, __LINE__);
 		$subcure = @mysql_fetch_array($sql);
 
-		$subcure['ord_select'] = $cure_type!=2 ? ord_select("SELECT name FROM ".TABLE_CURE.
-			" WHERE parent=$cure_id AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']) : '';
-		$subcure['name'] = HtmlSpecialChars($subcure['name']);
-		$subcure['name_en'] = HtmlSpecialChars($subcure['name_en']);
-        $subcure['anons'] = HtmlSpecialChars($subcure['anons']);
-        $subcure['anons_en'] = HtmlSpecialChars($subcure['anons_en']);
-        $subcure['profile'] = HtmlSpecialChars($subcure['profile']);
-        $subcure['profile_en'] = HtmlSpecialChars($subcure['profile_en']);
-		$subcure['description'] = HtmlSpecialChars($subcure['description']);
-		$subcure['description_en'] = HtmlSpecialChars($subcure['description_en']);
-		$tinymce_elements = 'description, description_en';
-		$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 		
-		$curehotel = array();
-		$sql = mysql_query("SELECT page_id, price FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
-			or Error(1, __FILE__, __LINE__);
-		while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = $info[1];
+		if(@$descr)
+		{
+			$page_id = (int)@$descr;
+			$replace['descr'] = $page_id;
 			
-		$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
-			LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
-			WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
-			or Error(1, __FILE__, __LINE__);
-		$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
-		
-		$page_box = array();
-		$i = 0;	
-		while($info = @mysql_fetch_array($sql_f))
-		{ 
-			$i++; 
-			$newcol = !(($i+$all)%$all) ? 1 : 0; 
-			$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
-			//if(preg_match("/долина/i", $info['name'])) 
-				$info['name'] .= " ($info[city])";
-			$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
-									'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+			$sql = mysql_query("SELECT cr.description, cr.description_en, cr.price, cr.price_en, p.name FROM ".TABLE_CUREHOTEL." cr 
+				LEFT JOIN ".TABLE_PAGE." p ON p.page_id=cr.page_id
+				WHERE cr.cure_id=$subcure_id AND cr.page_id=$page_id") 
+				or Error(1, __FILE__, __LINE__);
+			$info = @mysql_fetch_array($sql);
+				
+			$subcure['page_id'] =  $page_id;
+			$subcure['pname'] =  HtmlSpecialChars($info['name']);
+			$subcure['price'] =  HtmlSpecialChars($info['price']);
+			$subcure['price_en'] =  HtmlSpecialChars($info['price_en']);
+			$subcure['description'] = HtmlSpecialChars($info['description']);
+			$subcure['description_en'] = HtmlSpecialChars($info['description_en']);
+			$tinymce_elements = 'description, description_en';
+			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 		}
-		$subcure['page_box'] = $page_box;
-		
+		else
+		{
+			$subcure['ord_select'] = $cure_type!=2 ? ord_select("SELECT name FROM ".TABLE_CURE.
+				" WHERE parent=$cure_id AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']) : '';
+			$subcure['name'] = HtmlSpecialChars($subcure['name']);
+			$subcure['name_en'] = HtmlSpecialChars($subcure['name_en']);
+			$subcure['anons'] = HtmlSpecialChars($subcure['anons']);
+			$subcure['anons_en'] = HtmlSpecialChars($subcure['anons_en']);
+			$subcure['profile'] = HtmlSpecialChars($subcure['profile']);
+			$subcure['profile_en'] = HtmlSpecialChars($subcure['profile_en']);
+			$subcure['description'] = HtmlSpecialChars($subcure['description']);
+			$subcure['description_en'] = HtmlSpecialChars($subcure['description_en']);
+			$tinymce_elements = 'description, description_en';
+			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+			
+			$curehotel = array();
+			$page_box = array();
+			if($cure_type!=4 && $cure_type!=7)
+			{
+				$sql = mysql_query("SELECT page_id, price FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
+					or Error(1, __FILE__, __LINE__);
+				while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = $info[1];
+					
+				$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
+					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+					WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
+					or Error(1, __FILE__, __LINE__);
+				$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
+				
+				$i = 0;	
+				while($info = @mysql_fetch_array($sql_f))
+				{ 
+					$i++; 
+					$newcol = !(($i+$all)%$all) ? 1 : 0; 
+					$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
+					//if(preg_match("/долина/i", $info['name'])) 
+						$info['name'] .= " ($info[city])";
+					$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
+											'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+				}
+			}
+			$subcure['page_box'] = $page_box;
+			
+			if($cure_type==7)
+			{
+				$subcure['san_select'] = mysql_select('page_id', 
+						"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
+						LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
+						$subcure['page_id']);
+			}
+		}
+			
 		
 		$replace['subcure'] = $subcure;
 	}
 	
 	//$content = get_template("templ/cure$cure_type.htm", $replace);
-	$content = get_template("templ/cure1.htm", $replace);
+	$content = get_template("templ/cure.htm", $replace);
 	return;
 }
 
