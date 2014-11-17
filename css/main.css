@@ -1150,6 +1150,9 @@ text-align:center;
 .for_ch_ar .links.full a{
     width: 50%;
 }
+.for_ch_ar .links.full a.fw{
+    width: 100%;
+}
 .for_ch_ar .links.full a:first-child span{
     border-right: 1px #fff solid;
 }

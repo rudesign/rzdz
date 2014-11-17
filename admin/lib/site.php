@@ -225,13 +225,18 @@ if(((@$_FILES['photo'] || @$_FILES['photo_b'])  && @$media) || (@$description &&
 
 	if($media == 'pdf')
 	{
-		
+		/*
 		if((!is_file(@$photo_b) || !($filename = @basename($photo_b_name))) && !@$description) 
 		{
 			$_SESSION['message'] = "Не найден файл!"; 
 			Header("Location: $url"); exit;
 		}
-		$ext = $photo_b ? strtolower(escape_string(substr($filename, strrpos($filename, ".")+1))) : '';
+		*/
+        if(is_file(@$photo_b) && ($filename = @basename($photo_b_name)))
+        {
+            $ext = $photo_b ? strtolower(escape_string(substr($filename, strrpos($filename, ".")+1))) : '';
+        }
+
 	
 	}
 	elseif($media == 'video' && (!is_file(@$photo_b) || !($filename = @basename($photo_b_name))))

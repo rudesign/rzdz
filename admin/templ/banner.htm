@@ -1,4 +1,4 @@
-<FORM method="post"  enctype="multipart/form-data">
+<FORM name="edit-form" method="post"  enctype="multipart/form-data">
 <table>
 <tr><td>Отображается на сайте? </td><td><?=$public_select?></td></tr>
 <tr><td>Дефолтный баннер? </td><td><?=$defaultban_select?></td></tr>
@@ -6,28 +6,31 @@
 <tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
 <tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Описание: </td><td>
-	
-		<input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" /> 
-			<label for="ed0">редактор</label> &nbsp;&nbsp;
-		<input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" /> 
-			<label for="ed1">html</label><br />  
-		<div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
-	<textarea name="description1" id="description1" rows="15" cols="80" style="display:none" ><?=$description?></textarea></td></tr>
-	<tr><td>Описание eng: </td><td>
-		<input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" /> 
-			<label for="ed0">редактор</label> &nbsp;&nbsp;
-		<input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" /> 
-			<label for="ed1">html</label><br />  
-		<div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
-	<textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$description_en?></textarea></td></tr>
+        <!--
+        <input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" />
+            <label for="ed0">редактор</label> &nbsp;&nbsp;
+        <input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" />
+            <label for="ed1">html</label><br />
+            -->
+        <div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
+    </td></tr>
+    <tr><td>Описание eng: </td><td>
+        <!--
+        <input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" />
+            <label for="ed0">редактор</label> &nbsp;&nbsp;
+        <input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" />
+            <label for="ed1">html</label><br />
+            -->
+        <div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
+    </td></tr>
 <tr><td>В каких разделах показывать: </td><td colspan="2">
-	<table width="100%"><tr><td>
-	<?foreach($page_box as $v){?>
-		<input type="checkbox" class="chb_input" name="page[<?=$v['i']?>]" 
-		value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
-		<?if($v['newcol']){?></td><td><?}?>
-	<?}?>
-	</td></tr></table>
+    <table width="100%"><tr><td>
+    <?foreach($page_box as $v){?>
+        <input type="checkbox" class="chb_input" name="page[<?=$v['i']?>]"
+        value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+        <?if($v['newcol']){?></td><td><?}?>
+    <?}?>
+    </td></tr></table>
 </td></tr>
 <tr><td></td><td colspan="2"><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
 <input type="hidden" name="banner_id" value="<?=$banner_id?>">

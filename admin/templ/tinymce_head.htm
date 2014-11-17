@@ -1,63 +1,26 @@
-<!-- TinyMCE -->
-<script language="javascript" type="text/javascript" src="tiny_mce/tiny_mce.js"></script>
-<script language="javascript" type="text/javascript">
+<!-- CK Editor -->
+<script src="ckeditor/ckeditor.js" language="javascript" type="text/javascript"></script>
+<script src="ckeditor/adapters/jquery.js" language="javascript" type="text/javascript"></script>
+<script src="ckeditor/ckfinder/ckfinder.js" language="javascript" type="text/javascript"></script>
+<script language="javascript">
+    $(document).ready(function(){
+        initCKEditor();
+    });
 
-	// Default skin
-	tinyMCE.init({
-		// General options
-		mode : "exact",
-		elements : "<?=$tinymce_elements?>",
-		theme : "advanced",
-		language : "ru",
-		file_browser_callback : "fileBrowserCallBack",
-		relative_urls: false,
-		document_base_url: '/',
-		plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,inlinepopups,autosave",
+    function initCKEditor(){
+        var textareas = $('form[name=edit-form] textarea');
 
-		// Theme options
-		theme_advanced_buttons1 : "save,newdocument,|,bold,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull|,cut,copy,paste,pastetext,pasteword,|,search,replace,formatselect,fontsizeselect",
-		theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-		theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,fullscreen",
-		/*theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,restoredraft",*/
-		theme_advanced_toolbar_location : "top",
-		theme_advanced_toolbar_align : "left",
-		theme_advanced_statusbar_location : "bottom",
-		theme_advanced_resizing : true,
-
-		// Example content CSS (should be your site CSS)
-		//content_css : "css/content.css",
-
-		// Drop lists for link/image/media/template dialogs
-		//template_external_list_url : "lists/template_list.js",
-		//external_link_list_url : "lists/link_list.js",
-		//external_image_list_url : "lists/image_list.js",
-		//media_external_list_url : "lists/media_list.js",
-
-		// Replace values for the template plugin
-		/*template_replace_values : {
-			username : "Some User",
-			staffid : "991234"
-		}*/
-		
-	});
-	
-	function fileBrowserCallBack(field_name, url, type, win) {
-
-		dialogwin = win;
-		var path = "/admin/filemanager.php?field_name=" + field_name + "&cdir=" + url + "&type=" + type;
-	
-		var width = 700;
-		var height = 500;
-	
-		var x = parseInt(screen.width / 2.0) - (width / 2.0);
-		var y = parseInt(screen.height / 2.0) - (height / 2.0);
-	
-		var fmwin = window.open(path, "filemanager", "top=" + y + ",left=" + x + ",scrollbars=yes,width=" + width + ",height=" + height + ",resizable=yes");
-		fmwin.focus();
-
-		// Insert new URL, this would normaly be done in a popup
-		//win.document.forms[0].elements[field_name].value = "someurl.htm"; alert(field_name);
-	}
-	
+        if(textareas.length > 0){
+            textareas.ckeditor({
+                filebrowserBrowseUrl : 'ckeditor/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?type=Images',
+                filebrowserFlashBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?type=Flash',
+                filebrowserUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                filebrowserFlashUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
+                extraAllowedContent: 'div a [*] (*)',
+                language: 'ru'
+            });
+        }
+    }
 </script>
-<!-- /TinyMCE -->

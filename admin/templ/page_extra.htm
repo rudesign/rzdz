@@ -11,7 +11,7 @@
 
 <table><tr>
 <td>
-	<FORM method="post" enctype="multipart/form-data">
+	<FORM name="edit-form" method="post" enctype="multipart/form-data">
 	<table border="0" cellpadding="3" >
 	<tr><td>Отображается на сайте? </td><td width="300"><?=$public_select?></td>
 		<?if($parent==0){?>
@@ -44,30 +44,33 @@
 
 	<tr><td>Фотогалерея: </td><td><?=$gallery_select?></td></tr>
 	<tr><td>Описание: </td><td colspan="2">
-	
-		<input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" /> 
-			<label for="ed0">редактор</label> &nbsp;&nbsp;
-		<input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" /> 
-			<label for="ed1">html</label><br />  
-		<div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
-	<textarea name="description1" id="description1" rows="15" cols="80" style="display:none" ><?=$description?></textarea></td></tr>
-	<tr><td>Описание eng: </td><td colspan="2">
-		<input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" /> 
-			<label for="ed0">редактор</label> &nbsp;&nbsp;
-		<input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" /> 
-			<label for="ed1">html</label><br />  
-		<div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
-	<textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$description_en?></textarea></td></tr>
-	<?if($parent==0){?>
-	<tr><td>Телефон: </td><td colspan="2"><textarea name="phone" rows="3" cols="80"><?=$phone?></textarea></td></tr>
-	<tr><td>Информер погоды: </td><td colspan="2"><textarea name="weather_informer" rows="3" cols="80"><?=$weather_informer?></textarea></td></tr>
-	<tr><td>Подвал: </td><td colspan="2"><textarea name="footer" rows="3" cols="80"><?=$footer?></textarea></td></tr>
-	<?}?>
-	<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
-	<input type="hidden" name="page_id" value="<?=$page_id?>">
-	<input type="hidden" name="p" value="site_extra">
-	</table>
-	</FORM>
+        <!--
+        <input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" />
+            <label for="ed0">редактор</label> &nbsp;&nbsp;
+        <input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" />
+            <label for="ed1">html</label><br />
+              -->
+        <div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
+    <textarea name="description1" id="description1" rows="15" cols="80" style="display:none" ><?=$description?></textarea></td></tr>
+    <tr><td>Описание eng: </td><td colspan="2">
+        <!--
+        <input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" />
+            <label for="ed0">редактор</label> &nbsp;&nbsp;
+        <input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" />
+            <label for="ed1">html</label><br />
+              -->
+        <div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
+    <textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$description_en?></textarea></td></tr>
+    <?if($parent==0){?>
+    <tr><td>Телефон: </td><td colspan="2"><textarea name="phone" rows="3" cols="80"><?=$phone?></textarea></td></tr>
+    <tr><td>Информер погоды: </td><td colspan="2"><textarea name="weather_informer" rows="3" cols="80"><?=$weather_informer?></textarea></td></tr>
+    <tr><td>Подвал: </td><td colspan="2"><textarea name="footer" rows="3" cols="80"><?=$footer?></textarea></td></tr>
+    <?}?>
+    <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+    <input type="hidden" name="page_id" value="<?=$page_id?>">
+    <input type="hidden" name="p" value="site_extra">
+    </table>
+    </FORM>
 </td>
 </tr></table>
 

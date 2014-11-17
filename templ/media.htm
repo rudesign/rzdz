@@ -30,7 +30,7 @@
             if($v['mm']=='pdf'){
                 echo '
                 <div class="full links">
-                    <a href="'.$v['bigphoto'].'" class="fancybox"><span>Посмотреть</span></a>'.($v['exists'] ? '<a href="/images/brochure/pdf/'.$v[photo_id].'.pdf" target="_blank"><span>Скачать</span></a>' : '').'
+                    <a href="'.$v['bigphoto'].'" class="fancybox'.(!$v['exists'] ? ' fw' : '').'"><span>Посмотреть</span></a>'.($v['exists'] ? '<a href="/images/brochure/pdf/'.$v[photo_id].'.pdf" target="_blank"><span>Скачать</span></a>' : '').'
                 </div>';
             }
             ?>
