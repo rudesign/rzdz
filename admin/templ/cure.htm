@@ -1,6 +1,10 @@
 <?if(!$subcure_id){?>
 
+<<<<<<< HEAD
 <form name="edit-form" method="post" enctype="multipart/form-data">
+=======
+<form method="post" enctype="multipart/form-data">
+>>>>>>> nika
 <table><tr><td>
 	<table cellpadding="2">
 	<tr><td>Отображать на сайте? </td><td><?=$public_select?></td></tr>
@@ -13,6 +17,7 @@
 	<tr><td>Порядок отображения</td><td><?=$ord_select?></td></tr>
 	<?if($type==4){?><tr><td>Описание: </td><td colspan="2">
 	
+<<<<<<< HEAD
 		<!--
         <input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" />
 			<label for="ed0">редактор</label> &nbsp;&nbsp;
@@ -43,10 +48,39 @@
 </tr></table>
     <input type="hidden" name="cure_id" value="<?=$cure_id?>">
     <input type="hidden" name="p" value="cure">
+=======
+		<input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
+	<textarea name="description1" id="description1" rows="15" cols="80" style="display:none" ><?=$description?></textarea></td></tr>
+	<tr><td>Описание eng: </td><td colspan="2">
+		<input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" /> 
+			<label for="ed0">редактор</label> &nbsp;&nbsp;
+		<input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" /> 
+			<label for="ed1">html</label><br />  
+		<div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
+	<textarea name="description_en1" id="description_en1" rows="15" cols="80" style="display:none" ><?=$description_en?></textarea></td></tr><?}?>
+	</table>
+</td>
+<?if(!$partof){?><td style="padding-left:20px">
+	<p>Картинка для главной<br />
+	<?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
+	<a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+	<?}else{?>(размер 262px * 144px)<br /><input type="file" name="photo" size="5"><?}?>
+	</p>
+</td><?}?>
+	<tr><td align="right"><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+</tr></table>
+	<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+	<input type="hidden" name="p" value="cure">
+>>>>>>> nika
 </form>
 
 <?if($type<3 || $type==4 || $type==7){?>
 <P><a href="?p=cure&addcure=<?=$cure_id?>">Добавить подраздел ›››</a></P>
+<<<<<<< HEAD
     <table cellpadding="2" border="0">
     <tr><td style="width:200px">
     <?foreach($cure_list as $v){?>
@@ -60,6 +94,21 @@
     <?}?>
     </td></tr>
     </table>
+=======
+	<table cellpadding="2" border="0">
+	<tr><td style="width:200px">
+	<?foreach($cure_list as $v){?>
+		<p>
+			<a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
+		
+			<?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+			<?}else{?><font class="hid"><?=$v['icount']?></font><?}?>
+		</p>	
+		<?if($v['newcol']){?></td><td style="width:200px"><?}?>
+	<?}?>
+	</td></tr>
+	</table>
+>>>>>>> nika
 <?}?>
 <?}else{?>
 <P><a href="?p=cure&cure_id=<?=$cure_id?>">к списку разделов</a>
