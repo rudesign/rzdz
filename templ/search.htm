@@ -28,6 +28,19 @@
 			  <?}?>
 		<?}?>
 			
+		<?if(count($curelist)){?>
+			  <?foreach($curelist as $v){?>	  
+			    <li  <?if(($v['i']+2)%2){?>class="fii_gr_bgr"<?}?>>
+				  <div class="num"><?=$v['i']?>.</div>
+				  <div class="dec">
+				    <p><a href="<?=$medicine_link?>"><?=$lang_phrases['medicine']?></a> / 
+					<?if($v['parent_id']){?><a href="<?=$v['parent_link']?>"><?=$v['parent_name']?></a>
+					/ <?}?><a href="<?=$v['link']?>"><?=$v['name']?></a> <?=$v['description']?> </p>
+				  </div>
+				</li>
+			  <?}?>
+		<?}?>
+		
 			  </ul><!--list_result_fii-->
 		<?=$pages?>
 		
