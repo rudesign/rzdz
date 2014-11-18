@@ -137,7 +137,8 @@ if($word && strlen($word) >= 2)
 			$cure_ord_arr[] = "p.name$englang regexp '$ereg_string_ord' desc, p.description$englang regexp '$ereg_string_ord' desc";
 		}
 	}
-	
+
+
 	$word_sql = join(" AND ", $page_arr);
 	$page_ord_sql = join(", ", $page_ord_arr);
 	if($page_ord_sql) $page_ord_sql .= ",";
