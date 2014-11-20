@@ -134,7 +134,7 @@ if(@$save)
 		$arr = @mysql_fetch_array($sql);
 		$oldord = (int)@$arr['ord'];
 		
-		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', partof='$partof' ,
+		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', 
 			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en'
 			WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
 			
