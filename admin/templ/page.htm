@@ -8,11 +8,11 @@
 </p>
 <?}?>
 
-<table><tr>
+<table width="100%"><tr>
 <td>
-	<FORM method="post" enctype="multipart/form-data">
-	<table border="0" cellpadding="3" >
-	<tr><td>Отображается на сайте? </td><td width="300"><?=$public_select?></td>
+	<form name="edit-form" method="post" enctype="multipart/form-data">
+	<table border="0" cellpadding="3">
+	<tr><td width="200">Отображается на сайте? </td><td><?=$public_select?></td>
 		<?if($parent==1 || $parent==6){?>
 		<td rowspan="11">
 			<p>Маленькое фото<br />
@@ -77,7 +77,7 @@
     <input type="hidden" name="page_id" value="<?=$page_id?>">
     <input type="hidden" name="p" value="site">
     </table>
-    </FORM>
+    </form>
 </td>
 </tr></table>
 

@@ -105,6 +105,6 @@ while($arr = @mysql_fetch_array($sql))
 }
 $replace['list'] = $list;
 	
-$content = get_template('templ/opinion_list.htm', $replace); 
+$content = get_template('templ/opinion_list.htm', $replace);
 
 ?>
