@@ -1,8 +1,8 @@
 <?if(!$subcure_id){?>
 
 <form name="edit-form" method="post" enctype="multipart/form-data">
-<table><tr><td>
-	<table cellpadding="2">
+<table width="100%"><tr><td>
+	<table  width="100%" cellpadding="2">
 	<tr><td>Отображать на сайте? </td><td><?=$public_select?></td></tr>
 	<tr><td>Тип раздела</td><td><?=$type_select?></td></tr>
 	<?if($partof_select){?><tr><td>Часть раздела</td><td><?=$partof_select?></td></tr><?}?>
@@ -46,7 +46,7 @@
 
     <?if($type<3){?>
     <P><a href="?p=cure&addcure=<?=$cure_id?>">Добавить подраздел ›››</a></P>
-        <table cellpadding="2" border="0">
+        <table width="100%" cellpadding="2" border="0">
         <tr><td style="width:200px">
         <?foreach($cure_list as $v){?>
             <p>
@@ -63,7 +63,7 @@
     <?}else{?>
     <P><a href="?p=cure&cure_id=<?=$cure_id?>">Вернуться к списку разделов</a></P>
     <form>
-        <table cellpadding="2">
+        <table width="100%" cellpadding="2">
         <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td></tr><?}?>
         <tr><td>Название: </td><td><input type="text" name="name" value="<?=$subcure['name']?>" maxlength="255" size="50"></td></tr>
         <tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['name_en']?>" maxlength="255" size="50"></td></tr>
@@ -90,7 +90,7 @@
                 <div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$subcure['description_en']?></textarea> </div>
             </td></tr>
             <tr><td>Санатории:</td><td>
-            <table>
+            <table  width="100%">
             <tr><td>Наличие</td><td>Цена</td></tr>
             <?foreach($subcure['page_box'] as $k=>$v){?>
                 <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
