@@ -23,13 +23,14 @@
 
 <?}elseif($cure_id){?>
 
-	<?if($cure['type']<3){?>
+	<?if($cure['type']<3 || $cure['type']==4){?>
 	
 		<?if($cure['cure_id']==1 && !$extrasite_id){?>
 		<?=$profile?>
 		
 		<?}else{?>
 		
+		<?if($cure['type']==4){?><div id="pdescription"><?=$cure['description']?></div><?}?>
 		
 		<table class="zebra">
 		<?foreach($cure_list as $k=>$v){?>
@@ -47,9 +48,6 @@
 		</table>
 		
 		<?}?>
-		
-	<?}elseif($cure['type']==4){?>
-		<div id="pdescription"><?=$cure['description']?></div>
 		
 		
 	<?}elseif($cure['type']==5){?>

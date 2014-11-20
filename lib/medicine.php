@@ -79,10 +79,10 @@ if($cure_id)
 	
 	if(!$subcure_id)  
 	{
-		if($cure['type']<3)
+		if($cure['type']<3 || $cure['type']==4)
 		{
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
-			if($extrasite_id) 
+			if($extrasite_id && $cure['type']!=4) 
 				$query ="SELECT c.cure_id, c.name$englang as name, anons$englang as anons, h.cure_id, h.price$englang as  price
 					FROM ".TABLE_CURE." c 
 				LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
