@@ -67,13 +67,12 @@ $word_arr = split("[[:space:]]+", $word);
 $word_arr = array_slice($word_arr, 0, 5);
 $word = $replace['word'] = join(" ", $word_arr); 
 	
-session_register('searchlist');
-$list = @unserialize($searchlist);
+$list = @unserialize($_SESSION['searchlist']);
 if(!is_array($list)) $list = array();
 if(!isset($list[$word]) && $word)
 {
 	$list[$word] = 1;
-	$searchlist = serialize($list);
+	$_SESSION['searchlist'] = serialize($list);
 
 	$sql = mysql_query("SELECT count(*) FROM ".TABLE_SEARCHSTAT." WHERE word='$word' AND date=CURDATE()") 
 		or Error(1, __FILE__, __LINE__);
@@ -111,6 +110,8 @@ if($word && strlen($word) >= 2)
 	$page_arr = array();
 	$news_ord_arr = array();
 	$news_arr = array();
+	$cure_ord_arr = array();
+	$cure_arr = array();
 	foreach($word_arr as $k=>$v) {
 		$ereg_string = (strlen($v) < 3) ? "[[:<:]]".escape_string(RegExpSim($v))."[[:>:]]" : escape_string(RegExpSim($v));
 		if(strlen($v) < 3)
@@ -120,19 +121,24 @@ if($word && strlen($word) >= 2)
 							"p.description$englang regexp '$ereg_string')";
 			$news_arr[] = "(i.name$englang regexp '$ereg_string' OR ".
 							"i.description$englang regexp '$ereg_string')";
+			$cure_arr[] = "(i.name$englang regexp '$ereg_string' OR ".
+							"i.description$englang regexp '$ereg_string')";
 		}
 		else
 		{
 			$ereg_string = escape_string(RegExpSim($v));
 			$page_arr[] = "(p.name$englang regexp '$ereg_string' OR p.description$englang regexp '$ereg_string')";
 			$news_arr[] = "(i.name$englang regexp '$ereg_string' OR i.description$englang regexp '$ereg_string')";
+			$cure_arr[] = "(p.name$englang regexp '$ereg_string' OR p.description$englang regexp '$ereg_string')";
 							
 			$ereg_string_ord = "[[:<:]]".escape_string(RegExpSim($v))."[[:>:]]";
 			$page_ord_arr[] = "p.name$englang regexp '$ereg_string_ord' desc, p.description$englang regexp '$ereg_string_ord' desc";
 			$news_ord_arr[] = "i.name$englang regexp '$ereg_string_ord' desc, i.description$englang regexp '$ereg_string_ord' desc";
+			$cure_ord_arr[] = "p.name$englang regexp '$ereg_string_ord' desc, p.description$englang regexp '$ereg_string_ord' desc";
 		}
 	}
-	
+
+
 	$word_sql = join(" AND ", $page_arr);
 	$page_ord_sql = join(", ", $page_ord_arr);
 	if($page_ord_sql) $page_ord_sql .= ",";
@@ -179,19 +185,51 @@ if($word && strlen($word) >= 2)
 	$replace['news_count'] = $news_count = @$arr[0];
 	$replace['news_link'] = "$part/?word=".UrlEncode($word)."&only=news";
 	
+		
+	$word_sql = join(" AND ", $cure_arr);
+	$cure_ord_sql = join(", ", $cure_ord_arr);
+	if($cure_ord_sql) $cure_ord_sql .= ",";
+	$where_cure = "p.public='1' AND \n($word_sql)";
+		
+	$left_table = ''; $subdescr = '';
+	if($extrasite_id>0) 
+	{
+		$left_table = "LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.cure_id=p.cure_id AND ch.page_id=$extrasite_id)";
+		// или корневой раздел, или есть эта услуга в санатории
+		$where_cure .= " AND (ch.cure_id IS NOT NULL OR c.cure_id IS NULL)";
+		$subdescr = "ch.description$englang as subdescription,";
+	}
+		
+	$sql = mysql_query("
+		SELECT 
+			count(*) 
+		FROM 
+			".TABLE_CURE." p
+			LEFT JOIN ".TABLE_CURE." c ON (c.cure_id=p.parent)
+			$left_table
+		WHERE 
+			$where_cure 
+			") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$replace['cure_count'] = $cure_count = @$arr[0]; 
+	$replace['cure_link'] = "$part/?word=".UrlEncode($word)."&only=cure";
+	
+	
 }
 
-$replace['all'] = $all =  $page_count +  $news_count;
-$replace['sect'] = ($page_count == $all || $news_count == $all) ? 0 : 1;
+$replace['all'] = $all =  $page_count +  $news_count + $cure_count;
+$replace['sect'] = ($page_count == $all || $news_count == $all || $cure_count == $all) ? 0 : 1;
 
 $replace['all_only'] = 0;
 if($only == 'page') $replace['all_only'] = $page_count;
 elseif($only == 'news') $replace['all_only'] = $news_count;
+elseif($only == 'cure') $replace['all_only'] = $cure_count;
 else $replace['all_only'] = $replace['all'];
 
 $replace['pages'] = '';
 $replace['pagelist'] = array();
 $replace['newss'] = array();
+$replace['curelist'] = array();
 
 
 $on_page = $settings['search_count'];
@@ -313,8 +351,72 @@ if((!$only || $only == 'news' || $only == 'site'))
 	$result_before += $news_count;
 }
 
+if((!$only || $only == 'cure' || $only == 'site'))
+{
+	if($cure_count && $i >= $result_before)
+	{		
+		$limit = ($i - $result_before).", ".($on_page - $result_on_page); 
+		$items = array(); 
+		$sql = mysql_query("
+			SELECT 
+				p.cure_id, p.name$englang as name, p.description$englang as description, $subdescr 
+				c.cure_id as parent_id, c.name$englang as parent_name
+			FROM 
+				".TABLE_CURE." p
+				LEFT JOIN ".TABLE_CURE." c ON (c.cure_id=p.parent)
+				$left_table
+			WHERE 
+				$where_cure 
+			GROUP BY 
+				p.cure_id
+			ORDER BY 
+				$cure_ord_sql c.ord, p.ord 
+			LIMIT 
+				$limit") or Error(1, __FILE__, __LINE__);
+		while($info = @mysql_fetch_array($sql))
+		{ 
+			$i++;
+			$info['i'] = $i;
+			
+			if(!$info['name']) $info['name'] = NONAME;
+			$info['name'] = HtmlSpecialChars($info['name']);
+			$info['parent_name'] = HtmlSpecialChars($info['parent_name']);
+			
+			
+			if($info['parent_id']) 	
+				$info['link'] = $extrasite_id ?  
+					"$lprefix/$request[0]/medicine/$info[parent_id]/$info[cure_id]" : 
+					"$lprefix/medicine/$info[parent_id]/$info[cure_id]";
+			else 
+				$info['link'] = $extrasite_id ?  
+					"$lprefix/$request[0]/medicine/$info[cure_id]" : 
+					"$lprefix/medicine/$info[cure_id]";
+			
+			if(@$info['subdescription']) $info['description'] = $info['subdescription'];
+			$info['description'] = cat_description($info['description'], $word_arr);
+			
+			if($info['parent_id'])
+			{
+				$info['parent_link'] = $extrasite_id ? "$lprefix/$request[0]/medicine/$info[parent_id]" : 
+					 "$lprefix/medicine/$info[parent_id]";	
+			}
+			
+			$items[] = $info;
+		}
+		$replace['curelist'] = $items;
+		$replace['medicine_link'] = $extrasite_id ? "$lprefix/$request[0]/medicine/" : 
+					 "$lprefix/medicine/";	
+		$result_on_page += count($items);
+	}
+	$result_before += $cure_count;
+}
+
 list($limit, $replace['pages']) = user_pages($result_before, "$part/?word=".UrlEncode($word)."&only=$only&", $on_page);
 
 $content = get_template('templ/search.htm', $replace); 
 	
+if($extrasite_id) {
+	$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", array());
+}
+
 ?>

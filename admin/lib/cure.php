@@ -1,8 +1,14 @@
 <?php
 $cure_id = (int)@$cure_id;
 $subcure_id = (int)@$subcure_id;
-$cure_type_list = array(1=>'программы', 2=>'список в алфавитном пор€дке',3=>'объедин€ющий раздел', 
-	4=>'информационный раздел',5=>'новости', 6=>'галере€', 7=>'лицензии');
+$cure_type_list = array(
+	1=>'программы', 
+	//2=>'список в алфавитном пор€дке',
+	3=>'объедин€ющий раздел', 
+	4=>'информационный раздел',
+	5=>'новости', 
+	6=>'галере€', 
+	7=>'лицензии');
 
 if(isset($addcure))
 {	
@@ -128,7 +134,7 @@ if(@$save)
 		$arr = @mysql_fetch_array($sql);
 		$oldord = (int)@$arr['ord'];
 		
-		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', type='$type', partof='$partof' ,
+		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', 
 			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en'
 			WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
 			
