@@ -226,7 +226,7 @@ if($subcure_id)
 			$info['name'] = htmlspecialchars($info['name']);
 			$info['city'] = htmlspecialchars($info['city']);
 			$info['price'] = htmlspecialchars($info['price']);
-			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine" : "$lprefix/media/?s_id=$info[page_id]"; 
+			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/$subcure_id" : "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
 		}
 	}
