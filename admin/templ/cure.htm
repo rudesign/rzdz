@@ -4,7 +4,7 @@
 <table><tr><td>
 	<table cellpadding="2">
 	<tr><td>Отображать на сайте? </td><td><?=$public_select?></td></tr>
-	<tr><td>Тип раздела</td><td><?=$type_select?></td></tr>
+	<!--tr><td>Тип раздела</td><td><?=$type_select?></td></tr-->
 	<?if($partof_select){?><tr><td>Часть раздела</td><td><?=$partof_select?></td></tr><?}?>
 	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
@@ -25,6 +25,7 @@
     <tr><td align="right"><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
 </tr></table>
     <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+	<input type="hidden" name="type" value="<?=$type?>">
     <input type="hidden" name="p" value="cure">
 </form>
 
