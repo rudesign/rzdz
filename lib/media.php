@@ -164,8 +164,11 @@ else
 		if(isset($lastest)) $menu_link[$m_list[$i]] .= "&lastest";
 		if(isset($popular)) $menu_link[$m_list[$i]] .= "&popular";
 		$m_sel[$m_list[$i]] = $m == $m_list[$i] ? 1 : 0;
+
 	}
 }
+
+//if(!$_GET['m']) $m_sel['item'] = 1;
 
 $peplace = array('photo_list'=>$photo_list, 'menu_link'=>$menu_link, 'm_sel'=>$m_sel, 
 	'page_id'=>$page_id, 'page'=>$page, 'm'=>$m, 'medicine'=>$medicine);
