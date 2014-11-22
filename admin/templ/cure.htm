@@ -4,8 +4,8 @@
 <table><tr><td>
 	<table cellpadding="2">
 	<tr><td>Отображать на сайте? </td><td><?=$public_select?></td></tr>
-	<!--tr><td>Тип раздела</td><td><?=$type_select?></td></tr-->
-	<?if($partof_select){?><!--tr><td>Часть раздела</td><td><?=$partof_select?></td></tr--><?}?>
+	<tr><td>Тип раздела</td><td><?=$type_select?></td></tr>
+	<?if($partof_select){?><tr><td>Часть раздела</td><td><?=$partof_select?></td></tr><?}?>
 	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
 	<?if($type<3){?><tr><td>Заголовок: </td><td><input type="text" name="inhotel" value="<?=$inhotel?>" maxlength="255" size="50"></td></tr>
@@ -34,7 +34,8 @@
     <table cellpadding="2" border="0">
     <tr><td>
     <?foreach($cure_list as $v){?>
-        <p>
+        <?if($v['title']){?><p><strong><?=$v['title']?></strong></p><?}?>
+		<p>
             <a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
 
             <?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>

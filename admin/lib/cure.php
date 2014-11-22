@@ -21,8 +21,9 @@ if(isset($addcure))
 	mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$addcure") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
 		
-	$link = "?p=$part&cure_id=$addcure";
+	$link = "?p=$part";
 	if($addcure) $link .= "&subcure_id=$id";
+	else $link .= "&cure_id=$id";
 	Header("Location: ".$link);
 	exit;
 }
@@ -135,6 +136,7 @@ if(@$save)
 		$oldord = (int)@$arr['ord'];
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', 
+			type='$type', partof='$partof',
 			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en'
 			WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
 			
@@ -238,7 +240,12 @@ function check_cure($subcure_id, $parent=0)
 	$count = (int)@$arr[0];
 	if($count) return $count."î";
 	
-	if($subcure_id < 10) return "-";
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$subcure_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	if($count) return $count."î";
+	
+	if($subcure_id < 1) return "-";
 		
 	return 0;
 }
@@ -259,6 +266,10 @@ function get_level($parent=0, $level=1)
 		if(!$info['name']) $info['name'] = NONAME;
 		
 		$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$info[cure_id]";
+		
+		$info['del_link'] = ""; $info['icount'] = 0;
+		if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
+		else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]";
 		
 		$pages[] = $info;
 	}
@@ -322,7 +333,7 @@ if($cure_id)
 				" WHERE parent=0 AND cure_id!=$cure_id AND !partof ORDER BY ord", $replace['partof'], 1) : '';
 		
 		$ord = $cure_type==2 ? 'name' : 'ord';
-		$sql = mysql_query("SELECT cure_id, name FROM ".TABLE_CURE." WHERE parent=$cure_id ORDER BY $ord") or Error(1, __FILE__, __LINE__);
+		$sql = mysql_query("SELECT cure_id, name, anons FROM ".TABLE_CURE." WHERE parent=$cure_id ORDER BY $ord") or Error(1, __FILE__, __LINE__);
 		
 		$cures = array(); 
 		$all = (mysql_num_rows($sql)%4) ? (int)(mysql_num_rows($sql)/4)+1 : mysql_num_rows($sql)/4; 
@@ -330,7 +341,8 @@ if($cure_id)
 		while($info = @mysql_fetch_array($sql))
 		{ 
 			$k++; 
-			$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;		
+			$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+			$info['title'] = HtmlSpecialChars($info['anons']);		
 			
 			$info['del_link'] = ""; $info['icount'] = 0;
 			if($i=check_cure($info['cure_id'])) $info['icount'] = $i;

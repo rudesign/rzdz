@@ -1,12 +1,13 @@
 
-<!--P><a href="?p=cure&addcure=0">Добавить раздел ›››</a></P-->
+<P><a href="?p=cure&addcure=0">Добавить раздел ›››</a></P>
 <table cellpadding="2">
 <?foreach($pages as $v){?>
 <tr>
 	<td style="<?if($v['partof']){?>padding-left:15px<?}?>">
 		<a href="<?=$v['edit_link']?>" class="<?if($v['public']){?>linkvis<?}else{?>linkhid<?}?>" 
 			style="<?if($cure_id==$v['cure_id']){?>font-weight: bold;<?}?>"><?=$v['name']?></a></td>
-	<td width="10">&nbsp;</td>
+	<td style="padding-left:10px"><?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+		<?}else{?><font class="hid"><?=$v['icount']?></font><?}?></td>
 </tr>
 <?}?>
 </table>
