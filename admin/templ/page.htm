@@ -54,8 +54,8 @@
 	<!--tr><td>Ссылка на брошюру: </td><td><input type="text" name="brochure_url" value="<?=$brochure_url?>" maxlength="255" size="50"></td></tr-->
 	<?}?>
 	<tr><td>Описание: </td><td colspan="2">
-	   <textarea name="description" class="edit" rows="15" cols="80" style="width: 100%"><?=$description?></textarea></td></tr>
-	<tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </td></tr>
+	   <textarea name="description" class="edit" rows="15" cols="80" ><?=$description?></textarea></td></tr>
+	<tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$description_en?></textarea> </td></tr>
 
     <tr><td>не отображать на карте сайта: </td><td><input type="checkbox" name="nositemap" value="1" <?if($nositemap){?>checked="checked"<?}?>></td></tr>
     <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>

@@ -81,4 +81,8 @@ $lang_settings['kakoplatit'] = array('name'=>"Путевки в здравницы ОАО «РЖД-ЗДОРО
 $lang_settings['proverkascheta'] = array('name'=>"В данной форме также можно проверить зачисление денежных средств по Вашему счету.", 'name_en'=>"Proverka scheta...");
 $lang_settings['weather'] = array('name'=>"Погода в", 'name_en'=>"Weather in");
 $lang_settings['2week'] = array('name'=>"Прогноз на 2 недели", 'name_en'=>"2-week forecast");
+$lang_settings['kakdobratsya'] = array('name'=>"Как добраться:", 'name_en'=>"Как dobratsya");
+$lang_settings['oshibka'] = array('name'=>"Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.", 'name_en'=>"Esli zametili oshibku");
+$lang_settings['allrights'] = array('name'=>"Все права на опубликованные материалы принадлежат ОАО «РЖД-ЗДОРОВЬЕ»", 'name_en'=>"All rights");
+$lang_settings['razrabotka'] = array('name'=>"Разработка сайта", 'name_en'=>"Made in");
 ?>

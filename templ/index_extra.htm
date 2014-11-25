@@ -273,7 +273,7 @@ $(document).ready(function($){
             <div class="similar_aqua rd">
                 <img src="<?=$phone_img?>" />
                 <br /><br />
-                <span style="color:#fff;">Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.</span>
+                <span style="color:#fff;"><?=$lang_phrases['oshibka']?></span>
             </div><!--similar_aqua-->
 		  </div><!--top_fop-->
 		  <div class="bottom_fop clearfix">
@@ -284,9 +284,9 @@ $(document).ready(function($){
             </ul>
 				<?require("templ/footer_$extrasite_id.htm");?>
               <div class="similar_aqua rd">
-                  &copy; Все права на опубликованные материалы принадлежат<br />ОАО «РЖД-ЗДОРОВЬЕ»
+                  &copy; <?=$lang_phrases['allrights']?>
                   <br /><br />
-                  Разработка сайта <a target="_blank" href="http://rudes.ru">«РУДизайн»</a>
+                  <?=$lang_phrases['razrabotka']?> <a target="_blank" href="http://rudes.ru">«RuDesign»</a>
               </div>
 
 		  </div><!--bottom_fop-->
