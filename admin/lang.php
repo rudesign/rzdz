@@ -74,4 +74,11 @@ $lang_settings['big_quality'] = array('name'=>"Открыть в большом разрешении", 'n
 $lang_settings['gtema'] = array('name'=>"Вопросы по темам", 'name_en'=>"Temy");
 $lang_settings['gtema_choise'] = array('name'=>"Выберите тему вопроса", 'name_en'=>"Viberi");
 $lang_settings['medicine'] = array('name'=>"Медицина", 'name_en'=>"Medicine");
+$lang_settings['allsan'] = array('name'=>"Все санатории ОАО «РЖД-ЗДОРОВЬЕ»", 'name_en'=>"Vse sanatorii RZD");
+$lang_settings['siterzd'] = array('name'=>"Сайт ОАО «РЖД-ЗДОРОВЬЕ»", 'name_en'=>"Sait RZD");
+$lang_settings['uvgosti'] = array('name'=>"Уважаемые гости!", 'name_en'=>"Uvazhaemye gosti!");
+$lang_settings['kakoplatit'] = array('name'=>"Путевки в здравницы ОАО «РЖД-ЗДОРОВЬЕ» Вы можете оплатить любым удобным для Вас способом оплаты. Сотрудник компании сообщит Вам номер Вашего счета. В форме «Выберите получателя» выбирается здравница, по которой будет производиться оплата. В форме «Оплатить счет» вводится номер счета. После выбора здравницы и введения номера счета, в форме появится необходимая информация для осуществления платежа.", 'name_en'=>"Putevki v zdravnici...");
+$lang_settings['proverkascheta'] = array('name'=>"В данной форме также можно проверить зачисление денежных средств по Вашему счету.", 'name_en'=>"Proverka scheta...");
+$lang_settings['weather'] = array('name'=>"Погода в", 'name_en'=>"Weather in");
+$lang_settings['2week'] = array('name'=>"Прогноз на 2 недели", 'name_en'=>"2-week forecast");
 ?>

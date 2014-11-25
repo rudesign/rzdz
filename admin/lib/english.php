@@ -9,7 +9,8 @@ $lang_list = array(
 	'captcha', 'captcha1', 'captcha2', 'sendphone', '404', 'notfound', 'home', 'sitemap', 'pages', 'favourites',
 	'we_will_call', 'leave_phone', 'name', 'phone_number', 'email', 'skryt', 'raskryt',  'otvet', 'svernut', 'zadaite', 'vash_vopros',
 	'err_phone', 'err_name', 'err_email', 'err_captcha', 'err_text', 'dobavlen_otziv', 'otvetim', 'close', 'thank', 'our_manager',
-	'po_zaprosu', 'naideno', 'ne_naideno', 'big_quality' , 'gtema', 'gtema_choise', 'medicine');
+	'po_zaprosu', 'naideno', 'ne_naideno', 'big_quality' , 'gtema', 'gtema_choise', 'medicine',
+	'allsan', 'siterzd', 'uvgosti', 'kakoplatit', 'proverkascheta', 'weather', '2week', 'kakdobratsya');
 
 
 if(@$_POST['save'])
