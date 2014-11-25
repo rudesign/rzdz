@@ -1,25 +1,55 @@
-
 <?if($subcure_id){?>
 
-		<?=$profile?>
-		<div id="pdescription"><?=$subcure['description']?></div>
-		
-            <?if(count($curehotel)){?>
-			<div class="medicine-sanatorium-services section">
-                <div class="title">
-                    <?=$cure['inhotel']?>
-                </div>
-                <div class="grid">
-                    <?foreach($curehotel as $v){?>
-					<div class="items">
-                        <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
-                        <?=$v['name']?> <br /><?=$v['city']?> <br /><?=$v['price']?>
-                    </div>
-					<?}?>
-                    <div class="clearfix"></div>
-                </div>
+		<?php // echo $profile?>
+        <div class="section clearfix">
+            <div id="pdescription"><?=$subcure['description']?></div>
+            <div class="plofiles-list">
+                <ul>
+                    <li class="active"><a href="">Profile</a></li>
+                    <li><a href="">Profile</a></li>
+                    <li><a href="">Profile</a></li>
+                </ul>
             </div>
-			<?}?>
+        </div>
+
+        <?if(count($curehotel)){?>
+        <div class="medicine-sanatorium-services section">
+            <div class="title">
+                <?=$cure['inhotel']?>
+            </div>
+            <div class="grid">
+                <?foreach($curehotel as $v){?>
+                <div class="items">
+                    <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
+                    <?=$v['name']?> <br /><?=$v['city']?> <br /><?=$v['price']?>
+                </div>
+                <?}?>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <?}?>
+
+        <div class="nosology section">
+           <ul>
+               <li><a href="">Класс заболеваний</a></li>
+               <li>
+                   <a href="">Класс заболеваний</a>
+                   <ul>
+                       <li><a href="">Класс заболеваний</a></li>
+                       <li>
+                           <a href="">Класс заболеваний</a>
+                           <ul>
+                               <li><a href="">Класс заболеваний</a></li>
+                               <li><a href="">Класс заболеваний</a></li>
+                               <li><a href="">Класс заболеваний</a></li>
+                           </ul>
+                       </li>
+                       <li><a href="">Класс заболеваний</a></li>
+                   </ul>
+               </li>
+               <li><a href="">Класс заболеваний</a></li>
+           </ul>
+        </div>
 
 <?}elseif($cure_id){?>
 

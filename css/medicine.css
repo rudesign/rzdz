@@ -64,7 +64,6 @@
 .medicine-sanatorium-services{
     background-color: #ebebeb;
     padding: 10px;
-    margin-top: 23px;
 }
 .medicine-sanatorium-services .title{
     text-align: center;
@@ -248,4 +247,44 @@
     font-style: italic;
     font-weight: normal;
     line-height: 1.3em;
+}
+
+.simple_content #pdescription{
+    float: left;
+    width: 362px;
+}
+.simple_content .plofiles-list{
+    float: right;
+    width: 180px;
+}
+.simple_content .plofiles-list li:nth-child(2n){
+    background-color: #ebebeb;
+}
+.simple_content .plofiles-list a{
+    display: block;
+    padding: 3px 7px;
+    text-decoration: none;
+}
+.simple_content .plofiles-list li:hover,
+.simple_content .plofiles-list .active{
+    background-color: #008c95;
+}
+.simple_content .plofiles-list li:hover a,
+.simple_content .plofiles-list .active a{
+    color: #fff;
+}
+.simple_content .plofiles-list li:first-child{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.simple_content .plofiles-list li:last-child{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.nosology ul{
+    margin-left: 23px;
+}
+.nosology li{
+    padding: 5px 10px;
 }

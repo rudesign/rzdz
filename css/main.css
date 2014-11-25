@@ -18,6 +18,11 @@ body, .simple_content td{
 	overflow:hidden;
 }
 .hide{ display:none !important; }
+
+.section{
+    margin-bottom: 23px;
+}
+
 input, select, textarea{
 	font-family:inherit;
 	font-size:inherit;
@@ -869,6 +874,7 @@ font-weight:normal;
 .simple_content table.zebra td:last-child{
     border-right: none!important;
 }
+
 .double_simple img{
 float:left;
 margin-right:12px;
