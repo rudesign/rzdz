@@ -1,5 +1,12 @@
 <?php
 
+@include 'Log.php';
+
+$log = class_exists('Log', false) ? new Log($_SESSION['admin_name']) : null;
+
+//$log->store('test', 'on Test');
+
+
 if(isset($confirmphoto))
 {
 	$photo_id = (int)@$confirmphoto;
