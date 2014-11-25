@@ -658,6 +658,13 @@ function menu_medicine()
 		if($arr['type']==4 || ($arr['type']==7 && !$extrasite_id))
 		{
 			$arr['list'] = array();
+			if($arr['type']==7)
+			$sql1 = mysql_query("SELECT c.cure_id, c.name$englang as name,  d.dir FROM ".TABLE_CURE." c 
+				LEFT JOIN ".TABLE_PAGE." ps ON (ps.site=c.page_id AND ps.public)  
+				LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=ps.dir_id) 
+				WHERE c.parent=$arr[cure_id] AND c.public AND c.inmenu
+				ORDER BY c.ord") or Error(1, __FILE__, __LINE__);
+			else
 			$sql1 = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE."  
 				WHERE parent=$arr[cure_id] AND public AND inmenu
 				ORDER BY ord") or Error(1, __FILE__, __LINE__);
@@ -667,7 +674,8 @@ function menu_medicine()
 				if($arr1['sel']) $arr['sel']=1;
 				$arr1['name'] = HtmlSpecialChars($arr1['name'], null, 'cp1251');
 				
-				$arr1['link'] =  $link_medicine."$arr[cure_id]/$arr1[cure_id]";
+				if($arr['type']==7 && @$arr1['dir']) $arr1['link'] =  "$lprefix/$arr1[dir]/medicine/$arr[cure_id]\" target=\"_blank";
+				else $arr1['link'] =  $link_medicine."$arr[cure_id]/$arr1[cure_id]";
 				
 				$arr['list'][] = $arr1;
 			}				

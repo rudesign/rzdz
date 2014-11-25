@@ -171,8 +171,8 @@ if($cure_id)
 					$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
-					$info['page_link'] = "$lprefix/medicine/$cure_id/$info[cure_id]"; 
-					//$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id" : "$lprefix/medicine/$cure_id/$info[cure_id]"; 
+					$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id\" target=\"_blank" : 
+						"$lprefix/medicine/$cure_id/$info[cure_id]"; 
 					$curehotel[] = $info;	
 				}
 				$replace['curehotel'] = $curehotel;
