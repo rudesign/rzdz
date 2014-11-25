@@ -12,7 +12,7 @@
 <script src="/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
 <script src="/js/flash_detect_min.js" type="text/javascript"></script>
 
-<script type="text/javascript" src="https://booking.rzdz.ru/modules/frontend/booking/javascript.php?template=infosochi&hl=ru&au=RUB&hotelgroup=rzdz&ac=1"></script>
+<script type="text/javascript" src="https://booking.rzdz.ru/modules/frontend/booking/javascript.php?template=infosochi&hl=<?if($englang){?>en<?}else{?>ru<?}?>&au=RUB&hotelgroup=rzdz&ac=1"></script>
 <link rel="stylesheet" href="https://booking.rzdz.ru/modules/frontend/booking/stylesheet.php?template=infosochi&ac=1" type="text/css" media="all" />
 
 <link href="/css/jquery-ui.css" media="all" type="text/css" rel="stylesheet" />
@@ -137,8 +137,8 @@ $(document).ready(function($){
                     <li><a href="javascript:void(0)" title="<?=$lang_phrases['favourites']?>"
                          onclick="return add_favorite(this);"><img src="img_extra/aq_m6.png" alt="" /></a></li>
                     <li><a href="<?=$print_url?>" target="_blank" title="<?=$lang_phrases['print']?>"><img src="img_extra/aq_m7.png" alt="" /></a></li>
-                    <li><a href="http://<? echo $_SERVER['HTTP_HOST']; ?>/en/" title=""><img src="img_extra/gbFlag.png" alt="" /></a></li>
-                    <li><a href="<?=$request[0]?>" title=""><img src="img_extra/ruFlag.png" alt="" /></a></li>
+                    <li><a href="<?=$eng_url?>" title=""><img src="img_extra/gbFlag.png" alt="" /></a></li>
+                    <li><a href="<?=$rus_url?>" title=""><img src="img_extra/ruFlag.png" alt="" /></a></li>
                   </ul><!--small_menu_aqua-->
                   <ul class="double_header_aqua clearfix">
                     <li><a href="/sanatorium" target="_blank">Все санатории ОАО «РЖД-ЗДОРОВЬЕ»</a></li>
