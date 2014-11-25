@@ -364,7 +364,7 @@ function get_menu_extra($bottom=0)
 
 function get_menu2_extra() 
 {	
-	global $part, $parent, $page_id, $extrasite_id, $request, $extra_parent_id, $englang, $lprefix;
+	global $part, $parent, $page_id, $extrasite_id, $request, $extra_parent_id, $englang, $lprefix, $lang_phrases;
 	
 	$list = array(); $pname = '';
 	
@@ -436,9 +436,9 @@ function get_menu2_extra()
 		if($info['cord']==1 && count($list)==mysql_num_rows($sql)) 
 		{
 			$sel = $request[1] == 'news' ? 1 : 0;
-			$list[] = array('name'=>'Новости', 'link'=>$request[0].'/news', 'sel'=>$sel);
+			$list[] = array('name'=>$lang_phrases['news'], 'link'=>$request[0].'/news', 'sel'=>$sel);
 			$sel = $request[1] == 'opinion' ? 1 : 0;
-			$list[] = array('name'=>'Отзывы', 'link'=>$request[0].'/opinion', 'sel'=>$sel);
+			$list[] = array('name'=>$lang_phrases['opinion'], 'link'=>$request[0].'/opinion', 'sel'=>$sel);
 		}
 	}
 	
