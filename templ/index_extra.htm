@@ -12,7 +12,7 @@
 <script src="/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
 <script src="/js/flash_detect_min.js" type="text/javascript"></script>
 
-<script type="text/javascript" src="https://booking.rzdz.ru/modules/frontend/booking/javascript.php?template=infosochi&hl=ru&au=RUB&hotelgroup=rzdz&ac=1"></script>
+<script type="text/javascript" src="https://booking.rzdz.ru/modules/frontend/booking/javascript.php?template=infosochi&hl=<?if($englang){?>en<?}else{?>ru<?}?>&au=RUB&hotelgroup=rzdz&ac=1"></script>
 <link rel="stylesheet" href="https://booking.rzdz.ru/modules/frontend/booking/stylesheet.php?template=infosochi&ac=1" type="text/css" media="all" />
 
 <link href="/css/jquery-ui.css" media="all" type="text/css" rel="stylesheet" />
@@ -129,20 +129,20 @@ $(document).ready(function($){
                 <a class="logo_aqua ld" href="<?=$request[0]?>" style="background:url(<?=$logo_img?>) no-repeat;"></a>
                 <div class="center_header_aqua ld">
                   <ul class="small_menu_aqua clearfix">
-                    <li><a href="<?=$request[0]?>"><img src="img_extra/aq_m1.png" alt="" /></a></li>
-                    <li><a href="<?=$request[0]?>/sitemap"><img src="img_extra/aq_m2.png" alt="" /></a></li>
-                    <li><a href="/faq" target="_blank"><img src="img_extra/aq_m3.png" alt="" /></a></li>
-                    <li><a href="<?=$request[0]?>/contacts"><img src="img_extra/aq_m4.png" alt="" /></a></li>
-                    <li><a href="/media/?s_id=<?=$extrasite_id?>" target="_blank"><img src="img_extra/aq_m5.png" alt="" /></a></li>
+                    <li><a href="<?="$lprefix/$request[0]"?>"><img src="img_extra/aq_m1.png" alt="" /></a></li>
+                    <li><a href="<?="$lprefix/$request[0]/sitemap"?>"><img src="img_extra/aq_m2.png" alt="" /></a></li>
+                    <li><a href="<?=$lprefix?>/faq" target="_blank"><img src="img_extra/aq_m3.png" alt="" /></a></li>
+                    <li><a href="<?="$lprefix/$request[0]"?>/contacts"><img src="img_extra/aq_m4.png" alt="" /></a></li>
+                    <li><a href="<?=$lprefix?>/media/?s_id=<?=$extrasite_id?>" target="_blank"><img src="img_extra/aq_m5.png" alt="" /></a></li>
                     <li><a href="javascript:void(0)" title="<?=$lang_phrases['favourites']?>"
                          onclick="return add_favorite(this);"><img src="img_extra/aq_m6.png" alt="" /></a></li>
                     <li><a href="<?=$print_url?>" target="_blank" title="<?=$lang_phrases['print']?>"><img src="img_extra/aq_m7.png" alt="" /></a></li>
-                    <li><a href="http://<? echo $_SERVER['HTTP_HOST']; ?>/en/" title=""><img src="img_extra/gbFlag.png" alt="" /></a></li>
-                    <li><a href="<?=$request[0]?>" title=""><img src="img_extra/ruFlag.png" alt="" /></a></li>
+                    <li><a href="<?=$eng_url?>" title=""><img src="img_extra/gbFlag.png" alt="" /></a></li>
+                    <li><a href="<?=$rus_url?>" title=""><img src="img_extra/ruFlag.png" alt="" /></a></li>
                   </ul><!--small_menu_aqua-->
                   <ul class="double_header_aqua clearfix">
-                    <li><a href="/sanatorium" target="_blank">Все санатории ОАО «РЖД-ЗДОРОВЬЕ»</a></li>
-                    <li class="margin_r"><a href="/" target="_blank">Сайт ОАО «РЖД-ЗДОРОВЬЕ»</a></li>
+                    <li><a href="<?=$lprefix?>/sanatorium" target="_blank"><?=$lang_phrases['allsan']?></a></li>
+                    <li class="margin_r"><a href="<?=$lprefix?>/" target="_blank"><?=$lang_phrases['siterzd']?></a></li>
                   </ul><!--double_header_aqua-->
                   <div class="for_aqua_finde clearfix">
                   <form action="<?=$lprefix?>/<?=$request[0]?>/search/">
@@ -191,7 +191,7 @@ $(document).ready(function($){
 				<form name="sendform" id="sendform" method="post" action="/sendphone.php" target="sendphone" 
 					onSubmit="var obj=window.open('', 'sendphone', 		'location=0,status=1,scrollbars=1,dialog=0,minimizable=1,modal=1,resizable=1,width=400,height=200');sendform.submit();obj.focus();">	
 			  <ul class="list_lc_people">
-			    <li><span>Оставьте свой номер и наши операторы свяжутся с Вами</span></li>
+			    <li><span><?=$lang_phrases['leave_phone']?></span></li>
 				<li><input type="text" class="form_people_lc" name="name" size="3" placeholder="<?=$lang_phrases['name']?>"/></li>
 				<li><input type="text" class="form_people_lc" name="phone" size="3" placeholder="<?=$lang_phrases['phone_number']?>"/></li>
 				<li>
@@ -225,9 +225,9 @@ $(document).ready(function($){
 	<div class="for_wave for_mar_wave luft_landing_bottom">
       <div class="for_wave_in clearfix">
 	    <div class="left_wave ld">
-		  <p>Уважаемые гости!</p>
-		  <p>Путевки в здравницы ОАО «РЖД-ЗДОРОВЬЕ» Вы можете оплатить любым удобным для Вас способом оплаты. Сотрудник компании сообщит Вам номер Вашего счета. В форме «Выберите получателя» выбирается здравница, по которой будет производиться оплата. В форме «Оплатить счет» вводится номер счета. После выбора здравницы и введения номера счета, в форме появится необходимая информация для осуществления платежа. </p>
-		  <p>В данной форме также можно проверить зачисление денежных средств по Вашему счету.</p>
+		  <p><?=$lang_phrases['uvgosti']?></p>
+		  <p><?=$lang_phrases['kakoplatit']?> </p>
+		  <p><?=$lang_phrases['proverkascheta']?></p>
         </div><!--left_wave-->
         <div class="right_wave ld clearfix">
 		    <script type="text/javascript" src="//d3oe3cumn3db7.cloudfront.net/uw3/js/uw3.min.js" charset="utf-8" id="uw3js" data-invoice-fields="description, customer, id, expires"        data-key="WKKuM6DaagTNqpVem2bGrg5Z"        data-css="http://rzdz.ru/pay_form_unipag.css"></script>
@@ -250,7 +250,7 @@ $(document).ready(function($){
 			  <li>
 			    <ul class="in_net_aqua clearfix">
 				<li><a class="net_aq1" target="_blank" href="https://www.facebook.com/pages/%D0%A0%D0%96%D0%94-%D0%97%D0%94%D0%9E%D0%A0%D0%9E%D0%92%D0%AC%D0%95/570310432989436"></a></li>
-				<li><a class="net_aq2" target="_blank" href="https://vk.com/rzdz_official""></a></li>
+				<li><a class="net_aq2" target="_blank" href="https://vk.com/rzdz_official"></a></li>
 				<li>
                     <div id="SkypeButton_Call_rzd-zdorovie_2">
 					  <script type="text/javascript">
@@ -273,15 +273,20 @@ $(document).ready(function($){
             <div class="similar_aqua rd">
                 <img src="<?=$phone_img?>" />
                 <br /><br />
-                <span style="color:#fff;">Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.</span>
+                <span style="color:#fff;"><?=$lang_phrases['oshibka']?></span>
             </div><!--similar_aqua-->
 		  </div><!--top_fop-->
 		  <div class="bottom_fop clearfix">
-		        <?require("templ/footer_$extrasite_id.htm");?>
+		        
+		       <ul class="left_bfc">
+			  <li><p><?=$lang_phrases['kakdobratsya']?></p></li>
+			  <li><a href="<?=$lprefix?>/ivushka/contacts/"><img src="img_extra/way.png" alt="" /></a></li>
+            </ul>
+				<?require("templ/footer_$extrasite_id.htm");?>
               <div class="similar_aqua rd">
-                  &copy; Все права на опубликованные материалы принадлежат<br />ОАО «РЖД-ЗДОРОВЬЕ»
+                  &copy; <?=$lang_phrases['allrights']?>
                   <br /><br />
-                  Разработка сайта <a target="_blank" href="http://rudes.ru">«РУДизайн»</a>
+                  <?=$lang_phrases['razrabotka']?> <a target="_blank" href="http://rudes.ru">«RuDesign»</a>
               </div>
 
 		  </div><!--bottom_fop-->

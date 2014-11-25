@@ -62,4 +62,9 @@ $replace['homelink'] = $extra_parent_id ? "$lprefix/$request[0]/" : "$lprefix/";
 $replace['extrasite_id'] = $extrasite_id;
 
 $content =  get_template('templ/sitemap.htm', $replace); 
+
+if($extrasite_id) {
+	$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", array());
+}
+
 ?>

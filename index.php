@@ -28,11 +28,11 @@ elseif(preg_match("~/$~", $print_url)) $print_url .= "?print";
 else $print_url .= "/?print";
 
 // if en - show Under construction page with 404
-if(!empty($englang)){
+/*if(!empty($englang)){
     header("HTTP/1.0 404 Not Found");
     require 'templ/under_construction.htm';
     die();
-}
+}*/
 
 $lprefix = $englang ? '/en' : '';
 $lang_phrases = array();

@@ -25,40 +25,14 @@
 	<tr><td>KEYWORDS: </td><td><input type="text" name="keywords" value="<?=$keywords?>" maxlength="255" size="50"></td></tr>
 	<tr><td>KEYWORDS eng: </td><td><input type="text" name="keywords_en" value="<?=$keywords_en?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Анонс: </td><td>
-        <!--
-        <input type="radio" name="edit" value="0"  checked="checked" onclick="document.getElementById('descr0').style.display='';document.getElementById('descr1').style.display='none';" />
-            <label for="ed0">редактор</label> &nbsp;&nbsp;
-        <input type="radio" name="edit" value="1" onclick="document.getElementById('descr0').style.display='none';document.getElementById('descr1').style.display='';" />
-            <label for="ed1">html</label><br />
-            -->
-        <div id="descr0"><textarea name="descr" id="descr" rows="10" cols="80" style="width: 100%"><?=$descr?></textarea> </div>
+       <textarea name="descr" class="edit" rows="10" cols="80" ><?=$descr?></textarea> 
     </td></tr>
     <tr><td>Анонс eng: </td><td>
-        <!--
-        <input type="radio" name="edit_en" value="0" checked="checked" onclick="document.getElementById('descr_en0').style.display='';document.getElementById('descr_en1').style.display='none';" />
-            <label for="ed0">редактор</label> &nbsp;&nbsp;
-        <input type="radio" name="edit_en" value="1" onclick="document.getElementById('descr_en0').style.display='none';document.getElementById('descr_en1').style.display='';" />
-            <label for="ed1">html</label><br />
-              -->
-        <div id="descr_en0"><textarea name="descr_en" id="descr_en" rows="10" cols="80" style="width: 100%"><?=$descr_en?></textarea> </div>
+        <textarea name="descr_en" class="edit" rows="10" cols="80" ><?=$descr_en?></textarea> 
     </td></tr>
-    <tr><td>Описание: </td><td>
-        <!--
-        <input type="radio" name="editor" value="0"  checked="checked" onclick="document.getElementById('description0').style.display='';document.getElementById('description1').style.display='none';" />
-            <label for="ed0">редактор</label> &nbsp;&nbsp;
-        <input type="radio" name="editor" value="1" onclick="document.getElementById('description0').style.display='none';document.getElementById('description1').style.display='';" />
-            <label for="ed1">html</label><br />
-            -->
-        <div id="description0"><textarea name="description" id="description" rows="15" cols="80" style="width: 100%"><?=$description?></textarea> </div>
+    <tr><td>Описание: </td><td><textarea name="description" class="edit" rows="15" cols="80" ><?=$description?></textarea> 
     </td></tr>
-    <tr><td>Описание eng: </td><td>
-        <!--
-        <input type="radio" name="editor_en" value="0" checked="checked" onclick="document.getElementById('description_en0').style.display='';document.getElementById('description_en1').style.display='none';" />
-            <label for="ed0">редактор</label> &nbsp;&nbsp;
-        <input type="radio" name="editor_en" value="1" onclick="document.getElementById('description_en0').style.display='none';document.getElementById('description_en1').style.display='';" />
-            <label for="ed1">html</label><br />
-              -->
-        <div id="description_en0"><textarea name="description_en" id="description_en" rows="15" cols="80" style="width: 100%"><?=$description_en?></textarea> </div>
+    <tr><td>Описание eng: </td><td>><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$description_en?></textarea>
     </td></tr>
     <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
     <input type="hidden" name="news_id" value="<?=$news_id?>">
