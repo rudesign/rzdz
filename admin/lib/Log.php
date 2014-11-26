@@ -2,18 +2,30 @@
 
 class Log{
 
-    public $userName = '';
+    protected $logTableName = 'zdor_userlog';
+    public $userId = '';
 
-    public function __construct($userName = ''){
-        if(!empty($userName)) $this->userName = $userName;
+    public function __construct($userId = ''){
+        if(!empty($userId)) $this->userId = $userId;
     }
 
-    public function store($actionName = '', $objectName = ''){
+    public function store($actionName = '', $objectName = '', $userId = ''){
         try{
             if(empty($actionName)) throw new Exception;
             if(empty($objectName)) throw new Exception;
 
-            $query = "INSERT INTO `zdor_userlog` (`id`, `name`, `object_name`, `created_time`) VALUES (0, '{$actionName}', '{$objectName}', UNIX_TIMESTAMP());";
+            $userId = empty($userName) ? $this->userId : $userId;
+
+            $hash = $this->getHash($userId, $actionName, $objectName);
+
+            $query = "SELECT hash FROM `{$this->logTableName}` ORDER BY id DESC LIMIT 1";
+            if($result = mysql_query($query)){
+                if($row = mysql_fetch_assoc($result)){
+                    if($row['hash'] == $hash) throw new Exception;
+                }
+            }
+
+            $query = "INSERT INTO `{$this->logTableName}` (`id`, `user_id`, `action_name`, `object_name`, `hash`, `created_time`) VALUES (0, '{$userId}', '{$actionName}', '{$objectName}', '{$hash}', UNIX_TIMESTAMP());";
 
             if(!mysql_query($query)) throw new Exception;
 
@@ -23,26 +35,27 @@ class Log{
         }
     }
 
-
-    public function getActionName($userName = '', $actionType = ''){
+    public function getActionName($actionType = ''){
         $actionName = array();
-
-        $actionName[] = $userName;
 
         switch($actionType){
             case 'add':
-                $actionName[] = 'РґРѕР±Р°РІРёР»(Р°)';
+                $actionName[] = 'добавляет';
             break;
             case 'edit':
-                $actionName[] = 'РѕС‚СЂРµРґР°РєРёСЂРѕРІР°Р»(Р°)';
+                $actionName[] = 'редактирует';
             break;
             case 'del':
-                $actionName[] = 'СѓРґР°Р»РёР»(Р°)';
+                $actionName[] = 'удаляет';
             break;
         }
 
         $actionName = implode(' ', $actionName);
 
         return $actionName;
+    }
+
+    protected function getHash($userId = '', $actionName = '', $objectName = ''){
+        return md5($userId.$objectName.$objectName);
     }
 }

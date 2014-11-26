@@ -20,6 +20,9 @@ if(isset($confirmphoto))
 	{
 		mysql_query("UPDATE ".TABLE_PHOTO.
 			" SET public=1 WHERE photo_id=$photo_id") or Error(1, __FILE__, __LINE__);
+
+        //if(is_object($log)) $log->store($log->getActionName('edit').' изображение', $photo_id);
+
 		$_SESSION['message'] = "Фото опубликовано.";
 		Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id&other");
 		exit;
@@ -468,6 +471,7 @@ if(@$savephoto)
 	exit;
 }
 
+// @TODO Зачем тут переменные передаются по ссылке?
 if(@$save)
 {
 	$public = (int)@$public;
@@ -514,6 +518,11 @@ if(@$save)
 				"description='$description', description_en='$description_en', ord='$ord',  ".
 				"region_id='$region_id', city_id='$city_id', stars='$stars', price='$price', url='$url', brochure_url='$brochure_url' ".
 				"WHERE page_id='$page_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) {
+
+        $log->store($log->getActionName('edit').' текст', $name);
+    }
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_PAGE." SET ord=ord-1 ".
 		"WHERE ord>'$oldord' AND ord<='$ord' AND parent='$parent' AND page_id!='$page_id' AND !site") or Error(1, __FILE__, __LINE__);
@@ -823,7 +832,7 @@ function get_level($parent=0, $level=1)
 	while($info = @mysql_fetch_array($sql))
 	{ 
 		if($info['page_id']==2 || $info['page_id']==3) continue;
-		$info['name'] = HtmlSpecialChars($info['name']);
+		$info['name'] = HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251');
 		if(!$info['name']) $info['name'] = NONAME;
 		
 		$info['edit_link'] = ADMIN_URL."?p=$part&page_id=$info[page_id]";
@@ -860,8 +869,8 @@ if(isset($regions))
 	$regions = array(); 
 	while($info = @mysql_fetch_array($sql))
 	{ 
-		$info['name'] = HtmlSpecialChars($info['name']);
-		$info['name_en'] = HtmlSpecialChars($info['name_en']);
+		$info['name'] = HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251');
+		$info['name_en'] = HtmlSpecialChars($info['name_en'], ENT_COMPAT, 'cp1251');
 		//if(!$info['name']) $info['name'] = NONAME;
 		
 		$info['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info['public'], 0);
@@ -883,7 +892,7 @@ if(isset($citys))
 	$citys = array(); 
 	while($info = @mysql_fetch_array($sql))
 	{ 
-		$info['name'] = HtmlSpecialChars($info['name']);
+		$info['name'] = HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251');
 		//if(!$info['name']) $info['name'] = NONAME;
 		
 		$info['edit_link'] = "?p=$part&citys&city_id=$info[city_id]";
@@ -903,16 +912,16 @@ if(isset($citys))
 		
 		if($page = @mysql_fetch_array($sql))
 		{ 
-			$page['name'] = HtmlSpecialChars($page['name']);
-			$page['name_en'] = HtmlSpecialChars($page['name_en']);
+			$page['name'] = HtmlSpecialChars($page['name'], ENT_COMPAT, 'cp1251');
+			$page['name_en'] = HtmlSpecialChars($page['name_en'], ENT_COMPAT, 'cp1251');
 			
-			$page['title'] = HtmlSpecialChars($page['title']);
-			$page['mdescription'] = HtmlSpecialChars($page['mdescription']);
-			$page['keywords'] = HtmlSpecialChars($page['keywords']);
+			$page['title'] = HtmlSpecialChars($page['title'], ENT_COMPAT, 'cp1251');
+			$page['mdescription'] = HtmlSpecialChars($page['mdescription'], ENT_COMPAT, 'cp1251');
+			$page['keywords'] = HtmlSpecialChars($page['keywords'], ENT_COMPAT, 'cp1251');
 			
 			$tinymce_elements = 'description';
 			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
-			$page['description'] = HtmlSpecialChars($page['description']);			
+			$page['description'] = HtmlSpecialChars($page['description'], ENT_COMPAT, 'cp1251');
 			
 			$page['gallery_select'] = gallery_select($page['gallery_id'], $page['photocount']);
 			
@@ -932,14 +941,14 @@ if(isset($cures))
 	$cures = array(); 
 	while($info = @mysql_fetch_array($sql))
 	{ 
-		$info['name'] = HtmlSpecialChars($info['name']);		
+		$info['name'] = HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251');
 		$info['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info['public'], 0);
 		
 		$sql1 = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE parent=$info[cure_id] ORDER BY ord") or Error(1, __FILE__, __LINE__);	
 		$list = array(); 
 		while($info1 = @mysql_fetch_array($sql1))
 		{ 
-			$info1['name'] = HtmlSpecialChars($info1['name']);		
+			$info1['name'] = HtmlSpecialChars($info1['name'], ENT_COMPAT, 'cp1251');
 			$info1['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info1['public'], 0);
 			
 			$list[] = $info1;
@@ -963,8 +972,8 @@ if($page_id)
 			" WHERE p.page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 	if($page = @mysql_fetch_array($sql))
 	{
-		$page['name'] = HtmlSpecialChars($page['name']);
-		$page['name_en'] = HtmlSpecialChars($page['name_en']);
+		$page['name'] = HtmlSpecialChars($page['name'], ENT_COMPAT, 'cp1251');
+		$page['name_en'] = HtmlSpecialChars($page['name_en'], ENT_COMPAT, 'cp1251');
 		
 		if($page['parent']==1)
 		{
@@ -995,14 +1004,14 @@ if($page_id)
 					$i++; 
 					$photo_id = $arr_photos['photo_id'];
 					$ext = $arr_photos['ext'];
-					$alt = HtmlSpecialChars($arr_photos['alt']);
-					$alt_en = HtmlSpecialChars($arr_photos['alt_en']);
+					$alt = HtmlSpecialChars($arr_photos['alt'], ENT_COMPAT, 'cp1251');
+					$alt_en = HtmlSpecialChars($arr_photos['alt_en'], ENT_COMPAT, 'cp1251');
 					$ord = $arr_photos['ord'];
 					//$ord_sel = digit_select('ord', 1, $count, $arr_photos['ord']);
 					if($media=='pdf')
 					{
 						$f= $ext ? "../images/$photo_dir[$media]/${photo_id}.$ext" : '';
-						$description = HtmlSpecialChars($arr_photos['description']);
+						$description = HtmlSpecialChars($arr_photos['description'], ENT_COMPAT, 'cp1251');
 						$photos[] = array('number'=>$i, 'photo_id'=>$photo_id, 'description'=>$description, 'f'=>$f,
 											'public'=>$arr_photos['public'], 'ord'=>$ord, 'alt'=>$alt,  'alt_en'=>$alt_en, 
 											'del_link'=>ADMIN_URL."?p=$part&delphoto=$photo_id&page_id=$page_id&media=$media");
@@ -1018,7 +1027,7 @@ if($page_id)
 							if($w_big && $h_big) $bigsize = "$w_big,$h_big";
 						}
 						$f="../images/$photo_dir[$media]/${photo_id}-s.$ext";
-						$description = HtmlSpecialChars($arr_photos['description']);
+						$description = HtmlSpecialChars($arr_photos['description'], ENT_COMPAT, 'cp1251');
 						if($media == 'video') $bigphoto = "/video/?photo_id=$photo_id";
 						list($w_small, $h_small) = @getimagesize($f);
 						
@@ -1064,12 +1073,12 @@ if($page_id)
 			
 		}
 		
-		$page['title'] = HtmlSpecialChars($page['title']);
-		$page['mdescription'] = HtmlSpecialChars($page['mdescription']);
-		$page['keywords'] = HtmlSpecialChars($page['keywords']);
-		$page['title_en'] = HtmlSpecialChars($page['title_en']);
-		$page['mdescription_en'] = HtmlSpecialChars($page['mdescription_en']);
-		$page['keywords_en'] = HtmlSpecialChars($page['keywords_en']);
+		$page['title'] = HtmlSpecialChars($page['title'], ENT_COMPAT, 'cp1251');
+		$page['mdescription'] = HtmlSpecialChars($page['mdescription'], ENT_COMPAT, 'cp1251');
+		$page['keywords'] = HtmlSpecialChars($page['keywords'], ENT_COMPAT, 'cp1251');
+		$page['title_en'] = HtmlSpecialChars($page['title_en'], ENT_COMPAT, 'cp1251');
+		$page['mdescription_en'] = HtmlSpecialChars($page['mdescription_en'], ENT_COMPAT, 'cp1251');
+		$page['keywords_en'] = HtmlSpecialChars($page['keywords_en'], ENT_COMPAT, 'cp1251');
 		
 		if(!$page['public'] && !$page['name'] && !$page['description']) $page['public'] = 1;
 		$page['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $page['public'], 0);
@@ -1085,8 +1094,8 @@ if($page_id)
 
 		$tinymce_elements = 'description, description_en';
 		$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
-		$page['description'] = HtmlSpecialChars($page['description']);
-		$page['description_en'] = HtmlSpecialChars($page['description_en']);
+		$page['description'] = HtmlSpecialChars($page['description'], ENT_COMPAT, 'cp1251');
+		$page['description_en'] = HtmlSpecialChars($page['description_en'], ENT_COMPAT, 'cp1251');
 		
 		
 		if($page['parent'] == 1 || $page['parent'] == 6)
@@ -1108,11 +1117,11 @@ if($page_id)
 		
 		if($page['parent'] == 1 || $page_id==41)
 		{
-			$page['slide_text'] = HtmlSpecialChars($page['slide_text']);
-			$page['slide_name'] = HtmlSpecialChars($page['slide_name']);
+			$page['slide_text'] = HtmlSpecialChars($page['slide_text'], ENT_COMPAT, 'cp1251');
+			$page['slide_name'] = HtmlSpecialChars($page['slide_name'], ENT_COMPAT, 'cp1251');
 			
-			$page['url'] = HtmlSpecialChars($page['url']);
-			$page['brochure_url'] = HtmlSpecialChars($page['brochure_url']);
+			$page['url'] = HtmlSpecialChars($page['url'], ENT_COMPAT, 'cp1251');
+			$page['brochure_url'] = HtmlSpecialChars($page['brochure_url'], ENT_COMPAT, 'cp1251');
 		
 			$page['region_select'] = mysql_select('region_id', 
 				"SELECT region_id, name FROM ".TABLE_REGION." ORDER BY ord",
@@ -1168,7 +1177,7 @@ if($page_id)
 			$select .= "<option value='0'>Выберите раздел</option>\n";
 			while($info_sect = @mysql_fetch_array($sql))
 			{ 
-				$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+				$info_sect['name'] = HtmlSpecialChars($info_sect['name'], ENT_COMPAT, 'cp1251');
 				if(!$info_sect['name']) $info_sect['name'] = NONAME;					
 				$class = ($info_sect['public']) ? '' : 'class="hid"';				
 				$select .= "<option value='$info_sect[page_id]' $class>".$info_sect['name']."</option>\n";
@@ -1189,7 +1198,7 @@ if($page_id)
 				or Error(1, __FILE__, __LINE__);
 			while($info_sect = @mysql_fetch_array($sql_sect))
 			{ 
-				$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+				$info_sect['name'] = HtmlSpecialChars($info_sect['name'], ENT_COMPAT, 'cp1251');
 				if(!$info_sect['name']) $info_sect['name'] = NONAME;
 				$info_sect['link'] = "?p=site&page_id=$info_sect[page_id]";	
 				$info_sect['dellink'] = "?p=site&delrecom=$info_sect[page_id]&page_id=$page_id";	

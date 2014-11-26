@@ -73,7 +73,7 @@ global $tinymce_elements, $tinymce_head;
 dbconnect($config['dbhost'], $config['dbname'], $config['dblogin'], $config['dbpassword']);
 
 if(isset($_GET['enter']) || isset($_GET['logout'])) {require 'lib/enter.php';}
-if(!@$_SESSION['admin_id']) {$title = ADMIN_TITLE; $login=HtmlSpecialChars(@$login); require 'templ/enter.htm'; exit;}
+if(!@$_SESSION['admin_id']) {$title = ADMIN_TITLE; $login=HtmlSpecialChar(@$login, ENT_COMPAT, 'cp1251'); require 'templ/enter.htm'; exit;}
 
 // период для страниц
 define('ON_PERIOD', 10);
