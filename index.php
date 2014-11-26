@@ -383,16 +383,22 @@ if($extrasite_id)
 {
 	$rzd_id = $extrasite_id==8 ? 1525 : ($extrasite_id==10 ? 1526 : 0);
 	
+	$logo = $photo_owner["logo$englang"];
+	$brochure = $photo_owner["brochure$englang"];
 	$sql = mysql_query("SELECT f.photo_id, f.ext,
 			fb.photo_id as fb_id, fb.ext as fb_ext
 		FROM  ".TABLE_PAGE."  p 
-		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner_id=p.page_id AND f.owner=$photo_owner[logo])
-		LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
+		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner_id=p.page_id AND f.owner=$logo)
+		LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$brochure)
 		WHERE p.page_id=$extra_parent_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
-	$logo_img = "/images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
-	$phone_img = "/images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]";
+	$logo = $photo_dir["logo$englang"];
+	$brochure = $photo_dir["brochure$englang"];
+	$logo_img = "/images/$logo/$arr[photo_id]-s.$arr[ext]";
+	$phone_img = "/images/$brochure/$arr[fb_id]-s.$arr[fb_ext]";
 	
+	$weather_informer = get_template("templ/extra/weather_informer{$englang}_$extrasite_id.htm", array());
+	$footer = get_template("templ/extra/footer{$englang}_$extrasite_id.htm", array());
 }
 
 if(isset($_GET['print'])) $file =  "print.htm";

@@ -137,7 +137,4 @@ $replace['extrasite_id'] = $extrasite_id;
 $content = get_template('templ/opinion_list.htm', $replace); 
 
 
-if($extrasite_id) {
-    $weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", $replace);
-}
 ?>

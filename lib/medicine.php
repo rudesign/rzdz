@@ -18,8 +18,6 @@ if(!$extrasite_id )
 }
 else
 {
-	$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", array());
-
 	$page_dir = mysql_escape_string($request[1]);
 	$parent_dir = mysql_escape_string($request[0]);
 

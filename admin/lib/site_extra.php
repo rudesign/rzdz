@@ -98,9 +98,10 @@ if(@$addnewsite)
 		$dir_id = mysql_insert_id();
 		mysql_query("UPDATE ".TABLE_PAGE." SET dir_id=$dir_id WHERE page_id=$id") or Error(1, __FILE__, __LINE__);
 		
-		copy("../templ/footer_8.htm", "../templ/footer_$site.htm");
-		copy("../templ/phone_8.htm", "../templ/phone_$site.htm");
-		copy("../templ/weather_informer_8.htm", "../templ/weather_informer_$site.htm");
+		copy("../templ/extra/footer_8.htm", "../templ/extra/footer_$site.htm");
+		copy("../templ/extra/footer_en_8.htm", "../templ/extra/footer_en_$site.htm");
+		copy("../templ/extra/weather_informer_8.htm", "../templ/extra/weather_informer_$site.htm");
+		copy("../templ/extra/weather_informer_en_8.htm", "../templ/extra/weather_informer_en_$site.htm");
 	}
 	
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
@@ -150,7 +151,7 @@ if(@$del_page)
 if(@$delphoto) {
 	
 	$delphoto = (int)$delphoto; 
-	$media = isset($media) ? $media : (isset($brochure) ? 'brochure' : 'logo');
+	$media = isset($media) ? $media : (isset($s) ? $s : 'logo');
 
 	$sql = mysql_query("SELECT ext, ext_b, owner, owner_id, ord FROM ".TABLE_PHOTO." WHERE photo_id='$delphoto'") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -171,7 +172,7 @@ if(@$delphoto) {
 	@unlink("../images/big/$delphoto.jpg");
 	
 	$url = ADMIN_URL."?p=$part&page_id=$page_id";
-	if($media) $url .= "&$media";
+	if($media && !isset($s)) $url .= "&$media";
 		
 	Header("Location: ".$url); 
 	exit;
@@ -480,12 +481,12 @@ if(@$save)
 				
 	if($parent==0 && $site)
 	{
-		$arr = array('phone', 'footer', 'weather_informer');
+		$arr = array('footer', 'footer_en', 'weather_informer', 'weather_informer_en');
 		foreach($arr as $v)
 		{
 			$text = from_form(@${$v});
 			
-			$f = fopen("../templ/${v}_$site.htm", 'w');
+			$f = fopen("../templ/extra/${v}_$site.htm", 'w');
 			flock($f, LOCK_EX);
 			fwrite($f, $text);
 			fflush($f);
@@ -539,6 +540,51 @@ if(@$save)
 		if(is_file($small)) unlink($small);
 		
 		copy($brochure, $small);
+	}
+	
+	$photo_en = @$_FILES["photo_en"]["tmp_name"];
+	$photo_en_name = @$_FILES["photo_en"]["name"];
+	if(@$photo_en)
+	{
+		if(!is_file($photo_en) || !($filename = @basename($photo_en_name))) 
+		{
+			$_SESSION['message'] = "Не найдена фотография!"; 
+			Header("Location: ".$url);
+			exit;
+		}
+		
+		$ext = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
+		
+		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$page_id', owner='$photo_owner[logo_en]', ext='$ext', ord=1") 
+			or Error(1, __FILE__, __LINE__);
+		$photo_id = mysql_insert_id();
+		
+		$small="../images/$photo_dir[logo_en]/${photo_id}-s.$ext";
+		if(is_file($small)) unlink($small);
+		
+		copy($photo_en, $small);
+	}
+	$brochure_en = @$_FILES["brochure_en"]["tmp_name"];
+	$brochure_en_name = @$_FILES["brochure_en"]["name"];
+	if(@$brochure_en)
+	{
+		if(!is_file($brochure_en) || !($filename = @basename($brochure_en_name))) 
+		{
+			$_SESSION['message'] = "Не найдена фотография!"; 
+			Header("Location: ".$url);
+			exit;
+		}
+		
+		$ext = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
+		
+		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$page_id', owner='$photo_owner[brochure_en]', ext='$ext', ord=1") 
+			or Error(1, __FILE__, __LINE__);
+		$photo_id = mysql_insert_id();
+		
+		$small="../images/$photo_dir[brochure_en]/${photo_id}-s.$ext";
+		if(is_file($small)) unlink($small);
+		
+		copy($brochure_en, $small);
 	}
 	
 	Header("Location: ".$url);
@@ -1069,10 +1115,12 @@ if($page_id)
 		
 		if($parent==0)
 		{
-			$page['phone'] = htmlspecialchars(get_template("../templ/phone_$page[site].htm", $page));
-			$page['weather_informer'] = htmlspecialchars(get_template("../templ/weather_informer_$page[site].htm", $page));
-			$page['footer'] = htmlspecialchars(get_template("../templ/footer_$page[site].htm", $page));
-			
+			foreach(array('weather_informer', 'weather_informer_en', 'footer', 'footer_en') as $v)
+			{
+				$f = "../templ/extra/${v}_$page[site].htm";
+				if(!file_exists($f)) {$fn = fopen($f, 'w'); fclose($fn);}
+				$page[$v] = htmlspecialchars(get_template($f, $page));
+			}
 			
 			$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
 					" WHERE owner_id=$page[page_id] AND owner='$photo_owner[logo]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
@@ -1099,10 +1147,39 @@ if($page_id)
 				list($w_small, $h_small) = @getimagesize($f);
 				$page['brochure'] = $f;
 				$page['brochure_smallsize'] = "width='$w_small' height='$h_small'";
-				$page['brochure_del_link'] = "?p=$part&delphoto=$photo_id&brochure&page_id=$page_id";
+				$page['brochure_del_link'] = "?p=$part&delphoto=$photo_id&s=brochure&page_id=$page_id";
 			}	
 			
 		
+			$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
+					" WHERE owner_id=$page[page_id] AND owner='$photo_owner[logo_en]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+			$page['photo_en'] = '';
+			if($arr_photos = @mysql_fetch_array($sql_photos)) {
+				$photo_id = $arr_photos['photo_id'];
+				$ext = $arr_photos['ext'];
+				$w_small=0; $h_small=0;
+				$f="../images/$photo_dir[logo_en]/${photo_id}-s.$ext";
+				list($w_small, $h_small) = @getimagesize($f);
+				$page['photo_en'] = $f;
+				$page['smallsize_en'] = "width='$w_small' height='$h_small'";
+				$page['photo_en_del_link'] = "?p=$part&delphoto=$photo_id&s=logo_en&page_id=$page_id";
+			}		
+			
+			
+			$sql_brochures = mysql_query("SELECT photo_id, ext, ext_b, ord, alt FROM ".TABLE_PHOTO.
+					" WHERE owner_id=$page[page_id] AND owner='$photo_owner[brochure_en]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+			$page['brochure_en'] = '';
+			if($arr_brochures = @mysql_fetch_array($sql_brochures)) {
+				$photo_id = $arr_brochures['photo_id'];
+				$ext = $arr_brochures['ext'];
+				$w_small=0; $h_small=0;
+				$f="../images/$photo_dir[brochure_en]/${photo_id}-s.$ext";
+				list($w_small, $h_small) = @getimagesize($f);
+				$page['brochure_en'] = $f;
+				$page['brochure_en_smallsize'] = "width='$w_small' height='$h_small'";
+				$page['brochure_en_del_link'] = "?p=$part&delphoto=$photo_id&s=brochure_en&page_id=$page_id";
+			}	
+			
 		}
 		
 		$page['level'] = count($parents);

@@ -415,8 +415,4 @@ list($limit, $replace['pages']) = user_pages($result_before, "$part/?word=".UrlE
 
 $content = get_template('templ/search.htm', $replace); 
 	
-if($extrasite_id) {
-	$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", array());
-}
-
 ?>

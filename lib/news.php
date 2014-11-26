@@ -133,10 +133,6 @@ if($news_id)
 		$navig[] = array('name'=>$replace['name'], 'link'=>'');
 	
 		$content = get_template('templ/news.htm', $replace);
-
-		if($extrasite_id && !$medicine) {
-			$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", $replace);
-		}
 	
 	}
 	else 
@@ -204,9 +200,6 @@ if($news_id)
 
 	$content = get_template('templ/news_list.htm', $replace);
 
-    if($extrasite_id && !$medicine) {
-		$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", $replace);
-	}
 }
 
 if(!$medicine) get_page_info($part, $dir_id, @$replace['name']);

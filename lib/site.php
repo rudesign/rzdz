@@ -156,10 +156,6 @@ if($arr_page = @mysql_fetch_array($sql))
 	}
 	
 	$content = get_template("templ/page.htm", $page);
-
-    if($extrasite_id) {
-		$weather_informer = get_template("templ/weather_informer_$extrasite_id.htm", $page);
-	}
 	
 	get_page_info('', @$page['dir_id'], @$page['name']);
 

@@ -16,6 +16,9 @@
 	<tr><td>Отображается на сайте? </td><td><?=$public_select?></td>
 		<?if($parent==0){?>
 		<td rowspan="12">
+		<table>
+		<tr>
+		<td>
 			<p>Логотип<br />
 			<?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
 			<a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
@@ -26,6 +29,21 @@
 			<a href="<?=$brochure_del_link?>" onclick="javascript: return delete_confirm('иконку')">Удалить</a>
 			<?}else{?>(размер 176px * 87px)<br /><input type="file" name="brochure" size="5"><?}?>
 			</p>
+		</td>
+		<td>
+			<p>Логотип eng<br />
+			<?if($photo_en){?><img src="<?=$photo_en?>" border=0 <?=$smallsize_en?>><br>
+			<a href="<?=$photo_en_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+			<?}else{?>(размер 150px * 126px)<br /><input type="file" name="photo_en" size="5"><?}?>
+			</p>
+			<p>Телефон eng<br />
+			<?if($brochure_en){?><img src="<?=$brochure_en?>" border=0 <?=$brochure_en_smallsize?>><br>
+			<a href="<?=$brochure_en_del_link?>" onclick="javascript: return delete_confirm('иконку')">Удалить</a>
+			<?}else{?>(размер 176px * 87px)<br /><input type="file" name="brochure_en" size="5"><?}?>
+			</p>
+		</td>
+		</tr>
+		</table>
 		</td>
 		<?}?></tr>
 	<tr><td>Порядок отображения </td><td><?=$ord_select?></td></tr>
@@ -48,9 +66,10 @@
     <tr><td>Описание eng: </td><td colspan="2">
         <textarea name="description_en" class="edit" rows="15" cols="80" ><?=$description_en?></textarea> </td></tr>
     <?if($parent==0){?>
-    <tr><td>Телефон: </td><td colspan="2"><textarea name="phone" rows="3" cols="80"><?=$phone?></textarea></td></tr>
     <tr><td>Информер погоды: </td><td colspan="2"><textarea name="weather_informer" rows="3" cols="80"><?=$weather_informer?></textarea></td></tr>
-    <tr><td>Подвал: </td><td colspan="2"><textarea name="footer" rows="3" cols="80"><?=$footer?></textarea></td></tr>
+    <tr><td>Информер погоды eng: </td><td colspan="2"><textarea name="weather_informer_en" rows="3" cols="80"><?=$weather_informer_en?></textarea></td></tr>
+    <tr><td>Как добраться: </td><td colspan="2"><textarea name="footer" rows="3" cols="80"><?=$footer?></textarea></td></tr>
+    <tr><td>Как добраться eng: </td><td colspan="2"><textarea name="footer_en" rows="3" cols="80"><?=$footer_en?></textarea></td></tr>
     <?}?>
     <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
     <input type="hidden" name="page_id" value="<?=$page_id?>">
