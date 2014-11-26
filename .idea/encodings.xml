@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/admin/config.php" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/admin/config_site.php" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/admin/lib/cure.php" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/admin/templ/cure.htm" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/lib/search.php" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templ/cure.htm" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templ/page_medicine.htm" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templ/page_medicine_profile.htm" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templ/search.htm" charset="windows-1251" />
+  </component>
+</project>
+
