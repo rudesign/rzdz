@@ -9,6 +9,7 @@ session_name(SES_NAME);
 session_start();
 
 dbconnect($config['dbhost'], $config['dbname'], $config['dblogin'], $config['dbpassword']);
+$englang = (int)@$_POST['englang'];
 
 switch($_POST['type']){
     default:
@@ -20,7 +21,8 @@ switch($_POST['type']){
 
             $rows = array();
             while($row = @mysql_fetch_array($sql, MYSQL_ASSOC)){
-                $rows[] = $row;
+                $row['alt'] =  $englang ? $row['alt_en'] : $row['alt'];
+				$rows[] = $row;
             }
 
             $html = '
@@ -88,6 +90,7 @@ switch($_POST['type']){
 			
 	$rows = array();
 	while($row = @mysql_fetch_array($sql, MYSQL_ASSOC)){
+		$row['alt'] =  $englang ? $row['alt_en'] : $row['alt'];
 		$rows[] = $row;
 	}
 	
@@ -96,9 +99,9 @@ switch($_POST['type']){
 
 	<div class="extra-gallery-tabs">
         <ul>
-            <li class="photo'.$active[0].'" onclick="initExtraGallery(2, '.$page_id.', 0, 0);"></li>
-            <li class="panorama'.$active[2].'" onclick="initExtraGallery(2, '.$page_id.', 2, 0);"></li>
-            <li class="video'.$active[1].'" onclick="initExtraGallery(2, '.$page_id.', 1, 0);"></li>
+            <li class="photo'.$active[0].'" onclick="initExtraGallery(2, '.$page_id.', 0, 0, '.$englang.');"></li>
+            <li class="panorama'.$active[2].'" onclick="initExtraGallery(2, '.$page_id.', 2, 0, '.$englang.');"></li>
+            <li class="video'.$active[1].'" onclick="initExtraGallery(2, '.$page_id.', 1, 0, '.$englang.');"></li>
         </ul>
 	</div>
 

@@ -2,7 +2,7 @@ $(document).ready(function(){
     //fixPopupTopPosition();
 });
 
-function initExtraGallery(type, id, section, index){
+function initExtraGallery(type, id, section, index, englang){
     var galleryContainer = $('.extra-gallery-container');
 
 
@@ -11,7 +11,8 @@ function initExtraGallery(type, id, section, index){
             type: type,
             id: id,
             section: section,
-            index: index
+            index: index,
+            englang: englang
         }, function(response){
             if(response.html){
                 galleryContainer.html(response.html);
