@@ -266,7 +266,7 @@
     text-decoration: none;
 }
 .simple_content .plofiles-list li:hover,
-.simple_content .plofiles-list .active{
+.simple_content .plofiles-list li.active{
     background-color: #008c95;
 }
 .simple_content .plofiles-list li:hover a,

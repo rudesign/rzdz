@@ -54,9 +54,24 @@
 <?}elseif($cure_id){?>
 
 	<?if($cure['type']<3 || $cure['type']==4){?>
-	
+
+        <!-- Profiles page -->
 		<?if($cure['cure_id']==1 && !$extrasite_id){?>
-		<?=$profile?>
+
+        <div id="pdescription" style="float: right;">
+            <? // $profile ?>
+            <div class="man-test">
+                <img src="/"
+            </div>
+        </div>
+
+        <div class="plofiles-list" style="float: left;">
+            <ul>
+                <li class="active"><a href="">Profile</a></li>
+                <li><a href="">Profile</a></li>
+                <li><a href="">Profile</a></li>
+            </ul>
+        </div>
 		
 		<?}else{?>
 		
@@ -124,7 +139,7 @@
 
 <?}else{?>
 
-            <?=$profile?>
+            <? // echo $profile; ?>
             <div class="medicine-main-grid">
                 <?foreach($blocks as $k=>$v){?>
 				<div class="items" style="background-image:url(<?=$v['photo']?>)">
