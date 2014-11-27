@@ -21,7 +21,8 @@ switch($_POST['type']){
 
             $rows = array();
             while($row = @mysql_fetch_array($sql, MYSQL_ASSOC)){
-                $row['alt'] =  $englang ? $row['alt_en'] : $row['alt'];
+				$row['description'] =  $englang ? $row['alt_en'] : $row['description'];
+				$row['alt'] =  $englang ? $row['alt_en'] : $row['alt'];
 				$rows[] = $row;
             }
 
@@ -90,6 +91,7 @@ switch($_POST['type']){
 			
 	$rows = array();
 	while($row = @mysql_fetch_array($sql, MYSQL_ASSOC)){
+		$row['description'] =  $englang ? $row['alt_en'] : $row['description'];
 		$row['alt'] =  $englang ? $row['alt_en'] : $row['alt'];
 		$rows[] = $row;
 	}
@@ -153,7 +155,6 @@ switch($_POST['type']){
                             foreach($rows as $row){
 								$html .= '
                                 <div class="items">
-                                    '.($row['alt'] ? '<h1>'.$row['alt'].'</h1>' : '').'
                                     '.$row['description'].'
                                 </div>';
 							}

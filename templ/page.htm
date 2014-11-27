@@ -1,7 +1,7 @@
 <?if(count($photos)){?>
 <div class="extra-gallery-container">
     <script language="JavaScript">
-        initExtraGallery(<?=$type?>, <?=$owner_id?>, 0, 0);
+        initExtraGallery(<?=$type?>, <?=$owner_id?>, 0, 0, <?if($englang){?>1<?}else{?>0<?}?>);
     </script>
     <?if($englang){?>Loading...<?}else{?>Загрузка...<?}?>
 </div>
