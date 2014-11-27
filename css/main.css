@@ -826,6 +826,7 @@ font-weight:normal;
     border-radius:5px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
+    border-top-left-radius: 0;
     behavior: url(PIE.htc);
 }
 .simple_content img.rub{
@@ -2563,8 +2564,8 @@ list-style:none;
 	list-style:disc!important;
 }
 
-#pdescription a{
-color:#008c95;
+#pdescription_ a{
+    color:#008c95;
 }
 
 

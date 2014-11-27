@@ -59,10 +59,57 @@
         <!-- Profiles page -->
 		<?if($cure['cure_id']==1 && !$extrasite_id){?>
 
-        <div id="pdescription" style="float: right;">
+        <style>
+            .man-test{
+                position: relative;
+            }
+            .man-test .links a{
+                display: inline-block;
+                position: absolute;
+                z-index: 10;
+                top: 0;
+                left: 0;
+                font-size: 18px;
+                line-height: 1.3em;
+                color: white;
+            }
+            .man-test .links a.s1{
+                top: 65px;
+                left: 120px;
+            }
+            .man-test .links a.s2{
+                top: 110px;
+                left: 120px;
+            }
+            .man-test .links a.s3{
+                top: 190px;
+                left: 120px;
+            }
+            .man-test .links a.s4{
+                top: 45px;
+                left: 245px;
+            }
+            .man-test .links a.s5{
+                top: 155px;
+                left: 245px;
+            }
+
+        </style>
+
+        <div id="pdescription" style="width: 382px; float: right;">
             <? // $profile ?>
             <div class="man-test">
-                <img src="/"
+                <div class="links">
+                    <a href="" class="s1">Руки</a>
+                    <a href="" class="s2">Живот</a>
+                    <a href="" class="s3">Ноги</a>
+                    <a href="" class="s4">Спина</a>
+                    <a href="" class="s5">Ягодицы</a>
+                </div>
+                <img src="/img/cure/man.jpg" style="max-width: 100%;" />
+                <br />
+                <h3><span style="color: #008080;">Что Вас беспокоит?</span></h3>
+                Вам следует определить область боли. Для этого необходимо навести курсор и кликнуть на ту часть тела (на рисунке - руки, спина и т.п.), где вы испытываете болевой синдром.
             </div>
         </div>
 
