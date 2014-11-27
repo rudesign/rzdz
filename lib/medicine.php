@@ -75,7 +75,7 @@ if($cure_id)
 	$link = $subcure_id || ($cure['type']==6 && @$s_id) ? $link_medicine."$cure_id/" : '';
 	$navig[] = array('link'=>$link, 'name'=>$cure['name']);
 	
-	if(!$subcure_id)  
+	if(!$subcure_id || $cure['type']<3)  
 	{
 		if($cure['type']<3 || $cure['type']==4)
 		{
@@ -117,6 +117,7 @@ if($cure_id)
 				else $info['title'] = '';
 				
 				$info['url'] = $link_medicine."$cure_id/"."$info[cure_id]/";
+				$info['sel'] = $subcure_id==$info['cure_id'] ? 1 : 0;
 				
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
 				$cures[] = $info;

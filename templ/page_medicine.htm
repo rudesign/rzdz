@@ -5,9 +5,9 @@
             <div id="pdescription"><?=$subcure['description']?></div>
             <div class="plofiles-list">
                 <ul>
-                    <li class="active"><a href="">Profile</a></li>
-                    <li><a href="">Profile</a></li>
-                    <li><a href="">Profile</a></li>
+			<?foreach($cure_list as $k=>$v){?>
+                    <li <?if($v['sel']){?>class="active"<?}?>><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
+			<?}?>
                 </ul>
             </div>
         </div>

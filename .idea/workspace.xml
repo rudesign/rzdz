@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaa94eb6-c140-422e-bba2-cd4cf379710a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/extra_gallery_onpage.php" afterPath="$PROJECT_DIR$/lib/extra_gallery_onpage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templ/page.htm" afterPath="$PROJECT_DIR$/templ/page.htm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/medicine.php" afterPath="$PROJECT_DIR$/lib/medicine.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templ/page_medicine.htm" afterPath="$PROJECT_DIR$/templ/page_medicine.htm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rzdz.iws" />
@@ -522,7 +522,13 @@
       <option name="project" value="LOCAL" />
       <updated>1417072593355</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="nika">
+      <created>1417073764800</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1417073764800</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="ToolWindowManager">
