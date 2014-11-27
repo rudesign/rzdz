@@ -40,7 +40,7 @@ class Log{
 
         switch($actionType){
             case 'add':
-                $actionName[] = 'добавляет';
+                $actionName[] = 'создаёт';
             break;
             case 'edit':
                 $actionName[] = 'редактирует';
@@ -56,6 +56,6 @@ class Log{
     }
 
     protected function getHash($userId = '', $actionName = '', $objectName = ''){
-        return md5($userId.$objectName.$objectName);
+        return md5($userId.$actionName.$objectName);
     }
 }
