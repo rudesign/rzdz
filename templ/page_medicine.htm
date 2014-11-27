@@ -1,15 +1,16 @@
 <?if($subcure_id){?>
 
-		<?php // echo $profile?>
         <div class="section clearfix">
             <div id="pdescription"><?=$subcure['description']?></div>
-            <div class="plofiles-list">
+            <?if(count($cure_list)>1){?>
+			<div class="plofiles-list">
                 <ul>
 			<?foreach($cure_list as $k=>$v){?>
                     <li <?if($v['sel']){?>class="active"<?}?>><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
 			<?}?>
                 </ul>
             </div>
+			<?}?>
         </div>
 
         <?if(count($curehotel)){?>
