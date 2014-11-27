@@ -141,7 +141,6 @@ if($part)
 			if(@$arr['description'])
 			{
 				$end = 1;
-				if(!$medicine) $part = 'site';
 				$parent_name = @$arr['parent_name'];
 				
 				$page_id = (int)@$arr['page_id'];
@@ -149,6 +148,9 @@ if($part)
 				
 				$extrasite_id = (int)@$arr['site'];
 				$extra_parent_id = (int)@$arr['pid'];
+				
+				if($englang && $extrasite_id) $medicine = 0;
+				if(!$medicine) $part = 'site';
 			
 				if(!$medicine || $extrasite_id) 
 				{				
@@ -356,14 +358,9 @@ if($part=='media')
 }
 else
 {
-	if($extrasite_id) { if($medicine ) $menu2 = menu_medicine(); }
+	if($extrasite_id) { if($medicine) $menu2 = menu_medicine(); }
 	else $menu_sanat = $request[0]=='faq' ? '' : ($medicine ? menu_medicine() : menu_sanat($dir_sanatorium));
 	$banner = '';
-	
-	//$shortfields = shortorder();
-	//$slider_images = slider_images($dir_sanatorium);
-	//$block_images = block_images($dir_sanatorium);
-	//if($part && !$width100) $banner = get_banners();
 }
 
 if($part){
