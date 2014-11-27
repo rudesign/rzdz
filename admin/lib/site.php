@@ -4,9 +4,6 @@
 
 $log = class_exists('Log', false) ? new Log($_SESSION['admin_name']) : null;
 
-//$log->store('test', 'on Test');
-
-
 if(isset($confirmphoto))
 {
 	$photo_id = (int)@$confirmphoto;
@@ -20,8 +17,6 @@ if(isset($confirmphoto))
 	{
 		mysql_query("UPDATE ".TABLE_PHOTO.
 			" SET public=1 WHERE photo_id=$photo_id") or Error(1, __FILE__, __LINE__);
-
-        //if(is_object($log)) $log->store($log->getActionName('edit').' изображение', $photo_id);
 
 		$_SESSION['message'] = "Фото опубликовано.";
 		Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id&other");
@@ -74,11 +69,15 @@ if(@$addpage)
 	$opinion = $parent==1 ? 1 : 0;
 	mysql_query("INSERT INTO ".TABLE_PAGE." SET parent=$parent, ord=$ord, opinion=$opinion") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
-	
+
 	mysql_query("INSERT INTO ".TABLE_DIR." SET parent=$parent_dir_id, dir='s$id'") or Error(1, __FILE__, __LINE__);
 	$dir_id = mysql_insert_id();
 	mysql_query("UPDATE ".TABLE_PAGE." SET dir_id=$dir_id WHERE page_id=$id") or Error(1, __FILE__, __LINE__);
-	
+
+    $objectName = ($_POST['name'] ? $_POST['name'] : '');
+    $objectName .= ' ('.$id.'@'.TABLE_PAGE.')';
+    if(is_object($log)) $log->store($log->getActionName('add').' текст', $objectName);
+
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$id");
 	exit;
 }
@@ -105,7 +104,7 @@ if(@$del_page)
 		exit;
 	}
 	
-	$sql = mysql_query("SELECT ord, parent, dir_id FROM ".TABLE_PAGE." WHERE page_id=$del_page") 
+	$sql = mysql_query("SELECT ord, parent, dir_id, name FROM ".TABLE_PAGE." WHERE page_id=$del_page")
 		or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$ord = (int)@$arr['ord']; 
@@ -113,11 +112,15 @@ if(@$del_page)
 	$dir_id = (int)@$arr['dir_id']; 
 	
 	mysql_query("DELETE FROM ".TABLE_PAGE." WHERE page_id='$del_page'") or Error(1, __FILE__, __LINE__);
+
 	mysql_query("UPDATE ".TABLE_PAGE." SET ord=ord-1 WHERE ord>$ord AND parent=$parent AND !site") or Error(1, __FILE__, __LINE__);
 	mysql_query("DELETE FROM ".TABLE_DIR." WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);	
 	mysql_query("DELETE FROM ".TABLE_RECOM." WHERE page_id1=$del_page OR page_id2=$del_page") or Error(1, __FILE__, __LINE__);
-	
-	
+
+    $objectName = ($arr['name'] ? $arr['name'] : '');
+    $objectName .= ' ('.$del_page.'@'.TABLE_PAGE.')';
+    if(is_object($log)) $log->store($log->getActionName('del').' текст', $objectName);
+
 	if($page_id == $del_page) $page_id = $parent;
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
 	exit;
@@ -143,6 +146,8 @@ if(@$addrecom)
 		
 		mysql_query("INSERT INTO ".TABLE_RECOM." SET page_id1='$page_id', page_id2='$cpart_recom', ord=$ord") 
 			or Error(1, __FILE__, __LINE__);
+
+        if(is_object($log)) $log->store($log->getActionName('add').' рекомендацию ', $page_id.' <-> '.$cpart_recom.'@'.TABLE_RECOM);
 	}
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
 	exit;
@@ -157,9 +162,12 @@ if(@$delrecom)
 	$oldord = (int)@$arr[0];
 	
 	mysql_query("DELETE FROM ".TABLE_RECOM." WHERE page_id1=$page_id AND page_id2=$delrecom") or Error(1, __FILE__, __LINE__);
+
 	mysql_query("UPDATE ".TABLE_RECOM." SET ord=ord-1 WHERE ord>$oldord AND page_id1=$page_id") 
 		or Error(1, __FILE__, __LINE__);
-	
+
+    if(is_object($log)) $log->store($log->getActionName('del').' рекомендацию ', $page_id.' <-> '.$delrecom.'@'.TABLE_RECOM);
+
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
 	exit;
 }
@@ -179,18 +187,22 @@ if(@$delphoto) {
 	$ord = (int)@$arr['ord'];
 	
 	mysql_query("DELETE FROM ".TABLE_PHOTO." WHERE photo_id='$delphoto'") or Error(1, __FILE__, __LINE__);
+
 	mysql_query("UPDATE ".TABLE_PHOTO." SET ord=ord-1 WHERE ord>$ord AND owner='$owner' AND owner_id='$owner_id'") 
 		or Error(1, __FILE__, __LINE__);
 	
 	$dir = $photo_dir[$media];
 	
 	@unlink("../images/$dir/$delphoto.$ext_b");
-	@unlink("../images/$dir/${delphoto}-s.$ext");
-	@unlink("../images/big/$delphoto.jpg");
-	
-	$url = ADMIN_URL."?p=$part&page_id=$page_id";
-	if($media) $url .= "&$media";
-		
+    @unlink("../images/$dir/${delphoto}-s.$ext");
+    @unlink("../images/big/$delphoto.jpg");
+
+
+    if(is_object($log)) $log->store($log->getActionName('del').' '.getMediaType($media), $delphoto.'@'.TABLE_PHOTO);
+
+    $url = ADMIN_URL."?p=$part&page_id=$page_id";
+    if($media) $url .= "&$media";
+
 	Header("Location: ".$url); 
 	exit;
 }
@@ -199,8 +211,10 @@ if(@$delbig) {
 	
 	$delphoto = (int)$delbig; 
 
-	@unlink("../images/big/$delphoto.jpg");
-	
+	if(@unlink("../images/big/$delphoto.jpg")){
+        if(is_object($log)) $log->store($log->getActionName('del').' изображение', $delphoto.'@'.TABLE_PHOTO);
+    }
+
 	$url = ADMIN_URL."?p=$part&page_id=$page_id";
 	if($media) $url .= "&$media";
 		
@@ -214,7 +228,9 @@ if(@$_FILES['photo_super'])
 	$photo = @$_FILES["photo_super"]["tmp_name"];
 	
 	$fname = "../images/big/$photo_id.jpg";
-	copy($photo, $fname);
+	if(copy($photo, $fname)){
+        if(is_object($log)) $log->store($log->getActionName('del').' изображение', $photo_id.'@'.TABLE_PHOTO);
+    }
 	
 	$url = ADMIN_URL."?p=$part&page_id=$page_id&$media";
 		
@@ -408,7 +424,26 @@ if(((@$_FILES['photo'] || @$_FILES['photo_b'])  && @$media) || (@$description &&
 		}
 		else copy($photo_b, $big);
 	}
-		
+
+    $object = $objectName = '';
+    switch($media){
+        default:
+            $object = 'изображение';
+            break;
+        case 'pdf':
+            $object = 'брошюру';
+            break;
+        case 'video':
+            $object = 'видео';
+            break;
+        case 'virtual':
+            $object = 'виртуальный тур';
+            break;
+    }
+
+    $objectName .= ' для записи '.$page_id.'@'.TABLE_PAGE;
+
+    if(is_object($log)) $log->store($log->getActionName('add').' '.$object, $photo_id.'@'.TABLE_PHOTO);
 		
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id&$media");
 	exit;
@@ -466,6 +501,8 @@ if(@$savephoto)
 			"AND owner='$owner' AND owner_id='$page_id' AND photo_id!='$photo_id'") 
 				or Error(1, __FILE__, __LINE__);
 	}
+
+    if(is_object($log)) $log->store($log->getActionName('edit').' '.getMediaType($media), $photo_id.'@'.TABLE_PHOTO);
 	
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id&$media");
 	exit;
@@ -519,10 +556,8 @@ if(@$save)
 				"region_id='$region_id', city_id='$city_id', stars='$stars', price='$price', url='$url', brochure_url='$brochure_url' ".
 				"WHERE page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 
-    if(is_object($log)) {
-
-        $log->store($log->getActionName('edit').' текст', $name);
-    }
+    $objectName = $name.' ('.$page_id.'@'.TABLE_PAGE.')';
+    if(is_object($log)) $log->store($log->getActionName('edit').' текст', $objectName);
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_PAGE." SET ord=ord-1 ".
 		"WHERE ord>'$oldord' AND ord<='$ord' AND parent='$parent' AND page_id!='$page_id' AND !site") or Error(1, __FILE__, __LINE__);
@@ -552,6 +587,8 @@ if(@$save)
 		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$page_id', owner='$photo_owner[logo]', ext='$ext', ord=1") 
 			or Error(1, __FILE__, __LINE__);
 		$photo_id = mysql_insert_id();
+
+        if(is_object($log)) $log->store($log->getActionName('add').' изображение', $photo_id.'@'.TABLE_PHOTO);
 		
 		$small="../images/$photo_dir[logo]/${photo_id}-s.$ext";
 		if(is_file($small)) unlink($small);
@@ -574,14 +611,15 @@ if(@$save)
 		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$page_id', owner='$photo_owner[brochure]', ext='$ext', ord=1") 
 			or Error(1, __FILE__, __LINE__);
 		$photo_id = mysql_insert_id();
+
+        if(is_object($log)) $log->store($log->getActionName('add').' брошюру', $photo_id.'@'.TABLE_PHOTO);
 		
 		$small="../images/$photo_dir[brochure]/${photo_id}-s.$ext";
 		if(is_file($small)) unlink($small);
 		
 		copy($brochure, $small);
 	}
-	
-	
+
 	Header("Location: ".$url);
 	exit;
 }
@@ -597,6 +635,8 @@ if(isset($addcure))
 	
 	mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$addcure") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
+
+    if(is_object($log)) $log->store($log->getActionName('add').' профиль лечения', $id.'@'.TABLE_CURE);
 		
 	Header("Location: ".ADMIN_URL."?p=$part&cures=1");
 	exit;
@@ -626,6 +666,8 @@ if(@$savecure)
 	
 	mysql_query("UPDATE ".TABLE_CURE." SET public='$public', name='$name', ord='$ord' ".
 				"WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('edit').' профиль лечения', $cure_id.'@'.TABLE_CURE);
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 ".
 		"WHERE ord>'$oldord' AND ord<='$ord' AND parent=$parent AND  cure_id!='$cure_id'") or Error(1, __FILE__, __LINE__);
@@ -646,6 +688,9 @@ if(@$delcure)
 	$parent = (int)@$arr['parent']; 
 	
 	mysql_query("DELETE FROM ".TABLE_CURE." WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('del').' профиль лечения', $cure_id.'@'.TABLE_CURE);
+
 	mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 WHERE parent=$parent AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
 	Header("Location: ".ADMIN_URL."?p=$part&cures=1");
@@ -660,6 +705,8 @@ if(@$addregion)
 	
 	mysql_query("INSERT INTO ".TABLE_REGION." SET ord=$ord") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
+
+    if(is_object($log)) $log->store($log->getActionName('add').' регион', $id.'@'.TABLE_REGION);
 		
 	Header("Location: ".ADMIN_URL."?p=$part&regions=1");
 	exit;
@@ -689,6 +736,8 @@ if(@$saveregion)
 	
 	mysql_query("UPDATE ".TABLE_REGION." SET public='$public', name='$name', name_en='$name_en', ord='$ord' ".
 				"WHERE region_id='$region_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('edit').' регион', $id.'@'.TABLE_REGION);
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_REGION." SET ord=ord-1 ".
 		"WHERE ord>'$oldord' AND ord<='$ord' AND region_id!='$region_id'") or Error(1, __FILE__, __LINE__);
@@ -717,6 +766,9 @@ if(@$delregion)
 	$ord = (int)@$arr['ord']; 
 	
 	mysql_query("DELETE FROM ".TABLE_REGION." WHERE region_id='$region_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('del').' регион', $id.'@'.TABLE_REGION);
+
 	mysql_query("UPDATE ".TABLE_REGION." SET ord=ord-1 WHERE ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
 	Header("Location: ".ADMIN_URL."?p=$part&regions=1");
@@ -732,9 +784,12 @@ if(@$addcity)
 	
 	mysql_query("INSERT INTO ".TABLE_CITY." SET ord=$ord") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
+
+    if(is_object($log)) $log->store($log->getActionName('add').' населённый пункт', $id.'@'.TABLE_CITY);
 		
 	mysql_query("INSERT INTO ".TABLE_DIR." SET parent=$city_parent_dir_id, dir='c$id'") or Error(1, __FILE__, __LINE__);
 	$dir_id = mysql_insert_id();
+
 	mysql_query("UPDATE ".TABLE_CITY." SET dir_id=$dir_id WHERE city_id=$id") or Error(1, __FILE__, __LINE__);
 	
 	Header("Location: ".ADMIN_URL."?p=$part&citys=1&city_id=$id");
@@ -782,6 +837,8 @@ if(@$savecity)
 	mysql_query("UPDATE ".TABLE_CITY." SET public='$public', name='$name', name_en='$name_en', ord='$ord', description='$description',
 				gallery_id='$gallery_id', photocount='$photocount' ".
 				"WHERE city_id='$city_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('edit').' населённый пункт', $city_id.'@'.TABLE_CITY);
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_CITY." SET ord=ord-1 ".
 		"WHERE ord>'$oldord' AND ord<='$ord' AND city_id!='$city_id'") or Error(1, __FILE__, __LINE__);
@@ -813,6 +870,9 @@ if(@$delcity)
 	$ord = (int)@$arr['ord']; 
 	
 	mysql_query("DELETE FROM ".TABLE_CITY." WHERE city_id='$city_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('del').' населённый пункт', $city_id.'@'.TABLE_CITY);
+
 	mysql_query("UPDATE ".TABLE_CITY." SET ord=ord-1 WHERE ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
 	Header("Location: ".ADMIN_URL."?p=$part&citys=1");
@@ -1211,5 +1271,28 @@ if($page_id)
 		$content = get_template('templ/page.htm', $page);
 	}
 }
-	
+
+function getMediaType($media){
+    $object = '';
+
+    switch($media){
+        default:
+            $object = 'изображение';
+            break;
+        case 'pdf':
+            $object = 'брошюру';
+            break;
+        case 'video':
+            $object = 'видео';
+            break;
+        case 'virtual':
+            $object = 'виртуальный тур';
+            break;
+        case 'cure':
+            $object = 'профиль лечения';
+            break;
+    }
+
+    return $object;
+}
 ?>
