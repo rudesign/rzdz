@@ -5,7 +5,7 @@
 			    <?foreach($list as $k=>$v){?>
 				<li class="<?if($v['sel']){?>dcjq-current-parent<?}?>">
 				  <a  class="<?if($k+1==count($list) && !$v['sel']){?> rds<?}?><?if($v['sel']){?>open_type<?}?>" 
-				  	href="<?if($v['type']==3){?>javascript://<?}else{?><?=$v['link']?><?}?>"
+				  	href="<?if(@count($v['list'])){?>javascript://<?}else{?><?=$v['link']?><?}?>"
 				  	><?if($v['sel']){?><span><?}?><?=$v['name']?><?if($v['sel']){?></span><?}?></a>
 				  <?if(@count($v['list'])){?>
 				  <ul class="menu_lc_level">
