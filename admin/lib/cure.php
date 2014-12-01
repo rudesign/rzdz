@@ -22,7 +22,7 @@ if(isset($addcure))
 	$id = mysql_insert_id();
 		
 	$link = "?p=$part";
-	if($addcure) $link .= "&subcure_id=$id";
+	if($addcure) $link .= "&cure_id=$addcure&subcure_id=$id";
 	else $link .= "&cure_id=$id";
 	Header("Location: ".$link);
 	exit;
