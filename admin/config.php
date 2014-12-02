@@ -81,7 +81,8 @@ $photo_owner = array(
 	'slider_preview'=>16,
 	'cure_part'=>17,
 	'logo_en'=>18,
-	'brochure_en'=>19
+	'brochure_en'=>19,
+	'license'=>20
 );
 $photo_dir = array(
 	'item'=>'item',
@@ -102,7 +103,8 @@ $photo_dir = array(
 	'slider_preview'=>'slider',
 	'cure_part'=>'cure',
 	'logo_en'=>'logo',
-	'brochure_en'=>'brochure'
+	'brochure_en'=>'brochure',
+	'license'=>'license'
 );
 $photo_limit = array(
 	'item'=>1000,
@@ -123,7 +125,8 @@ $photo_limit = array(
 	'slider_preview'=>1,
 	'cure_part'=>1,
 	'logo_en'=>1,
-	'brochure_en'=>1
+	'brochure_en'=>1,
+	'license'=>1
 );
 
 $rus_month = array('', '€нварь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сент€брь', 'окт€брь', 'но€брь', 'декабрь');

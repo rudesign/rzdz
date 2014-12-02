@@ -35,7 +35,7 @@ $parent = (int)@$parent;
 
 $parent_dir_id = 0;
 
-$photo_list = array('item', 'video', 'pdf', 'virtual', 'cure');
+$photo_list = array('item', 'video', 'pdf', 'virtual', 'cure', 'license');
 
 if($page_id)
 {
@@ -238,7 +238,8 @@ if(@$_FILES['photo_super'])
 	exit;
 }
 
-if(((@$_FILES['photo'] || @$_FILES['photo_b'])  && @$media) || (@$description && (@$media=='pdf' || @$media=='video') && @$addphoto)) {
+if(((@$_FILES['photo'] || @$_FILES['photo_b'] || @$_FILES['pdf'])  && @$media) || 
+	(@$description && (@$media=='pdf' || @$media=='video') && @$addphoto)) {
 	
 	$photo = @$_FILES["photo"]["tmp_name"];
 	$photo_name = @$_FILES["photo"]["name"];
@@ -271,14 +272,7 @@ if(((@$_FILES['photo'] || @$_FILES['photo_b'])  && @$media) || (@$description &&
 		$photo_b = '';
 	}
 	else
-	{
-	
-		$photo = @$_FILES["photo"]["tmp_name"];
-		$photo_name = @$_FILES["photo"]["name"];
-		
-		$photo_b = @$_FILES["photo_b"]["tmp_name"];
-		$photo_b_name = @$_FILES["photo_b"]["name"];
-		
+	{		
 		$_SESSION['im_width'] = $im_width = (int)@$width ? (int)@$width : '';
 		$_SESSION['im_height'] = $im_height = (int)@$height ? (int)@$height : '';
 		$_SESSION['im_maxsize'] = $im_maxsize = (int)@$maxsize ? (int)@$maxsize : '';
@@ -386,11 +380,11 @@ if(((@$_FILES['photo'] || @$_FILES['photo_b'])  && @$media) || (@$description &&
 	elseif($media=='video' && !$photo_b) {}
 	else
 	{
-		if($im_small) imageJpeg($im_small, $small, 80);
+		if($im_small) imageJpeg($im_small, $small, 100);
 		else copy($photo, $small);
 	}
 	
-	if(@$photo_b && $media != 'pdf')
+	if(@$photo_b && $media != 'pdf' && $media != 'license')
 	{
 		if(!is_file($photo_b) || !($filename = @basename($photo_b_name))) 
 		{
@@ -416,13 +410,31 @@ if(((@$_FILES['photo'] || @$_FILES['photo_b'])  && @$media) || (@$description &&
 			        require 'lib/watermark.class.php';
 					$wtm = new watermark();
 			        $img_new = $wtm->create_watermark($im, $im_wm);
-					imageJpeg($img_new, $big, 80);
+					imageJpeg($img_new, $big, 100);
 				}
 				else { $_SESSION['message'] = "Ошибка чтения файла формата PNG!"; copy($photo_b, $big); }
 			}	
 			else { $_SESSION['message'] = "Ошибка чтения файла формата JPG!"; copy($photo_b, $big); }		
 		}
 		else copy($photo_b, $big);
+	}
+	if($media == 'license')
+	{
+		$pdf = @$_FILES["pdf"]["tmp_name"];
+		$pdf_name = @$_FILES["pdf"]["name"];
+		
+        if(is_file($pdf) && ($filename = @basename($pdf_name)))
+        {
+            $ext_b = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
+			
+			mysql_query("UPDATE ".TABLE_PHOTO." SET ext_b='$ext_b' WHERE photo_id=$photo_id") 
+				or Error(1, __FILE__, __LINE__);
+			
+			$big="../images/$photo_dir[$media]/${photo_id}.$ext_b";
+			if(is_file($big)) unlink($big);
+		
+			copy($pdf, $big);
+        }
 	}
 
     $object = $objectName = '';
@@ -994,37 +1006,6 @@ if(isset($citys))
 	return;
 }
 
-if(isset($cures))
-{
-	$sql = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE parent=0 ORDER BY ord") or Error(1, __FILE__, __LINE__);
-	
-	$cures = array(); 
-	while($info = @mysql_fetch_array($sql))
-	{ 
-		$info['name'] = HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251');
-		$info['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info['public'], 0);
-		
-		$sql1 = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE parent=$info[cure_id] ORDER BY ord") or Error(1, __FILE__, __LINE__);	
-		$list = array(); 
-		while($info1 = @mysql_fetch_array($sql1))
-		{ 
-			$info1['name'] = HtmlSpecialChars($info1['name'], ENT_COMPAT, 'cp1251');
-			$info1['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info1['public'], 0);
-			
-			$list[] = $info1;
-		}
-		$info['list'] = $list;
-	
-		$cures[] = $info;
-	}
-
-	$replace['cures'] = $cures;
-
-	$content = get_template('templ/cure_list.htm', $replace);
-
-	return;
-}
-
 if($page_id)
 {
 	$sql = mysql_query("SELECT p.*, d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en  ".
@@ -1049,7 +1030,7 @@ if($page_id)
 				else $page[$v] = 0;
 			}
 			$page['photo_list'] = $photo_list;
-			$page['photo_name'] = array('Фото', 'Видео',  'Брошюры', 'Виртуальные туры', 'Медицина');
+			$page['photo_name'] = array('Фото', 'Видео',  'Брошюры', 'Виртуальные туры', 'Медицина', 'Лицензии');
 			
 			if($media)
 			{
@@ -1075,6 +1056,17 @@ if($page_id)
 						$photos[] = array('number'=>$i, 'photo_id'=>$photo_id, 'description'=>$description, 'f'=>$f,
 											'public'=>$arr_photos['public'], 'ord'=>$ord, 'alt'=>$alt,  'alt_en'=>$alt_en, 
 											'del_link'=>ADMIN_URL."?p=$part&delphoto=$photo_id&page_id=$page_id&media=$media");
+					}
+					elseif($media=='license')
+					{
+						$photo = $ext ? "../images/$photo_dir[$media]/${photo_id}-s.$ext" : '';
+						
+						$ext_b = $arr_photos['ext_b'];
+						$pdf = $ext_b ? "../images/$photo_dir[$media]/${photo_id}.$ext_b" : '';
+						
+						$photos[] = array('number'=>$i, 'photo_id'=>$photo_id, 'pdf'=>$pdf, 'photo'=>$photo,
+											'public'=>$arr_photos['public'], 'ord'=>$ord, 'alt'=>$alt,  'alt_en'=>$alt_en, 
+											'del_link'=>ADMIN_URL."?p=$part&delphoto=$photo_id&page_id=$page_id&media=$media");					
 					}
 					else
 					{
@@ -1124,7 +1116,7 @@ if($page_id)
 				//if(!$photo_load && !$im_width && !$im_height) 
 					{$im_width = IMG_WIDTH; $im_height = IMG_HEIGHT;}
 				$page['im_width'] = $im_width;
-				$page['im_height'] = $im_height;
+				$page['im_height'] = $media=='license' ? '' : $im_height;
 				$page['watermark'] = ($watermark < 0) ? '' : 'checked';
 				
 				$content = get_template('templ/page_media.htm', $page);		

@@ -1,6 +1,6 @@
 <?if($subcure_id){?>
 
-        <?if(count($cure_list)>1){?>
+        <?if(@count($cure_list)>1){?>
 		<div class="section clearfix">
             <div id="pdescription"><?=$subcure['description']?></div>
 			<div class="plofiles-list">
@@ -78,7 +78,7 @@
 		
 		<?}else{?>
 		
-		<?if($cure['type']==4){?><div id="pdescription"><?=$cure['description']?></div><?}?>
+		<?if($cure['type']==4){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div><?}?>
 		
 		<table class="zebra">
 		<?foreach($cure_list as $k=>$v){?>
@@ -122,11 +122,12 @@
 		 <?=$pages?>
 	<?}elseif($cure['type']==7){?>
 		<?if($extrasite_id){?>
-		<div id="pdescription"><?=$cure['description']?></div>
+			<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+			<?if($cure['pdf_link']){?><div class="clear"></div><a href="<?=$cure['pdf_link']?>"><img src="<?=$cure['pdf_photo']?>" /></a><?}?>
 		<?}else{?>
-		<div id="pdescription"><?=$cure['description']?></div>
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 			<div class="medicine-sanatorium-services section">
-                <div class="grid">
+                <div class="grid" style="height:270px">
                     <?foreach($curehotel as $v){?>
 					<div class="items">
                         <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
