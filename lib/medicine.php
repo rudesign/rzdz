@@ -152,9 +152,9 @@ if($cure_id)
 				$cure['description'] = @$info['description'];
 				if($info['ext_b'])
 				{
-					$cure['pdf_photo'] = file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl
+					$cure['pdf_photo'] = $info['ext_b'] && file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl
 						: (file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg");
-					$cure['pdf_link'] = file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
+					$cure['pdf_link'] = $info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
 						 "/$pdf\" target=\"_blank" : ''; 
 				}
 				else $cure['pdf'] = '';
@@ -181,7 +181,7 @@ if($cure_id)
 						: (file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg");
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
-					$info['page_link'] = file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
+					$info['page_link'] = $info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
 						 "/$pdf\" target=\"_blank" : 
 						($info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id\" target=\"_blank" : 
 						"$lprefix/medicine/$cure_id/$info[cure_id]"); 
