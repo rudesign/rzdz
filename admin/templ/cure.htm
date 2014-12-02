@@ -53,7 +53,7 @@
 <?}?>
 </P>
     <?if(@$descr){?>
-<form name="edit-form">
+<form name="edit-form" method="post">
     <table cellpadding="2">
 
     <tr><td>Цена: </td><td><input type="text" name="price" value="<?=$subcure['price']?>" maxlength="255" size="50"></td></tr>
@@ -70,7 +70,7 @@
         <input type="hidden" name="p" value="cure">
         </form>
         <?}else{?>
-    <form name="edit-form">
+    <form name="edit-form" method="post">
         <table cellpadding="2">
         <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td></tr><?}?>
         <?if($type==7){?><tr><td>Привязка к санаторию: </td><td><?=$subcure['san_select']?></td></tr><?}?>

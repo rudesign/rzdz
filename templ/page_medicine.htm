@@ -1,8 +1,8 @@
 <?if($subcure_id){?>
 
-        <div class="section clearfix">
+        <?if(count($cure_list)>1){?>
+		<div class="section clearfix">
             <div id="pdescription"><?=$subcure['description']?></div>
-            <?if(count($cure_list)>1){?>
 			<div class="plofiles-list">
                 <ul>
 			<?foreach($cure_list as $k=>$v){?>
@@ -10,8 +10,10 @@
 			<?}?>
                 </ul>
             </div>
-			<?}?>
         </div>
+		<?}else{?>
+		<div><?=$subcure['description']?></div>
+		<?}?>
 
         <?if(count($curehotel)){?>
         <div class="medicine-sanatorium-services section">
@@ -30,7 +32,7 @@
         </div>
         <?}?>
 
-        <div class="nosology section">
+        <!--div class="nosology section">
            <ul>
                <li><a href="">Класс заболеваний</a></li>
                <li>
@@ -50,7 +52,7 @@
                </li>
                <li><a href="">Класс заболеваний</a></li>
            </ul>
-        </div>
+        </div-->
 
 <?}elseif($cure_id){?>
 
