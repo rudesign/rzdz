@@ -177,8 +177,9 @@ if($cure_id)
 					or Error(1, __FILE__, __LINE__);
 				while($info = @mysql_fetch_array($sql)) 
 				{
-					$info['photo'] = file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl
-						: (file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg");
+					$info['photo_logo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]")
+						 ? "/".$fb : "/images/brochure.jpg";
+					$info['photo_license'] = file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl : '';
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
 					$info['page_link'] = $info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 

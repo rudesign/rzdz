@@ -127,11 +127,14 @@
 		<?}else{?>
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 			<div class="medicine-sanatorium-services section">
-                <div class="grid" style="height:270px">
+                <div class="grid" style="height:320px">
                     <?foreach($curehotel as $v){?>
 					<div class="items">
-                        <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
-                        <?=$v['name']?> <br /><?=$v['city']?> 
+                        <a href="<?=$v['page_link']?>">
+							<img src="<?=$v['photo_logo']?>" />
+							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" />
+							<?}else{?><?=$v['name']?> <br /><?=$v['city']?> <?}?>
+						</a>
                     </div>
 					<?}?>
                     <div class="clearfix"></div>
