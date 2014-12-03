@@ -16,6 +16,7 @@ if(!$extrasite_id )
 	if(!$page = @mysql_fetch_array($sql)) {page404();return;}
 	
 }
+
 else
 {
 	$page_dir = mysql_escape_string($request[1]);
