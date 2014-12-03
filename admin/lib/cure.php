@@ -3,7 +3,7 @@ $cure_id = (int)@$cure_id;
 $subcure_id = (int)@$subcure_id;
 $cure_type_list = array(
 	1=>'программы', 
-	//2=>'список в алфавитном порядке',
+	2=>'услуги',
 	3=>'объединяющий раздел', 
 	4=>'информационный раздел',
 	5=>'новости', 
@@ -13,12 +13,13 @@ $cure_type_list = array(
 if(isset($addcure))
 {	
 	$addcure = (int)@$addcure;
+	$curestr_id = (int)@$curestr_id;
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$addcure") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$ord = (int)@$arr[0] + 1;
 	
-	mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$addcure") or Error(1, __FILE__, __LINE__);
+	mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$addcure, curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
 		
 	$link = "?p=$part";
@@ -68,12 +69,12 @@ if(@$save)
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 		$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 		$inmenu = (int)@$inmenu;
-		if($cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
+		if($cure_type==2 || $cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
 		$page_id = (int)@$page_id;
 		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', anons='$anons', anons_en='$anons_en',
-		    profile='$profile', profile_en='$profile_en',
+		    profile='$profile', profile_en='$profile_en', 
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 				
@@ -250,6 +251,97 @@ function check_cure($subcure_id, $parent=0)
 	return 0;
 }
 
+if(isset($addcurestr) && $cure_id)
+{	
+	$addcurestr = (int)@$addcurestr;
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$addcurestr AND cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr[0] + 1;
+	
+	mysql_query("INSERT INTO ".TABLE_CURESTR." SET ord=$ord, parent=$addcurestr, cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
+	$id = mysql_insert_id();
+		
+	Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+	exit;
+}
+
+if(@$savecurestr)
+{
+	$curestr_id = (int)@$curestr_id;
+	$sql = mysql_query("SELECT ord, parent, cure_id FROM ".TABLE_CURESTR." WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$oldord = (int)@$arr['ord'];
+	$parent = (int)@$arr['parent'];
+	$cure_id = (int)@$arr['cure_id'];
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$parent AND cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	
+	$ord = (int)@$ord;
+	if($ord < 1 || $ord > $count) 
+	{
+		$_SESSION['message'] = "Неверное значение порядкового номера (от 1 до $count)";
+		Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+		exit;
+	}
+	
+	$name = escape_string(from_form(@$name));
+	
+	mysql_query("UPDATE ".TABLE_CURESTR." SET name='$name', ord='$ord' ".
+				"WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
+				
+	if($ord > $oldord) mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 ".
+		"WHERE ord>'$oldord' AND ord<='$ord' AND parent=$parent AND cure_id=$cure_id AND  curestr_id!='$curestr_id'") 
+		or Error(1, __FILE__, __LINE__);
+	elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord+1 ".
+		"WHERE ord>='$ord' AND ord<'$oldord' AND parent=$parent AND cure_id=$cure_id AND curestr_id!='$curestr_id'") 
+		or Error(1, __FILE__, __LINE__);
+	
+	$url = "?p=$part&cure_id=$cure_id";
+	
+	Header("Location: ".$url);
+	exit;
+}
+
+if(@$delcurestr)
+{
+	$curestr_id = (int)@$curestr_id;
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$curestr_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	if($count) 
+	{
+		$_SESSION['message'] = "Раздел не может быть удален, в нем есть подразделы";
+		Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+		exit;
+	}
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE curestr_id=$curestr_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	if($count) 
+	{
+		$_SESSION['message'] = "Раздел не может быть удален, к нему привязаны разделы";
+		Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+		exit;
+	}
+	
+	$sql = mysql_query("SELECT ord, parent, cure_id FROM ".TABLE_CURESTR." WHERE cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr['ord']; 
+	$parent = (int)@$arr['parent']; 
+	$cure_id = (int)@$arr['cure_id'];
+	
+	mysql_query("DELETE FROM ".TABLE_CURESTR." WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
+	mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord") or Error(1, __FILE__, __LINE__);	
+		
+	Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+	exit;
+}
+
 $replace = array();
 
 
@@ -355,6 +447,98 @@ if($cure_id)
 		}
 	
 		$replace['cure_list'] = $cures;
+		
+		if($cure_type==2)
+		{		
+			$replace['service'] = isset($service) ? 1 : 0;
+			
+			if($replace['service'])
+			{
+				$replace['curestr_id'] = $curestr_id = (int)@$curestr_id;
+				
+				$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
+				
+				$select =  "<select name=\"curestr_id\" ".
+					"onchange=\"document.location='?p=$part&cure_id=$cure_id&service&curestr_id='+this.value\">\n";
+				$select .= "<option value='0'>все</option>\n";
+				while($info = @mysql_fetch_array($sql))
+				{ 
+					$info['name'] = HtmlSpecialChars($info['name']);
+					if(!$info['name']) $info['name'] = NONAME;
+					
+					$sel = ($curestr_id == $info['curestr_id']) ? 'selected' : '';
+					
+					$select .= "<option value='$info[curestr_id]' $sel>".$info['name']."</option>\n";
+					//$select .= '<optgroup label="'.$info['name'].'">';
+					
+					$sql_sect = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+						or Error(1, __FILE__, __LINE__);
+					while($info_sect = @mysql_fetch_array($sql_sect))
+					{ 
+						$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+						if(!$info_sect['name']) $info_sect['name'] = NONAME;
+						
+						$sel = ($curestr_id == $info_sect['curestr_id']) ? 'selected' : '';
+					
+						$select .= "<option value='$info_sect[curestr_id]' $sel style='padding-left:20px'>".$info_sect['name']."</option>\n";
+					}
+				}
+								
+				$select.="</select>";
+				$replace['curestr_select'] = $select;
+				
+				//if($curestr_id)
+				{
+					$where = "parent=$cure_id";
+					if($curestr_id) $where .= " AND curestr_id=$curestr_id";
+					$ord = $curestr_id ? 'ord' : 'name';
+					$sql = mysql_query("SELECT cure_id, name, inmenu FROM ".TABLE_CURE." WHERE  $where ORDER BY $ord") 
+						or Error(1, __FILE__, __LINE__);
+					
+					$cures = array(); 
+					while($info = @mysql_fetch_array($sql))
+					{ 
+						$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+						
+						$info['del_link'] = ""; $info['icount'] = 0;
+						if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
+						else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id";
+					
+						$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
+						
+						$cures[] = $info;
+					}
+					$replace['cure_list'] = $cures;
+				}
+			}
+			
+			else
+			{
+				$sql = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+				or Error(1, __FILE__, __LINE__);
+				
+				$cures = array(); 
+				while($info = @mysql_fetch_array($sql))
+				{ 
+					$info['name'] = HtmlSpecialChars($info['name']);		
+					
+					$sql1 = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);	
+					$list = array(); 
+					while($info1 = @mysql_fetch_array($sql1))
+					{ 
+						$info1['name'] = HtmlSpecialChars($info1['name']);							
+						$list[] = $info1;
+					}
+					$info['list'] = $list;
+				
+					$cures[] = $info;
+				}
+			
+				$replace['curestrs'] = $cures;
+			}
+		}
 	}
 	
 	$replace['subcure_id'] = $subcure_id;
@@ -376,6 +560,8 @@ if($cure_id)
 				or Error(1, __FILE__, __LINE__);
 			$info = @mysql_fetch_array($sql);
 				
+			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
+			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['page_id'] =  $page_id;
 			$subcure['pname'] =  HtmlSpecialChars($info['name']);
 			$subcure['price'] =  HtmlSpecialChars($info['price']);
@@ -387,6 +573,8 @@ if($cure_id)
 		}
 		else
 		{
+			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
+			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['ord_select'] = $cure_type!=2 ? ord_select("SELECT name FROM ".TABLE_CURE.
 				" WHERE parent=$cure_id AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']) : '';
 			$subcure['name'] = HtmlSpecialChars($subcure['name']);

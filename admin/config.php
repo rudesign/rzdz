@@ -57,6 +57,7 @@ define('TABLE_FORM', TABLE_PREFIX.'form');
 define('TABLE_FIELD2', TABLE_PREFIX.'field2');
 define('TABLE_CURE', TABLE_PREFIX.'cure');
 define('TABLE_CUREHOTEL', TABLE_PREFIX.'curehotel');
+define('TABLE_CURESTR', TABLE_PREFIX.'curestr');
 define('TABLE_SPEC', TABLE_PREFIX.'spec');
 define('TABLE_GEST', TABLE_PREFIX.'gest');
 define('TABLE_GTEMA', TABLE_PREFIX.'gtema');

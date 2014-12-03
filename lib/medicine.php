@@ -77,7 +77,7 @@ if($cure_id)
 	
 	if(!$subcure_id || $cure['type']<3)  
 	{
-		if($cure['type']<3 || $cure['type']==4)
+		if($cure['type']==1 || $cure['type']==4)
 		{
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
 			if($extrasite_id && $cure['type']!=4) 
@@ -123,6 +123,35 @@ if($cure_id)
 				$cures[] = $info;
 			}
 			$replace['cure_list'] = $cures;
+		}
+		elseif($cure['type']==2)
+		{	
+			$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+				or Error(1, __FILE__, __LINE__);
+			
+			$cures =  array();
+			while($info = @mysql_fetch_array($sql))
+			{ 
+				$info['name'] = HtmlSpecialChars($info['name']);
+				if(!$info['name']) $info['name'] = NONAME;
+				
+				$sel = ($curestr_id == $info['curestr_id']) ? 'selected' : '';
+				
+				$select .= "<option value='$info[curestr_id]' $sel>".$info['name']."</option>\n";
+				//$select .= '<optgroup label="'.$info['name'].'">';
+				
+				$sql_sect = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
+				while($info_sect = @mysql_fetch_array($sql_sect))
+				{ 
+					$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+					if(!$info_sect['name']) $info_sect['name'] = NONAME;
+					
+					$sel = ($curestr_id == $info_sect['curestr_id']) ? 'selected' : '';
+				
+					$select .= "<option value='$info_sect[curestr_id]' $sel style='padding-left:20px'>".$info_sect['name']."</option>\n";
+				}
+			}
 		}
 		elseif($cure['type']==5)
 		{	
