@@ -255,7 +255,7 @@
 }
 .simple_content .plofiles-list{
     float: right;
-    width: 180px;
+    width: 170px;
 }
 .simple_content .plofiles-list li:nth-child(2n){
     background-color: #ebebeb;
