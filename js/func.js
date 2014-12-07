@@ -182,3 +182,9 @@ function detectFlash(){
     }
 }
 
+
+function ShowCureList(curestr_id)
+{
+	var obj = document.getElementById('u'+curestr_id); 
+	obj.style.display = obj.style.display=='none' ? '' : 'none';
+}

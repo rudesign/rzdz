@@ -16,7 +16,6 @@ if(!$extrasite_id )
 	if(!$page = @mysql_fetch_array($sql)) {page404();return;}
 	
 }
-
 else
 {
 	$page_dir = mysql_escape_string($request[1]);
@@ -76,7 +75,7 @@ if($cure_id)
 	$link = $subcure_id || ($cure['type']==6 && @$s_id) ? $link_medicine."$cure_id/" : '';
 	$navig[] = array('link'=>$link, 'name'=>$cure['name']);
 	
-	if(!$subcure_id || $cure['type']<3)  
+	if(!$subcure_id || $cure['type']==1)  
 	{
 		if($cure['type']==1 || $cure['type']==4)
 		{
@@ -127,7 +126,7 @@ if($cure_id)
 		}
 		elseif($cure['type']==2)
 		{	
-			$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 				or Error(1, __FILE__, __LINE__);
 			
 			$cures =  array();
@@ -136,23 +135,55 @@ if($cure_id)
 				$info['name'] = HtmlSpecialChars($info['name']);
 				if(!$info['name']) $info['name'] = NONAME;
 				
-				$sel = ($curestr_id == $info['curestr_id']) ? 'selected' : '';
+				$list = array();
 				
-				$select .= "<option value='$info[curestr_id]' $sel>".$info['name']."</option>\n";
-				//$select .= '<optgroup label="'.$info['name'].'">';
+				$uslugi = array();
+				$sql_uslugi = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE." 
+					WHERE curestr_id=$info[curestr_id] ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
+				while($info_uslugi = @mysql_fetch_array($sql_uslugi))
+				{ 
+					$info_uslugi['name'] = HtmlSpecialChars($info_uslugi['name']);
+					if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
+					
+					$info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
+											
+					$uslugi[] = $info_uslugi;
+				}
+				$info['uslugi'] = $uslugi;
 				
-				$sql_sect = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+				$sql_sect = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." 
+					WHERE parent=$info[curestr_id] ORDER BY ord") 
 					or Error(1, __FILE__, __LINE__);
 				while($info_sect = @mysql_fetch_array($sql_sect))
 				{ 
 					$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
 					if(!$info_sect['name']) $info_sect['name'] = NONAME;
 					
-					$sel = ($curestr_id == $info_sect['curestr_id']) ? 'selected' : '';
-				
-					$select .= "<option value='$info_sect[curestr_id]' $sel style='padding-left:20px'>".$info_sect['name']."</option>\n";
+					$info_sect['url'] = $link_medicine."$cure_id/"."?str=$info_sect[curestr_id]";
+					
+					$uslugi = array();
+					$sql_uslugi = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE." 
+						WHERE curestr_id=$info_sect[curestr_id] ORDER BY ord") 
+						or Error(1, __FILE__, __LINE__);
+					while($info_uslugi = @mysql_fetch_array($sql_uslugi))
+					{ 
+						$info_uslugi['name'] = HtmlSpecialChars($info_uslugi['name']);
+						if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
+						
+						$info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
+												
+						$uslugi[] = $info_uslugi;
+					}
+					$info_sect['uslugi'] = $uslugi;
+					
+					$list[] = $info_sect;
 				}
+				$info['list'] = $list;
+				
+				$cures[] = $info;
 			}
+			$replace['cure_list'] = $cures;
 		}
 		elseif($cure['type']==5)
 		{	
@@ -280,9 +311,10 @@ if($subcure_id)
 if(!$cure_id && !$subcure_id)
 {	
 	$blocks = array();
+	$and = $extrasite_id ? " AND c.inmenu" : '';
 	$sql = mysql_query("SELECT c.cure_id, c.name$englang as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
 		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)
-		WHERE !c.partof AND c.public AND f.photo_id
+		WHERE !c.partof AND c.public AND f.photo_id $and
 		ORDER by c.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))
 	{ 	

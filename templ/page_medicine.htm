@@ -1,19 +1,17 @@
 <?if($subcure_id){?>
 
-        <?if(@count($cure_list)>1){?>
-		<div class="section clearfix">
-            <div id="pdescription"><?=$subcure['description']?></div>
-			<div class="plofiles-list">
+        <div class="section clearfix">
+            <?if(count(@$cure_list)>1){?>
+			<div class="plofiles-list" style="margin-left:30px">
                 <ul>
 			<?foreach($cure_list as $k=>$v){?>
                     <li <?if($v['sel']){?>class="active"<?}?>><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
 			<?}?>
                 </ul>
             </div>
+			<?}?>
+            <div id="pdescription" style="width:auto"><?=$subcure['description']?></div>
         </div>
-		<?}else{?>
-		<div id="pdescription" style="width:auto"><?=$subcure['description']?></div>
-		<?}?>
 
         <?if(count($curehotel)){?>
         <div class="medicine-sanatorium-services section">
@@ -115,20 +113,20 @@
             </div>
         </div>
 
-        <div class="plofiles-list" style="float: left;">
+		
+		<div class="plofiles-list" style="float: left;">
             <ul>
-                <li class="active"><a href="">Руки</a></li>
-                <li><a href="">Живот</a></li>
-                <li><a href="">Ноги</a></li>
-                <li><a href="">Спина</a></li>
-                <li><a href="">Ягодицы</a></li>
-                <li><a href="">Болезни костномышечной-системы</a></li>
+                <?foreach($cure_list as $k=>$v){?>
+				<li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
+				<?}?>
             </ul>
         </div>
 		
+		
 		<?}else{?>
 		
-		<?if($cure['type']==4){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div><?}?>
+		<?if($cure['type']==4){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div><?}?>
 		
 		<table class="zebra">
 		<?foreach($cure_list as $k=>$v){?>
@@ -147,6 +145,43 @@
 		
 		<?}?>
 		
+		
+	<?}elseif($cure['type']==2){?>
+		
+		
+		
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div>
+		
+            <ul class="drevo">
+		<?foreach($cure_list as $k=>$v){?>
+		<?if(count($v['uslugi'])){?>
+			<li><a class="top" href="javascript:ShowCureList(<?=$v['curestr_id']?>)"><?=$v['name']?></a>
+				<ul class="uslugi" id="u<?=$v['curestr_id']?>" style="display:none">
+				<?foreach($v['uslugi'] as $v1){?>
+				<li><a href="<?=$v1['url']?>" ><?=$v1['name']?></a></li>
+				<?}?>
+				</ul>
+			</li>
+		<?}else{?>
+			<li><span  class="top"><?=$v['name']?></span></a>
+			<ul>
+			<?foreach($v['list'] as $v1){?>
+			<li><a href="javascript:ShowCureList(<?=$v1['curestr_id']?>)"><?=$v1['name']?></a>
+				<ul class="uslugi" id="u<?=$v1['curestr_id']?>" style="display:none">
+				<?foreach($v1['uslugi'] as $v2){?>
+				<li><a href="<?=$v2['url']?>" ><?=$v2['name']?></a></li>
+				<?}?>
+				</ul>
+			</li>
+			<?}?>
+			</ul>
+			</li>
+		<?}?>
+		<?}?>
+			</ul>
+		
+			
 		
 	<?}elseif($cure['type']==5){?>
 			  <ul class="news_list clearfix">
@@ -172,14 +207,13 @@
 		 <?=$pages?>
 	<?}elseif($cure['type']==7){?>
 		<?if($extrasite_id){?>
-			<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
-			<?if($cure['pdf_link']){?><div class="clear"></div><a href="<?=$cure['pdf_link']?>"><img src="<?=$cure['pdf_photo']?>" /></a><?}?>
+		<div id="pdescription"><?=$cure['description']?></div>
 		<?}else{?>
-		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div id="pdescription"><?=$cure['description']?></div>
 			<div class="medicine-sanatorium-services section">
-                <div class="grid" style="height:320px">
+                <div class="grid">
                     <?foreach($curehotel as $v){?>
-					<div class="items">
+					<div class="items" style="height:320px">
                         <a href="<?=$v['page_link']?>">
 							<img src="<?=$v['photo_logo']?>" />
 							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" />

@@ -131,6 +131,13 @@ if(@$save)
 		$ord = (int)@$ord;
 		$type = (int)@$type;
 		$partof = (int)@$partof;
+		
+		$update = '';
+		if(!$partof)
+		{
+			$inmenu = (int)@$inmenu;
+			$update = ", inmenu='$inmenu'";
+		}
 
 		$sql = mysql_query("SELECT ord FROM ".TABLE_CURE." WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
 		$arr = @mysql_fetch_array($sql);
@@ -138,7 +145,7 @@ if(@$save)
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', 
 			type='$type', partof='$partof',
-			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en'
+			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en' $update
 			WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
 			
 		if($ord > $oldord) mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 ".
@@ -308,6 +315,8 @@ if(@$savecurestr)
 if(@$delcurestr)
 {
 	$curestr_id = (int)@$curestr_id;
+	$url = "?p=$part&cure_id=$cure_id&service";
+	if($curestr_id) $url .= "&curestr_id=$curestr_id";
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -315,7 +324,7 @@ if(@$delcurestr)
 	if($count) 
 	{
 		$_SESSION['message'] = "–аздел не может быть удален, в нем есть подразделы";
-		Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+		Header("Location: ".$url);
 		exit;
 	}
 	
@@ -325,7 +334,7 @@ if(@$delcurestr)
 	if($count) 
 	{
 		$_SESSION['message'] = "–аздел не может быть удален, к нему прив€заны разделы";
-		Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+		Header("Location: ".$url);
 		exit;
 	}
 	
@@ -338,7 +347,7 @@ if(@$delcurestr)
 	mysql_query("DELETE FROM ".TABLE_CURESTR." WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
 	mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
-	Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+	Header("Location: ".$url);
 	exit;
 }
 

@@ -250,7 +250,7 @@
 }
 
 .simple_content #pdescription{
-    float: left;
+    /*float: left;*/
     width: 362px;
 }
 .simple_content .plofiles-list{
@@ -287,4 +287,15 @@
 }
 .nosology li{
     padding: 5px 10px;
+}
+
+.drevo li{
+    margin-top: 5px;
+}
+.top{
+color:#159fa7;
+font-weight:bold;
+}
+.uslugi {
+	margin-left: 20px;
 }
