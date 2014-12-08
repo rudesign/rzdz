@@ -8,7 +8,7 @@ function uslugi($curestr_id, $link_cure)
 	
 	$left_join = $extrasite_id ? "LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)" : '';
 	$fields = $extrasite_id ? ", h.cure_id, h.price$englang as  price" : '';
-	$where = $extrasite_id ? " AND h.cure_id" : '';
+	$where = $extrasite_id ? " AND h.cure_id" : " AND c.inmenu";
 	
 	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name $fields FROM ".TABLE_CURE." c
 		$left_join
