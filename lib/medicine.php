@@ -1,5 +1,33 @@
 <?php
 
+function uslugi($curestr_id, $link_cure)
+{
+	global $extrasite_id, $englang;
+	
+	$uslugi = array();
+	
+	$left_join = $extrasite_id ? "LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)" : '';
+	$fields = $extrasite_id ? ", h.cure_id, h.price$englang as  price" : '';
+	$where = $extrasite_id ? " AND h.cure_id" : '';
+	
+	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name $fields FROM ".TABLE_CURE." c
+		$left_join
+		WHERE c.curestr_id=$curestr_id  $where
+		ORDER BY c.ord") 
+		or Error(1, __FILE__, __LINE__);
+	while($info_uslugi = @mysql_fetch_array($sql_uslugi))
+	{ 
+		$info_uslugi['name'] = HtmlSpecialChars($info_uslugi['name']);
+		if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
+		
+		$info_uslugi['url'] = $link_cure."$info_uslugi[cure_id]/";
+								
+		$uslugi[] = $info_uslugi;
+	}
+	
+	return $uslugi;
+}
+
 $page_name = '';
 
 if(!$extrasite_id )
@@ -137,20 +165,7 @@ if($cure_id)
 				
 				$list = array();
 				
-				$uslugi = array();
-				$sql_uslugi = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE." 
-					WHERE curestr_id=$info[curestr_id] ORDER BY ord") 
-					or Error(1, __FILE__, __LINE__);
-				while($info_uslugi = @mysql_fetch_array($sql_uslugi))
-				{ 
-					$info_uslugi['name'] = HtmlSpecialChars($info_uslugi['name']);
-					if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
-					
-					$info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
-											
-					$uslugi[] = $info_uslugi;
-				}
-				$info['uslugi'] = $uslugi;
+				$info['uslugi'] = uslugi($info['curestr_id'], $link_medicine."$cure_id/");
 				
 				$sql_sect = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." 
 					WHERE parent=$info[curestr_id] ORDER BY ord") 
@@ -162,24 +177,13 @@ if($cure_id)
 					
 					$info_sect['url'] = $link_medicine."$cure_id/"."?str=$info_sect[curestr_id]";
 					
-					$uslugi = array();
-					$sql_uslugi = mysql_query("SELECT cure_id, name$englang as name FROM ".TABLE_CURE." 
-						WHERE curestr_id=$info_sect[curestr_id] ORDER BY ord") 
-						or Error(1, __FILE__, __LINE__);
-					while($info_uslugi = @mysql_fetch_array($sql_uslugi))
-					{ 
-						$info_uslugi['name'] = HtmlSpecialChars($info_uslugi['name']);
-						if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
-						
-						$info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
-												
-						$uslugi[] = $info_uslugi;
-					}
-					$info_sect['uslugi'] = $uslugi;
+					$info_sect['uslugi'] = uslugi($info_sect['curestr_id'], $link_medicine."$cure_id/");
+					if(!count($info_sect['uslugi']) && $extrasite_id) continue;
 					
 					$list[] = $info_sect;
 				}
 				$info['list'] = $list;
+				if(!count($info['uslugi']) && !count($info['list']) && $extrasite_id) continue;
 				
 				$cures[] = $info;
 			}
