@@ -290,12 +290,17 @@
 }
 
 .drevo li{
+    margin-top: 12px;
+	font-weight:bold;
+}
+.drevo li ul li{
     margin-top: 5px;
+	margin-left: 15px;
+}
+.drevo li ul li ul li{
+	margin-left: 15px;
+	font-weight:normal;
 }
 .top{
 color:#159fa7;
-font-weight:bold;
-}
-.uslugi {
-	margin-left: 20px;
 }
