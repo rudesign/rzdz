@@ -64,7 +64,7 @@
 	<?foreach($curestrs as $v){?>
 	<FORM method="post" enctype="multipart/form-data">
 	<tr align="center" class="maincure">
-		<td width="20"><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
+		<td width="20"><a name="link<?=$v['curestr_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
 		<td><input type="text" name="name" value="<?=$v['name']?>" size="50" maxlength="255"></td>
 		<td><input type="submit" name="savecurestr" value="Сохранить" class="button"></td>
 		<td><input type="submit" name="delcurestr" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
@@ -81,7 +81,7 @@
 	<FORM method="post" enctype="multipart/form-data">
 	<tr align="center">
 		<td></td>
-		<td><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
+		<td><a name="link<?=$v1['curestr_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
 			<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
 		<td><input type="submit" name="savecurestr" value="Сохранить" class="button"></td>
 		<td><input type="submit" name="delcurestr" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>

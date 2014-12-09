@@ -272,7 +272,7 @@ if(isset($addcurestr) && $cure_id)
 	mysql_query("INSERT INTO ".TABLE_CURESTR." SET ord=$ord, parent=$addcurestr, cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
 		
-	Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+	Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id#link$id");
 	exit;
 }
 
@@ -309,7 +309,7 @@ if(@$savecurestr)
 		"WHERE ord>='$ord' AND ord<'$oldord' AND parent=$parent AND cure_id=$cure_id AND curestr_id!='$curestr_id'") 
 		or Error(1, __FILE__, __LINE__);
 	
-	$url = "?p=$part&cure_id=$cure_id";
+	$url = "?p=$part&cure_id=$cure_id#link$curestr_id";
 	
 	Header("Location: ".$url);
 	exit;
@@ -325,6 +325,8 @@ if(@$delcurestr)
 	$ord = (int)@$arr['ord']; 
 	$parent = (int)@$arr['parent']; 
 	$cure_id = (int)@$arr['cure_id'];
+	
+	if($parent) $url .= "#link$parent";
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -346,7 +348,6 @@ if(@$delcurestr)
 		exit;
 	}
 		
-	//echo "UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord";  exit;
 	mysql_query("DELETE FROM ".TABLE_CURESTR." WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
 	mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
