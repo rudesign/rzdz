@@ -210,7 +210,10 @@ if(@$del_cure)
 	mysql_query("DELETE FROM ".TABLE_CURE." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
 	mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 WHERE parent=$parent AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
-	Header("Location: ".ADMIN_URL."?p=$part&cure_id=$cure_id");
+	$url = "?p=$part&cure_id=$cure_id";
+	if($curestr_id) $url .= "&service&curestr_id=$curestr_id";
+	
+	Header("Location: ".$url);
 	exit;
 }
 
@@ -315,8 +318,13 @@ if(@$savecurestr)
 if(@$delcurestr)
 {
 	$curestr_id = (int)@$curestr_id;
-	$url = "?p=$part&cure_id=$cure_id&service";
-	if($curestr_id) $url .= "&curestr_id=$curestr_id";
+	$url = "?p=$part&cure_id=$cure_id";
+	
+	$sql = mysql_query("SELECT ord, parent, cure_id FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr['ord']; 
+	$parent = (int)@$arr['parent']; 
+	$cure_id = (int)@$arr['cure_id'];
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -337,13 +345,8 @@ if(@$delcurestr)
 		Header("Location: ".$url);
 		exit;
 	}
-	
-	$sql = mysql_query("SELECT ord, parent, cure_id FROM ".TABLE_CURESTR." WHERE cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
-	$arr = @mysql_fetch_array($sql);
-	$ord = (int)@$arr['ord']; 
-	$parent = (int)@$arr['parent']; 
-	$cure_id = (int)@$arr['cure_id'];
-	
+		
+	//echo "UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord";  exit;
 	mysql_query("DELETE FROM ".TABLE_CURESTR." WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
 	mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
