@@ -184,9 +184,9 @@
 		<?foreach($cure_list as $k=>$v){?>
 		<table class="zebra">
 			<thead>
-			<tr><td style="font-weight:bold;">
-				<?if(count($v['uslugi'])){?><a class="top" href="javascript:ShowCureList(<?=$v['curestr_id']?>)"><?=$v['name']?></a>
-				<?}else{?><span style="color: #159fa7;"><?=$v['name']?></span><?}?>
+			<tr><td class="top">
+				<?if(count($v['uslugi'])){?><a href="javascript:ShowCureList(<?=$v['curestr_id']?>)"><?=$v['name']?></a>
+				<?}else{?><?=$v['name']?><?}?>
 			</td></tr>
 			</thead>
 			<?if(count($v['uslugi'])){?>
@@ -199,7 +199,7 @@
 			<?foreach($v['list'] as $v1){?>
 			<tr><td colspan="2">
 				<?if(count($v1['uslugi'])){?><a href="javascript:ShowCureList(<?=$v1['curestr_id']?>)"><?=$v1['name']?></a>
-				<?}else{?><strong><?=$v1['name']?></strong><?}?>
+				<?}else{?><?=$v1['name']?><?}?>
 			</td></tr>
 				<?if(count($v1['uslugi'])){?>
 			<tbody id="u<?=$v1['curestr_id']?>" style="display:none">
