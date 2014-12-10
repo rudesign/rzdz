@@ -184,12 +184,14 @@ if(@$save)
 if(@$savedescr)
 {
 
+	$name = escape_string(from_form(@$name));
+	$name_en = escape_string(from_form(@$name_en));
 	$price = escape_string(from_form(@$price));
 	$price_en = escape_string(from_form(@$price_en));
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 		
-	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='$price' , price_en='$price_en',
+	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET name='$name' , name_en='$name_en', price='$price' , price_en='$price_en',
 		description='$description', description_en='$description_en'
 		WHERE cure_id=$subcure_id AND page_id='$page_id'") 
 	or Error(1, __FILE__, __LINE__);
@@ -371,6 +373,22 @@ if(@$savecurestr)
 		or Error(1, __FILE__, __LINE__);
 	
 	$url = "?p=$part&cure_id=$cure_id#link$curestr_id";
+	
+	Header("Location: ".$url);
+	exit;
+}
+
+if(isset($inmenu))
+{
+	$cure_id = (int)@$cure_id;
+	$subcure_id = (int)@$subcure_id;
+	$curestr_id = (int)@$curestr_id;
+	$inmenu = (int)@$inmenu;
+	
+	
+	mysql_query("UPDATE ".TABLE_CURE." SET inmenu='$inmenu' WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
+				
+	$url = "?p=$part&cure_id=$cure_id&curestr_id=$curestr_id&service";
 	
 	Header("Location: ".$url);
 	exit;
@@ -587,6 +605,11 @@ if($cure_id)
 					
 						$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
 						
+						$info['inmenu_link'] = "?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&subcure_id=$info[cure_id]&inmenu=";
+						$info['inmenu_link'] .= $info['inmenu'] ? "0" : "1";
+						
+						$info['inmenu_alt'] = $info['inmenu'] ? "убрать из меню основного сайта" : "добавить в меню основного сайта";
+						
 						$cures[] = $info;
 					}
 					$replace['cure_list'] = $cures;
@@ -634,7 +657,8 @@ if($cure_id)
 			$page_id = (int)@$descr;
 			$replace['descr'] = $page_id;
 			
-			$sql = mysql_query("SELECT cr.description, cr.description_en, cr.price, cr.price_en, p.name FROM ".TABLE_CUREHOTEL." cr 
+			$sql = mysql_query("SELECT cr.name, cr.name_en, cr.description, cr.description_en, 
+				cr.price, cr.price_en, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
 				LEFT JOIN ".TABLE_PAGE." p ON p.page_id=cr.page_id
 				WHERE cr.cure_id=$subcure_id AND cr.page_id=$page_id") 
 				or Error(1, __FILE__, __LINE__);
@@ -643,7 +667,9 @@ if($cure_id)
 			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['page_id'] =  $page_id;
-			$subcure['pname'] =  HtmlSpecialChars($info['name']);
+			$subcure['pname'] =  HtmlSpecialChars($info['pname']);
+			$subcure['prname'] =  HtmlSpecialChars($info['name']);
+			$subcure['prname_en'] =  HtmlSpecialChars($info['name_en']);
 			$subcure['price'] =  HtmlSpecialChars($info['price']);
 			$subcure['price_en'] =  HtmlSpecialChars($info['price_en']);
 			$subcure['description'] = HtmlSpecialChars($info['description']);

@@ -53,6 +53,7 @@
 		
 		<?foreach($cure_list as $v){?>
 			<p <?if($v['inmenu']){?>style="font-weight:bold"<?}?>>
+				<a href="<?=$v['inmenu_link']?>" title="<?=$v['inmenu_alt']?>"><img src="images/<?if(!$v['inmenu']){?>n<?}?>gal.png" border="0"></a>
 				<a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
 	
 				<?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
@@ -136,6 +137,9 @@
 <form name="edit-form" method="post">
     <table cellpadding="2">
 
+	<tr><td>Название для прайса (заполнять поле,<br /> если отличается от названия услуги): </td>
+		<td><input type="text" name="name" value="<?=$subcure['prname']?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['prname_en']?>" maxlength="255" size="50"></td></tr>
     <tr><td>Цена: </td><td><input type="text" name="price" value="<?=$subcure['price']?>" maxlength="255" size="50"></td></tr>
     <tr><td>Цена eng: </td><td><input type="text" name="price_en" value="<?=$subcure['price_en']?>" maxlength="255" size="50"></td></tr>
         <tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$subcure['description']?></textarea> 
