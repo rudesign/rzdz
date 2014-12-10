@@ -15,7 +15,7 @@ function uslugi($curestr_id, $cure_id, $sid)
 	$uslugi = array();
 	
 	$left_join = $extrasite_id ? "LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)" : '';
-	$fields = $extrasite_id ? ", h.cure_id, h.price$englang as  price, h.name$englang as prname, h.description$englang as prdescription" : '';
+	$fields = $extrasite_id ? ", c.inmenu, h.cure_id, h.price$englang as  price, h.name$englang as prname, h.description$englang as prdescription" : '';
 	$where = $extrasite_id ? " AND h.cure_id" : " AND c.inmenu";
 	
 	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name, c.description$englang as description $fields FROM ".TABLE_CURE." c
@@ -31,7 +31,7 @@ function uslugi($curestr_id, $cure_id, $sid)
 				
 		if($extrasite_id)  
 			$info_uslugi['url'] =  $info_uslugi['prdescription'] ?  $link_extrasite."$cure_id/$info_uslugi[cure_id]/" : 
-				$link_medicine."$cure_id/$info_uslugi[cure_id]/\" target=\"_blank";
+				($info_uslugi['inmenu'] ?  $link_medicine."$cure_id/$info_uslugi[cure_id]/\" target=\"_blank" : '');
 		else $info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
 		
 		$info_uslugi['sel'] = $sid==$info_uslugi['cure_id'] ? 1 :0;
