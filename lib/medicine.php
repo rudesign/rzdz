@@ -303,7 +303,8 @@ if($subcure_id)
 			$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 			$info['name'] = htmlspecialchars($info['name']);
 			$info['city'] = htmlspecialchars($info['city']);
-			$info['price'] = htmlspecialchars($info['price']);
+			$price = (int)$info['price'];
+			$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
 			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/$subcure_id" : "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
 		}
