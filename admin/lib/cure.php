@@ -211,7 +211,7 @@ if(@$del_cure)
 	mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 WHERE parent=$parent AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 		
 	$url = "?p=$part&cure_id=$cure_id";
-	if($curestr_id) $url .= "&service&curestr_id=$curestr_id";
+	if(isset($curestr_id)) $url .= "&service&curestr_id=$curestr_id";
 	
 	Header("Location: ".$url);
 	exit;
@@ -259,6 +259,67 @@ function check_cure($subcure_id, $parent=0)
 	if($subcure_id < 1) return "-";
 		
 	return 0;
+}
+
+if(isset($loadcure))
+{	
+	$cure_id = (int)@$cure_id;
+	$curestr_id = (int)@$curestr_id;
+	$page_id = (int)@$page_id;
+	
+	$url = "?p=$part&cure_id=$cure_id&curestr_id=$curestr_id&service";
+	
+	if(!$cure_id || !$curestr_id || !$page_id)
+	{
+		Header("Location: ".$url); 
+		exit;
+	}
+	
+	$text_arr = explode("\n", from_form(@$text));
+	
+	foreach($text_arr as $v)
+	{
+		$list = explode(";", $v);
+		if(isset($list[0]) && isset($list[1]) && isset($list[2]))
+		{
+			if(!strpos($list[2], "-00")) continue;
+			
+			$name = escape_string($list[0]);
+			$price = str_replace("-00", '', escape_string($list[2]));
+			
+			$sql = mysql_query("SELECT cure_id FROM ".TABLE_CURE." WHERE name='$name' AND parent=$cure_id") or Error(1, __FILE__, __LINE__);
+			$arr = @mysql_fetch_array($sql);
+			if(@$arr[0]) $subcure_id = $arr[0];
+			else
+			{
+				$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$cure_id") or Error(1, __FILE__, __LINE__);
+				$arr = @mysql_fetch_array($sql);
+				$ord = (int)@$arr[0] + 1;
+				
+				mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$cure_id, curestr_id='$curestr_id', name='$name'") 
+					or Error(1, __FILE__, __LINE__);
+				$subcure_id = mysql_insert_id();
+			}
+			
+			
+			$sql = mysql_query("SELECT count(*) FROM ".TABLE_CUREHOTEL." WHERE page_id=$page_id AND cure_id=$subcure_id") 
+				or Error(1, __FILE__, __LINE__);
+			$arr = @mysql_fetch_array($sql);
+			$count = $arr[0];
+			
+			if($count)
+				mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price)."' WHERE cure_id=$subcure_id AND page_id='$page_id'") 
+					or Error(1, __FILE__, __LINE__);
+			else
+				mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET cure_id=$subcure_id, page_id='$page_id', price='".escape_string($price)."'") 
+				or Error(1, __FILE__, __LINE__);
+			
+		}
+	}
+	
+		
+	Header("Location: ".$url);
+	exit;
 }
 
 if(isset($addcurestr) && $cure_id)
@@ -469,6 +530,12 @@ if($cure_id)
 			{
 				$replace['curestr_id'] = $curestr_id = (int)@$curestr_id;
 				
+				$page_id = 22;
+				$replace['san_select'] = mysql_select('page_id', 
+						"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
+						LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
+						$page_id);
+				
 				$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 					or Error(1, __FILE__, __LINE__);
 				
@@ -516,7 +583,7 @@ if($cure_id)
 						
 						$info['del_link'] = ""; $info['icount'] = 0;
 						if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
-						else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id";
+						else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id&curestr_id=$curestr_id";
 					
 						$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
 						
