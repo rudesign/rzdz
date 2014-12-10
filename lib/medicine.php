@@ -1,16 +1,24 @@
 <?php
 
-function uslugi($curestr_id, $link_cure, $sid)
+function uslugi($curestr_id, $cure_id, $sid)
 {
-	global $extrasite_id, $englang;
+	global $extrasite_id, $englang, $lprefix, $request;
+	
+	
+	$link_medicine =  "$lprefix/$request[0]/";
+	if($extrasite_id) 
+	{
+		$link_medicine = "$lprefix/$request[1]/";
+		$link_extrasite = "$lprefix/$request[0]/$request[1]/";
+	}
 	
 	$uslugi = array();
 	
 	$left_join = $extrasite_id ? "LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)" : '';
-	$fields = $extrasite_id ? ", h.cure_id, h.price$englang as  price, h.name$englang as prname" : '';
+	$fields = $extrasite_id ? ", h.cure_id, h.price$englang as  price, h.name$englang as prname, h.description$englang as prdescription" : '';
 	$where = $extrasite_id ? " AND h.cure_id" : " AND c.inmenu";
 	
-	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name $fields FROM ".TABLE_CURE." c
+	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name, c.description$englang as description $fields FROM ".TABLE_CURE." c
 		$left_join
 		WHERE c.curestr_id=$curestr_id  $where
 		ORDER BY c.ord") 
@@ -21,7 +29,10 @@ function uslugi($curestr_id, $link_cure, $sid)
 			HtmlSpecialChars($info_uslugi['name']);
 		if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
 				
-		$info_uslugi['url'] = $link_cure."$info_uslugi[cure_id]/";
+		if($extrasite_id)  
+			$info_uslugi['url'] =  $info_uslugi['prdescription'] ?  $link_extrasite."$cure_id/$info_uslugi[cure_id]/" : 
+				$link_medicine."$cure_id/$info_uslugi[cure_id]/\" target=\"_blank";
+		else $info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
 		
 		$info_uslugi['sel'] = $sid==$info_uslugi['cure_id'] ? 1 :0;
 								
@@ -169,7 +180,7 @@ if($cure_id)
 				
 				$list = array();
 				
-				$info['uslugi'] = uslugi($info['curestr_id'], $link_medicine."$cure_id/", $sid);
+				$info['uslugi'] = uslugi($info['curestr_id'], $cure_id, $sid);
 				
 				$sql_sect = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." 
 					WHERE parent=$info[curestr_id] ORDER BY ord") 
@@ -181,7 +192,7 @@ if($cure_id)
 					
 					$info_sect['url'] = $link_medicine."$cure_id/"."?str=$info_sect[curestr_id]";
 					
-					$info_sect['uslugi'] = uslugi($info_sect['curestr_id'], $link_medicine."$cure_id/", $sid);
+					$info_sect['uslugi'] = uslugi($info_sect['curestr_id'], $cure_id, $sid);
 					if(!count($info_sect['uslugi']) && $extrasite_id) continue;
 					
 					$list[] = $info_sect;
