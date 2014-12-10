@@ -156,20 +156,21 @@
 		<?if($extrasite_id){?>
 		
 		<?foreach($cure_list as $k=>$v){?>
+		<a name="price"></a>
 		<table class="zebra">
 			<thead>
 			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
 			<td width="108"><div align="center"><strong>÷ена, руб.</strong></div></td></tr>
 			</thead>
 			<?foreach($v['uslugi'] as $v1){?>
-			<tr><td><a href="<?=$v1['url']?>"><?=$v1['name']?></a></td>
+			<tr <?if($v1['sel']){?>class="sel"<?}?>><td><a href="<?=$v1['url']?>"><?=$v1['name']?></a></td>
 				<td width="108"><div align="center"><strong><?=$v1['price']?></strong></div></td>
 			</tr>
 			<?}?>
 			<?foreach($v['list'] as $v1){?>
 			<tr><td colspan="2"><strong><?=$v1['name']?></strong></td></tr>
 				<?foreach($v1['uslugi'] as $v2){?>
-			<tr><td style="padding-left:30px"><a href="<?=$v2['url']?>"><?=$v2['name']?></a></td>
+			<tr <?if($v2['sel']){?>class="sel"<?}?>><td style="padding-left:30px"><a  href="<?=$v2['url']?>"><?=$v2['name']?></a></td>
 				<td width="108"><div align="center"><strong><?=$v2['price']?></strong></div></td>
 			</tr>
 				<?}?>
