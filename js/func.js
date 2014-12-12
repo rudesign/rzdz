@@ -188,3 +188,13 @@ function ShowCureList(curestr_id)
 	var obj = document.getElementById('u'+curestr_id); 
 	obj.style.display = obj.style.display=='none' ? '' : 'none';
 }
+
+function ShowAllCureList(mode)
+{
+	document.getElementById('raskr').style.display = mode==1 ? 'none' : '';
+	document.getElementById('skr').style.display = mode==1 ? '' : 'none';
+	for(var i=0;i<CureList.length;i++)
+	{
+		document.getElementById('u'+CureList[i]).style.display = mode==1 ? '' : 'none';
+	}
+}

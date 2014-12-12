@@ -325,7 +325,7 @@ if($subcure_id)
 			$info['city'] = htmlspecialchars($info['city']);
 			$price = (int)$info['price'];
 			$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
-			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/$subcure_id\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
+			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#pr$subcure_id\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
 		}
 	}

@@ -290,11 +290,22 @@
 }
 
 
+.drevo li{
+padding-top: 7px;
+}
+.drevo li{
+    background-color: #ebebeb;
+}
+.drevo ul li{
+	background: none!important;
+    border-bottom: 1px #ebebeb solid!important;
+}
 .top, .top a{
 color:#159fa7!important;
 font-weight:bold;
 }
 
 .zebra .sel td{
-color: #990000
+background-color:#159fa7!important;
+color:#FFFFFF;
 }
