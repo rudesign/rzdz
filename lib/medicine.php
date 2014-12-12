@@ -22,7 +22,7 @@ function uslugi($curestr_id, $cure_id, $sid)
 		$left_join
 		WHERE c.curestr_id=$curestr_id  $where
 		ORDER BY c.ord") 
-		or Error(1, __FILE__, __LINE__);
+		or Error(1, __FILE__, __LINE__); 
 	while($info_uslugi = @mysql_fetch_array($sql_uslugi))
 	{ 
 		$info_uslugi['name'] = $extrasite_id && @$info_uslugi['prname'] ?  HtmlSpecialChars($info_uslugi['prname']) :
@@ -35,7 +35,7 @@ function uslugi($curestr_id, $cure_id, $sid)
 		else $info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
 		
 		$info_uslugi['sel'] = $sid==$info_uslugi['cure_id'] ? 1 :0;
-								
+
 		$uslugi[] = $info_uslugi;
 	}
 	
@@ -171,7 +171,7 @@ if($cure_id)
 			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 				or Error(1, __FILE__, __LINE__);
 			
-			$sid = (int)@$_GET['sid'];
+			$replace['sid'] = $sid = (int)@$_GET['sid'];
 			$cures =  array();
 			while($info = @mysql_fetch_array($sql))
 			{ 
@@ -325,7 +325,7 @@ if($subcure_id)
 			$info['city'] = htmlspecialchars($info['city']);
 			$price = (int)$info['price'];
 			$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
-			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#pr$subcure_id\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
+			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
 		}
 	}

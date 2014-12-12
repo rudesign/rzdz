@@ -156,7 +156,6 @@
 		<?if($extrasite_id){?>
 		
 		<?foreach($cure_list as $k=>$v){?>
-		<a name="price"></a>
 		<table class="zebra">
 			<thead>
 			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
@@ -164,18 +163,17 @@
 			</thead>
 			<?foreach($v['uslugi'] as $v1){?>
 			<tr <?if($v1['sel']){?>class="sel"<?}?>>
-				<td>
-					<a name="pr<?=$v1['cure_id']?>" style="position: absolute;top:-70px"></a>
+				<td <?if($v1['sel']){?>id="pr<?=$v1['cure_id']?>" style="background-color:#159fa7!important;"<?}?>>
 					<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}else{?><?=$v1['name']?><?}?></td>
-				<td width="108"><div align="center"><strong><?=$v1['price']?></strong></div></td>
+				<td width="108" style="<?if($v1['sel']){?>background-color:#159fa7!important;<?}?>"><div align="center"><strong><?=$v1['price']?></strong></div></td>
 			</tr>
 			<?}?>
 			<?foreach($v['list'] as $v1){?>
 			<tr><td colspan="2"><strong><?=$v1['name']?></strong></td></tr>
 				<?foreach($v1['uslugi'] as $v2){?>
 			<tr <?if($v2['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:30px;<?if($v2['sel']){?>background-color:#159fa7!important;<?}?>">
-					<a name="pr<?=$v2['cure_id']?>" style="position: absolute;top:-70px"></a>
+				<td style="padding-left:30px;<?if($v2['sel']){?>background-color:#159fa7!important;<?}?>" 
+					<?if($v2['sel']){?>id="pr<?=$v2['cure_id']?><?}?>">
 					<?if($v2['url']){?><a href="<?=$v2['url']?>"><?=$v2['name']?></a><?}else{?><?=$v2['name']?><?}?></td>
 				<td width="108"<?if($v2['sel']){?> style="background-color:#159fa7!important;"<?}?>>
 					<div align="center"><strong><?=$v2['price']?></strong></div></td>
@@ -183,6 +181,14 @@
 				<?}?>
 			<?}?>
 		</table><p>&nbsp;</p>
+		<?}?>
+		<?if($sid){?>
+		<div id="prlink" style="position:absolute;top:0;left:0;"><a name="price"></a></div>
+		<script language="javascript">
+		var pos = GetPos('pr<?=$sid?>');
+		var prtop = pos.top - 900;	
+		document.getElementById('prlink').style.top = prtop+'px';		
+		</script>
 		<?}?>
 			
 		

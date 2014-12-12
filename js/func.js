@@ -198,3 +198,25 @@ function ShowAllCureList(mode)
 		document.getElementById('u'+CureList[i]).style.display = mode==1 ? '' : 'none';
 	}
 }
+
+function GetPos(elem)
+{
+var offTrial=document.getElementById(elem);
+var offL=0;
+var offT=0;
+
+while(offTrial)
+{
+offL+=offTrial.offsetLeft;
+offT+=offTrial.offsetTop;
+offTrial=offTrial.offsetParent;
+}
+
+if (navigator.userAgent.indexOf("Mac")!=-1 && typeof document.body.leftMargin!="undefined")
+{
+offL+=document.body.leftMargin;
+offT+=document.body.topMargin;
+}
+
+return {left:offL , top:offT}
+}
