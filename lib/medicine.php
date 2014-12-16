@@ -237,7 +237,7 @@ if($cure_id)
 					$cure['pdf_link'] = $info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
 						 "/$pdf\" target=\"_blank" : ''; 
 				}
-				else $cure['pdf'] = '';
+				else $cure['pdf_photo'] = '';
 			}
 			else
 			{			
@@ -262,8 +262,9 @@ if($cure_id)
 					$info['photo_license'] = file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl : '';
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
-					$info['page_link'] = $info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
-						 "/$pdf\" target=\"_blank" : 
+					$info['page_link'] = 
+						//$info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
+						 //"/$pdf\" target=\"_blank" : 
 						($info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id\" target=\"_blank" : 
 						"$lprefix/medicine/$cure_id/$info[cure_id]"); 
 					$curehotel[] = $info;	

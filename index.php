@@ -138,7 +138,7 @@ if($part)
 				d2.dir_id IS NOT NULL AND i.public='1'") or Error(1, __FILE__, __LINE__);
 		if($arr = @mysql_fetch_array($sql))
 		{
-			if(@$arr['description'])
+			if(@$arr['description'] || $request[1]=='medicine')
 			{
 				$end = 1;
 				$parent_name = @$arr['parent_name'];

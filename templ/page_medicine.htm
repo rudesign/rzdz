@@ -272,6 +272,9 @@
 	<?}elseif($cure['type']==7){?>
 		<?if($extrasite_id){?>
 		<div id="pdescription"><?=$cure['description']?></div>
+		 <?if($cure['pdf_photo']){?>
+		 <a href="<?=$cure['pdf_link']?>"><img src="<?=$cure['pdf_photo']?>" /></a>
+		<?}?>
 		<?}else{?>
 		<div id="pdescription"><?=$cure['description']?></div>
 			<div class="medicine-sanatorium-services section">

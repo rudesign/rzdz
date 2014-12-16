@@ -309,3 +309,9 @@ font-weight:bold;
 background-color:#159fa7!important;
 color:#FFFFFF;
 }
+.zebra  a{
+text-decoration:none!important;
+}
+.zebra  a:hover{
+text-decoration:underline!important;
+}
