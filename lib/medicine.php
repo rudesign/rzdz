@@ -263,8 +263,8 @@ if($cure_id)
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
 					$info['page_link'] = 
-						//$info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
-						 //"/$pdf\" target=\"_blank" : 
+						$info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ? 
+						 "/$pdf\" target=\"_blank" : 
 						($info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id\" target=\"_blank" : 
 						"$lprefix/medicine/$cure_id/$info[cure_id]"); 
 					$curehotel[] = $info;	
@@ -289,7 +289,7 @@ if($subcure_id)
 	
 	$cure['inhotel'] = str_replace("[service]", $subcure['name'], $cure['inhotel']);
 	
-	if($extrasite_id)
+	if($extrasite_id && $cure['type']!=4)
 	{ 
 		$sql = mysql_query("SELECT description$englang as description, h.price$englang as  price 
 			FROM ".TABLE_CUREHOTEL." h  
@@ -305,9 +305,11 @@ if($subcure_id)
 	}
 	
 	$curehotel = array();
-	if(!$extrasite_id)
+	if(!$extrasite_id || $cure['type']==4)
 	{
-		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, h.price$englang as  price , 
+		$field = $cure['type']==4 ? "h.description$englang as  description" : "h.price$englang as  price";
+		$where =  ($cure['type']==4 && $extrasite_id) ? " AND p.page_id=$extrasite_id" : '';
+		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, $field  , 
 			fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 			FROM ".TABLE_PAGE." p
 			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=$subcure_id AND h.page_id=p.page_id)
@@ -315,7 +317,7 @@ if($subcure_id)
 			LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
 			LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
 			LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
-			WHERE p.parent=1 AND p.public AND h.cure_id
+			WHERE p.parent=1 AND p.public AND h.cure_id $where
 			GROUP BY p.page_id
 			ORDER BY p.ord") 
 			or Error(1, __FILE__, __LINE__);
@@ -324,8 +326,19 @@ if($subcure_id)
 			$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 			$info['name'] = htmlspecialchars($info['name']);
 			$info['city'] = htmlspecialchars($info['city']);
-			$price = (int)$info['price'];
-			$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
+			if($cure['type']==4)
+			{
+				$list = explode("\n", $info['description']);
+				for($i=1;$i<=5;$i++)
+				{
+					$info["col$i"] = @$list[$i-1];
+				}
+			}
+			else 
+			{
+				$price = (int)$info['price'];
+				$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
+			}
 			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
 		}

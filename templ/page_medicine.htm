@@ -10,11 +10,60 @@
                 </ul>
             </div>
 			<?}?>
-            <div id="pdescription" style="width:auto"><?=$subcure['description']?></div>
+            <div id="pdescription" style="width:auto"><?=$subcure['description']?>
+			
+        <?if($cure['type']==4 && count($curehotel)){?><p>&nbsp;</p>
+		<table border="1">
+				<tr>
+				 <?if(!$extrasite_id){?> <td valign="top">
+					<p><strong>Филиал </strong></p>
+				  </td><?}?>
+					<td valign="top">
+					<p><strong>Цена СКК взрослый</strong><br />
+					<strong>мужчина, руб.</strong></p>
+				  </td>
+					<td valign="top">
+					<p><strong>Цена СКК взрослый женщина, руб.</strong></p>
+				  </td>
+					<td valign="top">
+					<p><strong>Цена СКК </strong><br />
+					<strong>дети, руб.</strong></p>
+				  </td>
+					<td valign="top">
+					<p><strong>Возраст приема ребенка на лечение </strong></p>
+				  </td>
+					<td valign="top">
+					<p><strong>Справка об эпид.окружении, карта прививок (детям)</strong></p>
+				  </td>
+				</tr>
+				<?foreach($curehotel as $v){?>
+				<tr>
+				  <?if(!$extrasite_id){?><td>
+					<p align="center"><?=$v['name']?> <br /><?=$v['city']?></p>
+				  </td><?}?>
+					<td>
+					<p><?=$v['col1']?></p>
+				  </td>
+					<td>
+					<p><?=$v['col2']?></p>
+				  </td>
+					<td>
+					<p><?=$v['col3']?></p>
+				  </td>
+					<td>
+					<p><?=$v['col4']?></p>
+				  </td>
+					<td>
+					<p><?=$v['col5']?></p>
+				  </td>
+				</tr>
+				<?}?>
+		</table><?}?>
+			</div>
         </div>
 
-        <?if(count($curehotel)){?>
-        <div class="medicine-sanatorium-services section">
+        <?if(count($curehotel) && $cure['type']!=4){?>
+		<div class="medicine-sanatorium-services section">
             <div class="title">
                 <?=$cure['inhotel']?>
             </div>
@@ -28,29 +77,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <?}?>
-
-        <!--div class="nosology section">
-           <ul>
-               <li><a href="">Класс заболеваний</a></li>
-               <li>
-                   <a href="">Класс заболеваний</a>
-                   <ul>
-                       <li><a href="">Класс заболеваний</a></li>
-                       <li>
-                           <a href="">Класс заболеваний</a>
-                           <ul>
-                               <li><a href="">Класс заболеваний</a></li>
-                               <li><a href="">Класс заболеваний</a></li>
-                               <li><a href="">Класс заболеваний</a></li>
-                           </ul>
-                       </li>
-                       <li><a href="">Класс заболеваний</a></li>
-                   </ul>
-               </li>
-               <li><a href="">Класс заболеваний</a></li>
-           </ul>
-        </div-->
+		<?}?>
 
 <?}elseif($cure_id){?>
 

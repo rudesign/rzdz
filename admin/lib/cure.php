@@ -85,10 +85,11 @@ if(@$save)
 			elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_CURE." SET ord=ord+1 ".
 				"WHERE ord>='$ord' AND ord<'$oldord' AND parent=$cure_id AND cure_id!='$subcure_id'") or Error(1, __FILE__, __LINE__);
 		}
-			
+		
 		if(is_array(@$sanat)) 
 		{ 
-			$sql_f = mysql_query("SELECT p.page_id, ch.cure_id, ch.price FROM ".TABLE_PAGE." p 
+			$field = $cure_type==4 ? ' ch.description, ch.description_en' : 'ch.price';
+			$sql_f = mysql_query("SELECT p.page_id, ch.cure_id, $field FROM ".TABLE_PAGE." p 
 				LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.page_id=p.page_id AND ch.cure_id=$subcure_id)			
 				WHERE p.parent=1 GROUP BY p.page_id ORDER BY p.ord") 
 				or Error(1, __FILE__, __LINE__);				
@@ -96,8 +97,8 @@ if(@$save)
 			{		
 				$page_id = 	(int)$info['page_id'];
 				$count = (int)@$info['cure_id'];
-				$price_old = @$info['price'];
 				
+				$price_old = @$info['price'];				
 				$checked = in_array($info['page_id'], $sanat);
 				
 				if($count && !$checked)
@@ -107,10 +108,21 @@ if(@$save)
 					mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET cure_id=$subcure_id, page_id='$page_id'") 
 					or Error(1, __FILE__, __LINE__);
 					
-				$price_new = @from_form($price[$page_id]);
-				if($checked && $price_old!=$price_new)
-					mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price_new)."' WHERE cure_id=$subcure_id AND page_id='$page_id'") 
-					or Error(1, __FILE__, __LINE__);
+				if($cure_type==4)
+				{ 
+					$description = @from_form($descr[$page_id]);
+					$description_en = @from_form($descr_en[$page_id]); 
+					mysql_query("UPDATE ".TABLE_CUREHOTEL." SET description='".escape_string($description)."',
+						 description_en='".escape_string($description_en)."'
+						WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);
+				}
+				else
+				{
+					$price_new = @from_form($price[$page_id]);
+					if($checked && $price_old!=$price_new)
+						mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price_new)."' 
+							WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);
+				}
 			}
 		}
 		else 
@@ -696,11 +708,14 @@ if($cure_id)
 			
 			$curehotel = array();
 			$page_box = array();
-			if($cure_type!=4 && $cure_type!=7)
+			if($cure_type<3 || $cure_type==4)
 			{
-				$sql = mysql_query("SELECT page_id, price FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
+				$field = $cure_type==4 ? 'description, description_en' : 'price';
+				$sql = mysql_query("SELECT page_id, $field FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
 					or Error(1, __FILE__, __LINE__);
-				while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = $info[1];
+				while($info = @mysql_fetch_array($sql)) 
+					$curehotel[$info[0]] = $cure_type==4 ? array($info['description'], $info['description_en'])
+						: $info['price'];
 					
 				$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
 					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
@@ -716,8 +731,17 @@ if($cure_id)
 					$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
 					//if(preg_match("/долина/i", $info['name'])) 
 						$info['name'] .= " ($info[city])";
-					$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
-											'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+					if($cure_type==4)
+					{
+						if(isset($curehotel[$info['page_id']])) list($description, $description_en) = $curehotel[$info['page_id']];
+						else {$description=''; $description_en='';}
+						$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
+								'description'=>$description, 'description_en'=>$description_en,
+								'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+					}
+					else
+						$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
+								'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
 				}
 			}
 			$subcure['page_box'] = $page_box;
