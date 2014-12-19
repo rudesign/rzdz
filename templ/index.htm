@@ -170,9 +170,13 @@ $(document).ready(function($){
                 <input type="text" class="search-string" name="word" size="3" placeholder="<?=$lang_phrases['search']?>"/>
                 <input type="image" src="/img/for_loop.png" class="send-btn" value="" name="send" />
             </div>
-		    <div class="search-area-switcher">
-                <dl><input type="radio" name="how" value="1" class="" id="ch1" /><label for="ch1"><?=$lang_phrases['search_site']?></label></dl>
-                <dl><input type="radio" name="how" value="2" class="" id="ch2"><label for="ch2"><span><?=$lang_phrases['search_cure']?></span></label></dl>
+		  	<div class="search-area-switcher">
+				<select name="how" style="height:20px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;">
+					<option value="1"<?php if($_GET['how'] == 1) echo ' selected'; ?>><?=$lang_phrases['search_site']?></option>
+					<option value="2"<?php if($_GET['how'] == 2) echo ' selected'; ?>><?=$lang_phrases['search_cure']?></option>
+				</select>
+                <!--<dl><input type="radio" name="how" value="1" class="" id="ch1" /><label for="ch1"><?=$lang_phrases['search_site']?></label></dl>-->
+                <!--<dl><input type="radio" name="how" value="2" class="" id="ch2"><label for="ch2"><span><?=$lang_phrases['search_cure']?></span></label></dl>-->
                 <div class="clear"></div>
 		    </div>
             <div class="clear"></div>
