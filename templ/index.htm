@@ -167,7 +167,7 @@ $(document).ready(function($){
 		  <div class="func_chh clearfix">
 		  <form action="<?=$lprefix?>/search/">
 		    <div class="search-string-wrapper">
-                <input type="text" class="search-string" name="word" size="3" placeholder="<?=$lang_phrases['search']?>"/>
+                <input type="text" class="search-string" name="word" size="3" value="<?php echo !empty($_GET['word']) ? urldecode($_GET['word']) : ''; ?>" placeholder="<?=$lang_phrases['search']?>"/>
                 <input type="image" src="/img/for_loop.png" class="send-btn" value="" name="send" />
             </div>
 		  	<div class="search-area-switcher">
