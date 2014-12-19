@@ -301,18 +301,24 @@
 		<div id="pdescription"><?=$cure['description']?></div>
 		 <?if($cure['pdf_photo']){?>
 		 <a href="<?=$cure['pdf_link']?>"><img src="<?=$cure['pdf_photo']?>" /></a>
+			<?if($cure['license_link']){?>
+			<div class="download"><a href="<?=$cure['license_link']?>" style="width:163px"><span>Скачать</span></a></div>
+			<?}?>
 		<?}?>
 		<?}else{?>
 		<div id="pdescription"><?=$cure['description']?></div>
 			<div class="medicine-sanatorium-services section">
                 <div class="grid">
                     <?foreach($curehotel as $v){?>
-					<div class="items" style="height:320px">
+					<div class="items" style="height:350px">
                         <a href="<?=$v['page_link']?>">
 							<img src="<?=$v['photo_logo']?>" />
 							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" />
 							<?}else{?><?=$v['name']?> <br /><?=$v['city']?> <?}?>
 						</a>
+						<?if($v['license_link']){?>
+						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>Скачать</span></a></div>
+						<?}?>
                     </div>
 					<?}?>
                     <div class="clearfix"></div>

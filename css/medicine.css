@@ -315,3 +315,33 @@ text-decoration:none!important;
 .zebra  a:hover{
 text-decoration:underline!important;
 }
+
+
+.download a{
+    display: inline-block;
+    width: 100%;
+    background-color: #008c95;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    transition: 0.2s;
+}
+.download a:hover{
+    background-color: #0ea6b0;
+}
+.download a{
+    width: 50%;
+}
+.download a.fw{
+    width: 100%;
+}
+.download a:first-child span{
+    border-right: 1px #fff solid;
+}
+.download a span{
+    display: block;
+    padding: 5px;
+}
