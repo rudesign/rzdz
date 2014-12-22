@@ -223,17 +223,14 @@
 		
 		<script language="javascript">
 		var CureList = new Array();
-		var i=0;
-		<?foreach($cure_list as $k=>$v){?>
-		<?if(count($v['uslugi']) || count($v['list'])){?>CureList[i] = <?=$v['curestr_id']?>;
-		i++;
-		<?}?>
-		<?foreach($v['list'] as $v1){?>
-		<?if(count($v1['uslugi'])){?>CureList[i] = <?=$v1['curestr_id']?>;
-		i++;
-		<?}?>
-		<?}?>
-		<?}?>
+<?$i=0;foreach($cure_list as $k=>$v){?>
+<?if(count($v['uslugi']) || count($v['list'])){?>		CureList[<?=$i?>] = <?=$v['curestr_id']?>;
+<?$i++;}?>
+<?foreach($v['list'] as $v1){?>
+<?if(count($v1['uslugi'])){?>		CureList[<?=$i?>] = <?=$v1['curestr_id']?>;
+<?$i++;}?>
+<?}?>
+<?}?>
 		</script>
 		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Раскрыть все</a></div>	
 		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>	
