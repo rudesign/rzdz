@@ -307,10 +307,10 @@
 			<div class="medicine-sanatorium-services section">
                 <div class="grid">
                     <?foreach($curehotel as $v){?>
-					<div class="items" style="height:355px">
+					<div class="items" style="height:365px">
                         <a href="<?=$v['page_link']?>">
 							<img src="<?=$v['photo_logo']?>" />
-							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" />
+							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" height="223" width="163" />
 							<?}else{?><?=$v['name']?> <br /><?=$v['city']?> <?}?>
 						</a>
 						<?if($v['license_link']){?>
