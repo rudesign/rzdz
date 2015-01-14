@@ -316,9 +316,11 @@ text-decoration:none!important;
 text-decoration:underline!important;
 }
 
-
+.download {
+    padding-top:5px!important;
+}
 .download a{
-    display: inline-block;
+	display: inline-block;
     width: 100%;
     background-color: #008c95;
     border-radius: 3px;
