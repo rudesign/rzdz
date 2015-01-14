@@ -189,11 +189,14 @@ if($cure_id)
 				{ 
 					$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
 					if(!$info_sect['name']) $info_sect['name'] = NONAME;
-					
-					$info_sect['url'] = $link_medicine."$cure_id/"."?str=$info_sect[curestr_id]";
-					
+							
 					$info_sect['uslugi'] = uslugi($info_sect['curestr_id'], $cure_id, $sid);
 					if(!count($info_sect['uslugi']) && $extrasite_id) continue;
+					
+					if(count($info_sect['uslugi']))  
+						$info_sect['url'] = $extrasite_id ? $link_medicine."$cure_id/"."?str=$info_sect[curestr_id]" : '';
+					else 
+						$info_sect['url'] = $info_sect['curestr_id']==69 ? "$lprefix/medicine/11/49/" : '';
 					
 					$list[] = $info_sect;
 				}

@@ -250,7 +250,8 @@
 			<ul id="u<?=$v['curestr_id']?>" style="display:none">
 			<?foreach($v['list'] as $v1){?>
 			<li>
-				<?if(count($v1['uslugi'])){?><a href="javascript:ShowCureList(<?=$v1['curestr_id']?>)"><?=$v1['name']?></a>
+				<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
+				<?}elseif(count($v1['uslugi'])){?><a href="javascript:ShowCureList(<?=$v1['curestr_id']?>)"><?=$v1['name']?></a>
 				<?}else{?><?=$v1['name']?><?}?>
 			</li>	
 				<?if(count($v1['uslugi'])){?>
