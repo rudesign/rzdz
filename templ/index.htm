@@ -108,12 +108,34 @@ $(document).ready(function($){
     <script type="text/javascript" src="js/jcarousel/js/jquery.jcarousel.min.js"></script>
 	<link href="js/jcarousel/css/jcarousel.basic.css" rel="stylesheet" />
 	<script type="text/javascript">
-	jQuery(document).ready(function() {
+	$(document).ready(function() {
 		// Initialise the first and second carousel by class selector.
 		// Note that they use both the same configuration options (none in this case).
 		$('.jcarousel').jcarousel({
 			scroll: 1
 		});
+
+		$('.jcarousel-control-prev')
+				.on('jcarouselcontrol:active', function() {
+					$(this).removeClass('inactive');
+				})
+				.on('jcarouselcontrol:inactive', function() {
+					$(this).addClass('inactive');
+				})
+				.jcarouselControl({
+					target: '-=1'
+				});
+
+		$('.jcarousel-control-next')
+				.on('jcarouselcontrol:active', function() {
+					$(this).removeClass('inactive');
+				})
+				.on('jcarouselcontrol:inactive', function() {
+					$(this).addClass('inactive');
+				})
+				.jcarouselControl({
+					target: '+=1'
+				});
 	});
 	</script>	
 		

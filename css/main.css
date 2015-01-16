@@ -2260,6 +2260,22 @@ margin-bottom:3px;
     display: inline-block;
     margin-bottom: 3px;
 }
+.mp-carousel .jcarousel-control-prev,
+.mp-carousel .jcarousel-control-next{
+    position: absolute;
+    top: 105px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+}
+.mp-carousel .jcarousel-control-prev {
+    left: 0px;
+    background: transparent url(../img/left_ar.png) no-repeat top right;
+}
+.mp-carousel .jcarousel-control-next {
+    right: 0px;
+    background: transparent url(../img/right_ar.png) no-repeat top left;
+}
 
 /*----HEADER----*/
 
