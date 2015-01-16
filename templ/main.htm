@@ -14,22 +14,24 @@
 			
 			<div class="landing_info for_slider_li">
 			  <div id="wrapper" class="clearfix width_control">
-				<div class="d-carousel">
-				  <ul class="carousel">
-					<?foreach($news_anons as $v){?>
-					<li>
-					  <a href="<?=$v['link']?>">
-					    <span><?=$v['date']?></span>
-						<div class="for_img_slider">
-						  <img src="<?=$v['photo']?>" alt="" />
-						</div>
-						<div class="slider_cont">
-						  <p><?=$v['name']?></p>
-						</div>
-					  </a>
-					</li>
-					<?}?>
-				  </ul>
+				<div class="mp-carousel news-carousel jcarousel-wrapper">
+					<div class="jcarousel">
+					  <ul>
+						<?foreach($news_anons as $v){?>
+						<li>
+						  <a href="<?=$v['link']?>">
+							<span><?=$v['date']?></span>
+							<div class="for_img_slider">
+							  <img src="<?=$v['photo']?>" alt="" />
+							</div>
+							<div class="slider_cont">
+							  <p><?=$v['name']?></p>
+							</div>
+						  </a>
+						</li>
+						<?}?>
+					  </ul>
+					</div>
 				</div><!--d-carousel-->
 			  </div><!--#wrapper-->	 
 			</div><!--landing_info-->
@@ -130,21 +132,23 @@
             </div><!--standart_land-->
 			<div class="landing_info for_slider_li for_slider_li_chh">
 			  <div id="wrapper"  class="clearfix width_control">
-				<div class="d-carousel">
-				  <ul class="carousel for_luft_hcc_cl">
-					<?foreach($spec_anons as $v){?>
-					<li>
-					  <a href="<?=$v['link']?>">
-						<div class="for_img_slider">
-						  <img src="<?=$v['photo']?>" alt="" />
-						</div>
-						<div class="slider_cont">
-						  <p><?=$v['name']?></p>
-						</div>
-					  </a>
-					</li>
-					<?}?>
-				  </ul>
+				<div class="mp-carousel promo-carousel jcarousel-wrapper">
+					<div class="jcarousel">
+						<ul>
+							<?foreach($spec_anons as $v){?>
+								<li>
+									<a href="<?=$v['link']?>">
+										<div class="for_img_slider">
+										  <img src="<?=$v['photo']?>" alt="" />
+										</div>
+										<div class="slider_cont">
+										  <p><?=$v['name']?></p>
+										</div>
+									</a>
+								</li>
+							<?}?>
+						</ul>
+					</div>
 				</div><!--d-carousel-->
 			  </div><!--#wrapper-->							  
 			</div><!--landing_info-->

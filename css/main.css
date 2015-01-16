@@ -2138,13 +2138,6 @@ color:#fff;
 font-size:13px;
 }
 
-#wrapper .d-carousel ul li {
-	background: none;	
-	width: 242px;
-	position:relative;	
-	padding-bottom:20px;
-	margin-left:34px;
-}
 .emty_li{
 display:block;
 width:0px!important;
@@ -2157,10 +2150,17 @@ text-decoration:none;
 text-decoration:underline !important;
 }
 
+/*
 .jcarousel-direction-rtl {
 	direction: rtl;
 }
-
+#wrapper .d-carousel ul li {
+    background: none;
+    width: 242px;
+    position:relative;
+    padding-bottom:20px;
+    margin-left:34px;
+}
 .d-carousel .jcarousel-container {
 	display: block;
 	overflow: hidden;
@@ -2233,7 +2233,32 @@ margin-bottom:3px;
 	background-position: bottom left;
 }
 .for_luft_hcc_cl li{
-margin-top:18px!important;
+    margin-top:18px!important;
+}
+*/
+
+.mp-carousel{
+    color: #fff;
+}
+.mp-carousel .jcarousel{
+    width: 816px;
+    margin: 0 auto;
+}
+.mp-carousel.promo-carousel{
+    margin-top: 15px;
+}
+.mp-carousel li{
+    margin: 15px;
+}
+.mp-carousel li img{
+    display: block;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+}
+.mp-carousel li a span{
+    display: inline-block;
+    margin-bottom: 3px;
 }
 
 /*----HEADER----*/
