@@ -7,6 +7,29 @@ $parent_dir_id = 0;
 
 $photo_list = array('item', 'video', 'pdf', 'virtual');
 
+if(!ereg("(^|,)-1(,|$)", $_SESSION['extra']))
+{
+	if($page_id)
+	{
+		$sql = mysql_query("SELECT site, parent FROM ".TABLE_PAGE." WHERE page_id=$page_id") or Error(1, __FILE__, __LINE__);
+		$arr = @mysql_fetch_array($sql);
+		$site =  (int)@$arr['site']; 
+		$parent =  (int)@$arr['parent']; 
+		if(!ereg("(^|,)$site(,|$)", $_SESSION['extra']) && !$parent) {echo "Нет доступа"; return;}
+	}
+	else
+	{
+		$arr = explode(",", $_SESSION['extra']);
+		$site = (int)$arr[0];
+		$sql = mysql_query("SELECT page_id FROM ".TABLE_PAGE." WHERE site=$site") or Error(1, __FILE__, __LINE__);
+		$arr = @mysql_fetch_array($sql);
+		$page_id =  (int)@$arr[0]; 
+		if(!$page_id) {echo "Нет доступа"; return;}
+		Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
+		exit;
+	}
+}
+
 if($page_id)
 {
 	$p = $page_id;
