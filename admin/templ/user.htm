@@ -7,9 +7,18 @@
 	<tr><td>Пароль: </td><td></td><td><input type="text" name="password" value="<?=$password?>" maxlength="255" size="30"></td></tr>
 	<tr><td>Доступ: </td><td></td>
 		<td><?foreach($sect_box as $v){?>
+			<?if($v['list']){?>
+				<p><?=$v['name']?></p>
+				<?foreach($v['list'] as $v1){?>
+				<input type="checkbox" class="chb_input" name="extra[<?=$v1['j']?>]" style="margin-left:20px" 
+				value="<?=$v1['site']?>" <?=$v1['checked']?>><?=$v1['name']?><br>
+				<?}?>
+				<br />
+			<?}else{?>
 			<?if($v['disabled'] && $v['checked']){?><input type="hidden" name="section[<?=$v['i']?>]" value="<?=$v['sect']?>"><?}?>
 			<input type="checkbox" class="chb_input" name="section[<?=$v['i']?>]" 
 			value="<?=$v['sect']?>" <?=$v['checked']?> <?=$v['disabled']?> ><?=$v['name']?><br>
+			<?}?>
 		<?}?></td>
 	</tr>
 	<tr><td></td><td></td><td><input type="submit" name="saveuser" value="Сохранить" class="button"></td></tr>

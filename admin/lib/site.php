@@ -898,7 +898,18 @@ function get_level($parent=0, $level=1)
 {
 	global $page_name, $part, $page_id, $parents;
 		
-	$sql = mysql_query("SELECT page_id, name, public FROM ".TABLE_PAGE." WHERE parent=$parent AND !site ORDER BY ord") 
+	$w = '';
+	if(!ereg("(^|,)-1(,|$)", $_SESSION['extra']))
+	{
+		if($level==1) $w .= " AND page_id=1";
+		elseif($level==2)
+		{
+			$arr = explode(",", $_SESSION['extra']);
+			foreach($arr as $k=>$v) $arr[$k] = "page_id='$v'";
+			$w .= " AND (".join(" OR ", $arr).") ";
+		}
+	}
+	$sql = mysql_query("SELECT page_id, name, public FROM ".TABLE_PAGE." WHERE parent=$parent AND !site $w ORDER BY ord") 
 		or Error(1, __FILE__, __LINE__);
 	$pages = array();
 	while($info = @mysql_fetch_array($sql))
@@ -931,6 +942,7 @@ $pages = get_level();
 $replace['pages'] = $pages;
 $replace['page_id'] = $page_id;
 $replace['parent'] = $parent;
+$replace['editall'] = ereg("(^|,)-1(,|$)", $_SESSION['extra']) ? 1 : 0;
 
 $left_menu = get_template('templ/page_list.htm', $replace);
 
