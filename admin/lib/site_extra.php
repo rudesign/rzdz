@@ -7,6 +7,29 @@ $parent_dir_id = 0;
 
 $photo_list = array('item', 'video', 'pdf', 'virtual');
 
+if(!ereg("(^|,)-1(,|$)", $_SESSION['extra']))
+{
+	if($page_id)
+	{
+		$sql = mysql_query("SELECT site, parent FROM ".TABLE_PAGE." WHERE page_id=$page_id") or Error(1, __FILE__, __LINE__);
+		$arr = @mysql_fetch_array($sql);
+		$site =  (int)@$arr['site']; 
+		$parent =  (int)@$arr['parent']; 
+		if(!ereg("(^|,)$site(,|$)", $_SESSION['extra']) && !$parent) {echo "Нет доступа"; return;}
+	}
+	else
+	{
+		$arr = explode(",", $_SESSION['extra']);
+		$site = (int)$arr[0];
+		$sql = mysql_query("SELECT page_id FROM ".TABLE_PAGE." WHERE site=$site") or Error(1, __FILE__, __LINE__);
+		$arr = @mysql_fetch_array($sql);
+		$page_id =  (int)@$arr[0]; 
+		if(!$page_id) {echo "Нет доступа"; return;}
+		Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
+		exit;
+	}
+}
+
 if($page_id)
 {
 	$p = $page_id;
@@ -832,6 +855,15 @@ function get_level($parent=0, $level=1)
 	global $page_name, $part, $page_id, $parents;
 		
 	$w = $level==1 ? " AND site" : '';
+	if($level==1)
+	{
+		if( !ereg("(^|,)-1(,|$)", $_SESSION['extra']) )
+		{
+			$arr = explode(",", $_SESSION['extra']);
+			foreach($arr as $k=>$v) $arr[$k] = "site='$v'";
+			$w .= " AND (".join(" OR ", $arr).") ";
+		}
+	}
 	$sql = mysql_query("SELECT page_id, name, public FROM ".TABLE_PAGE." WHERE parent=$parent $w ORDER BY ord") 
 		or Error(1, __FILE__, __LINE__);
 	$pages = array();
@@ -864,111 +896,9 @@ $pages = get_level(0);
 $replace['pages'] = $pages;
 $replace['page_id'] = $page_id;
 $replace['parent'] = $parent;
+$replace['editall'] = ereg("(^|,)-1(,|$)", $_SESSION['extra']) ? 1 : 0;
 
 $left_menu = get_template('templ/page_extra_list.htm', $replace);
-
-if(isset($regions))
-{
-	$sql = mysql_query("SELECT * FROM ".TABLE_REGION." ORDER BY ord") or Error(1, __FILE__, __LINE__);
-	
-	$regions = array(); 
-	while($info = @mysql_fetch_array($sql))
-	{ 
-		$info['name'] = HtmlSpecialChars($info['name']);
-		$info['name_en'] = HtmlSpecialChars($info['name_en']);
-		//if(!$info['name']) $info['name'] = NONAME;
-		
-		$info['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info['public'], 0);
-	
-		$regions[] = $info;
-	}
-
-	$replace['regions'] = $regions;
-
-	$content = get_template('templ/region_list.htm', $replace);
-
-	return;
-}
-
-if(isset($citys))
-{
-	$sql = mysql_query("SELECT city_id, name, dir_id FROM ".TABLE_CITY." ORDER BY ord") or Error(1, __FILE__, __LINE__);
-	
-	$citys = array(); 
-	while($info = @mysql_fetch_array($sql))
-	{ 
-		$info['name'] = HtmlSpecialChars($info['name']);
-		//if(!$info['name']) $info['name'] = NONAME;
-		
-		$info['edit_link'] = "?p=$part&citys&city_id=$info[city_id]";
-		$info['del_link'] = "?p=$part&citys&city_id=$info[city_id]&delcity=1";
-	
-		$citys[] = $info;
-	}
-
-	$replace['citys'] = $citys;
-	$replace['city_id'] = $city_id = (int)@$city_id;
-	
-	if($city_id)
-	{	
-		$sql = mysql_query("SELECT p.*, d.dir, d.title, d.mdescription, d.keywords  ".
-				"FROM ".TABLE_CITY." p LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)".
-				" WHERE p.city_id='$city_id'") or Error(1, __FILE__, __LINE__);
-		
-		if($page = @mysql_fetch_array($sql))
-		{ 
-			$page['name'] = HtmlSpecialChars($page['name']);
-			$page['name_en'] = HtmlSpecialChars($page['name_en']);
-			
-			$page['title'] = HtmlSpecialChars($page['title']);
-			$page['mdescription'] = HtmlSpecialChars($page['mdescription']);
-			$page['keywords'] = HtmlSpecialChars($page['keywords']);
-			
-			$tinymce_elements = 'description';
-			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
-			$page['description'] = HtmlSpecialChars($page['description']);			
-			
-			$page['gallery_select'] = gallery_select($page['gallery_id'], $page['photocount']);
-			
-			$replace = array_merge($replace, $page);
-		}
-	}
-
-	$content = get_template('templ/city_list.htm', $replace);
-
-	return;
-}
-
-if(isset($cures))
-{
-	$sql = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE parent=0 ORDER BY ord") or Error(1, __FILE__, __LINE__);
-	
-	$cures = array(); 
-	while($info = @mysql_fetch_array($sql))
-	{ 
-		$info['name'] = HtmlSpecialChars($info['name']);		
-		$info['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info['public'], 0);
-		
-		$sql1 = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE parent=$info[cure_id] ORDER BY ord") or Error(1, __FILE__, __LINE__);	
-		$list = array(); 
-		while($info1 = @mysql_fetch_array($sql1))
-		{ 
-			$info1['name'] = HtmlSpecialChars($info1['name']);		
-			$info1['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info1['public'], 0);
-			
-			$list[] = $info1;
-		}
-		$info['list'] = $list;
-	
-		$cures[] = $info;
-	}
-
-	$replace['cures'] = $cures;
-
-	$content = get_template('templ/cure_list.htm', $replace);
-
-	return;
-}
 
 if(isset($addsite))
 {

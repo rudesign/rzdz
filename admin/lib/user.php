@@ -24,6 +24,9 @@ if(@$saveuser)
 	if(is_array(@$section)) $s = @join(',', $section);
 	else $s = '';
 	
+	if(is_array(@$extra)) $ex = @join(',', $extra);
+	else $ex = '';
+	
 	if(!$login)
 	{
 		$_SESSION['message'] = "Укажите логин!";
@@ -45,13 +48,14 @@ if(@$saveuser)
 		exit;
 	}
 	
-	mysql_query("UPDATE ".TABLE_USER." SET login='$login_sql', password='$password', sections='$s' ".
+	mysql_query("UPDATE ".TABLE_USER." SET login='$login_sql', password='$password', sections='$s', extra='$ex'  ".
 				" WHERE user_id='$user_id'") or Error(1, __FILE__, __LINE__);
 				
 	if($_SESSION['admin_id'] == $user_id)
 	{
 		$_SESSION['admin_name'] = HtmlSpecialChars($login);
 		$_SESSION['sections'] = $s;
+		$_SESSION['extra'] = $ex;
 	}
 	
 	Header("Location: ".ADMIN_URL."?p=$part");
@@ -89,9 +93,32 @@ if($user_id)
 		$sect_box = array();
 		foreach($section_list as $k=>$v)
 		{
-			$disabled = ($user_id == 1 && $v == 'user') ? 'disabled' : '';
-			$ch = (access($v, $info['sections'], 1)) ? 'checked' : '';
-			$sect_box[] = array('i'=>$k, 'sect'=>$v, 'checked'=>$ch, 'disabled'=>$disabled, 'name'=>$section_name[$k]);
+			if($v == 'site_extra')
+			{
+				$list = array();
+				$sql_f = mysql_query("SELECT site, name FROM ".TABLE_PAGE." WHERE parent=0 AND site ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
+				$j = 0;
+				
+				$j++; 
+				$ch = (ereg("(^|,)-1(,|$)", $info['extra'])) ? 'checked' : '';
+				$list[] = array('j'=>$j, 'site'=>-1, 'checked'=>$ch, 'name'=>'Все');
+				
+				while($site = @mysql_fetch_array($sql_f))
+				{ 
+					$j++; 
+					$ch = (ereg("(^|,)$site[site](,|$)", $info['extra'])) ? 'checked' : '';
+					$list[] = array('j'=>$j, 'site'=>$site['site'], 'checked'=>$ch, 'name'=>$site['name']);
+				}
+				
+			}
+			else
+			{
+				$disabled = ($user_id == 1 && $v == 'user') ? 'disabled' : '';
+				$ch = (access($v, $info['sections'], 1)) ? 'checked' : '';
+				$list = '';
+			}
+			$sect_box[] = array('i'=>$k, 'sect'=>$v, 'checked'=>$ch, 'disabled'=>$disabled, 'name'=>$section_name[$k], 'list'=>$list);
 		}
 		$info['sect_box'] = $sect_box;
 		

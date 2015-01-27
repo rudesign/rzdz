@@ -4,6 +4,33 @@
 
 $log = class_exists('Log', false) ? new Log($_SESSION['admin_name']) : null;
 
+$page_id = (int)@$page_id;
+$parent = (int)@$parent;
+
+if(!ereg("(^|,)site(,|$)", $_SESSION['sections']))
+{
+	if($page_id)
+	{
+		if(!ereg("(^|,)$page_id(,|$)", $_SESSION['extra']) && !ereg("(^|,)-1(,|$)", $_SESSION['extra']))
+			{echo "Нет доступа"; return;}
+	}
+	else
+	{
+		$arr = explode(",", $_SESSION['extra']);
+		$page_id = (int)$arr[0];
+		if($page_id==-1) 
+		{
+			$sql = mysql_query("SELECT site FROM ".TABLE_PAGE." WHERE parent=0 AND site AND ord=1") 
+				or Error(1, __FILE__, __LINE__);
+			$arr = @mysql_fetch_array($sql);
+			$page_id = $arr['site'];
+		}
+		if(!$page_id) {echo "Нет доступа"; return;}
+		Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
+		exit;
+	}
+}
+
 if(isset($confirmphoto))
 {
 	$photo_id = (int)@$confirmphoto;
@@ -29,9 +56,6 @@ if(isset($confirmphoto))
 		exit;	
 	}
 }
-
-$page_id = (int)@$page_id;
-$parent = (int)@$parent;
 
 $parent_dir_id = 0;
 
@@ -898,7 +922,18 @@ function get_level($parent=0, $level=1)
 {
 	global $page_name, $part, $page_id, $parents;
 		
-	$sql = mysql_query("SELECT page_id, name, public FROM ".TABLE_PAGE." WHERE parent=$parent AND !site ORDER BY ord") 
+	$w = '';
+	if(!ereg("(^|,)site(,|$)", $_SESSION['sections']))
+	{
+		if($level==1) $w .= " AND page_id=1";
+		elseif($level==2)
+		{
+			$arr = explode(",", $_SESSION['extra']);
+			foreach($arr as $k=>$v) $arr[$k] = "page_id='$v'";
+			$w .= " AND (".join(" OR ", $arr).") ";
+		}
+	}
+	$sql = mysql_query("SELECT page_id, name, public FROM ".TABLE_PAGE." WHERE parent=$parent AND !site $w ORDER BY ord") 
 		or Error(1, __FILE__, __LINE__);
 	$pages = array();
 	while($info = @mysql_fetch_array($sql))
@@ -926,11 +961,20 @@ function get_level($parent=0, $level=1)
 	return $pages;
 }
 
-$pages = get_level();
+if(!ereg("(^|,)site(,|$)", $_SESSION['sections']) && !$page_id)
+{
+	$arr = explode(",", $_SESSION['extra']);
+	$page_id = (int)$arr[0];
+	if(!$page_id) {echo "Нет доступа"; return;}
+	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
+	exit;
+}
+else $pages = get_level();
 
 $replace['pages'] = $pages;
 $replace['page_id'] = $page_id;
 $replace['parent'] = $parent;
+$replace['editall'] = ereg("(^|,)-1(,|$)", $_SESSION['extra']) ? 1 : 0;
 
 $left_menu = get_template('templ/page_list.htm', $replace);
 

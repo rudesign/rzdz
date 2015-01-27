@@ -3,8 +3,17 @@
 function access($p, $sect='', $user=0)
 {	
 	if(!$user) $sect = $_SESSION['sections'];
-	if(ereg("(^|,)$p(,|$)", $sect)) return true;
-	return false;
+	if($p=='site_extra')
+	{
+		if($_SESSION['extra']) return true;
+		return false;
+	}
+	elseif($p=='site' && $_SESSION['extra']) return true;
+	else
+	{
+		if(ereg("(^|,)$p(,|$)", $sect)) return true;
+		return false;
+	}
 }
 
 function get_menu() 
