@@ -1,0 +1,20 @@
+.rzhd-main-page,
+.confirm-station,
+.buy-rezult,
+.eg-cabinet-login
+.search-params {
+    background-image: none;
+    background: #0097a0;
+}
+
+.get_train_but, .eg-cabinet-login__submit{
+    padding: 3px 50px 5px;
+}
+
+.page__button{
+    background: #0097a0;
+}
+
+.page__button:hover{
+    background: #00abb4;
+}
