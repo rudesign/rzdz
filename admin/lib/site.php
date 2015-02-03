@@ -1159,7 +1159,7 @@ if($page_id)
 				$page['disabled'] = $page['small_load'] ? '' : 'disabled';
 				//if(!$photo_load && !$im_width && !$im_height) 
 					{$im_width = IMG_WIDTH; $im_height = IMG_HEIGHT;}
-				$page['im_width'] = $media=='license' ? 540 : $im_width;
+				$page['im_width'] = $media=='license' ? 400 : $im_width;
 				$page['im_height'] = $media=='license' ? '' : $im_height;
 				$page['watermark'] = ($watermark < 0) ? '' : 'checked';
 				
