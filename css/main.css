@@ -2596,6 +2596,10 @@ list-style:none;
 	border: 1px solid;
 	padding: 2px 5px 2px 5px;
 }
+#sk_karta td, #sk_karta th {
+	font-size:11px;
+	text-align:center;
+}
 #pdescription ul{
 	margin: 10px 0 10px 10px;
 }
