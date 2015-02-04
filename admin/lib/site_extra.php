@@ -906,7 +906,10 @@ if(isset($addsite))
 	$page_id = 0;
 	$replace['san_select'] = mysql_select('site', 
 			"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
-			LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
+			LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id 
+			LEFT JOIN ".TABLE_PAGE." es ON es.site=p.page_id 
+			WHERE p.parent=1 AND es.page_id IS NULL
+			ORDER BY p.ord",	
 			$page_id);
 	
 	$content = get_template('templ/page_extra_new.htm', $replace);
