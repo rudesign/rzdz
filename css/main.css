@@ -805,10 +805,10 @@ font-size:11px;
 }
 .top_standart_title h1{
 color:#636363;
-font-size:18px;
+font-size:15px;
 /*font-style:italic;*/
 margin-bottom:5px;
-font-weight:normal;
+font-weight:bold;
 }
 .simple_content{
     margin-bottom: 23px;
@@ -1247,7 +1247,7 @@ background:url(../img/more_news.png) repeat-x 0 100%;
     margin-bottom: 0;
 }
 .for_gr{
-    padding:10px;
+    padding:1px;
     background:#ebebeb;
 }
 
@@ -2778,6 +2778,7 @@ width:50px;
 .image_border {
 border-radius: 5px;
 }
+/*end iri*/
 
 .notification{
     display: none;
@@ -2842,3 +2843,50 @@ border-radius: 5px;
     background-image: url("../img_extra/scg_button_hover.png")!important;
     color: #fff!important;
 }
+
+/* zabronirovat */
+
+.bron {
+    
+	background: url(../img/kbront.png) no-repeat scroll 0 0;
+	border: none;
+	outline: none;
+	display: block;
+	width: 125px;
+    height: 31px;
+    color: #ffffff;
+    cursor: pointer;
+	font-size: 12px;
+    font-weight: bold;
+    padding: 8px 9px;
+    text-align: left;
+	text-decoration:none;
+	} 
+	
+	.bron:hover{ 	background: url(../img/kbronw.png) no-repeat scroll 0 0;
+	border: none;
+	display: block;
+	width: 125px;
+    height: 31px;
+    color: #008c95;
+    cursor: pointer;
+	font-size: 12px;
+    font-weight: bold;
+    padding: 8px 9px;
+    text-align: left;
+	text-decoration:none; } 
+	
+    .bron:active { background: url(../img/kbronw.png) no-repeat scroll 0 0;
+	border: none;
+	display: block;
+	width: 125px;
+    height: 31px;
+    color: #008c95;
+    cursor: pointer;
+	font-size: 12px;
+    font-weight: bold;
+    padding: 8px 9px;
+    text-align: left;
+	text-decoration:none; } 
+	
+	/* end zabronirovat */
