@@ -626,9 +626,11 @@ function menu_medicine()
 
 	$list = array();
 	
-	$sql = mysql_query("SELECT p.cure_id, p.name$englang as name, p.type
+	$nf = $extrasite_id ? "(if(p.name_extra$englang!='',p.name_extra$englang,p.name$englang))" : "p.name$englang";
+	$w =  $extrasite_id ? " AND p.inmenu" : '';
+	$sql = mysql_query("SELECT p.cure_id, $nf as name, p.type
 		FROM ".TABLE_CURE."  p
-		WHERE p.parent=0 AND !p.partof AND p.public
+		WHERE p.parent=0 AND !p.partof AND p.public $w 
 		ORDER BY p.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))
 	{

@@ -73,7 +73,8 @@ if(@$save)
 		$page_id = (int)@$page_id;
 		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
 		
-		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', anons='$anons', anons_en='$anons_en',
+		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en''
+			anons='$anons', anons_en='$anons_en',
 		    profile='$profile', profile_en='$profile_en', 
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
@@ -135,6 +136,8 @@ if(@$save)
 	
 		$name = escape_string(from_form(@$name));
 		$name_en = escape_string(from_form(@$name_en));
+		$name_extra = escape_string(from_form(@$name_extra));
+		$name_extra_en = escape_string(from_form(@$name_extra_en));
 		$inhotel = escape_string(from_form(@$inhotel));
 		$inhotel_en = escape_string(from_form(@$inhotel_en));
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
@@ -155,7 +158,8 @@ if(@$save)
 		$arr = @mysql_fetch_array($sql);
 		$oldord = (int)@$arr['ord'];
 		
-		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', ord='$ord', public='$public', 
+		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', name_extra='$name_extra', name_extra_en='$name_extra_en',
+			 ord='$ord', public='$public', 
 			type='$type', partof='$partof',
 			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en' $update
 			WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
@@ -489,7 +493,9 @@ if($cure_id)
 	if(!$subcure_id)
 	{
 		$replace['name'] = HtmlSpecialChars($replace['name']);		
-		$replace['name_en'] = HtmlSpecialChars($replace['name_en']);	
+		$replace['name_en'] = HtmlSpecialChars($replace['name_en']);
+		$replace['name_extra'] = HtmlSpecialChars($replace['name_extra']);		
+		$replace['name_extra_en'] = HtmlSpecialChars($replace['name_extra_en']);	
 		$replace['inhotel'] = HtmlSpecialChars($replace['inhotel']);		
 		$replace['inhotel_en'] = HtmlSpecialChars($replace['inhotel_en']);	
 		$replace['ord_select'] = ord_select("SELECT name FROM ".TABLE_CURE.
