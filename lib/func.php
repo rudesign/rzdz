@@ -15,7 +15,7 @@ function get_post($varname, $ind=0)
 
 function escape_string($string)
 {
-	return mysql_escape_string($string);
+	return mysql_real_escape_string($string);
 }
 
 function from_form($string)

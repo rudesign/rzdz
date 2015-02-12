@@ -72,8 +72,8 @@ if(@$save)
 		if($cure_type==2 || $cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
 		$page_id = (int)@$page_id;
 		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
-		
-		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en''
+
+		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en',
 			anons='$anons', anons_en='$anons_en',
 		    profile='$profile', profile_en='$profile_en', 
 			description='$description', description_en='$description_en' $sql_ord
