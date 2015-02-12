@@ -639,7 +639,7 @@ function menu_medicine()
 		
 		$arr['link'] =  $link_medicine."$arr[cure_id]/";
 		
-		if($arr['type']==3)
+		if($arr['type']==3 && !( ($arr['cure_id']==5 || $arr['cure_id']==8) &&  !$extrasite_id ) )
 		{
 			$arr['list'] = array();
 			$sql1 = mysql_query("SELECT cure_id, name$englang as name, type FROM ".TABLE_CURE."  

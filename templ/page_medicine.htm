@@ -165,8 +165,7 @@
 			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td>
 				<?if($extrasite_id){?><td width="168"><div align="center"><strong><?=$v['price']?></strong></div></td><?}?>
 			</tr>
-		<?}?>
-			
+		<?}?>			
 		</table>
 		
 		<?}?>
@@ -271,7 +270,30 @@
 		<?}?>
 			
 		
+	<?}elseif($cure['type']==3){?>		
+		
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div>
+		
+        <?if(count($curehotel)){?>
+		<div class="medicine-sanatorium-services section">
+            <div class="title">
+                <?=$cure['inhotel']?>
+            </div>
+            <div class="grid">
+                <?foreach($curehotel as $v){?>
+                <div class="items">
+                    <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
+                    <?=$v['name']?> <br /><?=$v['city']?> 
+                </div>
+                <?}?>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+		<?}?>
+		
 	<?}elseif($cure['type']==5){?>
+	
 			  <ul class="news_list clearfix">
 			    <?foreach($list as $k=>$v){?>
 				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
@@ -293,7 +315,9 @@
 			  </ul><!--news_list-->
 			
 		 <?=$pages?>
+		 
 	<?}elseif($cure['type']==7){?>
+	
 		<?if($extrasite_id){?>
 		<div id="pdescription"><?=$cure['description']?></div>
 		 <?if($cure['pdf_photo']){?>

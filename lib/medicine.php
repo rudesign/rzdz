@@ -92,7 +92,7 @@ $cure = array(); $subcure = array();
 	
 if($cure_id)
 {
-	$fields = "cure_id, name$englang as name, type";
+	$fields = "cure_id, name$englang as name, type, inhotel$englang ";
 	if(!$subcure_id)  $fields .=  ", description$englang as description";
 	if($subcure_id)  $fields .=  ", inhotel$englang as inhotel";
 	
@@ -102,7 +102,7 @@ if($cure_id)
 	
 	$page_name = $cure['name'];
 		
-	if($cure['type']==3)
+	if($cure['type']==3 && ! ( ($cure['cure_id']==5 || $cure['cure_id']==8) && !$extrasite_id ) )
 	{
 		$sql = mysql_query("SELECT $fields FROM ".TABLE_CURE." WHERE partof=$cure_id AND public ORDER BY ord LIMIT 1") 
 			or Error(1, __FILE__, __LINE__);
@@ -165,6 +165,33 @@ if($cure_id)
 				$cures[] = $info;
 			}
 			$replace['cure_list'] = $cures;
+		}
+		elseif($cure['type']==3 && !$extrasite_id)
+		{
+			$curehotel = array(); 
+			$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city,  
+				fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
+				FROM ".TABLE_PAGE." p
+				LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=$cure[cure_id] AND h.page_id=p.page_id)
+				LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+				LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
+				LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
+				LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
+				WHERE p.parent=1 AND p.public AND h.cure_id 
+				GROUP BY p.page_id
+				ORDER BY p.ord") 
+				or Error(1, __FILE__, __LINE__);
+				
+			while($info = @mysql_fetch_array($sql)) 
+			{
+				$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+				$info['name'] = htmlspecialchars($info['name']);
+				$info['city'] = htmlspecialchars($info['city']);
+				
+				$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
+				$curehotel[] = $info;	
+			}
+			$replace['curehotel'] = $curehotel;
 		}
 		elseif($cure['type']==2)
 		{	

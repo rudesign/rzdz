@@ -169,6 +169,28 @@ if(@$save)
 		elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_CURE." SET ord=ord+1 ".
 			"WHERE ord>='$ord' AND ord<'$oldord' AND parent=0 AND cure_id!='$cure_id'") or Error(1, __FILE__, __LINE__);
 			
+		if(is_array(@$sanat)) 
+		{ 
+			$sql_f = mysql_query("SELECT p.page_id, ch.cure_id FROM ".TABLE_PAGE." p 
+				LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.page_id=p.page_id AND ch.cure_id=$cure_id)			
+				WHERE p.parent=1 GROUP BY p.page_id ORDER BY p.ord") 
+				or Error(1, __FILE__, __LINE__);				
+			while($info = @mysql_fetch_array($sql_f))
+			{		
+				$page_id = 	(int)$info['page_id'];
+				$count = (int)@$info['cure_id'];
+							
+				$checked = in_array($info['page_id'], $sanat);
+				
+				if($count && !$checked)
+					mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$cure_id AND page_id='$page_id'") 
+					or Error(1, __FILE__, __LINE__);
+				elseif(!$count && $checked)
+					mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET cure_id=$cure_id, page_id='$page_id'") 
+					or Error(1, __FILE__, __LINE__);
+			}
+		}
+		
 		$photo = @$_FILES["photo"]["tmp_name"];
 		$photo_name = @$_FILES["photo"]["name"];
 		if(@$photo)
@@ -509,6 +531,40 @@ if($cure_id)
 			$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
 			$tinymce_elements = 'description, description_en';
 			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+		}
+		if($cure_id==5 || $cure_id==8)
+		{
+			$replace['description'] = HtmlSpecialChars($replace['description']);
+			$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
+			$tinymce_elements = 'description, description_en';
+			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+			
+			$curehotel = array();
+			$page_box = array();
+			
+			$sql = mysql_query("SELECT page_id FROM ".TABLE_CUREHOTEL." WHERE cure_id=$cure_id") 
+				or Error(1, __FILE__, __LINE__);
+			while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = 1;
+				
+			$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
+				LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+				WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
+				or Error(1, __FILE__, __LINE__);
+			$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
+			
+			$i = 0;	
+			while($info = @mysql_fetch_array($sql_f))
+			{ 
+				$i++; 
+				$newcol = !(($i+$all)%$all) ? 1 : 0; 
+				$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
+				$info['name'] .= " ($info[city])";
+				
+				$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
+						'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+			}
+				
+			$replace['page_box'] = $page_box;
 		}
 		if(!$replace['partof'])
 		{
