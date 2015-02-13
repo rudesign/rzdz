@@ -2605,8 +2605,13 @@ list-style:none;
 	margin: 10px 0 10px 10px;
 }
 #pdescription li{
-	margin-left: 20px;
-	list-style:disc!important;
+    margin-left: 20px;
+}
+#pdescription ul li{
+	list-style: disc;
+}
+#pdescription ol li{
+    list-style: decimal;
 }
 
 #pdescription_ a{
