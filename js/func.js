@@ -195,7 +195,8 @@ function ShowAllCureList(mode)
 	document.getElementById('skr').style.display = mode==1 ? '' : 'none';
 	for(var i=0;i<CureList.length;i++)
 	{
-		document.getElementById('u'+CureList[i]).style.display = mode==1 ? '' : 'none';
+		if(document.getElementById('u'+CureList[i])!=null) 
+			document.getElementById('u'+CureList[i]).style.display = mode==1 ? '' : 'none';
 	}
 }
 

@@ -300,6 +300,10 @@ padding-top: 7px;
 	background: none!important;
     border-bottom: 1px #ebebeb solid!important;
 }
+.drevo ul li:nth-child(2n){
+    background-color: #ebebeb!important;
+}
+
 .top, .top a{
 color:#159fa7!important;
 font-weight:bold;
