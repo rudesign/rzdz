@@ -154,19 +154,26 @@
 		<?if($cure['type']==4){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div><?}?>
 		
-		<table class="zebra">
-		<?foreach($cure_list as $k=>$v){?>
-			<?if($v['title']){?>
-				<?if($k){?></table><p>&nbsp;</p><table class="zebra"><?}?>
-				<thead><tr><td><strong><span style="color: #159fa7;"><?=$v['title']?></span></strong></td>
-				<?if($extrasite_id){?><td width="168"><div align="center"><strong>Цена</strong></div></td><?}?>
-				</tr></thead>
-			<?}?>
-			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td>
-				<?if($extrasite_id){?><td width="168"><div align="center"><strong><?=$v['price']?></strong></div></td><?}?>
-			</tr>
-		<?}?>			
-		</table>
+			  <ul class="news_list clearfix">
+			    <?foreach($cure_list as $k=>$v){?>
+				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
+				  <div  class="news_block clearfix">
+					<div class="left_news ld"> 
+					  <?if($v['photo']){?><img width="170" src="<?=$v['photo']?>" /> 
+					  <?}else{?><div style="width:170px; height:86px;"></div><?}?>
+					  
+					</div><!--left_news-->
+					<div class="right_news">
+					  <a class="title_news" href="javascript://" onclick="var obj = document.getElementById('descr<?=$v['cure_id']?>'); obj.style.display = obj.style.display=='none' ? '' : 'none'"><?=$v['name']?></a>  
+					  
+					  <!--p class="more_news"><br /><?=$lang_phrases['more']?></p-->
+					</div><!--right_news-->				
+				  </div><!--news_block-->	
+				  <div style="margin: 20px 20px 0 20px;display:none" id="descr<?=$v['cure_id']?>"><?=$v['description']?></div>			  
+				</li>
+				<?}?>
+			  </ul><!--news_list-->
+			  
 		
 		<?}?>
 		

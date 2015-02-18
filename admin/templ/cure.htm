@@ -174,9 +174,17 @@
         <input type="hidden" name="p" value="cure">
         </form>
         <?}else{?>
-    <form name="edit-form" method="post">
-        <table cellpadding="2">
-        <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td></tr><?}?>
+    <form name="edit-form" method="post" enctype="multipart/form-data">
+        <table cellpadding="2" >
+        <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td>
+		<?if($type==4){?><td style="padding-left:20px" rowspan="4">
+			<p>Иконка<br />
+			<?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
+			<a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+			<?}else{?>(размер  170px x 86px)<br /><input type="file" name="photo" size="5"><?}?>
+			</p>
+		</td><?}?>
+			</tr><?}?>
         <?if($type==7){?><tr><td>Привязка к санаторию: </td><td><?=$subcure['san_select']?></td></tr><?}?>
         <tr><td>Название: </td><td><input type="text" name="name" value="<?=$subcure['name']?>" maxlength="255" size="50"></td></tr>
         <tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['name_en']?>" maxlength="255" size="50"></td></tr>
@@ -192,16 +200,18 @@
             <tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$subcure['description_en']?></textarea>
             </td></tr>
 
-			<?if($type<3){?><tr><td>Санатории:</td><td>
+			<?if($type<3){?><tr><td>Санатории:</td><td colspan="2">
             <table>
-            <tr><td>Наличие</td><td>Цена</td></tr>
+            <tr><td>Наличие</td><td>Цена (филиал)</td><td>Цена (осн.сайт)</td></tr>
             <?foreach($subcure['page_box'] as $k=>$v){?>
                 <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
-                <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none'"
+                <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none';var obj1=document.getElementById('price1<?=$v['page_id']?>'); obj1.style.display = this.checked ? '' : 'none'"
                 value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
                 </td>
-                <td><input type="text" name="price[<?=$v['page_id']?>]" id="price<?=$v['page_id']?>" value="<?=$v['price']?>" maxlength="255" size="30" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
+                <td><input type="text" name="price[<?=$v['page_id']?>]" id="price<?=$v['page_id']?>" value="<?=$v['price']?>" maxlength="255" size="20" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
                 <?if($v['checked']){?><br /><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>">Описание</a><?}?>
+                </td>
+                <td><input type="text" name="price1[<?=$v['page_id']?>]" id="price1<?=$v['page_id']?>" value="<?=$v['price1']?>" maxlength="255" size="20" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
                 </td>
                 </tr>
             <?}?>

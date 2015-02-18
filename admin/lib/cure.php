@@ -120,8 +120,10 @@ if(@$save)
 				else
 				{
 					$price_new = @from_form($price[$page_id]);
-					if($checked && $price_old!=$price_new)
-						mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price_new)."' 
+					$price1_new = @from_form($price1[$page_id]);
+					if($checked)
+						mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price_new)."', 
+							price1='".escape_string($price1_new)."' 
 							WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 				}
 			}
@@ -191,28 +193,30 @@ if(@$save)
 			}
 		}
 		
-		$photo = @$_FILES["photo"]["tmp_name"];
-		$photo_name = @$_FILES["photo"]["name"];
-		if(@$photo)
+	}
+	
+	$photo = @$_FILES["photo"]["tmp_name"];
+	$photo_name = @$_FILES["photo"]["name"];
+	if(@$photo)
+	{
+		if(!is_file($photo) || !($filename = @basename($photo_name))) 
 		{
-			if(!is_file($photo) || !($filename = @basename($photo_name))) 
-			{
-				$_SESSION['message'] = "Не найдена фотография!"; 
-				Header("Location: ".$url);
-				exit;
-			}
-			
-			$ext = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
-			
-			mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$cure_id', owner='$photo_owner[cure_part]', ext='$ext', ord=1") 
-				or Error(1, __FILE__, __LINE__);
-			$photo_id = mysql_insert_id();
-			
-			$small="../images/$photo_dir[cure_part]/${photo_id}-s.$ext";
-			if(is_file($small)) unlink($small);
-			
-			copy($photo, $small);
+			$_SESSION['message'] = "Не найдена фотография!"; 
+			Header("Location: ".$url);
+			exit;
 		}
+		
+		$ext = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
+		
+		$owner_id = $subcure_id ? $subcure_id : $cure_id;
+		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$owner_id', owner='$photo_owner[cure_part]', ext='$ext', ord=1") 
+			or Error(1, __FILE__, __LINE__);
+		$photo_id = mysql_insert_id();
+		
+		$small="../images/$photo_dir[cure_part]/${photo_id}-s.$ext";
+		if(is_file($small)) unlink($small);
+		
+		copy($photo, $small);
 	}
 	
 	Header("Location: ".$url);
@@ -282,6 +286,7 @@ if(@$delphoto) {
 	@unlink("../images/$dir/${delphoto}-s.$ext");
 	
 	$url = ADMIN_URL."?p=$part&cure_id=$cure_id";
+	if($subcure_id) $url .= "&subcure_id=$subcure_id";
 		
 	Header("Location: ".$url); 
 	exit;
@@ -758,6 +763,23 @@ if($cure_id)
 		}
 		else
 		{
+			if($cure_type==4)
+			{
+				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
+						" WHERE owner_id=$subcure_id AND owner='$photo_owner[cure_part]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+				$replace['photo'] = '';
+				if($arr_photos = @mysql_fetch_array($sql_photos)) {
+					$photo_id = $arr_photos['photo_id'];
+					$ext = $arr_photos['ext'];
+					$w_small=0; $h_small=0;
+					$f="../images/$photo_dir[cure_part]/${photo_id}-s.$ext";
+					list($w_small, $h_small) = @getimagesize($f);
+					$replace['photo'] = $f;
+					$replace['smallsize'] = "width='$w_small' height='$h_small'";
+					$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id&subcure_id=$subcure_id";
+				}	
+			}	
+			
 			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['ord_select'] = $cure_type!=2 ? ord_select("SELECT name FROM ".TABLE_CURE.
@@ -777,12 +799,12 @@ if($cure_id)
 			$page_box = array();
 			if($cure_type<3 || $cure_type==4)
 			{
-				$field = $cure_type==4 ? 'description, description_en' : 'price';
+				$field = $cure_type==4 ? 'description, description_en' : 'price, price1';
 				$sql = mysql_query("SELECT page_id, $field FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
 					or Error(1, __FILE__, __LINE__);
 				while($info = @mysql_fetch_array($sql)) 
 					$curehotel[$info[0]] = $cure_type==4 ? array($info['description'], $info['description_en'])
-						: $info['price'];
+						: array($info['price'], $info['price1']);
 					
 				$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
 					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
@@ -798,17 +820,23 @@ if($cure_id)
 					$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
 					//if(preg_match("/долина/i", $info['name'])) 
 						$info['name'] .= " ($info[city])";
+					
 					if($cure_type==4)
 					{
 						if(isset($curehotel[$info['page_id']])) list($description, $description_en) = $curehotel[$info['page_id']];
 						else {$description=''; $description_en='';}
 						$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
-								'description'=>$description, 'description_en'=>$description_en,
+								'description'=>htmlspecialchars($description), 'description_en'=>htmlspecialchars($description_en),
 								'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
 					}
 					else
-						$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 'price'=>@$curehotel[$info['page_id']],
+					{
+						if(isset($curehotel[$info['page_id']]))  list($price, $price1) = $curehotel[$info['page_id']];
+						else {$price=''; $price1='';}
+						$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
+						 		'price'=>htmlspecialchars($price), 'price1'=>htmlspecialchars($price1),
 								'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+					}
 				}
 			}
 			$subcure['page_box'] = $page_box;

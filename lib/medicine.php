@@ -122,6 +122,7 @@ if($cure_id)
 		if($cure['type']==1 || $cure['type']==4)
 		{
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
+			
 			if($extrasite_id && $cure['type']!=4) 
 				$query ="SELECT c.cure_id, c.name$englang as name, anons$englang as anons, h.cure_id, h.price$englang as  price
 					FROM ".TABLE_CURE." c 
@@ -130,8 +131,11 @@ if($cure_id)
 				GROUP BY c.cure_id
 				ORDER BY $ord";
 			else
-				$query ="SELECT c.cure_id, anons$englang as anons, c.name$englang as name 
-					FROM ".TABLE_CURE." c WHERE c.parent=$cure_id AND c.public ORDER BY $ord";
+				$query ="SELECT c.cure_id, anons$englang as anons, c.name$englang as name , c.description$englang as description, 
+					f.photo_id, f.ext
+					FROM ".TABLE_CURE." c 
+					LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)
+					WHERE c.parent=$cure_id AND c.public ORDER BY $ord";
 			$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 			
 			$cures = array(); 
@@ -162,6 +166,14 @@ if($cure_id)
 				$info['sel'] = $subcure_id==$info['cure_id'] ? 1 : 0;
 				
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
+				
+				$f="images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]";
+				if(file_exists($f))
+				{
+					$info['photo'] = $f;
+				}
+				else $info['photo'] = '';
+				
 				$cures[] = $info;
 			}
 			$replace['cure_list'] = $cures;
