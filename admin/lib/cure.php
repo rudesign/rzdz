@@ -226,10 +226,13 @@ if(@$savedescr)
 	$name_en = escape_string(from_form(@$name_en));
 	$price = escape_string(from_form(@$price));
 	$price_en = escape_string(from_form(@$price_en));
+	$price1 = escape_string(from_form(@$price1));
+	$price1_en = escape_string(from_form(@$price1_en));
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 		
-	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET name='$name' , name_en='$name_en', price='$price' , price_en='$price_en',
+	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET name='$name' , name_en='$name_en', 
+		price='$price' , price_en='$price_en', price1='$price1' , price1_en='$price1_en',
 		description='$description', description_en='$description_en'
 		WHERE cure_id=$subcure_id AND page_id='$page_id'") 
 	or Error(1, __FILE__, __LINE__);
@@ -732,7 +735,7 @@ if($cure_id)
 			$replace['descr'] = $page_id;
 			
 			$sql = mysql_query("SELECT cr.name, cr.name_en, cr.description, cr.description_en, 
-				cr.price, cr.price_en, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
+				cr.price, cr.price_en, cr.price1, cr.price1_en, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
 				LEFT JOIN ".TABLE_PAGE." p ON p.page_id=cr.page_id
 				WHERE cr.cure_id=$subcure_id AND cr.page_id=$page_id") 
 				or Error(1, __FILE__, __LINE__);
@@ -746,6 +749,8 @@ if($cure_id)
 			$subcure['prname_en'] =  HtmlSpecialChars($info['name_en']);
 			$subcure['price'] =  HtmlSpecialChars($info['price']);
 			$subcure['price_en'] =  HtmlSpecialChars($info['price_en']);
+			$subcure['price1'] =  HtmlSpecialChars($info['price1']);
+			$subcure['price1_en'] =  HtmlSpecialChars($info['price1_en']);
 			$subcure['description'] = HtmlSpecialChars($info['description']);
 			$subcure['description_en'] = HtmlSpecialChars($info['description_en']);
 			$tinymce_elements = 'description, description_en';

@@ -343,7 +343,7 @@ if($subcure_id)
 	$curehotel = array();
 	if(!$extrasite_id || $cure['type']==4)
 	{
-		$field = $cure['type']==4 ? "h.description$englang as  description" : "h.price$englang as  price";
+		$field = $cure['type']==4 ? "h.description$englang as  description" : "h.price1$englang as  price";
 		$where =  ($cure['type']==4 && $extrasite_id) ? " AND p.page_id=$extrasite_id" : '';
 		$ord = $cure['type']==4 ? 'p.name' : 'p.ord';
 		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, $field  , 
