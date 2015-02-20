@@ -164,7 +164,7 @@
 					  
 					</div><!--left_news-->
 					<div class="right_news">
-					  <a class="title_news" href="javascript://" onclick="var obj = document.getElementById('descr<?=$v['cure_id']?>'); obj.style.display = obj.style.display=='none' ? '' : 'none'"><?=$v['name']?></a>  
+					  <a class="title_news" <?if($cure['type']==4){?>href="javascript://" onclick="var obj = document.getElementById('descr<?=$v['cure_id']?>'); obj.style.display = obj.style.display=='none' ? '' : 'none'"<?}else{?>href="<?=$v['url']?>"<?}?>><?=$v['name']?></a>  
 					  
 					  <!--p class="more_news"><br /><?=$lang_phrases['more']?></p-->
 					</div><!--right_news-->				

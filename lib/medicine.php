@@ -92,11 +92,11 @@ $cure = array(); $subcure = array();
 	
 if($cure_id)
 {
-	$fn = $extrasite_id ? 'name_extra' : 'name';
-	$fields = "cure_id, $fn$englang as name, type, inhotel$englang ";
+	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
+	$fields = "cure_id, $fn as name, type, inhotel$englang ";
 	if(!$subcure_id)  $fields .=  ", description$englang as description";
 	if($subcure_id)  $fields .=  ", inhotel$englang as inhotel";
-	
+	  
 	$sql = mysql_query("SELECT $fields 
 		FROM ".TABLE_CURE." WHERE cure_id=$cure_id AND public") or Error(1, __FILE__, __LINE__);
 	if(!($cure = @mysql_fetch_array($sql))) {page404();return;}
