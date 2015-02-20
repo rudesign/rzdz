@@ -168,8 +168,8 @@ if($cure_id)
 				
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
 				
-				$f="images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]";
-				if(file_exists($f))
+				$f= @$info['photo_id'] ? "images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]" : '';
+				if($f && file_exists($f))
 				{
 					$info['photo'] = $f;
 				}
