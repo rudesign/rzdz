@@ -401,7 +401,8 @@ if(!$cure_id && !$subcure_id)
 {	
 	$blocks = array();
 	$and = $extrasite_id ? " AND c.inmenu" : '';
-	$sql = mysql_query("SELECT c.cure_id, c.name$englang as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
+	$fn = $extrasite_id ? "if(c.name_extra$englang!='',c.name_extra$englang,c.name$englang)" : "c.name$englang";
+	$sql = mysql_query("SELECT c.cure_id, $fn as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
 		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)
 		WHERE !c.partof AND c.public AND f.photo_id $and
 		ORDER by c.ord") or Error(1, __FILE__, __LINE__);
