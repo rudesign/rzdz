@@ -2438,7 +2438,7 @@ left:-50px;
 bottom:3px;
 }
 .scg_button{
-    background:url(../img_extra/scg_button.png) no-repeat;
+    background:url(../img/scg_button.png) no-repeat;
     display:block;
     width:121px;
     height:31px;
@@ -2450,10 +2450,13 @@ bottom:3px;
     padding: 0 0 2px 18px;
     cursor:pointer;
     margin-left:5px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
 }
 .scg_button:hover{
-background:url(../img/scg_button_hover.png) no-repeat;
-color:#fff;
+    background:url(../img/scg_button_hover.png) no-repeat;
+    color:#fff;
 }
 
 
