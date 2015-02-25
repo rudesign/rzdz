@@ -1,0 +1,34 @@
+<p>
+
+&nbsp;&nbsp;&nbsp; 
+страницы: &nbsp;&nbsp;<select id="pageselect" onchange="window.location='?p=opinion&page_id='+this.value">
+	<?foreach($page_list as $v){?>
+	<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?></option>
+	<?}?>
+</select>
+</p>
+
+<?if(count($list)){?>
+	<?foreach($list as $v){?><form>
+	<p class="p_name_2"> 
+		<a href="<?=$v['del_link']?>" onclick="return delete_confirm('отзыв');"><img src="images/del.gif" border="0" alt="Удалить"></a>
+		&nbsp;&nbsp;&nbsp; <?if($v['public']){?>включен <a href="?p=opinion&unpublicop=<?=$v['opinion_id']?>&page_id=<?=$page_id?>">отключить</a><?}else{?><a href="?p=opinion&publicop=<?=$v['opinion_id']?>&page_id=<?=$page_id?>">включить</a> отключен <?}?>
+		&nbsp;&nbsp; <?=$v['name']?> 
+		&nbsp;&nbsp;<?=$v['email']?> <?if($v['phone']){?>&nbsp;&nbsp;тел. <?=$v['phone']?><?}?>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="?p=site&page_id=<?=$v['page_id']?>"><?=$v['page_name']?></a>
+		
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" class="chb_input" name="mainsite" 
+		value="1" <?if($v['mainsite']){?>checked="checked"<?}?>  > на основном сайте &nbsp;&nbsp;
+		   <input type="text" name="chdate" size="11" value="<?=$v['date']?>" />
+		   <input type="hidden" name="opinion_id" value="<?=$v['opinion_id']?>" />
+		   <input type="hidden" name="page_id" value="<?=$v['page_id']?>" />
+		   <input type="hidden" name="p" value="opinion" />
+            <input type="submit" name="Input"  value="ок" class="button" />
+		   
+	</p>
+	<div id="datePtr" style="WIDTH: 1px; HEIGHT: 1px"><spacer height="1" width="1" type="block" /></div>
+	<p class="p_otziv" <?if(!$v['public']){?>style="color:#999999" <?}?>><?=$v['text']?></p>
+	</form><?}?>
+	<p>Всего отзывов  <b><?=$all?></b> &nbsp;&nbsp;&nbsp; 
+	Выводить отзывов <?=$onpage_select?> &nbsp;&nbsp; <?=$pages?></p>
+<?}?>
