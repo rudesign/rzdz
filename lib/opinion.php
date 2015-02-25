@@ -55,7 +55,7 @@ list($limit, $replace['pages']) = user_pages($all, $url, $settings['opinion_coun
 $list = array();
 $sql = mysql_query("
 	SELECT 
-		g.*, i.name$englang as page_name, d.dir,  dc.dir as dirc, dc1.dir as pdir
+		g.*, i.name$englang as page_name, i.parent, d.dir,  dc.dir as dirc, dc1.dir as pdir, ds.dir as san_dir
 	FROM 
 		".TABLE_OPINION." g 
 		LEFT JOIN ".TABLE_PAGE." i ON (i.page_id=g.page_id) 
@@ -64,6 +64,8 @@ $sql = mysql_query("
 		LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=i.dir_id)
 		LEFT JOIN ".TABLE_DIR." dc ON (dc.dir_id=c.dir_id)
 		LEFT JOIN ".TABLE_DIR." dc1 ON (dc1.dir_id=c1.dir_id)
+		LEFT JOIN ".TABLE_PAGE." s ON (s.site=i.page_id AND s.public='1') 
+		LEFT JOIN ".TABLE_DIR." ds ON (ds.dir_id=s.dir_id)
 	WHERE 
 		$where 
 	ORDER BY
@@ -90,8 +92,16 @@ while($arr = @mysql_fetch_array($sql))
 	}
 	$arr['text'] = nl2br(HtmlSpecialChars($arr['text']));
 	
-	$arr['page_link'] = ($arr['pdir']) ? "$lprefix/$arr[pdir]/$arr[dirc]" : (($arr['dirc']) ? "$lprefix/$arr[dirc]" : "");	
-	$arr['page_link'] .= "$lprefix/$arr[dir]/";	
+	if($arr['parent']==1)
+	{
+		$arr['page_link'] = $arr['san_dir'] ? "$lprefix/$arr[san_dir]/opinion\" target=\"_blank" : "$lprefix/opinion/?page_id=$arr[page_id]";
+	}
+	else
+	{
+		$arr['page_link'] = ($arr['pdir']) ? "$lprefix/$arr[pdir]/$arr[dirc]" : (($arr['dirc']) ? "$lprefix/$arr[dirc]" : "");	
+		$arr['page_link'] .= "$lprefix/$arr[dir]/";	
+	}
+	
 	$d = split("-", $arr['date']);
 	$arr['date'] = "$d[2].$d[1].$d[0]";
 	$list[] = $arr;
