@@ -154,7 +154,7 @@
 		<?if($cure['type']==4){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div><?}?>
 		
-		<?if($cure['type']==4){?>
+		<?if($cure['type']==4 && !$cure['description']){?>
 			  <ul class="news_list clearfix">
 			    <?foreach($cure_list as $k=>$v){?>
 				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
@@ -174,7 +174,8 @@
 				</li>
 				<?}?>
 			  </ul><!--news_list-->
-		<?}else{?>	
+		<?}?>
+		<?if($cure['type']!=4){?>	
 		
 		<table class="zebra">
 		<?foreach($cure_list as $k=>$v){?>
