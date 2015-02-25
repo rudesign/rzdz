@@ -763,7 +763,7 @@ if($cure_id)
 		}
 		else
 		{
-			if($cure_type==4)
+			if($cure_type==7)
 			{
 				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
 						" WHERE owner_id=$subcure_id AND owner='$photo_owner[cure_part]' ORDER BY ord") or Error(1, __FILE__, __LINE__);

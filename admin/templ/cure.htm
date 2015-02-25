@@ -177,11 +177,11 @@
     <form name="edit-form" method="post" enctype="multipart/form-data">
         <table cellpadding="2" >
         <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td>
-		<?if($type==4){?><td style="padding-left:20px" rowspan="4">
+		<?if($type==7){?><td style="padding-left:20px" rowspan="4">
 			<p>Иконка<br />
 			<?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
 			<a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
-			<?}else{?>(размер  170px x 86px)<br /><input type="file" name="photo" size="5"><?}?>
+			<?}else{?>(размер  262px x 144px)<br /><input type="file" name="photo" size="5"><?}?>
 			</p>
 		</td><?}?>
 			</tr><?}?>

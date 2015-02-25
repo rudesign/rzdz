@@ -402,14 +402,24 @@ if(!$cure_id && !$subcure_id)
 	$blocks = array();
 	$and = $extrasite_id ? " AND c.inmenu" : '';
 	$fn = $extrasite_id ? "if(c.name_extra$englang!='',c.name_extra$englang,c.name$englang)" : "c.name$englang";
-	$sql = mysql_query("SELECT c.cure_id, $fn as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
+	$sql = mysql_query("SELECT c.cure_id, c.type, $fn as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
 		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)
-		WHERE !c.partof AND c.public AND f.photo_id $and
+		WHERE !c.partof AND !c.parent AND c.public AND f.photo_id $and
 		ORDER by c.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))
 	{ 	
-		$f="images/$photo_dir[cure_part]/$arr[photo_id]-s.$arr[ext]";
-		list($w_small, $h_small) = @getimagesize($f);
+		if($extrasite_id && $arr['type']==7)
+		{
+			$sql_e = mysql_query("SELECT f.photo_id, f.ext FROM ".TABLE_CURE." c 
+				LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)
+				WHERE c.parent=$arr[cure_id] AND c.page_id=$extrasite_id AND c.public AND f.photo_id ") or Error(1, __FILE__, __LINE__);
+			$arr_e = @mysql_fetch_array($sql_e);
+			
+			$f = @$arr_e['photo_id'] ? "images/$photo_dir[cure_part]/$arr_e[photo_id]-s.$arr_e[ext]" :
+			"images/$photo_dir[cure_part]/$arr[photo_id]-s.$arr[ext]";
+		}
+		else $f="images/$photo_dir[cure_part]/$arr[photo_id]-s.$arr[ext]";
+		//list($w_small, $h_small) = @getimagesize($f);
 		$blocks[] = array(
 			'photo'=>$f,
 			'url'=>$link_medicine."$arr[cure_id]/",
