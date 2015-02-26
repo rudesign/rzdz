@@ -30,8 +30,12 @@ function uslugi($curestr_id, $cure_id, $sid)
 		if(!$info_uslugi['name']) $info_uslugi['name'] = NONAME;
 				
 		if($extrasite_id)  
-			$info_uslugi['url'] =  $info_uslugi['prdescription'] ?  $link_extrasite."$cure_id/$info_uslugi[cure_id]/" : 
-				($info_uslugi['inmenu'] ?  $link_medicine."$cure_id/$info_uslugi[cure_id]/\" target=\"_blank" : '');
+		{
+			if($info_uslugi['prdescription']) $info_uslugi['url'] =  $link_extrasite."$cure_id/$info_uslugi[cure_id]/";
+			elseif($cure_id==6 || $cure_id==9) $info_uslugi['url'] = '';
+			else $info_uslugi['url'] =  $info_uslugi['inmenu'] ?  $link_medicine."$cure_id/$info_uslugi[cure_id]/\" target=\"_blank" : '';
+			
+		}
 		else $info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
 		
 		$info_uslugi['sel'] = $sid==$info_uslugi['cure_id'] ? 1 :0;
