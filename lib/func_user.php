@@ -180,7 +180,10 @@ function get_menu1($type)
 			$file = 'menu_bottom_right';
 			break;
 	}
-	return get_template("templ/$file.htm", array('list'=>$list, 'part'=>$part)); 
+
+    //echo "templ/$file.htm<br />";
+
+	return get_template("templ/$file.htm", array('list'=>$list, 'part'=>$part));
 }
 
 

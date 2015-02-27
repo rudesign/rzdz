@@ -1,5 +1,4 @@
 <?if($subcure_id){?>
-
         <div class="section clearfix">
             <?if(count(@$cure_list)>1){?>
 			<!--div class="plofiles-list" style="margin-left:30px">
@@ -140,7 +139,7 @@
         </div>
 
 		
-		<div class="plofiles-list" style="float: left;">
+		<div class="plofiles-list">
             <ul>
                 <?foreach($cure_list as $k=>$v){?>
 				<li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
@@ -175,23 +174,23 @@
 				<?}?>
 			  </ul><!--news_list-->
 		<?}?>
+        <!-- Cure progs list -->
 		<?if($cure['type']!=4){?>	
-		
-		<table class="zebra">
-		<?foreach($cure_list as $k=>$v){?>
-		<tr><td><a class="title_news" href="<?=$v['url']?>"><?=$v['name']?></a></td></tr>
-		<?}?>
-		</table>
-		
+        <div class="cure-progs">
+            <?foreach($cure_list as $k=>$v){?>
+                <div class="items">
+                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a></div>
+                    <div class="teaser"><?=$v['teaser']?></div>
+                </div>
+            <?}?>
+        </div>
 		<?}?> 
 		
 		<?}?>
 		
 		
 	<?}elseif($cure['type']==2){?>
-		
-		
-		
+
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		

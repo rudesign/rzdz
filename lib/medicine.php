@@ -155,11 +155,11 @@ if($cure_id)
 					continue;
 				}
 				$k++; 
-				$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+				$info['name'] = $info['name'] ? HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251') : NONAME;
 				
 				if($cure['type']!=2 )
 				{
-					$info['title'] = HtmlSpecialChars($info['anons']);
+					$info['title'] = HtmlSpecialChars($info['anons'], ENT_COMPAT, 'cp1251');
 					if($extrasite_id && !$info['anons'] && $title)
 					{
 						$info['title'] = $title; $title = '';
@@ -178,6 +178,8 @@ if($cure_id)
 					$info['photo'] = $f;
 				}
 				else $info['photo'] = '';
+
+                $info['teaser'] = HtmlSpecialChars($info['anons'], ENT_COMPAT, 'cp1251');;
 				
 				$cures[] = $info;
 			}
@@ -391,7 +393,7 @@ if($subcure_id)
 			else 
 			{
 				$price = (int)$info['price'];
-				$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
+				$info['price'] = $price>0 && $info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars($info['price']);
 			}
 			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
@@ -402,7 +404,7 @@ if($subcure_id)
 }
 
 if(!$cure_id && !$subcure_id)
-{	
+{
 	$blocks = array();
 	$and = $extrasite_id ? " AND c.inmenu" : '';
 	$fn = $extrasite_id ? "if(c.name_extra$englang!='',c.name_extra$englang,c.name$englang)" : "c.name$englang";
@@ -437,9 +439,11 @@ $replace['extrasite_id'] = $extrasite_id;
 $replace['cure'] = $cure;
 $replace['subcure'] = $subcure;
 $replace['link_medicine'] = $link_medicine."1/";
-if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) 
-	$replace['profile'] =  get_template("templ/page_medicine_profile.htm", $replace);
-else $replace['profile'] = '';
+if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
+    $replace['profile'] = get_template("templ/page_medicine_profile.htm", $replace);
+}else{
+    $replace['profile'] = '';
+}
 
 $content = get_template("templ/page_medicine.htm", $replace);
 

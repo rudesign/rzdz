@@ -324,9 +324,7 @@ elseif($part == 'sitemap') {
 	require 'lib/sitemap.php';
 	get_page_info($part);
 	$navig[] = array('name'=>$lang_phrases['sitemap'], 'link'=>'');
-}
-
-else 
+} else
 { 
 	page404();
 }
