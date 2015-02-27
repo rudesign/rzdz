@@ -3158,3 +3158,25 @@ td.vertical > div {
     background-image: url("../img_extra/scg_button_hover.png")!important;
     color: #fff!important;
 }
+
+.cure-progs .items{
+    padding: 30px;
+    border: 1px solid #19979f;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.cure-progs .items:last-child{
+    margin-bottom: 0;
+}
+.cure-progs .title{
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3em;
+}
+.cure-progs .title a{
+    color: #19979f
+}
