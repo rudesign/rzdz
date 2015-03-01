@@ -401,6 +401,37 @@ if($subcure_id)
 	}
 	$replace['curehotel'] = $curehotel;		
 	
+	if($extrasite_id)
+	{	
+		$sql = mysql_query("SELECT table_id, name$englang as name FROM ".TABLE_TABLE." 
+			WHERE parent=0 AND cure_id=$subcure_id AND page_id=$extrasite_id ORDER BY ord") 
+			or Error(1, __FILE__, __LINE__);
+		
+		$tables =  array();
+		while($info = @mysql_fetch_array($sql))
+		{ 
+			$info['name'] = HtmlSpecialChars($info['name']);
+			if(!$info['name']) $info['name'] = NONAME;
+			
+			$list = array();
+						
+			$sql_sect = mysql_query("SELECT table_id, name$englang as name, name1$englang as name1, title FROM ".TABLE_TABLE." 
+				WHERE parent=$info[table_id] ORDER BY ord") 
+				or Error(1, __FILE__, __LINE__);
+			while($info_sect = @mysql_fetch_array($sql_sect))
+			{ 
+				$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+				$info_sect['name1'] = HtmlSpecialChars($info_sect['name1']);
+				
+				$list[] = $info_sect;
+			}
+			$info['list'] = $list;
+			
+			$tables[] = $info;
+		}
+		$replace['tables'] = $tables;
+	}
+	
 }
 
 if(!$cure_id && !$subcure_id)

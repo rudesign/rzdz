@@ -62,6 +62,7 @@ define('TABLE_SPEC', TABLE_PREFIX.'spec');
 define('TABLE_GEST', TABLE_PREFIX.'gest');
 define('TABLE_GTEMA', TABLE_PREFIX.'gtema');
 define('TABLE_SLIDER', TABLE_PREFIX.'slider');
+define('TABLE_TABLE', TABLE_PREFIX.'table');
 
 $photo_owner = array(
 	'item'=>1,

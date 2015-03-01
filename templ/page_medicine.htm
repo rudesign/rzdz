@@ -11,6 +11,35 @@
 			<?}?>
             <div id="pdescription" style="width:auto"><?=$subcure['description']?>
 			
+			
+            <?if(count(@$tables)>1){?>
+			
+				<?foreach($tables as $k=>$v){?>
+				
+				<p>&nbsp;</p>
+				<p style="color: rgb(0, 140, 149);font-size: 18px;">
+				<?=$v['name']?>
+				</p>
+				<p>&nbsp;</p>
+				
+				<table class="zebra">
+					<?foreach($v['list'] as $k=>$v1){?>
+						<?if($v1['title'] && !$k){?>
+						<thead>						
+						<tr><td <?if(!$v1['name1']){?>colspan="2"<?}?>><span style="color: #159fa7;"><strong><?=$v1['name']?></strong></span></td>
+							<?if($v1['name1']){?><td><strong><?=$v1['name1']?></strong></td><?}?></tr>
+						</thead>
+						<?}else{?>
+						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td><td><?=$v1['name1']?></td></tr>
+						<?}?>
+					<?}?>
+				</table>
+				<p>&nbsp;</p>
+				
+				<?}?>
+				
+			<?}?>
+			
         <?if($cure['type']==4 && count($curehotel)){?><p>&nbsp;</p>
 		<table border="1" id="sk_karta">
 				<tr>

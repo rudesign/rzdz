@@ -480,6 +480,102 @@ if(@$delcurestr)
 	exit;
 }
 
+if(isset($addtable) && $subcure_id)
+{	
+	$addtable = (int)@$addtable;
+	$page_id = (int)@$page_id;
+	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$addtable AND cure_id=$subcure_id AND page_id=$page_id") 
+		or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr[0] + 1;
+	
+	mysql_query("INSERT INTO ".TABLE_TABLE." SET ord=$ord, parent=$addtable, cure_id=$subcure_id, page_id=$page_id") or Error(1, __FILE__, __LINE__);
+	$id = mysql_insert_id();
+		
+	Header("Location: $url"."#link$id");
+	exit;
+}
+
+if(@$savetable)
+{
+	$table_id = (int)@$table_id;
+	$page_id = (int)@$page_id;
+	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	
+	$sql = mysql_query("SELECT ord, parent, cure_id FROM ".TABLE_TABLE." WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$oldord = (int)@$arr['ord'];
+	$parent = (int)@$arr['parent'];
+	$subcure_id = (int)@$arr['cure_id'];
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$parent AND cure_id=$subcure_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	
+	$ord = (int)@$ord;
+	if($ord < 1 || $ord > $count) 
+	{
+		$_SESSION['message'] = "Ќеверное значение пор€дкового номера (от 1 до $count)";
+		Header("Location: ".$url);
+		exit;
+	}
+	
+	$name = escape_string(from_form(@$name));
+	$name1 = escape_string(from_form(@$name1));
+	$title = (int)@$title;
+	
+	mysql_query("UPDATE ".TABLE_TABLE." SET name='$name', name1='$name1', title='$title', ord='$ord' ".
+				"WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
+				
+	if($ord > $oldord) mysql_query("UPDATE ".TABLE_TABLE." SET ord=ord-1 ".
+		"WHERE ord>'$oldord' AND ord<='$ord' AND parent=$parent AND cure_id=$subcure_id AND  page_id='$page_id' AND  table_id!='$table_id'") 
+		or Error(1, __FILE__, __LINE__);
+	elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_TABLE." SET ord=ord+1 ".
+		"WHERE ord>='$ord' AND ord<'$oldord' AND parent=$parent AND cure_id=$subcure_id AND  page_id='$page_id' AND table_id!='$table_id'") 
+		or Error(1, __FILE__, __LINE__);
+	
+	if($parent) $url .= "#link$parent";
+	
+	Header("Location: ".$url);
+	exit;
+}
+
+
+if(@$deltable)
+{
+	$table_id = (int)@$table_id;
+	
+	$sql = mysql_query("SELECT ord, parent, cure_id, page_id FROM ".TABLE_TABLE." WHERE table_id=$table_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr['ord']; 
+	$parent = (int)@$arr['parent']; 
+	$subcure_id = (int)@$arr['cure_id'];
+	$page_id = (int)@$arr['page_id'];
+	
+	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	
+	if($parent) $url .= "#link$parent";
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$table_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	if($count) 
+	{
+		$_SESSION['message'] = "–аздел не может быть удален, в нем есть подразделы";
+		Header("Location: ".$url);
+		exit;
+	}
+			
+	mysql_query("DELETE FROM ".TABLE_TABLE." WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
+	mysql_query("UPDATE ".TABLE_TABLE." SET ord=ord-1 WHERE parent=$parent AND page_id=$page_id AND cure_id=$subcure_id AND ord>$ord") 
+		or Error(1, __FILE__, __LINE__);	
+		
+	Header("Location: ".$url);
+	exit;
+}
+
 $replace = array();
 
 
@@ -760,6 +856,31 @@ if($cure_id)
 			$subcure['description_en'] = HtmlSpecialChars($info['description_en']);
 			$tinymce_elements = 'description, description_en';
 			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+			
+			
+			$sql = mysql_query("SELECT * FROM ".TABLE_TABLE." WHERE parent=0 AND cure_id=$subcure_id AND page_id=$page_id ORDER BY ord") 
+			or Error(1, __FILE__, __LINE__);
+			
+			$tables = array(); 
+			while($info = @mysql_fetch_array($sql))
+			{ 
+				$info['name'] = HtmlSpecialChars($info['name']);		
+				
+				$sql1 = mysql_query("SELECT * FROM ".TABLE_TABLE." WHERE parent=$info[table_id] ORDER BY ord") 
+				or Error(1, __FILE__, __LINE__);	
+				$list = array(); 
+				while($info1 = @mysql_fetch_array($sql1))
+				{ 
+					$info1['name'] = HtmlSpecialChars($info1['name']);		
+					$info1['name1'] = HtmlSpecialChars($info1['name1']);							
+					$list[] = $info1;
+				}
+				$info['list'] = $list;
+			
+				$tables[] = $info;
+			}
+		
+			$replace['tables'] = $tables;
 		}
 		else
 		{
