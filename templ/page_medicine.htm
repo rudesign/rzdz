@@ -392,15 +392,24 @@
 	<?}?>
 
 <?}else{?>
-
-            <? // echo $profile; ?>
+	
+		<?if($extrasite_id){?>
+		<table class="zebra">
+			<?foreach($cure_list as $k=>$v){?>
+			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td></tr>
+			<?}?>
+			
+		</table>
+		<p>&nbsp;</p>
+		<?}?>
+		
             <div class="medicine-main-grid">
                 <?foreach($blocks as $k=>$v){?>
 				<div class="items" style="background-image:url(<?=$v['photo']?>)">
                     <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a></div>
                 </div>
 				<?}?>
-            </div>
+            </div>	
 <?}?>
   
 	 

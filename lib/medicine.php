@@ -464,6 +464,28 @@ if(!$cure_id && !$subcure_id)
 		);
 	}
 	$replace['blocks'] = $blocks;
+		
+	if($extrasite_id)
+	{
+		$query ="SELECT c.cure_id, c.name$englang as name
+			FROM ".TABLE_CURE." c 
+			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
+			WHERE c.parent=1 AND c.public AND h.cure_id IS NOT NULL
+			GROUP BY c.cure_id
+			ORDER BY c.ord";
+		$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
+		
+		$cures = array(); 
+		while($info = @mysql_fetch_array($sql))
+		{ 
+			$info['name'] = $info['name'] ? HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251') : NONAME;
+						
+			$info['url'] = $link_medicine."1/"."$info[cure_id]/";
+			
+			$cures[] = $info;
+		}
+		$replace['cure_list'] = $cures;
+	}
 }
 
 $replace['extrasite_id'] = $extrasite_id;
@@ -475,6 +497,8 @@ if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
 }else{
     $replace['profile'] = '';
 }
+
+
 
 $content = get_template("templ/page_medicine.htm", $replace);
 
