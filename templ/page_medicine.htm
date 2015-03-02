@@ -105,7 +105,6 @@
 <?}elseif($cure_id){?>
 
 	<?if($cure['type']==1 || $cure['type']==4){?>
-
         <!-- Profiles page -->
 		<?if($cure['cure_id']==1 && !$extrasite_id){?>
 
@@ -200,22 +199,155 @@
 			  </ul><!--news_list-->
 		<?}?>
         <!-- Cure progs list -->
-		<?if($cure['type']!=4){?>	
-        <div class="cure-progs">
-            <?foreach($cure_list as $k=>$v){?>
+
+        <?
+        // По диагнозу и всё такое
+        if($cure['cure_id'] == 90){ ?>
+
+            <style>
+                .cure-locator input,.cure-locator textarea{
+                    box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
+                }
+                .cure-locator a{
+                    color: #008c95;
+                }
+                .cure-locator .lc{
+                    float: left;
+                    width: 350px;
+                }
+                .cure-locator .attention{
+                    position: relative;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    background-color: #008c95;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                    color: #fff;
+                }
+                .cure-locator .attention p{
+                    text-align: left;
+                }
+                .cure-locator .attention .close{
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    width: 1.5em;
+                    height: 1.4em;
+                    padding-top: 0.1em;
+                    background: #fff;
+                    border-radius: 1.5em;
+                    font-size: 12px;
+                    line-height: 1em;
+                    text-align: center;
+                    color: #000;
+                    cursor: pointer;
+                }
+                .cure-locator .search-area{
+                    position: relative;
+                    margin-bottom: 15px;
+                }
+                .cure-locator .search-area ul{
+                    position: absolute;
+                    top: 30px;
+                    left: 10px;
+                    padding: 15px;
+                    background-color: #fff;
+                    box-shadow: 0 1px 3px 2px #bbb;
+                }
+                .cure-locator .search-area li{
+                    margin-bottom: 5px;
+                }
+                .cure-locator .search-area li:last-child{
+                    margin-bottom: 0;
+                }
+                .cure-locator .search-area input[type="text"]{
+                    width: 100%;
+                    padding: 8px;
+                    border: 1px solid #008c95;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                }
+                .cure-locator .search-area input[type="image"]{
+                    position: absolute;
+                    top: 2px;
+                    right: 4px;
+                }
+                .cure-locator .found{
+                    max-height: 605px;
+                    overflow-y: auto;
+                }
+                .cure-locator .found li{
+                    padding: 4px 10px;
+                }
+                .cure-locator .found li:nth-child(2n){
+                    background-color: #eee;
+                }
+                .cure-locator .rc{
+                    float: right;
+                    width: 189px;
+                }
+            </style>
+            <script language="javascript">
+                function closeCureAlert(){
+                    var container = $('.cure-locator .attention');
+                    container.slideUp('fast');
+                }
+            </script>
+            <div class="cure-locator clearfix">
+                <div class="lc">
+                    <div class="attention">
+                        <div class="close" onclick="closeCureAlert();">x</div>
+                        <p><b>Внимание!</b></p>
+                        <p>Здесь содержится важная информация о санкур.лечении, а также о противопоказаниях - эта иконка, всплывающая при первоначальном выборе «поиск по диагнозу», она же здесь остается потом наверху.</p>
+                    </div>
+                    <div class="search-area">
+                        <ul>
+                            <li><a href="">При наборе: Результат поиска 1</a></li>
+                            <li><a href="">При наборе: Результат поиска 2</a></li>
+                            <li><a href="">При наборе: Результат поиска 3</a></li>
+                        </ul>
+                        <form action="" method="get">
+                            <input type="image" src="/img/for_loop.png">
+                            <input name="" type="text" />
+                        </form>
+                    </div>
+                    <div class="found">
+                        <ul>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                            <li><a href="">Показание, диагноз</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rc">
+                    <img src="/img/cure/manNarrow.jpg" />
+                </div>
+            </div>
+        <?
+        // Что-то другое
+        }elseif($cure['type']!=4){?>
+            <div class="cure-progs">
+                <?foreach($cure_list as $k=>$v){?>
                 <div class="items">
                     <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a></div>
                     <div class="teaser"><?=$v['teaser']?></div>
                 </div>
-            <?}?>
-        </div>
-		<?}?> 
-		
+                <?}?>
+            </div>
+        <?}?>
 		<?}?>
 		
 		
 	<?}elseif($cure['type']==2){?>
-
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		
@@ -262,14 +394,14 @@
 		
 		<script language="javascript">
 		var CureList = new Array();
-<?$i=0;foreach($cure_list as $k=>$v){?>
-<?if(count($v['uslugi']) || count($v['list'])){?>		CureList[<?=$i?>] = <?=$v['curestr_id']?>;
-<?$i++;}?>
-<?foreach($v['list'] as $v1){?>
-<?if(count($v1['uslugi'])){?>		CureList[<?=$i?>] = <?=$v1['curestr_id']?>;
-<?$i++;}?>
-<?}?>
-<?}?>
+        <?$i=0;foreach($cure_list as $k=>$v){?>
+            <?if(count($v['uslugi']) || count($v['list'])){?>		CureList[<?=$i?>] = <?=$v['curestr_id']?>;
+            <?$i++;}?>
+            <?foreach($v['list'] as $v1){?>
+            <?if(count($v1['uslugi'])){?>		CureList[<?=$i?>] = <?=$v1['curestr_id']?>;
+            <?$i++;}?>
+            <?}?>
+        <?}?>
 		</script>
 		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Раскрыть все</a></div>	
 		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>	
@@ -335,7 +467,6 @@
 		<?}?>
 		
 	<?}elseif($cure['type']==5){?>
-	
 			  <ul class="news_list clearfix">
 			    <?foreach($list as $k=>$v){?>
 				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
@@ -357,9 +488,8 @@
 			  </ul><!--news_list-->
 			
 		 <?=$pages?>
-		 
 	<?}elseif($cure['type']==7){?>
-	
+
 		<?if($extrasite_id){?>
 		<div id="pdescription"><?=$cure['description']?></div>
 		 <?if($cure['pdf_photo']){?>
@@ -388,11 +518,10 @@
                 </div>
             </div>
 		<?}?>
-		
-	<?}?>
+    <?}else{?>
 
+    <?}?>
 <?}else{?>
-	
 		<?if($extrasite_id){?>
 		<table class="zebra">
 			<?foreach($cure_list as $k=>$v){?>

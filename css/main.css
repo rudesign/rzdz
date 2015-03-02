@@ -647,7 +647,7 @@ border-radius:0px 0px 5px 5px;
 behavior: url(PIE.htc);
 }
 .open_type{
-background:url(../img/open_type.png) repeat-x!important;
+background:url(../img/open_type.png) repeat-x  #008d96!important;
 color:#fff!important;
 border-bottom:none!important;
 }

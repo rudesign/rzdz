@@ -492,16 +492,14 @@ $replace['extrasite_id'] = $extrasite_id;
 $replace['cure'] = $cure;
 $replace['subcure'] = $subcure;
 $replace['link_medicine'] = $link_medicine."1/";
+
 if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
     $replace['profile'] = get_template("templ/page_medicine_profile.htm", $replace);
 }else{
     $replace['profile'] = '';
 }
 
-
-
 $content = get_template("templ/page_medicine.htm", $replace);
 
 get_page_info($part, 0, $page_name);
-
 ?>
