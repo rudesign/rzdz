@@ -107,7 +107,7 @@ if($cure_id)
 	
 	$page_name = $cure['name'];
 		
-	if($cure['type']==3 && ! ( ($cure['cure_id']==5 || $cure['cure_id']==8) && !$extrasite_id ) )
+	/*if($cure['type']==3 && ! ( ($cure['cure_id']==5 || $cure['cure_id']==8) && !$extrasite_id ) )
 	{
 		$sql = mysql_query("SELECT $fields FROM ".TABLE_CURE." WHERE partof=$cure_id AND public ORDER BY ord LIMIT 1") 
 			or Error(1, __FILE__, __LINE__);
@@ -115,7 +115,7 @@ if($cure_id)
 		$cure_id = $cure['cure_id'];
 		if($extrasite_id) $request[2] = $cure_id;
 		else $request[1] = $cure_id;
-	}
+	}*/
 	
 	$cure['name'] = htmlspecialchars($cure['name']);
 
@@ -211,6 +211,22 @@ if($cure_id)
 				$curehotel[] = $info;	
 			}
 			$replace['curehotel'] = $curehotel;
+		}
+		elseif($cure['type']==3 && $extrasite_id)
+		{
+			$link_medicine =  "$lprefix/$request[0]/$request[1]/";
+			$cure_list = array();
+			$sql1 = mysql_query("SELECT cure_id, name$englang as name, type FROM ".TABLE_CURE."  
+				WHERE parent=0 AND partof=$cure_id AND public
+				ORDER BY ord") or Error(1, __FILE__, __LINE__);
+			while($arr1 = @mysql_fetch_array($sql1))
+			{
+				$arr1['name'] = HtmlSpecialChars($arr1['name'], null, 'cp1251');				
+				$arr1['url'] =  $link_medicine."$arr1[cure_id]";
+				
+				$cure_list[] = $arr1;
+			}		
+			$replace['cure_list'] = $cure_list;
 		}
 		elseif($cure['type']==2)
 		{	
@@ -395,7 +411,11 @@ if($subcure_id)
 				$price = (int)$info['price'];
 				$info['price'] = $price>0 && $info['price']==$price ? $price." ���." : htmlspecialchars($info['price']);
 			}
-			$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
+			$info['page_link'] = $info['sp_dir'] ?  
+				($cure['type']==2 ? $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank"
+					: ($cure_id==1 ? $info['sp_dir']."/medicine/\" target=\"_blank" : 
+						$info['sp_dir']."/medicine/$cure_id/$subcure_id\" target=\"_blank")  )
+				: "$lprefix/media/?s_id=$info[page_id]"; 
 			$curehotel[] = $info;	
 		}
 	}
@@ -437,7 +457,7 @@ if($subcure_id)
 if(!$cure_id && !$subcure_id)
 {
 	$blocks = array();
-	$and = $extrasite_id ? " AND c.inmenu" : '';
+	$and = $extrasite_id ? " AND c.inmenu AND c.cure_id!=1" : '';
 	$fn = $extrasite_id ? "if(c.name_extra$englang!='',c.name_extra$englang,c.name$englang)" : "c.name$englang";
 	$sql = mysql_query("SELECT c.cure_id, c.type, $fn as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
 		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)

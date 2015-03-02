@@ -3,7 +3,7 @@
 		
             <div id="pdescription" style="width:auto">
 			
-			<?if($cure['type']!=1){?><?=$subcure['description']?><?}?>
+			<?if($cure['cure_id']!=1){?><?=$subcure['description']?><?}?>
 			
 			
             <?if(count(@$tables)>1){?>
@@ -100,7 +100,7 @@
         </div>
 		<?}?>
 		
-			<?if($cure['type']==1){?><?=$subcure['description']?><?}?>
+			<?if($cure['cure_id']==1){?><?=$subcure['description']?><?}?>
 
 <?}elseif($cure_id){?>
 
@@ -449,7 +449,7 @@
 		<div class="clear"></div>
 		<p>&nbsp;</p>
 		
-        <?if(count($curehotel)){?>
+        <?if(@count($curehotel)){?>
 		<div class="medicine-sanatorium-services section">
             <div class="title">
                 <?=$cure['inhotel']?>
@@ -464,6 +464,16 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+		<?}?>
+		
+		<?if($extrasite_id && @count($cure_list)){?>
+		<table class="zebra">
+			<?foreach($cure_list as $k=>$v){?>
+			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td></tr>
+			<?}?>
+			
+		</table>
+		<p>&nbsp;</p>
 		<?}?>
 		
 	<?}elseif($cure['type']==5){?>
