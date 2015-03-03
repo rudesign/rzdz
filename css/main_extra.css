@@ -360,6 +360,12 @@ width:55px;
 height:20px;
 margin-top:2px;
 }
+.neth6{
+    background:url(../img/neth61.png) no-repeat!important;
+    display:block;
+    width:55px;
+    height:22px;
+}
 .neth1:hover{
 background:url(../img_extra/neth1_hover.png) no-repeat;
 }
@@ -371,6 +377,9 @@ background:url(../img_extra/neth3_hover.png) no-repeat;
 }
 .neth4:hover{
 background:url(../img_extra/neth5.png) no-repeat!important;
+}
+.neth6:hover{
+background:url(../img/neth6.png) no-repeat!important;
 }
 
 
