@@ -656,7 +656,7 @@ function menu_medicine()
 				
 				$arr1['link'] =  $link_medicine."$arr1[cure_id]";
 				
-				$arr['list'][] = $arr1;
+				if(!($arr['cure_id']==5 || $arr['cure_id']==8) ) $arr['list'][] = $arr1;
 			}				
 		}
 		
