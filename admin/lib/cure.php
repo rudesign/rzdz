@@ -256,6 +256,9 @@ if(@$del_cure)
 	
 	mysql_query("DELETE FROM ".TABLE_CURE." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
 	mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 WHERE parent=$parent AND ord>$ord") or Error(1, __FILE__, __LINE__);	
+	
+	mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
+	mysql_query("DELETE FROM ".TABLE_TABLE." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
 		
 	$url = "?p=$part&cure_id=$cure_id";
 	if(isset($curestr_id)) $url .= "&service&curestr_id=$curestr_id";
@@ -294,15 +297,20 @@ if(@$delphoto) {
 
 function check_cure($subcure_id, $parent=0)
 {
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE partof=$subcure_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$count = (int)@$arr[0];
-	if($count) return $count."î";
+	if($count) return "-"; //return $count."ð";
+	
+	/*$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	if($count) return $count."î";*/
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$subcure_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$count = (int)@$arr[0];
-	if($count) return $count."î";
+	if($count) return "-"; //return $count."î";
 	
 	if($subcure_id < 1) return "-";
 		

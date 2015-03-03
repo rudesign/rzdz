@@ -14,8 +14,12 @@ function uslugi($curestr_id, $cure_id, $sid)
 	
 	$uslugi = array();
 	
-	$left_join = $extrasite_id ? "LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)" : '';
-	$fields = $extrasite_id ? ", c.inmenu, h.cure_id, h.price$englang as  price, h.name$englang as prname, h.description$englang as prdescription" : '';
+	$left_join = $extrasite_id ? "
+		LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
+		LEFT JOIN ".TABLE_TABLE." t ON (t.parent=0 AND t.cure_id=c.cure_id AND t.page_id=$extrasite_id)
+		" : '';
+	$fields = $extrasite_id ? ", c.inmenu, h.cure_id, h.price$englang as  price, 
+		h.name$englang as prname, h.description$englang as prdescription, t.table_id" : '';
 	$where = $extrasite_id ? " AND h.cure_id" : " AND c.inmenu";
 	
 	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name, c.description$englang as description $fields FROM ".TABLE_CURE." c
@@ -39,8 +43,26 @@ function uslugi($curestr_id, $cure_id, $sid)
 		else $info_uslugi['url'] = $link_medicine."$cure_id/$info_uslugi[cure_id]/";
 		
 		$info_uslugi['sel'] = $sid==$info_uslugi['cure_id'] ? 1 :0;
+		$info_sect['sub'] = 0;
 
 		$uslugi[] = $info_uslugi;
+				
+		if($info_uslugi['table_id']) 
+		{						
+			$sql_sect = mysql_query("SELECT table_id, name$englang as name, name1$englang as name1, title FROM ".TABLE_TABLE." 
+				WHERE parent=$info_uslugi[table_id] ORDER BY ord") 
+				or Error(1, __FILE__, __LINE__);
+			while($info_sect = @mysql_fetch_array($sql_sect))
+			{ 
+				$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+				$info_sect['price'] = HtmlSpecialChars($info_sect['name1']);
+				$info_sect['url'] = '';
+				$info_sect['sel'] = '';
+				$info_sect['sub'] = 1;
+				
+				$uslugi[] = $info_sect;
+			}
+		}
 	}
 	
 	return $uslugi;
@@ -449,7 +471,7 @@ if($subcure_id)
 			
 			$tables[] = $info;
 		}
-		$replace['tables'] = $tables;
+		$replace['tables'] = $tables; 
 	}
 	
 }
