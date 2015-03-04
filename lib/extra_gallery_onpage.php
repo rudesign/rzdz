@@ -185,6 +185,7 @@ switch($_POST['type']){
 							<a href="#" class="next next-stage"><span></span></a>
 						</div>
 
+						<!--
 						<div class="navigation">';
                             if(count($rows) > 3) {
                                 $html .= '
@@ -201,6 +202,7 @@ switch($_POST['type']){
 								</ul>
 							</div>
 						</div>
+						-->
 					</div>
 
 					<div class="extra-gallery-info">';
@@ -263,7 +265,7 @@ switch($_POST['type']){
 						        <div class="items">
                                     '.$row['alt'].'
                                     <br /><br />
-                                    <a target="_blank" title="" href="'.$row['description'].'">Посмотреть</a>
+                                    <a target="_blank" title="" href="'.$row['description'].'">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</a>
                                 </div>';
 							}
 			        $html .= '
