@@ -15,7 +15,7 @@ if(isset($addcure))
 	$addcure = (int)@$addcure;
 	$curestr_id = (int)@$curestr_id;
 	
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$addcure") or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$addcure AND curestr_id=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$ord = (int)@$arr[0] + 1;
 	
@@ -35,18 +35,20 @@ if(@$save)
 	{
 		$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id";
 		
-		$sql = mysql_query("SELECT c.ord, c.parent, p.type FROM ".TABLE_CURE." c
+		$sql = mysql_query("SELECT c.ord, c.parent, c.curestr_id, p.type FROM ".TABLE_CURE." c
 			LEFT JOIN ".TABLE_CURE." p  ON (p.cure_id=c.parent)
 			WHERE c.cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 		$arr = @mysql_fetch_array($sql);
 		$oldord = (int)@$arr['ord'];
 		$parent = (int)@$arr['parent'];
+		$curestr_id = (int)@$arr['curestr_id'];
 		$cure_type = (int)@$arr['type'];
 		
 		$sql_ord = '';
-		if($cure_type!=2)
+		//if($cure_type!=2)
 		{
-			$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$cure_id") or Error(1, __FILE__, __LINE__);
+			$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$cure_id AND curestr_id=$curestr_id") 
+				or Error(1, __FILE__, __LINE__);
 			$arr = @mysql_fetch_array($sql);
 			$count = (int)@$arr[0];
 			$ord = (int)@$ord;
@@ -79,12 +81,14 @@ if(@$save)
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 				
-		if($cure_type!=2)
+		//if($cure_type!=2)
 		{	
 			if($ord > $oldord) mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 ".
-				"WHERE ord>'$oldord' AND ord<='$ord' AND parent=$cure_id AND  cure_id!='$subcure_id'") or Error(1, __FILE__, __LINE__);
+				"WHERE ord>'$oldord' AND ord<='$ord' AND parent=$cure_id AND curestr_id=$curestr_id AND  cure_id!='$subcure_id'") 
+					or Error(1, __FILE__, __LINE__);
 			elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_CURE." SET ord=ord+1 ".
-				"WHERE ord>='$ord' AND ord<'$oldord' AND parent=$cure_id AND cure_id!='$subcure_id'") or Error(1, __FILE__, __LINE__);
+				"WHERE ord>='$ord' AND ord<'$oldord' AND parent=$cure_id AND curestr_id=$curestr_id AND cure_id!='$subcure_id'") 
+					or Error(1, __FILE__, __LINE__);
 		}
 		
 		if(is_array(@$sanat)) 
@@ -249,13 +253,14 @@ if(@$savedescr)
 if(@$del_cure)
 {
 	$del_cure = (int)$del_cure;
-	$sql = mysql_query("SELECT ord, parent FROM ".TABLE_CURE." WHERE cure_id=$del_cure") or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query("SELECT ord, parent, curestr_id FROM ".TABLE_CURE." WHERE cure_id=$del_cure") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$ord = (int)@$arr['ord']; 
+	$curestr_id = (int)@$arr['curestr_id']; 
 	$parent = (int)@$arr['parent']; 
-	
+
 	mysql_query("DELETE FROM ".TABLE_CURE." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
-	mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 WHERE parent=$parent AND ord>$ord") or Error(1, __FILE__, __LINE__);	
+	mysql_query("UPDATE ".TABLE_CURE." SET ord=ord-1 WHERE parent=$parent AND curestr_id=$curestr_id AND ord>$ord") or Error(1, __FILE__, __LINE__);	
 	
 	mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
 	mysql_query("DELETE FROM ".TABLE_TABLE." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
@@ -584,6 +589,8 @@ if(@$deltable)
 	exit;
 }
 
+
+
 $replace = array();
 
 
@@ -911,8 +918,10 @@ if($cure_id)
 			
 			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
-			$subcure['ord_select'] = $cure_type!=2 ? ord_select("SELECT name FROM ".TABLE_CURE.
-				" WHERE parent=$cure_id AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']) : '';
+			$subcure['ord_select'] = $cure_type==2 ? ord_select("SELECT name FROM ".TABLE_CURE.
+				" WHERE parent=$cure_id AND curestr_id=$subcure[curestr_id] AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']) : 
+					ord_select("SELECT name FROM ".TABLE_CURE.
+				" WHERE parent=$cure_id AND cure_id!=$subcure_id ORDER BY ord", 'ord', $subcure['ord']);
 			$subcure['name'] = HtmlSpecialChars($subcure['name']);
 			$subcure['name_en'] = HtmlSpecialChars($subcure['name_en']);
 			$subcure['anons'] = HtmlSpecialChars($subcure['anons']);
