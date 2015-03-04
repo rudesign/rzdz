@@ -119,12 +119,12 @@ if(@$save)
 				}
 				else
 				{
-					$price_new = @from_form($price[$page_id]);
+					/*$price_new = @from_form($price[$page_id]);
 					$price1_new = @from_form($price1[$page_id]);
 					if($checked)
 						mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price_new)."', 
 							price1='".escape_string($price1_new)."' 
-							WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);
+							WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);*/
 				}
 			}
 		}

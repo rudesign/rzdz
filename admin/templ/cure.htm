@@ -256,15 +256,16 @@
             <table>
             <tr><td>Наличие</td><td>Цена (филиал)</td><td>Цена (осн.сайт)</td></tr>
             <?foreach($subcure['page_box'] as $k=>$v){?>
-                <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
+                <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>>
+				<td>
                 <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none';var obj1=document.getElementById('price1<?=$v['page_id']?>'); obj1.style.display = this.checked ? '' : 'none'"
-                value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+                value="<?=$v['page_id']?>" <?=$v['checked']?> >
+					<?if($v['checked']){?><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>"><?}?>
+					<?=$v['name']?>
+					<?if($v['checked']){?></a><?}?>
                 </td>
-                <td><input type="text" name="price[<?=$v['page_id']?>]" id="price<?=$v['page_id']?>" value="<?=$v['price']?>" maxlength="255" size="20" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
-                <?if($v['checked']){?><br /><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>">Описание</a><?}?>
-                </td>
-                <td><input type="text" name="price1[<?=$v['page_id']?>]" id="price1<?=$v['page_id']?>" value="<?=$v['price1']?>" maxlength="255" size="20" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
-                </td>
+                <td><?=$v['price']?></td>
+                <td><?=$v['price1']?></td>
                 </tr>
             <?}?>
             </table>
