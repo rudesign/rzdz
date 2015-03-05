@@ -2908,12 +2908,12 @@ border-radius: 5px;
 
 .cure-progs .items{
     padding: 30px;
-    border: 1px solid #19979f;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     margin-bottom: 10px;
     text-align: center;
+    background-color: #d6eced;
 }
 .cure-progs .items:last-child{
     margin-bottom: 0;
@@ -2925,5 +2925,5 @@ border-radius: 5px;
     line-height: 1.3em;
 }
 .cure-progs .title a{
-    color: #19979f
+    color: #008c95
 }
