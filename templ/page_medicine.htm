@@ -366,7 +366,8 @@
 			</thead>
 			<?foreach($v['uslugi'] as $v1){?>
 			<tr <?if($v1['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:<?if($v1['sub']){?>40<?}else{?>30<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;<?}?>" <?if($v1['sel']){?>id="pr<?=$v1['cure_id']?>"<?}?>>
+				<td style="padding-left:<?if($v1['sub'] && !$v1['title']){?>40<?}else{?>30<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;<?}?><?if($v1['title']){?>font-weight:bold;<?}?>" 
+					<?if($v1['sel']){?>id="pr<?=$v1['cure_id']?>"<?}?> >
 					<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}else{?><?=$v1['name']?><?}?></td>
 				<td width="108" style="<?if($v1['sel']){?>background-color:#159fa7!important;<?}?>"><div align="center"><strong><?=$v1['price']?></strong></div></td>
 			</tr>
@@ -375,8 +376,8 @@
 			<tr><td colspan="2"><strong><?=$v1['name']?></strong></td></tr>
 				<?foreach($v1['uslugi'] as $v2){?>
 			<tr <?if($v2['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:<?if($v1['sub']){?>40<?}else{?>30<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;<?}?>" 
-					<?if($v2['sel']){?>id="pr<?=$v2['cure_id']?><?}?>">
+				<td style="padding-left:<?if($v2['sub'] && !$v2['title']){?>40<?}else{?>30<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;<?}?><?if($v2['title']){?>font-weight:bold;<?}?>" 
+					<?if($v2['sel']){?>id="pr<?=$v2['cure_id']?>"<?}?>>
 					<?if($v2['url']){?><a href="<?=$v2['url']?>"><?=$v2['name']?></a><?}else{?><?=$v2['name']?><?}?></td>
 				<td width="108"<?if($v2['sel']){?> style="background-color:#159fa7!important;"<?}?>>
 					<div align="center"><strong><?=$v2['price']?></strong></div></td>

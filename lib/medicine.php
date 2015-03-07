@@ -47,7 +47,7 @@ function uslugi($curestr_id, $cure_id, $sid)
 
 		$uslugi[] = $info_uslugi;
 				
-		if($info_uslugi['table_id']) 
+		if(@$info_uslugi['table_id']) 
 		{						
 			$sql_sect = mysql_query("SELECT table_id, name$englang as name, name1$englang as name1, title FROM ".TABLE_TABLE." 
 				WHERE parent=$info_uslugi[table_id] ORDER BY ord") 

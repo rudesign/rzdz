@@ -176,7 +176,7 @@
 		
 		<p>&nbsp;<br /><b>Таблицы</b></p>
 		
-		<P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить таблицу ›››</a></P>
+		<?if($type!=2 || !count($tables)){?><P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить таблицу ›››</a></P><?}?>
 		<?if(count($tables)){?>
 		<table border="1" style="border-collapse: collapse;" cellpadding="4">
 		<tr align="center">
@@ -186,6 +186,7 @@
 			<td>&nbsp;</td>
 		</tr>
 		<?foreach($tables as $v){?>
+		<?if($type!=2){?>
 		<FORM method="post" enctype="multipart/form-data">
 		<tr align="center" class="maincure">
 			<td width="20"><a name="link<?=$v['table_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
@@ -199,6 +200,7 @@
 		<input type="hidden" name="table_id" value="<?=$v['table_id']?>">
 		<input type="hidden" name="p" value="cure">
 		</FORM>
+		<?}?>
 		<tr>
 			<td>Заголовок</td>
 			<td colspan="4"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить строку ›››</a></td>

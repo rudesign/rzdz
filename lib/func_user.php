@@ -660,7 +660,7 @@ function menu_medicine()
 			}				
 		}
 		
-		if($arr['type']==4 || ($arr['type']==7 && !$extrasite_id && $cure_id==$arr['cure_id']))
+		if($arr['type']==4)// || ($arr['type']==7 && !$extrasite_id && $cure_id==$arr['cure_id']))
 		{
 			$arr['list'] = array();
 			if($arr['type']==7)
