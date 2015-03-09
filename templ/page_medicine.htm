@@ -21,7 +21,7 @@
 						<?if($v1['title'] && !$k){?>
 						<thead>						
 						<tr><td <?if(!$v1['name1']){?>colspan="2"<?}?>><span style="color: #159fa7;"><strong><?=$v1['name']?></strong></span></td>
-							<?if($v1['name1']){?><td><strong><?=$v1['name1']?></strong></td><?}?></tr>
+							<?if($v1['name1']){?><td><span style="color: #159fa7;"><strong><?=$v1['name1']?></strong></span></td><?}?></tr>
 						</thead>
 						<?}else{?>
 						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td>
@@ -94,7 +94,7 @@
                 <?foreach($curehotel as $v){?>
                 <div class="items">
                     <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
-                    <?=$v['name']?> <br /><?=$v['city']?> <br /><?=$v['price']?>
+                    <!--<?=$v['name']?> <br /><?=$v['city']?> <br />--><?=$v['price']?>
                 </div>
                 <?}?>
                 <div class="clearfix"></div>

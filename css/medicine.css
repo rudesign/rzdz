@@ -62,7 +62,7 @@
 }
 
 .medicine-sanatorium-services{
-    background-color: #ebebeb;
+    /*background-color: #ebebeb;*/
     padding: 10px;
 }
 .medicine-sanatorium-services .title{
@@ -74,7 +74,7 @@
     display: inline-block;
     float: left;
     width: 163px;
-    height: 175px;
+    height: 145px;
     margin: 0 26px 0 0;
     text-align: center;
 }
