@@ -431,7 +431,7 @@ if($subcure_id)
 			else 
 			{
 				$price = (int)$info['price'];
-				$info['price'] = $price>0 && $info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars($info['price']);
+				$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
 			}
 			$info['page_link'] = $info['sp_dir'] ?  
 				($cure['type']==2 ? $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank"
@@ -457,15 +457,32 @@ if($subcure_id)
 			
 			$list = array();
 						
-			$sql_sect = mysql_query("SELECT table_id, name$englang as name, name1$englang as name1, title FROM ".TABLE_TABLE." 
+			$rowspan_index = -1; $rowspan = 1; $k=0;
+			$sql_sect = mysql_query("SELECT table_id, name$englang as name, name1$englang as name1, title, rowspan FROM ".TABLE_TABLE." 
 				WHERE parent=$info[table_id] ORDER BY ord") 
 				or Error(1, __FILE__, __LINE__);
 			while($info_sect = @mysql_fetch_array($sql_sect))
 			{ 
 				$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
-				$info_sect['name1'] = HtmlSpecialChars($info_sect['name1']);
+				$info_sect['name1'] = nl2br(HtmlSpecialChars($info_sect['name1']));
 				
-				$list[] = $info_sect;
+				if($info_sect['rowspan']) 
+				{
+					if($rowspan_index==-1) $rowspan_index = $k;
+					else $info_sect['rowspan'] = 1;
+					$rowspan++;
+				}
+				elseif($rowspan>1)
+				{
+					$info_sect['rowspan'] = 1;
+					 $list[$rowspan_index]['rowspan'] = $rowspan;
+					 $rowspan = 1; 
+					 $rowspan_index = -1;
+				}
+				
+				
+				$list[$k] = $info_sect;
+				$k++;
 			}
 			$info['list'] = $list;
 			

@@ -181,7 +181,7 @@
 		<table border="1" style="border-collapse: collapse;" cellpadding="4">
 		<tr align="center">
 			<td>№</td>
-			<td colspan="2">Название</td>
+			<td colspan="3">Название</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -190,7 +190,7 @@
 		<FORM method="post" enctype="multipart/form-data">
 		<tr align="center" class="maincure">
 			<td width="20"><a name="link<?=$v['table_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
-			<td colspan="2"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
+			<td colspan="3"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
 			<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
 			<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
 		</tr>
@@ -203,15 +203,22 @@
 		<?}?>
 		<tr>
 			<td>Заголовок</td>
-			<td colspan="4"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить строку ›››</a></td>
+			<td colspan="2"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить строку ›››</a></td>
+			<td><?if($type!=2){?>&darr;<?}?></td>
 		</tr>
-		<?foreach($v['list'] as $v1){?>
+		<?foreach($v['list'] as $k=>$v1){?>
 		<FORM method="post" enctype="multipart/form-data">
 		<tr align="center">
 			<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
 			<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
 				<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
-			<td><input type="text" name="name1" value="<?=$v1['name1']?>" size="42" maxlength="255"></td>
+			<td><?if(!($k && $v['list'][$k-1]['rowspan'])){?>
+				<?if($v1['rowspan']){?><textarea name="name1" cols="38" rows="5" ><?=$v1['name1']?></textarea>
+				<?}else{?><input type="text" name="name1" value="<?=$v1['name1']?>" size="42"><?}?>
+				<?}?></td>
+			<td><?if($k+1!=count($v['list']) && $type!=2){?>
+				<input type="checkbox" name="rowspan" value="1" <?if($v1['rowspan']){?>checked="checked"<?}?> /><?}?>
+			</td>
 			<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
 			<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>
 		</tr>

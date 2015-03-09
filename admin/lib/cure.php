@@ -538,8 +538,9 @@ if(@$savetable)
 	$name = escape_string(from_form(@$name));
 	$name1 = escape_string(from_form(@$name1));
 	$title = (int)@$title;
+	$rowspan = (int)@$rowspan;
 	
-	mysql_query("UPDATE ".TABLE_TABLE." SET name='$name', name1='$name1', title='$title', ord='$ord' ".
+	mysql_query("UPDATE ".TABLE_TABLE." SET name='$name', name1='$name1', title='$title', ord='$ord', rowspan='$rowspan' ".
 				"WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_TABLE." SET ord=ord-1 ".

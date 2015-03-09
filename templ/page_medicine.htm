@@ -24,7 +24,9 @@
 							<?if($v1['name1']){?><td><strong><?=$v1['name1']?></strong></td><?}?></tr>
 						</thead>
 						<?}else{?>
-						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td><td><?=$v1['name1']?></td></tr>
+						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td>
+							<?if($v1['rowspan']!=1){?><td <?if($v1['rowspan']){?>rowspan="<?=$v1['rowspan']?>"<?}?>><?=$v1['name1']?></td><?}?>
+						</tr>
 						<?}?>
 					<?}?>
 				</table>
