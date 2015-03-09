@@ -250,6 +250,24 @@ if(@$savedescr)
 	exit;
 }
 
+if(@$savecurestr1)
+{
+	$curestr_id = (int)$curestr_id;
+	$name = escape_string(from_form(@$name));
+	$name_en = escape_string(from_form(@$name_en));
+	$description = escape_string(from_form(@$description));
+	$description_en = escape_string(from_form(@$description_en));
+		
+	mysql_query("UPDATE ".TABLE_CURESTR." SET name='$name' , name_en='$name_en', 
+		description='$description', description_en='$description_en'
+		WHERE curestr_id=$curestr_id") 
+	or Error(1, __FILE__, __LINE__);
+	
+	$url = "?p=$part&cure_id=$cure_id&curestrd=$curestr_id";
+	Header("Location: ".$url);
+	exit;
+}
+
 if(@$del_cure)
 {
 	$del_cure = (int)$del_cure;
@@ -406,7 +424,7 @@ if(@$savecurestr)
 	$oldord = (int)@$arr['ord'];
 	$parent = (int)@$arr['parent'];
 	$cure_id = (int)@$arr['cure_id'];
-	
+
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$parent AND cure_id=$cure_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$count = (int)@$arr[0];
@@ -633,208 +651,233 @@ if($cure_id)
 	$cure_type = $replace['type'];
 	
 	if(!$subcure_id)
-	{
-		$replace['name'] = HtmlSpecialChars($replace['name']);		
-		$replace['name_en'] = HtmlSpecialChars($replace['name_en']);
-		$replace['name_extra'] = HtmlSpecialChars($replace['name_extra']);		
-		$replace['name_extra_en'] = HtmlSpecialChars($replace['name_extra_en']);	
-		$replace['inhotel'] = HtmlSpecialChars($replace['inhotel']);		
-		$replace['inhotel_en'] = HtmlSpecialChars($replace['inhotel_en']);	
-		$replace['ord_select'] = ord_select("SELECT name FROM ".TABLE_CURE.
-				" WHERE parent=0 ORDER BY ord", 'ord', $replace['ord']);
-		$replace['type_select'] = array_select('type', $cure_type_list, $replace['type'], 0);
-		$replace['public_select'] = array_select('public', array(0=>'Ќет', 1=>'ƒа'), $replace['public'], 0);
-		
-		if($cure_type==4)
+	{		
+		if(@$curestrd)
 		{
-			$replace['description'] = HtmlSpecialChars($replace['description']);
-			$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
-			$tinymce_elements = 'description, description_en';
-			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
-		}
-		if($cure_id==5 || $cure_id==8)
-		{
-			$replace['description'] = HtmlSpecialChars($replace['description']);
-			$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
+			$replace['name'] = HtmlSpecialChars($replace['name']);		
+			
+			$curestr_id = (int)$curestrd;
+			$sql = mysql_query("SELECT name, name_en, description, description_en FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
+				or Error(1, __FILE__, __LINE__);
+			$curestr = @mysql_fetch_array($sql);
+
+			$replace['curestrd'] = $curestr_id;
+			$curestr['name'] = HtmlSpecialChars($curestr['name']);
+			$curestr['name_en'] = HtmlSpecialChars($curestr['name_en']);
+			$curestr['description'] = HtmlSpecialChars($curestr['description']);
+			$curestr['description_en'] = HtmlSpecialChars($curestr['description_en']);
+			$replace['curestr'] = $curestr;
+			
 			$tinymce_elements = 'description, description_en';
 			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 			
-			$curehotel = array();
-			$page_box = array();
-			
-			$sql = mysql_query("SELECT page_id FROM ".TABLE_CUREHOTEL." WHERE cure_id=$cure_id") 
-				or Error(1, __FILE__, __LINE__);
-			while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = 1;
-				
-			$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
-				LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
-				WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
-				or Error(1, __FILE__, __LINE__);
-			$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
-			
-			$i = 0;	
-			while($info = @mysql_fetch_array($sql_f))
-			{ 
-				$i++; 
-				$newcol = !(($i+$all)%$all) ? 1 : 0; 
-				$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
-				$info['name'] .= " ($info[city])";
-				
-				$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
-						'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
-			}
-				
-			$replace['page_box'] = $page_box;
 		}
-		if(!$replace['partof'])
+		else
 		{
+		
+			$replace['name'] = HtmlSpecialChars($replace['name']);		
+			$replace['name_en'] = HtmlSpecialChars($replace['name_en']);
+			$replace['name_extra'] = HtmlSpecialChars($replace['name_extra']);		
+			$replace['name_extra_en'] = HtmlSpecialChars($replace['name_extra_en']);	
+			$replace['inhotel'] = HtmlSpecialChars($replace['inhotel']);		
+			$replace['inhotel_en'] = HtmlSpecialChars($replace['inhotel_en']);	
+			$replace['ord_select'] = ord_select("SELECT name FROM ".TABLE_CURE.
+					" WHERE parent=0 ORDER BY ord", 'ord', $replace['ord']);
+			$replace['type_select'] = array_select('type', $cure_type_list, $replace['type'], 0);
+			$replace['public_select'] = array_select('public', array(0=>'Ќет', 1=>'ƒа'), $replace['public'], 0);
 			
-			$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
-					" WHERE owner_id=$cure_id AND owner='$photo_owner[cure_part]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
-			$replace['photo'] = '';
-			if($arr_photos = @mysql_fetch_array($sql_photos)) {
-				$photo_id = $arr_photos['photo_id'];
-				$ext = $arr_photos['ext'];
-				$w_small=0; $h_small=0;
-				$f="../images/$photo_dir[cure_part]/${photo_id}-s.$ext";
-				list($w_small, $h_small) = @getimagesize($f);
-				$replace['photo'] = $f;
-				$replace['smallsize'] = "width='$w_small' height='$h_small'";
-				$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id";
-			}		
-		}
-		
-		$sql = mysql_query("SELECT count(*)  FROM ".TABLE_CURE." WHERE partof=$cure_id") 
-			or Error(1, __FILE__, __LINE__);
-		$arr = @mysql_fetch_array($sql);
-		$replace['partof_select'] =  !$arr[0] ? mysql_select('partof', "SELECT cure_id, name FROM ".TABLE_CURE.
-				" WHERE parent=0 AND cure_id!=$cure_id AND !partof ORDER BY ord", $replace['partof'], 1) : '';
-		
-		$ord = $cure_type==2 ? 'name' : 'ord';
-		$sql = mysql_query("SELECT cure_id, name, anons FROM ".TABLE_CURE." WHERE parent=$cure_id ORDER BY $ord") or Error(1, __FILE__, __LINE__);
-		
-		$cures = array(); 
-		$all = (mysql_num_rows($sql)%4) ? (int)(mysql_num_rows($sql)/4)+1 : mysql_num_rows($sql)/4; 
-		$k=0;
-		while($info = @mysql_fetch_array($sql))
-		{ 
-			$k++; 
-			$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
-			$info['title'] = HtmlSpecialChars($info['anons']);		
-			
-			$info['del_link'] = ""; $info['icount'] = 0;
-			if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
-			else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id";
-		
-			$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
-			
-			$info['newcol'] = !(($k+$all)%$all) && $k!=mysql_num_rows($sql) ? 1 : 0; 
-			$cures[] = $info;
-		}
-	
-		$replace['cure_list'] = $cures;
-		
-		if($cure_type==2)
-		{		
-			$replace['service'] = isset($service) ? 1 : 0;
-			
-			if($replace['service'])
+			if($cure_type==4)
 			{
-				$replace['curestr_id'] = $curestr_id = (int)@$curestr_id;
+				$replace['description'] = HtmlSpecialChars($replace['description']);
+				$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
+				$tinymce_elements = 'description, description_en';
+				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+			}
+			if($cure_id==5 || $cure_id==8)
+			{
+				$replace['description'] = HtmlSpecialChars($replace['description']);
+				$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
+				$tinymce_elements = 'description, description_en';
+				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 				
-				$page_id = 22;
-				$replace['san_select'] = mysql_select('page_id', 
-						"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
-						LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
-						$page_id);
+				$curehotel = array();
+				$page_box = array();
 				
-				$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+				$sql = mysql_query("SELECT page_id FROM ".TABLE_CUREHOTEL." WHERE cure_id=$cure_id") 
 					or Error(1, __FILE__, __LINE__);
+				while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = 1;
+					
+				$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
+					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+					WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
+					or Error(1, __FILE__, __LINE__);
+				$all = (mysql_num_rows($sql_f)%2) ? (int)(mysql_num_rows($sql_f)/2)+1 : mysql_num_rows($sql_f)/2; 
 				
-				$select =  "<select name=\"curestr_id\" ".
-					"onchange=\"document.location='?p=$part&cure_id=$cure_id&service&curestr_id='+this.value\">\n";
-				$select .= "<option value='0'>все</option>\n";
-				while($info = @mysql_fetch_array($sql))
+				$i = 0;	
+				while($info = @mysql_fetch_array($sql_f))
 				{ 
-					$info['name'] = HtmlSpecialChars($info['name']);
-					if(!$info['name']) $info['name'] = NONAME;
+					$i++; 
+					$newcol = !(($i+$all)%$all) ? 1 : 0; 
+					$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
+					$info['name'] .= " ($info[city])";
 					
-					$sel = ($curestr_id == $info['curestr_id']) ? 'selected' : '';
+					$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
+							'newcol'=>$newcol, 'checked'=>$ch, 'name'=>$info['name']);
+				}
 					
-					$select .= "<option value='$info[curestr_id]' $sel>".$info['name']."</option>\n";
-					//$select .= '<optgroup label="'.$info['name'].'">';
+				$replace['page_box'] = $page_box;
+			}
+			if(!$replace['partof'])
+			{
+				
+				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
+						" WHERE owner_id=$cure_id AND owner='$photo_owner[cure_part]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+				$replace['photo'] = '';
+				if($arr_photos = @mysql_fetch_array($sql_photos)) {
+					$photo_id = $arr_photos['photo_id'];
+					$ext = $arr_photos['ext'];
+					$w_small=0; $h_small=0;
+					$f="../images/$photo_dir[cure_part]/${photo_id}-s.$ext";
+					list($w_small, $h_small) = @getimagesize($f);
+					$replace['photo'] = $f;
+					$replace['smallsize'] = "width='$w_small' height='$h_small'";
+					$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id";
+				}		
+			}
+			
+			$sql = mysql_query("SELECT count(*)  FROM ".TABLE_CURE." WHERE partof=$cure_id") 
+				or Error(1, __FILE__, __LINE__);
+			$arr = @mysql_fetch_array($sql);
+			$replace['partof_select'] =  !$arr[0] ? mysql_select('partof', "SELECT cure_id, name FROM ".TABLE_CURE.
+					" WHERE parent=0 AND cure_id!=$cure_id AND !partof ORDER BY ord", $replace['partof'], 1) : '';
+			
+			$ord = $cure_type==2 ? 'name' : 'ord';
+			$sql = mysql_query("SELECT cure_id, name, anons FROM ".TABLE_CURE." WHERE parent=$cure_id ORDER BY $ord") or Error(1, __FILE__, __LINE__);
+			
+			$cures = array(); 
+			$all = (mysql_num_rows($sql)%4) ? (int)(mysql_num_rows($sql)/4)+1 : mysql_num_rows($sql)/4; 
+			$k=0;
+			while($info = @mysql_fetch_array($sql))
+			{ 
+				$k++; 
+				$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+				$info['title'] = HtmlSpecialChars($info['anons']);		
+				
+				$info['del_link'] = ""; $info['icount'] = 0;
+				if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
+				else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id";
+			
+				$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
+				
+				$info['newcol'] = !(($k+$all)%$all) && $k!=mysql_num_rows($sql) ? 1 : 0; 
+				$cures[] = $info;
+			}
+		
+			$replace['cure_list'] = $cures;
+			
+			if($cure_type==2)
+			{		
+				$replace['service'] = isset($service) ? 1 : 0;
+				
+				if($replace['service'])
+				{
+					$replace['curestr_id'] = $curestr_id = (int)@$curestr_id;
 					
-					$sql_sect = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+					$page_id = 22;
+					$replace['san_select'] = mysql_select('page_id', 
+							"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
+							LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
+							$page_id);
+					
+					$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 						or Error(1, __FILE__, __LINE__);
-					while($info_sect = @mysql_fetch_array($sql_sect))
-					{ 
-						$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
-						if(!$info_sect['name']) $info_sect['name'] = NONAME;
-						
-						$sel = ($curestr_id == $info_sect['curestr_id']) ? 'selected' : '';
 					
-						$select .= "<option value='$info_sect[curestr_id]' $sel style='padding-left:20px'>".$info_sect['name']."</option>\n";
+					$select =  "<select name=\"curestr_id\" ".
+						"onchange=\"document.location='?p=$part&cure_id=$cure_id&service&curestr_id='+this.value\">\n";
+					$select .= "<option value='0'>все</option>\n";
+					while($info = @mysql_fetch_array($sql))
+					{ 
+						$info['name'] = HtmlSpecialChars($info['name']);
+						if(!$info['name']) $info['name'] = NONAME;
+						
+						$sel = ($curestr_id == $info['curestr_id']) ? 'selected' : '';
+						
+						$select .= "<option value='$info[curestr_id]' $sel>".$info['name']."</option>\n";
+						//$select .= '<optgroup label="'.$info['name'].'">';
+						
+						$sql_sect = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+							or Error(1, __FILE__, __LINE__);
+						while($info_sect = @mysql_fetch_array($sql_sect))
+						{ 
+							$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+							if(!$info_sect['name']) $info_sect['name'] = NONAME;
+							
+							$sel = ($curestr_id == $info_sect['curestr_id']) ? 'selected' : '';
+						
+							$select .= "<option value='$info_sect[curestr_id]' $sel style='padding-left:20px'>".$info_sect['name']."</option>\n";
+						}
+					}
+									
+					$select.="</select>";
+					$replace['curestr_select'] = $select;
+					
+					//if($curestr_id)
+					{
+						$where = "parent=$cure_id";
+						if($curestr_id) $where .= " AND curestr_id=$curestr_id";
+						$ord = $curestr_id ? 'ord' : 'name';
+						$sql = mysql_query("SELECT cure_id, name, inmenu FROM ".TABLE_CURE." WHERE  $where ORDER BY $ord") 
+							or Error(1, __FILE__, __LINE__);
+						
+						$cures = array(); 
+						while($info = @mysql_fetch_array($sql))
+						{ 
+							$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+							
+							$info['del_link'] = ""; $info['icount'] = 0;
+							if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
+							else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id&curestr_id=$curestr_id";
+						
+							$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
+							
+							$info['inmenu_link'] = "?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&subcure_id=$info[cure_id]&inmenu=";
+							$info['inmenu_link'] .= $info['inmenu'] ? "0" : "1";
+							
+							$info['inmenu_alt'] = $info['inmenu'] ? "убрать из меню основного сайта" : "добавить в меню основного сайта";
+							
+							$cures[] = $info;
+						}
+						$replace['cure_list'] = $cures;
 					}
 				}
-								
-				$select.="</select>";
-				$replace['curestr_select'] = $select;
 				
-				//if($curestr_id)
+				else
 				{
-					$where = "parent=$cure_id";
-					if($curestr_id) $where .= " AND curestr_id=$curestr_id";
-					$ord = $curestr_id ? 'ord' : 'name';
-					$sql = mysql_query("SELECT cure_id, name, inmenu FROM ".TABLE_CURE." WHERE  $where ORDER BY $ord") 
-						or Error(1, __FILE__, __LINE__);
+					$sql = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
 					
 					$cures = array(); 
 					while($info = @mysql_fetch_array($sql))
 					{ 
-						$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+						$info['name'] = HtmlSpecialChars($info['name']);		
 						
-						$info['del_link'] = ""; $info['icount'] = 0;
-						if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
-						else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id&curestr_id=$curestr_id";
+						$sql1 = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
+						or Error(1, __FILE__, __LINE__);	
+						$list = array(); 
+						while($info1 = @mysql_fetch_array($sql1))
+						{ 
+							$info1['name'] = HtmlSpecialChars($info1['name']);							
+							$list[] = $info1;
+						}
+						$info['list'] = $list;
 					
-						$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
-						
-						$info['inmenu_link'] = "?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&subcure_id=$info[cure_id]&inmenu=";
-						$info['inmenu_link'] .= $info['inmenu'] ? "0" : "1";
-						
-						$info['inmenu_alt'] = $info['inmenu'] ? "убрать из меню основного сайта" : "добавить в меню основного сайта";
-						
 						$cures[] = $info;
 					}
-					$replace['cure_list'] = $cures;
+				
+					$replace['curestrs'] = $cures;
 				}
 			}
-			
-			else
-			{
-				$sql = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
-				or Error(1, __FILE__, __LINE__);
-				
-				$cures = array(); 
-				while($info = @mysql_fetch_array($sql))
-				{ 
-					$info['name'] = HtmlSpecialChars($info['name']);		
-					
-					$sql1 = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
-					or Error(1, __FILE__, __LINE__);	
-					$list = array(); 
-					while($info1 = @mysql_fetch_array($sql1))
-					{ 
-						$info1['name'] = HtmlSpecialChars($info1['name']);							
-						$list[] = $info1;
-					}
-					$info['list'] = $list;
-				
-					$cures[] = $info;
-				}
-			
-				$replace['curestrs'] = $cures;
-			}
+		
 		}
 	}
 	

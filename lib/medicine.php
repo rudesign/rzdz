@@ -209,11 +209,55 @@ if($cure_id)
 		}
 		elseif($cure['type']==3 && !$extrasite_id)
 		{
+			if($cure['cure_id']==8)
+			{
+				if(@$curestr_id)
+				{
+					$sql = mysql_query("SELECT name$englang as name, description$englang as description 
+						FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
+						or Error(1, __FILE__, __LINE__);
+					$curestr = @mysql_fetch_array($sql);
+					$cure['description'] = $curestr['description'];
+					
+					$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
+					$navig[] = array('name'=>$curestr['description'], 'link'=>'');
+				}
+				else
+				{
+					$curestr = array();
+					$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=9 ORDER BY ord") 
+						or Error(1, __FILE__, __LINE__);
+					
+					$curestr =  array();
+					while($info = @mysql_fetch_array($sql))
+					{ 
+						$info['name'] = HtmlSpecialChars($info['name']);
+						if(!$info['name']) $info['name'] = NONAME;
+						
+						$info['link'] = "$lprefix/medicine/$cure_id/?curestr_id=$info[curestr_id]";
+						
+						$curestr[] = $info;
+					}
+					$replace['curestr'] = $curestr;
+				}
+			}
+			
+			if(@$curestr_id)
+			{
+				$arr = array();
+				$sql = mysql_query("SELECT cure_id FROM ".TABLE_CURE." WHERE curestr_id=$curestr_id") 
+					or Error(1, __FILE__, __LINE__);
+				while($info = @mysql_fetch_array($sql)) $arr[] = "h.cure_id=$info[cure_id]";
+				if(count($arr)) $where = "(".join(" OR ", $arr).")";
+				else $where = "h.cure_id=-1";
+			}
+			else $where = "h.cure_id=$cure[cure_id]";
+			
 			$curehotel = array(); 
-			$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city,  
+			$sql = mysql_query("SELECT h.cure_id, p.page_id, p.name$englang as name, ct.name$englang as city,  
 				fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 				FROM ".TABLE_PAGE." p
-				LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=$cure[cure_id] AND h.page_id=p.page_id)
+				LEFT JOIN ".TABLE_CUREHOTEL." h  ON ($where AND h.page_id=p.page_id)
 				LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
 				LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
 				LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
@@ -229,10 +273,14 @@ if($cure_id)
 				$info['name'] = htmlspecialchars($info['name']);
 				$info['city'] = htmlspecialchars($info['city']);
 				
-				$info['page_link'] = $info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]"; 
+				$info['page_link'] = $info['sp_dir'] ?  
+					( ($cure_id==8 && @$curestr_id) ? $info['sp_dir']."/medicine/9/?sid=$info[cure_id]#price\" target=\"_blank" 
+						:  $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank") : 
+					"$lprefix/media/?s_id=$info[page_id]"; 
 				$curehotel[] = $info;	
 			}
 			$replace['curehotel'] = $curehotel;
+			
 		}
 		elseif($cure['type']==3 && $extrasite_id)
 		{

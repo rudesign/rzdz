@@ -451,11 +451,22 @@
 		<?}?>
 			
 		
+				
 	<?}elseif($cure['type']==3){?>		
 		
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		<p>&nbsp;</p>
+		
+		<?if($cure['cure_id']==8 && !$extrasite_id && @count($curestr)){?>		
+			<table class="zebra">
+				<?foreach($curestr as $k=>$v){?>
+					<tr><td><a href="<?=$v['link']?>"><?=$v['name']?></a></td>
+					</tr>
+				<?}?>
+			</table>
+			<p>&nbsp;</p>
+		<?}?>
 		
         <?if(@count($curehotel)){?>
 		<div class="medicine-sanatorium-services section">

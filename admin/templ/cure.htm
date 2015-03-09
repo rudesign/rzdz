@@ -1,6 +1,24 @@
 <?if(!$subcure_id){?>
 
-<?if(!@$service){?>
+<?if(@$curestrd){?>
+<form name="edit-form" method="post">
+    <p><a href="?p=cure&cure_id=<?=$cure_id?>"><?=$name?></a></p>
+	<table cellpadding="2">
+
+	<tr><td>Название раздела: </td>
+		<td><input type="text" name="name" value="<?=$curestr['name']?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название раздела eng: </td><td><input type="text" name="name_en" value="<?=$curestr['name_en']?>" maxlength="255" size="50"></td></tr>
+        <tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$curestr['description']?></textarea> 
+        </td></tr>
+        <tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$curestr['description_en']?></textarea>
+        </td></tr>
+        <tr><td></td><td><input type="submit" name="savecurestr1" value="Сохранить" class="button"></td></tr>
+        </table>
+        <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+        <input type="hidden" name="curestr_id" value="<?=$curestrd?>">
+        <input type="hidden" name="p" value="cure">
+        </form>
+<?}elseif(!@$service){?>
 <form name="edit-form" method="post" enctype="multipart/form-data">
 <table><tr><td>
 	<table cellpadding="2">
@@ -50,7 +68,7 @@
 </form>
 <?}?>
 
-<?if($type==2){?>
+<?if($type==2 && !@$curestrd){?>
 	<?if($service){?>
 	
 	<p><a href="?p=cure&cure_id=<?=$cure_id?>">Структура</a> &nbsp;&nbsp; <b>Услуги</b></p>
@@ -106,7 +124,8 @@
 	</FORM>
 	<tr>
 		<td></td>
-		<td colspan="3"><a href="?p=cure&addcurestr=<?=$v['curestr_id']?>&cure_id=<?=$cure_id?>">Добавить подраздел ›››</a></td>
+		<td colspan="2"><a href="?p=cure&addcurestr=<?=$v['curestr_id']?>&cure_id=<?=$cure_id?>">Добавить подраздел ›››</a></td>
+		<td><?if($cure_id==9){?><a href="?p=cure&curestrd=<?=$v['curestr_id']?>&cure_id=<?=$cure_id?>">Описание</a><?}?></td>
 	</tr>
 	<?foreach($v['list'] as $v1){?>
 	<FORM method="post" enctype="multipart/form-data">
