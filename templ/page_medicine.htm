@@ -25,7 +25,7 @@
 						</thead>
 						<?}else{?>
 						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td>
-							<?if($v1['rowspan']!=1){?><td <?if($v1['rowspan']){?>rowspan="<?=$v1['rowspan']?>" style="text-align:center"<?}?>><?=$v1['name1']?></td><?}?>
+							<?if($v1['rowspan']!=1){?><td style="text-align:center" <?if($v1['rowspan']){?>rowspan="<?=$v1['rowspan']?>"<?}?>><?=$v1['name1']?></td><?}?>
 						</tr>
 						<?}?>
 					<?}?>
