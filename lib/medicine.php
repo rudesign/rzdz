@@ -194,6 +194,9 @@ if($cure_id)
 				
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
 				
+				$price = (int)$info['price'];
+				$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
+				
 				$f= @$info['photo_id'] ? "images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]" : '';
 				if($f && file_exists($f))
 				{

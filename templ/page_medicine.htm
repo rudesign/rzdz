@@ -345,7 +345,7 @@
             <div class="cure-progs">
                 <?foreach($cure_list as $k=>$v){?>
                 <div class="items">
-                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a></div>
+                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a><?if(@$v['price']){?><br /><?=$v['price']?><?}?></div>
                     <div class="teaser"><?=$v['teaser']?></div>
                 </div>
                 <?}?>
