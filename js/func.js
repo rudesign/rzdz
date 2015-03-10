@@ -185,8 +185,12 @@ function detectFlash(){
 
 function ShowCureList(curestr_id)
 {
-	var obj = document.getElementById('u'+curestr_id); 
-	obj.style.display = obj.style.display=='none' ? '' : 'none';
+	if(document.getElementById('u'+curestr_id)!=null ); 
+	document.getElementById('u'+curestr_id).style.display = document.getElementById('u'+curestr_id).style.display=='none' ? '' : 'none';
+	
+	if(document.getElementById('l'+curestr_id)!=null ); 
+	document.getElementById('l'+curestr_id).style.display = document.getElementById('l'+curestr_id).style.display=='none' ? '' : 'none';
+	
 }
 
 function ShowAllCureList(mode)
@@ -197,6 +201,8 @@ function ShowAllCureList(mode)
 	{
 		if(document.getElementById('u'+CureList[i])!=null) 
 			document.getElementById('u'+CureList[i]).style.display = mode==1 ? '' : 'none';
+		if(document.getElementById('l'+CureList[i])!=null) 
+			document.getElementById('l'+CureList[i]).style.display = mode==1 ? '' : 'none';
 	}
 }
 

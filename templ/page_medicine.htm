@@ -419,14 +419,8 @@
 				<?if(count($v['uslugi']) || count($v['list'])){?><a href="javascript:ShowCureList(<?=$v['curestr_id']?>)"><?=$v['name']?></a>
 				<?}else{?><?=$v['name']?><?}?>
 			</li>
-			<?if(count($v['uslugi'])){?>
-			<ul id="u<?=$v['curestr_id']?>" style="display:none">
-			<?foreach($v['uslugi'] as $i=>$v1){?>
-			<li style="padding-left:30px;"><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
-			<?}?>
-			</ul>
-			<?}elseif(count($v['list'])){?>
-			<ul id="u<?=$v['curestr_id']?>" style="display:none">
+			<?if(count($v['list'])){?>
+			<ul id="l<?=$v['curestr_id']?>" style="display:none">
 			<?foreach($v['list'] as $v1){?>
 			<li>
 				<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
@@ -441,6 +435,13 @@
 			</ul>
 				<?}?>
 			
+			<?}?>
+			</ul>
+			<?}?>
+			<?if(count($v['uslugi'])){?>
+			<ul id="u<?=$v['curestr_id']?>" style="display:none">
+			<?foreach($v['uslugi'] as $i=>$v1){?>
+			<li <?if(!count($v['list'])){?>style="padding-left:30px;"<?}?>><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
 			<?}?>
 			</ul>
 			<?}?>
