@@ -260,12 +260,13 @@ switch($_POST['type']){
 
 					<div class="extra-gallery-info">
 					    <div class="extra-gallery-close" onclick="hideGalleryInfo();"></div>';
+                            //  http://rzdz.ru/library/virtual/chernomor/index.html
                             foreach($rows as $row){
 								$html .= '
 						        <div class="items">
                                     '.$row['alt'].'
                                     <br /><br />
-                                    <a target="_blank" title="" href="'.$row['description'].'">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</a>
+                                    <a target="_blank" title="" href="'.$row['description'].'">Посмотреть...</a>
                                 </div>';
 							}
 			        $html .= '

@@ -1140,9 +1140,11 @@ text-align:center;
 }
 .for_ch_ar .name{
     display: table-cell;
+    width: 163px;
     height: 2.5em;
-    vertical-align: bottom;
     padding-bottom: 0.5em;
+    vertical-align: bottom;
+    text-align: center;
 }
 .for_ch_ar .links a{
     display: inline-block;
@@ -1952,7 +1954,7 @@ display:block;
 height:245px;
 }
 .for_slider_li_chh{
-background:#dee7bf!important;
+
 }
 .landing_info{
 margin-top:-4px;
@@ -2913,7 +2915,7 @@ border-radius: 5px;
     -webkit-border-radius: 5px;
     margin-bottom: 10px;
     text-align: center;
-    background-color: #d6eced;
+    background-color: #ebebeb;
 }
 .cure-progs .items:last-child{
     margin-bottom: 0;

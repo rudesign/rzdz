@@ -27,11 +27,14 @@
     vertical-align: middle;
     bottom: 0;
     width: 100%;
-    padding: 11px 0;
     text-align: center;
     font-size: 16px;
 }
 .medicine-main-grid .items .title a{
+    display: table-cell;
+    width: 300px;
+    height: 60px;
+    vertical-align: middle;
     color: #fff;
     text-decoration: none;
 }
