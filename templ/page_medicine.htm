@@ -25,7 +25,7 @@
 						</thead>
 						<?}else{?>
 						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td>
-							<?if($v1['rowspan']!=1){?><td <?if($v1['rowspan']){?>rowspan="<?=$v1['rowspan']?>"<?}?>><?=$v1['name1']?></td><?}?>
+							<?if($v1['rowspan']!=1){?><td <?if($v1['rowspan']){?>rowspan="<?=$v1['rowspan']?>" style="text-align:center"<?}?>><?=$v1['name1']?></td><?}?>
 						</tr>
 						<?}?>
 					<?}?>
@@ -552,6 +552,7 @@
     <?}?>
 <?}else{?>
 		<?if($extrasite_id){?>
+		<p style="color: #008C95;"><b><?=$lang_phrases['cureprofile']?></b></p>
 		<table class="zebra">
 			<?foreach($cure_list as $k=>$v){?>
 			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td></tr>

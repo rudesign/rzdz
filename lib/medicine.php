@@ -546,8 +546,17 @@ if(!$cure_id && !$subcure_id)
 	$blocks = array();
 	$and = $extrasite_id ? " AND c.inmenu AND c.cure_id!=1" : '';
 	$fn = $extrasite_id ? "if(c.name_extra$englang!='',c.name_extra$englang,c.name$englang)" : "c.name$englang";
+	
+	$table_plus = '';
+	if($extrasite_id)
+	{
+		$table_plus = "LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.cure_id=c.cure_id AND ch.page_id=$extrasite_id)";
+		$and .= " AND ch.cure_id IS NOT NULL";
+	}
+	
 	$sql = mysql_query("SELECT c.cure_id, c.type, $fn as name, f.photo_id, f.ext FROM ".TABLE_CURE." c 
 		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[cure_part] AND f.owner_id=c.cure_id)
+		$table_plus 
 		WHERE !c.partof AND !c.parent AND c.public AND f.photo_id $and
 		ORDER by c.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))

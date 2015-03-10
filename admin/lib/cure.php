@@ -700,6 +700,9 @@ if($cure_id)
 				$tinymce_elements = 'description, description_en';
 				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 				
+			}
+			if(!$replace['partof'])
+			{
 				$curehotel = array();
 				$page_box = array();
 				
@@ -726,9 +729,6 @@ if($cure_id)
 				}
 					
 				$replace['page_box'] = $page_box;
-			}
-			if(!$replace['partof'])
-			{
 				
 				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
 						" WHERE owner_id=$cure_id AND owner='$photo_owner[cure_part]' ORDER BY ord") or Error(1, __FILE__, __LINE__);

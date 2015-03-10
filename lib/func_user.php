@@ -631,8 +631,17 @@ function menu_medicine()
 	
 	$nf = $extrasite_id ? "(if(p.name_extra$englang!='',p.name_extra$englang,p.name$englang))" : "p.name$englang";
 	$w =  $extrasite_id ? " AND p.inmenu" : '';
+	
+	$table_plus = '';
+	if($extrasite_id)
+	{
+		$table_plus = "LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.cure_id=p.cure_id AND ch.page_id=$extrasite_id)";
+		$w .= " AND ch.cure_id IS NOT NULL";
+	}
+	
 	$sql = mysql_query("SELECT p.cure_id, $nf as name, p.type
 		FROM ".TABLE_CURE."  p
+		$table_plus
 		WHERE p.parent=0 AND !p.partof AND p.public $w 
 		ORDER BY p.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))

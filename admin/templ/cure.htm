@@ -38,7 +38,7 @@
 	<?if($type==4 || $cure_id==5 || $cure_id==8){?><tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$description?></textarea> </td></tr>
 	<tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$description_en?></textarea> </td></tr><?}?>
 	
-	<?if($cure_id==5 || $cure_id==8){?><tr><td>Санатории:</td><td>
+	<?if(!$partof && $cure_id!=1){?><tr><td>Санатории:</td><td>
 	<table>
 	<tr><td>Наличие</td></tr>
 	<?foreach($page_box as $k=>$v){?>
@@ -61,7 +61,7 @@
     </p>
 </td><?}?>
 </tr>
-    <tr><td align="right"><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+    <tr><td align="center"><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
 </table>
     <input type="hidden" name="cure_id" value="<?=$cure_id?>">
     <input type="hidden" name="p" value="cure">
