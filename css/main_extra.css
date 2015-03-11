@@ -986,9 +986,11 @@ font-weight:normal;
 }
 .simple_content img{
     display: block;
+    /*
     border-radius:5px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
+    */
     behavior: url(PIE.htc);
 }
 .simple_content img.rub{
