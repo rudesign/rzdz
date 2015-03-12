@@ -121,7 +121,7 @@ if($cure_id)
 	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
 	$fields = "cure_id, $fn as name, type, inhotel$englang ";
 	if(!$subcure_id)  $fields .=  ", description$englang as description";
-	if($subcure_id)  $fields .=  ", inhotel$englang as inhotel";
+	if($subcure_id && @$curestr_id)  $fields .=  ", inhotel$englang as inhotel";
 	  
 	$sql = mysql_query("SELECT $fields 
 		FROM ".TABLE_CURE." WHERE cure_id=$cure_id AND public") or Error(1, __FILE__, __LINE__);
@@ -255,6 +255,7 @@ if($cure_id)
 			}
 			else $where = "h.cure_id=$cure[cure_id]";
 			
+			$cure['inhotel'] = str_replace("[service]", @$curestr['name'], $cure['inhotel']);
 			$curehotel = array(); 
 			$sql = mysql_query("SELECT h.cure_id, p.page_id, p.name$englang as name, ct.name$englang as city,  
 				fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
