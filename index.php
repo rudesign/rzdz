@@ -3,9 +3,7 @@
 require 'admin/config.php';
 require 'lib/func.php';
 require 'lib/func_user.php';
-
 require 'admin/lang.php';
-
 require 'admin/settings.php';
 
 session_name(SES_NAME);
@@ -55,6 +53,7 @@ for($i=0;$i<10;$i++) { if(!$request[$i]) break; $lang_arr[$i] = $request[$i]; }
 
 $medicine = $request[0]=='medicine' || ($request[1]=='medicine') ? 1 : 0;
 $part = $medicine ? 'medicine' : $request[0];
+
 $current_page = ((int)@$page < 1) ? 1 : (int)@$page;
 
 $meta_tags = array('title'=>'', 'description'=>'', 'keywords'=>'', 'topimg_id'=>'');
@@ -64,7 +63,6 @@ $san_id = 0;
 $sanat_id = 0;
 $width100 = 0;
 $navig = array();
-
 
 if($part)
 {
@@ -264,8 +262,8 @@ if($part)
 		}
 	}
 }
-if(!$extrasite_id && !count($navig)) $navig = array(0=>array('name'=>$lang_phrases['home'], 'link'=>"$lprefix/"));
 
+if(!$extrasite_id && !count($navig)) $navig = array(0=>array('name'=>$lang_phrases['home'], 'link'=>"$lprefix/"));
 
 $sql = mysql_query("SELECT d.dir FROM ".TABLE_PAGE."  p
 	LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id) 
@@ -292,8 +290,13 @@ elseif($part == 'spec') {
 	require 'lib/spec.php';
 }
 
-elseif($part == 'site') { 
-	require 'lib/site.php';
+elseif($part == 'site') {
+    // @TODO Remove this condition when ready
+    if(isset($_GET['poll'])) {
+        $content = get_template("templ/poll.htm", array());
+    }else{
+        require 'lib/site.php';
+    }
 }
 
 elseif($medicine) { 
@@ -324,7 +327,9 @@ elseif($part == 'sitemap') {
 	require 'lib/sitemap.php';
 	get_page_info($part);
 	$navig[] = array('name'=>$lang_phrases['sitemap'], 'link'=>'');
-} else
+}
+
+else
 { 
 	page404();
 }
@@ -399,6 +404,7 @@ if($extrasite_id)
 if(isset($_GET['print'])) $file =  "print.htm";
 elseif($extrasite_id)  $file =  "index_extra.htm";
 else  $file =  "index.htm" ;
+
 require 'templ/'.$file;
 $_SESSION['message']='';
 ?>
