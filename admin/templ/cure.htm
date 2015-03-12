@@ -125,7 +125,7 @@
 	<tr>
 		<td></td>
 		<td colspan="2"><a href="?p=cure&addcurestr=<?=$v['curestr_id']?>&cure_id=<?=$cure_id?>">Добавить подраздел ›››</a></td>
-		<td><?if($cure_id==9){?><a href="?p=cure&curestrd=<?=$v['curestr_id']?>&cure_id=<?=$cure_id?>">Описание</a><?}?></td>
+		<td><?if($v['descrlink']){?><a href="<?=$v['descrlink']?>">Описание</a><?}?></td>
 	</tr>
 	<?foreach($v['list'] as $v1){?>
 	<FORM method="post" enctype="multipart/form-data">
