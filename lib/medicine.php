@@ -121,7 +121,7 @@ if($cure_id)
 	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
 	$fields = "cure_id, $fn as name, type, inhotel$englang ";
 	if(!$subcure_id)  $fields .=  ", description$englang as description";
-	if($subcure_id)  $fields .=  ", inhotel$englang as inhotel";
+	if($subcure_id && @$curestr_id)  $fields .=  ", inhotel$englang as inhotel";
 	  
 	$sql = mysql_query("SELECT $fields 
 		FROM ".TABLE_CURE." WHERE cure_id=$cure_id AND public") or Error(1, __FILE__, __LINE__);
@@ -210,43 +210,42 @@ if($cure_id)
 			}
 			$replace['cure_list'] = $cures;
 		}
-		elseif($cure['type']==3 && !$extrasite_id)
+		elseif( ($cure['type']==3 || ($cure['type']==2 && @$curestr_id)) && !$extrasite_id)
 		{
-			if($cure['cure_id']==8)
+			
+			if(@$curestr_id)
 			{
-				if(@$curestr_id)
-				{
-					$sql = mysql_query("SELECT name$englang as name, description$englang as description 
-						FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
-						or Error(1, __FILE__, __LINE__);
-					$curestr = @mysql_fetch_array($sql);
-					$cure['description'] = $curestr['description'];
+				$sql = mysql_query("SELECT name$englang as name, description$englang as description 
+					FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
+					or Error(1, __FILE__, __LINE__);
+				$curestr = @mysql_fetch_array($sql);
+				$cure['description'] = $curestr['description'];
+				
+				$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
+				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
+			}
+			elseif($cure['cure_id']==8)
+			{
+				$curestr = array();
+				$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=9 ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
+				
+				$curestr =  array();
+				while($info = @mysql_fetch_array($sql))
+				{ 
+					$info['name'] = HtmlSpecialChars($info['name']);
+					if(!$info['name']) $info['name'] = NONAME;
 					
-					$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
-					$navig[] = array('name'=>$curestr['description'], 'link'=>'');
-				}
-				else
-				{
-					$curestr = array();
-					$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=9 ORDER BY ord") 
-						or Error(1, __FILE__, __LINE__);
+					$info['link'] = "$lprefix/medicine/$cure_id/?curestr_id=$info[curestr_id]";
 					
-					$curestr =  array();
-					while($info = @mysql_fetch_array($sql))
-					{ 
-						$info['name'] = HtmlSpecialChars($info['name']);
-						if(!$info['name']) $info['name'] = NONAME;
-						
-						$info['link'] = "$lprefix/medicine/$cure_id/?curestr_id=$info[curestr_id]";
-						
-						$curestr[] = $info;
-					}
-					$replace['curestr'] = $curestr;
+					$curestr[] = $info;
 				}
+				$replace['curestr'] = $curestr;
 			}
 			
 			if(@$curestr_id)
 			{
+				$replace['curestr_id'] = $curestr_id = (int)@$curestr_id;
 				$arr = array();
 				$sql = mysql_query("SELECT cure_id FROM ".TABLE_CURE." WHERE curestr_id=$curestr_id") 
 					or Error(1, __FILE__, __LINE__);
@@ -256,6 +255,7 @@ if($cure_id)
 			}
 			else $where = "h.cure_id=$cure[cure_id]";
 			
+			$cure['inhotel'] = str_replace("[service]", @$curestr['name'], $cure['inhotel']);
 			$curehotel = array(); 
 			$sql = mysql_query("SELECT h.cure_id, p.page_id, p.name$englang as name, ct.name$englang as city,  
 				fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
@@ -278,8 +278,9 @@ if($cure_id)
 				
 				$info['page_link'] = $info['sp_dir'] ?  
 					( ($cure_id==8 && @$curestr_id) ? $info['sp_dir']."/medicine/9/?sid=$info[cure_id]#price\" target=\"_blank" 
-						:  $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank") : 
-					"$lprefix/media/?s_id=$info[page_id]"; 
+						:  @$curestr_id ? $info['sp_dir']."/medicine/$cure_id/?sid=$info[cure_id]#price\" target=\"_blank"
+							: $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank"						
+					) : "$lprefix/media/?s_id=$info[page_id]"; 
 				$curehotel[] = $info;	
 			}
 			$replace['curehotel'] = $curehotel;
@@ -312,6 +313,8 @@ if($cure_id)
 			{ 
 				$info['name'] = HtmlSpecialChars($info['name']);
 				if(!$info['name']) $info['name'] = NONAME;
+				
+				$info['url'] = $link_medicine."$cure_id/"."?curestr_id=$info[curestr_id]";
 				
 				$list = array();
 				

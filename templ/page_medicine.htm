@@ -354,7 +354,7 @@
 		<?}?>
 		
 		
-	<?}elseif($cure['type']==2){?>
+	<?}elseif($cure['type']==2 && !@$curestr_id){?>
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		
@@ -417,7 +417,7 @@
 		<ul class="drevo">
 			<li class="top">
 				<?if(count($v['uslugi']) || count($v['list'])){?><a href="javascript:ShowCureList(<?=$v['curestr_id']?>)"><?=$v['name']?></a>
-				<?}else{?><?=$v['name']?><?}?>
+				<?}else{?><a href="<?=$v['url']?>"><?=$v['name']?></a><?}?>
 			</li>
 			<?if(count($v['list'])){?>
 			<ul id="l<?=$v['curestr_id']?>" style="display:none">
@@ -453,7 +453,7 @@
 			
 		
 				
-	<?}elseif($cure['type']==3){?>		
+	<?}elseif($cure['type']==3 || ($cure['type']==2 && @$curestr_id)){?>		
 		
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>

@@ -195,8 +195,8 @@ $(document).ready(function($){
             </div>
 		  	<div class="search-area-switcher">
 				<select name="how" style="height:20px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;">
-					<option value="1"<?php if($_GET['how'] == 1) echo ' selected'; ?>><?=$lang_phrases['search_site']?></option>
-					<option value="2"<?php if($_GET['how'] == 2) echo ' selected'; ?>><?=$lang_phrases['search_cure']?></option>
+					<option value="1"<?php if(@$_GET['how'] == 1) echo ' selected'; ?>><?=$lang_phrases['search_site']?></option>
+					<option value="2"<?php if(@$_GET['how'] == 2) echo ' selected'; ?>><?=$lang_phrases['search_cure']?></option>
 					<option value="2">По диагнозу</option>
 				</select>
                 <div class="clear"></div>

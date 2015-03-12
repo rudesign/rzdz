@@ -853,13 +853,14 @@ if($cure_id)
 				
 				else
 				{
-					$sql = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+					$sql = mysql_query("SELECT c.* FROM ".TABLE_CURESTR." c 
+						WHERE c.parent=0 AND c.cure_id=$cure_id ORDER BY c.ord") 
 					or Error(1, __FILE__, __LINE__);
 					
 					$cures = array(); 
 					while($info = @mysql_fetch_array($sql))
 					{ 
-						$info['name'] = HtmlSpecialChars($info['name']);		
+						$info['name'] = HtmlSpecialChars($info['name']);
 						
 						$sql1 = mysql_query("SELECT * FROM ".TABLE_CURESTR." WHERE parent=$info[curestr_id] ORDER BY ord") 
 						or Error(1, __FILE__, __LINE__);	
@@ -870,6 +871,8 @@ if($cure_id)
 							$list[] = $info1;
 						}
 						$info['list'] = $list;
+						
+						$info['descrlink'] = !count($list) ? "?p=cure&curestrd=$info[curestr_id]&cure_id=$cure_id" : '';	
 					
 						$cures[] = $info;
 					}
