@@ -303,6 +303,11 @@ elseif($medicine) {
 	require 'lib/medicine.php';
 }
 
+elseif($part == 'questionnaire') { 
+	require 'lib/questionnaire.php';
+	get_page_info($part);
+}
+
 elseif($part == 'cities') { 
 	require 'lib/cities.php';
 }
