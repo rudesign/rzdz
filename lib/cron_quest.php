@@ -18,7 +18,7 @@ $sql = mysql_query("
 		".TABLE_QUESTMAIL." qm 
 		LEFT JOIN ".TABLE_QUESTIONNAIRE." q  on (qm.quest_id=q.quest_id) 
 	WHERE
-		qm.email !='' AND !qm.send AND !qm.done
+		qm.email !='' AND !qm.send AND !qm.done AND q.status
 	ORDER BY 
 		q.quest_id, qm.mail_id
 	LIMIT $letter_count") or Error(1, __FILE__, __LINE__, 1);
