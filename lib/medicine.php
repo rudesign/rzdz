@@ -267,7 +267,7 @@ if($cure_id)
 				LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
 				WHERE p.parent=1 AND p.public AND h.cure_id 
 				GROUP BY p.page_id
-				ORDER BY p.ord") 
+				ORDER BY p.name") 
 				or Error(1, __FILE__, __LINE__);
 				
 			while($info = @mysql_fetch_array($sql)) 
@@ -456,7 +456,7 @@ if($subcure_id)
 	{
 		$field = $cure['type']==4 ? "h.description$englang as  description" : "h.price1$englang as  price";
 		$where =  ($cure['type']==4 && $extrasite_id) ? " AND p.page_id=$extrasite_id" : '';
-		$ord = $cure['type']==4 ? 'p.name' : 'p.ord';
+		$ord = 'p.name';// : 'p.ord';
 		$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, $field  , 
 			fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 			FROM ".TABLE_PAGE." p
@@ -468,7 +468,7 @@ if($subcure_id)
 			WHERE p.parent=1 AND p.public AND h.cure_id $where
 			GROUP BY p.page_id
 			ORDER BY $ord") 
-			or Error(1, __FILE__, __LINE__);
+			or Error(1, __FILE__, __LINE__); 
 		while($info = @mysql_fetch_array($sql)) 
 		{
 			$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";

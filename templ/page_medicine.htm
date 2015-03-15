@@ -478,7 +478,7 @@
                 <?foreach($curehotel as $v){?>
                 <div class="items">
                     <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
-                    <?=$v['name']?> <br /><?=$v['city']?> 
+                    <!--<?=$v['name']?> <br /><?=$v['city']?> -->
                 </div>
                 <?}?>
                 <div class="clearfix"></div>
@@ -537,7 +537,7 @@
                         <a href="<?=$v['page_link']?>">
 							<img src="<?=$v['photo_logo']?>" />
 							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" height="223" width="163" />
-							<?}else{?><?=$v['name']?> <br /><?=$v['city']?> <?}?>
+							<?}else{?><!--<?=$v['name']?> <br /><?=$v['city']?> --><?}?>
 						</a>
 						<?if($v['license_link']){?>
 						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>Скачать</span></a></div>
