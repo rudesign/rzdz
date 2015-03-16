@@ -249,7 +249,7 @@ if((!$only || $only == 'page' || $only == 'site'))
 		$sql = mysql_query("
 			SELECT 
 				p.page_id, p.name$englang as name, p.description$englang as description, d.dir, ct.name$englang as city,
-				c.page_id as parent_id, c.name$englang as parent_name, dc.dir as dirc, r.page_id as pp_id
+				c.page_id as parent_id, c.name$englang as parent_name, dc.dir as dirc, r.page_id as pp_id , sd.dir as sp_dir
 			FROM 
 				".TABLE_PAGE." p
 				LEFT JOIN ".TABLE_CITY." ct ON (ct.city_id=p.city_id)
@@ -258,6 +258,8 @@ if((!$only || $only == 'page' || $only == 'site'))
 				LEFT JOIN ".TABLE_DIR." dc ON (dc.dir_id=c.dir_id)
 				LEFT JOIN ".TABLE_PAGE." r ON (r.page_id=c.parent)
 				LEFT JOIN ".TABLE_PAGE." r1 ON (r1.page_id=r.parent)
+				LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
+				LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
 			WHERE 
 				(c.page_id IS NULL OR c.public='1') 
 				AND $where_page 
@@ -278,7 +280,7 @@ if((!$only || $only == 'page' || $only == 'site'))
 			
 			if($info['parent_id']==1)
 			{
-				$info['link'] = "$lprefix/media/?s_id=$info[page_id]";
+				$info['link'] = $info['sp_dir'] ?  "$lprefix/".$info['sp_dir']."/\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]";
 			}
 			else
 			{

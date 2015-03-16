@@ -52,10 +52,11 @@ $replace = array();
 $replace['page_id'] = $page_id;
 
 $page_list = array();
-$sql = mysql_query("SELECT c.page_id, c.name FROM ".TABLE_OPINION." m 
-	LEFT JOIN ".TABLE_PAGE." c ON (c.page_id=m.page_id) GROUP BY m.page_id ORDER BY (m.page_id>0), c.name") 
+$sql = mysql_query("SELECT c.page_id, c.name, ct.name as city FROM ".TABLE_OPINION." m 
+		LEFT JOIN ".TABLE_PAGE." c ON (c.page_id=m.page_id) 
+		LEFT JOIN ".TABLE_CITY." ct ON (ct.city_id=c.city_id) 
+		GROUP BY m.page_id ORDER BY (m.page_id>0), c.name") 
 	or Error(1, __FILE__, __LINE__);
-$page_list[] = array('page_id'=>0, 'name'=>'все', 'sel'=>'');
 while($arr = @mysql_fetch_array($sql))
 { 
 	$arr['name'] = HtmlSpecialChars($arr['name']);

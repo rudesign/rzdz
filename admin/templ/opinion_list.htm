@@ -2,8 +2,9 @@
 
 &nbsp;&nbsp;&nbsp; 
 страницы: &nbsp;&nbsp;<select id="pageselect" onchange="window.location='?p=opinion&page_id='+this.value">
+	<option value=0>все</option>
 	<?foreach($page_list as $v){?>
-	<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?></option>
+	<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?>, г.<?=$v['city']?></option>
 	<?}?>
 </select>
 </p>
@@ -14,7 +15,8 @@
 		<a href="<?=$v['del_link']?>" onclick="return delete_confirm('отзыв');"><img src="images/del.gif" border="0" alt="Удалить"></a>
 		&nbsp;&nbsp;&nbsp; <?if($v['public']){?>включен <a href="?p=opinion&unpublicop=<?=$v['opinion_id']?>&page_id=<?=$page_id?>">отключить</a><?}else{?><a href="?p=opinion&publicop=<?=$v['opinion_id']?>&page_id=<?=$page_id?>">включить</a> отключен <?}?>
 		&nbsp;&nbsp; <?=$v['name']?> 
-		&nbsp;&nbsp;<?=$v['email']?> <?if($v['phone']){?>&nbsp;&nbsp;тел. <?=$v['phone']?><?}?>
+		&nbsp;&nbsp;<a href="mailto:<?=$v['email']?>"><?=$v['email']?></a> 
+		<?if($v['phone']){?>&nbsp;&nbsp;тел. <?=$v['phone']?><?}?>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="?p=site&page_id=<?=$v['page_id']?>"><?=$v['page_name']?></a>
 		
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" class="chb_input" name="mainsite" 

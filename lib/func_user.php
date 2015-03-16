@@ -609,7 +609,7 @@ function menu_sanat($dir_sanatorium, $media=0)
 		$arr['name'] = HtmlSpecialChars($arr['name'], null, 'cp1251');
 		$arr['city'] = eregi("область", $arr['city']) ||  $englang ? $arr['city'] : $arr['city'];
 		
-		$arr['link'] =  $arr['sp_dir'] && !$media ?  $arr['sp_dir']."/" : "$lprefix/media/?s_id=$arr[page_id]"; 
+		$arr['link'] =  $arr['sp_dir'] && !$media ?  "$lprefix/".$arr['sp_dir']."/" : "$lprefix/media/?s_id=$arr[page_id]"; 
 		
 		$regions[$region_k]['list'][] = $arr;
 	}

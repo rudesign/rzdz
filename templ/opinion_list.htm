@@ -1,4 +1,41 @@
-<form name="opinionform" method="post" id="opinionform">
+
+
+			  <?if(!$extrasite_id){?><div class="ch_bgr_select" style="margin: 0 0 23px 190px">
+			<select class="ch_bgr_fx" onchange="window.location=(this.value>0)?'/opinion/?page_id='+this.value:'/opinion/';">
+						<option value=0><?=$lang_phrases['vse_sanatorii']?></option>
+						<?foreach($page_list as $v){?>
+							<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?>, ã. <?=$v['city']?></option>
+						<?}?>
+			</select>
+			</div><?}?>
+					
+              <?if(count($opinion_list)){?>		
+			  
+              <ul class="voice_list">
+				<?foreach($opinion_list as $k=>$v){?>
+				<li class="<?if(($k+1)%2){?>white_vl_inf<?}else{?>grey_vl_info<?}?> clearfix">
+				  <div class="left_vl ld">
+					<p class="name_vl"><?=$v['name']?></p>
+					<p class="date_vl"><?=$v['date']?></p>
+                  </div><!--left_vl-->			
+                  <div class="right_vl rd">
+					<p class="title_open_vl"><a href="<?=$v['page_link']?>"><?=$v['page_name']?></a><br />
+						<?=$v['date_from']?><?if($v['date_from'] && $v['date_to']){?> - <?}?><?=$v['date_to']?></p>
+					<p><?=$v['text']?><?if($v['more']){?><span id="mnogotochie<?=$v['opinion_id']?>">...</span><span style="display:none" id="more<?=$v['opinion_id']?>"><?=$v['more']?></span><?}?> </p>
+					<?if($v['more']){?>	
+				  <a class="open_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='none';mnogotochie<?=$v['opinion_id']?>.style.display='';close<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="open<?=$v['opinion_id']?>" style="display:none"><span><?=$lang_phrases['skryt']?></span></a>
+				  <a class="close_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='';mnogotochie<?=$v['opinion_id']?>.style.display='none';open<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="close<?=$v['opinion_id']?>"><span><?=$lang_phrases['raskryt']?></span></a>
+					  <?}?>
+                  </div><!--right_vl-->				  
+				</li>
+				 <?}?>
+              </ul><!--voice_list-->
+			  
+			  <?}?>
+			  	
+			  
+				<?=$pages?>
+				<form name="opinionform" method="post" id="opinionform">
     <input type="hidden" name="opinionlink" value="<?=$opinionlink?>">
     <input type="hidden" name="add_opinion" value="1">
     <div class="feedback-form clearfix">
@@ -80,39 +117,4 @@
         </div>
     </div>
 </form>
-
-              <?if(count($opinion_list)){?>		
-			  
-			  <?if(!$extrasite_id){?><div class="ch_bgr_select" style="margin: 0 0 23px 190px">
-			<select class="ch_bgr_fx" onchange="window.location=(this.value>0)?'/opinion/?page_id='+this.value:'/opinion/';">
-						<?foreach($page_list as $v){?>
-							<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?></option>
-						<?}?>
-			</select>
-			</div><?}?>
-					
-              <ul class="voice_list">
-				<?foreach($opinion_list as $k=>$v){?>
-				<li class="<?if(($k+1)%2){?>white_vl_inf<?}else{?>grey_vl_info<?}?> clearfix">
-				  <div class="left_vl ld">
-					<p class="name_vl"><?=$v['name']?></p>
-					<p class="date_vl"><?=$v['date']?></p>
-                  </div><!--left_vl-->			
-                  <div class="right_vl rd">
-					<p class="title_open_vl"><a href="<?=$v['page_link']?>"><?=$v['page_name']?></a>
-						<?=$v['date_from']?><?if($v['date_from'] && $v['date_to']){?> - <?}?><?=$v['date_to']?></p>
-					<p><?=$v['text']?><?if($v['more']){?><span id="mnogotochie<?=$v['opinion_id']?>">...</span><span style="display:none" id="more<?=$v['opinion_id']?>"><?=$v['more']?></span><?}?> </p>
-					<?if($v['more']){?>	
-				  <a class="open_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='none';mnogotochie<?=$v['opinion_id']?>.style.display='';close<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="open<?=$v['opinion_id']?>" style="display:none"><span><?=$lang_phrases['skryt']?></span></a>
-				  <a class="close_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='';mnogotochie<?=$v['opinion_id']?>.style.display='none';open<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="close<?=$v['opinion_id']?>"><span><?=$lang_phrases['raskryt']?></span></a>
-					  <?}?>
-                  </div><!--right_vl-->				  
-				</li>
-				 <?}?>
-              </ul><!--voice_list-->
-			  
-			  <?}?>
-			  	
-			  
-				<?=$pages?>
 				

@@ -40,7 +40,7 @@ while($arr = @mysql_fetch_array($sql))
 	$page_list[] = $arr;
 }
 $replace['page_list'] = $page_list;*/
-$page_list[] = array('page_id'=>0, 'name'=>$lang_phrases['vse_sanatorii'], 'sel'=>'');
+//$page_list[] = array('page_id'=>0, 'name'=>$lang_phrases['vse_sanatorii'], 'sel'=>'');
 foreach($sanat_list as $k=>$v) { $sel = $page_id==$v['page_id'] ? 'selected' : 0; $page_list[$k+1] = $v; $page_list[$k+1]['sel'] = $sel; }
 $replace['page_list'] = $page_list;
 
@@ -73,11 +73,11 @@ $sql = mysql_query("
 	LIMIT 
 		$limit") 
 	or Error(1, __FILE__, __LINE__);
-if($page_id && !mysql_num_rows($sql)) 
+/*if($page_id && !mysql_num_rows($sql)) 
 {
 	page404();
 	return;
-}
+}*/
 while($arr = @mysql_fetch_array($sql))
 { 
 	$arr['name'] = $arr['client_name'];
