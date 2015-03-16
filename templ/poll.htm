@@ -50,6 +50,14 @@
         -webkit-border-radius: 4px;
         background-color: #fff;
     }
+    .poll select{
+        background-color: #fff;
+        border: medium none;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        padding: 7px 10px;
+    }
     .poll .userdata .title{
         margin-bottom: 3px;
     }
@@ -123,8 +131,13 @@
             </div>
             <div class="row clearfix">
                 <div class="title">Санаторий</div>
+                <!--
                 <input name="sanat" type="text" style="display:inline-block; float: left; width: 49%; <?if($err_sanat){?>background-color:#FECDD6;<?}?> " 
-					value="<?=$sanat?>" />
+					value="<?=$sanat?>" />-->
+                <select name="" style="max-width: 100%;">
+                    <option value="0">выберите...</option>
+                    <option value="1">Санаторий "Ивушка"</option>
+                </select>
             </div>
             <div class="row clearfix">
                 <div class="title">Даты проживания</div>
