@@ -10,7 +10,7 @@ if(@$sendorder)
 }
 
 $common_fields = array('fam'=>'Фамилия','name'=>'Имя','otch'=>'Отчество','sanat'=>'Санаторий',
-	'date_from'=>'с','date_to'=>'по','phone'=>'Телефон');
+	'date_from'=>'с','date_to'=>'по','phone'=>'Телефон','email'=>'E-Mail');
 
 $order_url = "/questionnaire/";
 
@@ -18,35 +18,58 @@ $order_fields = array();
 
 $where = "";
 
-if(!@$_SESSION['quest_id'] || !@$_SESSION['mail_id'])
+if(!@$_SESSION['mail_id'])
 {
-	$_SESSION['quest_id'] = $quest_id = (int)@$qid;
-	$_SESSION['mail_id'] = $mail_id = (int)@$mid;
-	$secret = escape_string(@$secret);
-	
-	$where .= " AND secret='$secret'";
+	if(isset($qid) && isset($mid))
+	{
+		$_SESSION['quest_id'] = $quest_id = (int)@$qid;
+		$_SESSION['mail_id'] = $mail_id = (int)@$mid;
+		$secret = escape_string(@$secret);
+		
+		$where .= " AND secret='$secret'";
+	}
+	else {$quest_id=0; $mail_id=0;}
 	
 }
 else
 {
-	$quest_id = (int)$_SESSION['quest_id'];
 	$mail_id = (int)$_SESSION['mail_id'];
 }
-
-$sql = mysql_query("
-	SELECT 
-		qm.*, q.*, qm.email as client_email
-	FROM 
-		".TABLE_QUESTMAIL." qm 
-		LEFT JOIN ".TABLE_QUESTIONNAIRE." q  on (qm.quest_id=q.quest_id) 
-	WHERE
-		q.quest_id=$quest_id AND q.public='1' AND qm.mail_id=$mail_id AND !qm.done $where
-	") or Error(1, __FILE__, __LINE__, 1);
-if(!($quest = @mysql_fetch_array($sql)))
+$quest_id = (int)$_SESSION['quest_id'];
+	
+if($quest_id && $mail_id)
 {
-	$navig[] = array('name'=>'Опрос', 'link'=>'');
-	$content = '<p>Извините, не найдены данные опроса.</p>'; 
-	return;
+	$sql = mysql_query("
+		SELECT 
+			q.*, qm.email as client_email
+		FROM 
+			".TABLE_QUESTMAIL." qm 
+			LEFT JOIN ".TABLE_QUESTIONNAIRE." q  on (qm.quest_id=q.quest_id) 
+		WHERE
+			q.quest_id=$quest_id AND q.public='1' AND qm.mail_id=$mail_id AND !qm.done $where
+		") or Error(1, __FILE__, __LINE__, 1);
+	if(!($quest = @mysql_fetch_array($sql)))
+	{
+		/*$navig[] = array('name'=>'Опрос', 'link'=>'');
+		$content = '<p>Извините, не найдены данные опроса.</p>'; 
+		return;*/
+		Header("Location: $lpefix/$part");
+		exit;
+	}
+}
+else
+{
+	$sql = mysql_query("
+		SELECT *
+		FROM 
+			".TABLE_QUESTIONNAIRE."
+		WHERE
+			public='1'
+		ORDER by quest_id
+		LIMIT 1
+		") or Error(1, __FILE__, __LINE__, 1);
+	$quest = @mysql_fetch_array($sql);
+	$_SESSION['quest_id'] = $quest_id = $quest['quest_id'];
 }
 
 
@@ -149,10 +172,7 @@ if(@$mode)
 		$arr_html[] = array('name'=>$v, 'value'=>$arr[$k]);
 		$arr_sql[] = array('name'=>$v, 'value'=>$arr[$k]);
 	}
-	
-	$arr_html[] = array('name'=>'E-Mail', 'value'=>$quest['client_email']);
-	$arr_sql[] = array('name'=>'E-Mail', 'value'=>$quest['client_email']);
-	
+		
 	foreach($order_fields as $v) 
 	{
 		$id = $v['field_id'];
@@ -202,9 +222,10 @@ $replace = array();
 $data_arr = @Unserialize($_SESSION['order_data']); 
 foreach($common_fields as $k=>$v) 
 {
-	$replace[$k] = HtmlSpecialChars(@$data_arr[$k]);
+	$replace[$k] = ($k=='email' && $mail_id) ? $quest['client_email'] : HtmlSpecialChars(@$data_arr[$k]);
 	$replace["err_$k"] = @$data_arr["err_$k"];
 }
+$replace["sanat_list"] = $sanat_list;
 $replace["err"] = 0;
 $fields = array();
 foreach($order_fields as $v) 

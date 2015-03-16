@@ -298,12 +298,7 @@ elseif($part == 'spec') {
 }
 
 elseif($part == 'site') {
-    // @TODO Remove this condition when ready
-    if(isset($_GET['poll'])) {
-        $content = get_template("templ/poll.htm", array());
-    }else{
         require 'lib/site.php';
-    }
 }
 
 elseif($medicine) { 

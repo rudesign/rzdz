@@ -134,9 +134,11 @@
                 <!--
                 <input name="sanat" type="text" style="display:inline-block; float: left; width: 49%; <?if($err_sanat){?>background-color:#FECDD6;<?}?> " 
 					value="<?=$sanat?>" />-->
-                <select name="" style="max-width: 100%;">
+                <select name="sanat" style="max-width: 100%;<?if($err_sanat){?> background-color:#FECDD6;<?}?>">
                     <option value="0">выберите...</option>
-                    <option value="1">Санаторий "Ивушка"</option>
+                    <?foreach($sanat_list as $san){?>
+                        <option value="<?=$san['page_id']?>" <?if($san['page_id']==$sanat)echo 'selected';?>><?=$san['name']?>, г. <?=$san['city']?></option>
+                    <?}?>
                 </select>
             </div>
             <div class="row clearfix">
@@ -154,6 +156,10 @@
             <div class="row clearfix">
                 <div class="title">Мобильный телефон</div>
                 <input name="phone" type="text" value="<?=$phone?>" style="display:inline-block; float: left; width: 49%; <?if($err_phone){?>background-color:#FECDD6;<?}?> " />
+            </div>
+			<div class="row clearfix">
+                <div class="title">E-Mail</div>
+                <input name="email" type="text" value="<?=$email?>" style="display:inline-block; float: left; width: 49%; <?if($err_email){?>background-color:#FECDD6;<?}?> " />
             </div>
         </div>
         <div class="rate">
