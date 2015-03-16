@@ -1,0 +1,68 @@
+
+<table><tr valign="top">
+<td>
+	<FORM method="post">
+	<table>
+	<tr><td>Активность </td><td><?=$public_select?></td></tr>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="48"></td></tr>
+	<tr><td>E-Mail админа: </td><td><input type="text" name="email" value="<?=$email?>" maxlength="255" size="48"></td></tr>
+	<!--tr><td>Кнопка: </td><td><input type="text" name="butt" value="<?=$butt?>" maxlength="255" size="48"></td></tr-->
+	<tr><td></td><td><input type="submit" name="savequest" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="quest_id" value="<?=$quest_id?>">
+	<input type="hidden" name="p" value="quest">
+	</table>
+	</FORM>
+</td>
+<td style="padding-left:50px">
+
+<?if(count($list)){?>
+<form method="post">
+	<input type="hidden" name="quest_id" value="<?=$quest_id?>">
+	<?if($status){?>
+		<?if($status==1){?>
+			<p><?if($mailcount!=$all && $all){?>Идет рассылка...<?}?> Отправлено  писем: <?=$mailcount?> </p>
+		<?}?>
+		<?if($mailcount==$all && $all){?><p>Рассылка завершена</p>
+		<?}else{?><input type="submit" class="button" name="stopquest" value="Остановить рассылку для опроса" ><?}?>
+	<?}else{?><input type="submit" class="button" name="startquest" value="Начать рассылку для опроса" ><?}?>
+</form>
+<?}?>
+
+</td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+
+<tr><td><strong>База адресов для опроса</strong></td><td style="padding-left:50px">Добавить адреса</td></tr>
+<tr>
+<td style="padding-top:20px">
+
+<?if(count($list)){?>
+<table border="1" style="border-collapse: collapse;" cellpadding="2" width="400">
+<tr align="center">
+	<td>№</td>
+	<td>E-Mail</td>
+	<td>&nbsp;</td>
+</tr>
+
+<?foreach($list as $v){?>
+<tr align="center" <?if($v['send']){?>class="hid"<?}?>>
+	<td width="20" valign=center><?=$v['i']?></td>
+	<td valign=center><?=$v['email']?></td>
+	<td><?if(!$v['send']){?><a href="<?=$v['del_link']?>"  onclick="return delete_confirm('email');"><img src="images/del.gif" border="0" alt="Удалить"></a><?}?></td>
+</tr>
+<?}?>
+</table>
+<?}?>
+<p>Всего адресов: <b><?=$all?></b> &nbsp;&nbsp; 
+ <?=$pages?></p>
+</td>
+<td style="padding-left:50px; vertical-align:top">
+<form method="post">
+	<textarea name="emails" cols="50" rows="5"></textarea><br />
+	<input type="hidden" name="quest_id" value="<?=$quest_id?>">
+	<input type="submit" class="button" value="Добавить" > &nbsp;&nbsp;
+	<input type="submit" name="clear" class="button" value="Очистить базу" onclick="return delete_confirm('всю базу');" > 
+</form>
+</td>
+</tr>
+</table>

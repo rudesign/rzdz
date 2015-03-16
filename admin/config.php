@@ -35,6 +35,7 @@ define('SENDPHOTO_PAGE', 'Прислать фото');
 define('SEARCH_PAGE', 'Поиск');
 define('CITIES_PAGE', 'Курорты');
 define('SPEC_PAGE', 'Спецпредложения');
+define('QUESTIONNAIRE_PAGE', 'Опрос');
 
 define('TABLE_GALLERY', TABLE_PREFIX.'gallery');
 define('TABLE_USER', TABLE_PREFIX.'user');
@@ -63,6 +64,9 @@ define('TABLE_GEST', TABLE_PREFIX.'gest');
 define('TABLE_GTEMA', TABLE_PREFIX.'gtema');
 define('TABLE_SLIDER', TABLE_PREFIX.'slider');
 define('TABLE_TABLE', TABLE_PREFIX.'table');
+define('TABLE_QUESTFIELD', TABLE_PREFIX.'questfield');
+define('TABLE_QUESTIONNAIRE', TABLE_PREFIX.'questionnaire');
+define('TABLE_QUESTMAIL', TABLE_PREFIX.'questmail');
 
 $photo_owner = array(
 	'item'=>1,

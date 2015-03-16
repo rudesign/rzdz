@@ -15,6 +15,9 @@ if($arr_page = @mysql_fetch_array($sql))
 	$page['description'] = $arr_page["description$englang"];
 	$page['parent'] = $arr_page["parent"];	
 	$page['dir_id'] = $arr_page['dir_id'];	
+	
+	$facebook = $arr_page["facebook"];
+	$vk = $arr_page["vk"];
 
 	if(ereg("\\[\\:form([[:digit:]]+)\\:\\]", $page['description'], $F))
 	{

@@ -1,0 +1,18 @@
+
+<table><tr valign="top">
+<td>
+	<FORM method="post">
+	<table>
+	<tr><td>Отображается на сайте? </td><td><?=$public_select?></td></tr>
+	<tr><td>Порядок отображения </td><td><?=$ord_select?></td></tr>
+	<!--tr><td>Тип поля: </td><td><?=$type_select?></td></tr>
+	<tr><td>Проверка: </td><td><?=$checkfield_select?></td></tr-->
+	<tr><td>Название поля: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="48"></td></tr>
+	<!--tr><td>Значения (для выбора из списка): </td><td><textarea cols="50" rows="7" name="data"><?=$data?></textarea></td></tr-->
+	<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+	<input type="hidden" name="field_id" value="<?=$field_id?>">
+	<input type="hidden" name="p" value="quest">
+	</table>
+	</FORM>
+</td>
+</tr></table>

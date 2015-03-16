@@ -3,9 +3,9 @@
     $(document).ready(function(){
         var sets = $('.rateit');
 
-        sets.on('click', function(){
+        /*sets.on('click', function(){
             alert('Набор ' + $(this).parent().index() + ': оценка ' + $(this).rateit('value'));
-        });
+        });*/
 
         LSCalendars["date_from"]=new LSCalendar();
         LSCalendars["date_from"].SetFormat("dd.mm.yyyy");
@@ -114,45 +114,49 @@
         <div class="userdata">
             <div class="row clearfix">
                 <div class="title">Ф.И.О</div>
-                <input name="" placeholder="Фамилия" type="text" style="display:inline-block; float: left; width: 32%; margin-right: 2%; " />
-                <input name="" placeholder="Имя" type="text" style="display:inline-block; float: left; width: 32%; margin-right: 2%;" />
-                <input name="" placeholder="Отчество" type="text" style="display:inline-block; float: left; width: 32%;" />
+                <input name="fam" placeholder="Фамилия" type="text" value="<?=$fam?>" 
+					style="display:inline-block; float: left; width: 32%; margin-right: 2%; <?if($err_fam){?>background-color:#FECDD6;<?}?> " />
+                <input name="name" placeholder="Имя" type="text" value="<?=$name?>" 
+					style="display:inline-block; float: left; width: 32%; margin-right: 2%; <?if($err_name){?>background-color:#FECDD6;<?}?>" />
+                <input name="otch" placeholder="Отчество" type="text" value="<?=$otch?>" 
+				style="display:inline-block; float: left; width: 32%; <?if($err_otch){?>background-color:#FECDD6;<?}?>" />
             </div>
             <div class="row clearfix">
-                <div class="title">Номер комнаты</div>
-                <input name="" type="text" style="display:inline-block; float: left; width: 32%; " />
+                <div class="title">Санаторий</div>
+                <input name="sanat" type="text" style="display:inline-block; float: left; width: 49%; <?if($err_sanat){?>background-color:#FECDD6;<?}?> " 
+					value="<?=$sanat?>" />
             </div>
             <div class="row clearfix">
                 <div class="title">Даты проживания</div>
                 <div style="display:inline-block; float: left; width: 32%; margin-right: 2%; ">
                     <div id=date_fromPtr></div>
-                    <input name="date_from" class="datepicker" placeholder="с" onclick="setCalendarDateByStr('date_from', poll.date_from.value); showCalendarForElement('date_from', event); return false;" type="text" />
+                    <input name="date_from" class="datepicker" placeholder="с" onclick="setCalendarDateByStr('date_from', poll.date_from.value); showCalendarForElement('date_from', event); return false;" type="text" value="<?=$date_from?>" style="<?if($err_date_from){?>background-color:#FECDD6;<?}?>" />
                 </div>
                 <div style="display:inline-block; float: left; width: 32%; ">
                     <div id=date_toPtr></div>
-                    <input name="date_to" class="datepicker" placeholder="по" onclick="setCalendarDateByStr('date_from', poll.date_to.value); showCalendarForElement('date_to', event); return false;" type="text" />
+                    <input name="date_to" class="datepicker" placeholder="по" onclick="setCalendarDateByStr('date_from', poll.date_to.value); showCalendarForElement('date_to', event); return false;" type="text" value="<?=$date_to?>"  style="<?if($err_date_to){?>background-color:#FECDD6;<?}?>" />
 
                 </div>
             </div>
             <div class="row clearfix">
-                <div class="title">E-mail</div>
-                <input name="" type="text" style="display:inline-block; float: left; width: 49%; " />
-            </div>
-            <div class="row clearfix">
                 <div class="title">Мобильный телефон</div>
-                <input name="" type="text" style="display:inline-block; float: left; width: 49%; " />
+                <input name="phone" type="text" value="<?=$phone?>" style="display:inline-block; float: left; width: 49%; <?if($err_phone){?>background-color:#FECDD6;<?}?> " />
             </div>
         </div>
         <div class="rate">
-            <div class="row clearfix">
-                <div>Как Вы оцениваете пребывание у нас?</div>
-                <div class="rateit bigstars" data-rateit-resetable="false" data-rateit-starwidth="28" data-rateit-starheight="28"></div>
+            <?foreach($fields as $k=>$v){?>
+			<div class="row clearfix">
+                <div style="<?if($v['err']){?>color:#990000<?}?>"><?=$v['name']?></div>
+                <div class="rateit bigstars"  
+					data-rateit-backingfld="#value_<?=$v['field_id']?>" data-rateit-ispreset="true"
+					data-rateit-resetable="false" data-rateit-starwidth="28" data-rateit-starheight="28"></div>
             </div>
-            <div class="row clearfix">
-                <div>Понравилось ли?</div>
-                <div class="rateit bigstars" data-rateit-resetable="false" data-rateit-starwidth="28" data-rateit-starheight="28"></div>
-            </div>
+			<?}?>
         </div>
-        <button onclick="return false;">Отправить</button>
+        <button type="submit">Отправить</button>
+            <?foreach($fields as $k=>$v){?>
+			<input type="hidden" name="value_<?=$v['field_id']?>" id="value_<?=$v['field_id']?>" value="<?=$v['value']?>">
+			<?}?>
+		<input type="hidden" name="mode" value="send">
     </form>
 </div>

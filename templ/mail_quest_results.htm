@@ -1,0 +1,7 @@
+<p>Уведомление о новой анкете на <a href="<?=MAIN_URL?>"><?=DOMAIN?></a> <br />
+
+<table>
+<?foreach($list as $v){?>
+<tr><td><?=$v['name']?></td><td>&nbsp;</td><td><?=$v['value']?></td></tr>
+<?}?>
+</table>
