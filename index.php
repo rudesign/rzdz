@@ -66,14 +66,14 @@ $navig = array();
 
 if($part)
 {
-	$end = 0;
+    $end = 0;
 	if(!$request[2] && !$request[1])
 	{
-		$page_dir = mysql_escape_string($request[0]);
-
+        $page_dir = mysql_escape_string($request[0]);
+;
 		$sql = mysql_query("
 			SELECT 
-				i.page_id, i.site, i.name$englang as name, i.description, d2.dir_id
+				i.page_id, i.site, i.name$englang as name, i.description, i.facebook, i.vk, d2.dir_id
 			FROM 
 				".TABLE_PAGE." i 
 				LEFT JOIN ".TABLE_DIR." d2 ON (d2.dir_id=i.dir_id AND d2.dir='$page_dir') 
@@ -81,7 +81,10 @@ if($part)
 				i.parent=0 AND d2.dir_id IS NOT NULL AND i.public='1'") or Error(1, __FILE__, __LINE__);
 		if($arr = @mysql_fetch_array($sql))
 		{
-			if(@$arr['description'])
+            $facebook = $arr['facebook'];
+            $vk = $arr['vk'];
+
+            if(@$arr['description'])
 			{
 				$end = 1;
 				if(!$medicine) $part = 'site';
@@ -119,7 +122,7 @@ if($part)
 	}
 	if($request[1] && (!$request[2] || $request[1]=='news' || $request[1]=='medicine') && !$end && $request[0]!='medicine')
 	{
-		$parent_dir = mysql_escape_string($request[0]);
+        $parent_dir = mysql_escape_string($request[0]);
 		$page_dir = mysql_escape_string($request[1]);
 
 		$sql = mysql_query("
@@ -134,9 +137,10 @@ if($part)
 			WHERE 
 				c.parent=0 AND d1.dir_id IS NOT NULL AND c.public='1' AND 
 				d2.dir_id IS NOT NULL AND i.public='1'") or Error(1, __FILE__, __LINE__);
+
 		if($arr = @mysql_fetch_array($sql))
 		{
-			if(@$arr['description'] || $request[1]=='medicine')
+            if(@$arr['description'] || $request[1]=='medicine')
 			{
 				$end = 1;
 				$parent_name = @$arr['parent_name'];
@@ -223,14 +227,14 @@ if($part)
 	}
 	if($request[2] && $request[1] && !$end && !$medicine)
 	{
-		$region_dir = mysql_escape_string($request[0]);
+        $region_dir = mysql_escape_string($request[0]);
 		$parent_dir = mysql_escape_string($request[1]);
 		$page_dir = mysql_escape_string($request[2]);
 
 		$sql = mysql_query("
-			SELECT 
+			SELECT
 				r.name$englang as region_name, r.site, r.page_id as pid,
-				c.name$englang as parent_name,  
+				c.name$englang as parent_name,
 				i.page_id, i.name$englang as name, 	d2.dir_id
 			FROM 
 				".TABLE_PAGE." r 
@@ -259,6 +263,9 @@ if($part)
 			$navig[] = array('name'=>HtmlSpecialChars($region_name), 'link'=>"$lprefix/$region_dir/");
 			$navig[] = array('name'=>HtmlSpecialChars($parent_name), 'link'=>"$lprefix/$region_dir/$parent_dir/");
 			$navig[] = array('name'=>HtmlSpecialChars($page_name), 'link'=>'');
+
+//            $facebook = $arr['facebook'];
+//            $vk = $arr['vk'];
 		}
 	}
 }

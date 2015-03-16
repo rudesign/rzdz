@@ -468,6 +468,8 @@ if(@$save)
 	$price = (int)(@$price);
 	$url = escape_string(from_form(@$url));
 	$brochure_url = escape_string(from_form(@$brochure_url));
+    $facebook = escape_string(from_form(@$facebook));
+    $vk = escape_string(from_form(@$vk));
 	
 	if(is_array(@$cure)) $cures = @join(',', $cure);
 	else $cures = '';
@@ -488,7 +490,7 @@ if(@$save)
 	mysql_query("UPDATE ".TABLE_PAGE." SET public='$public', contacts='$contacts', name='$name',  name_en='$name_en', ".
 				"gallery_id='$gallery_id', photocount='$photocount',  topimg_id='$topimg_id', opinion='$opinion', ".
 				"description='$description', description_en='$description_en', ord='$ord',  cures='$cures', ".
-				"region_id='$region_id', city_id='$city_id', stars='$stars', price='$price', url='$url', brochure_url='$brochure_url' ".
+				"region_id='$region_id', city_id='$city_id', stars='$stars', price='$price', url='$url', brochure_url='$brochure_url', facebook='$facebook', vk='$vk' ".
 				"WHERE page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 				
 	$w = $parent ? '' : " AND site";
