@@ -101,7 +101,7 @@ if(@$mode)
 	foreach($common_fields as $k=>$v) 
 	{
 		$arr[$k] = from_form(@${$k});
-		if(!$arr[$k])
+		if(!$arr[$k] && $k!='email')
 		{
 			$err = 1;
 			$arr["err_$k"] = 1;

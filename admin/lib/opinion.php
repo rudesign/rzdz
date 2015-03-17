@@ -47,6 +47,30 @@ if(@$chdate)
 }
 
 
+if(isset($db))
+{
+
+	$replace = array();
+	
+	$list = array();
+	$sql = mysql_query("SELECT page_id, opinion_id, client_name, client_email  FROM ".TABLE_OPINION." 
+		WHERE client_email!=''
+		GROUP BY client_email
+		ORDER BY client_email") 
+		or Error(1, __FILE__, __LINE__);
+	while($arr = @mysql_fetch_array($sql))
+	{ 
+		$arr['client_name'] = HtmlSpecialChars($arr['client_name']);
+		$arr['client_email'] = HtmlSpecialChars($arr['client_email']);
+		$arr['link'] = ADMIN_URL."?p=opinion&page_id=$arr[page_id]#$arr[opinion_id]";
+		$list[] = $arr;
+	}
+	$replace['list'] = $list;
+	
+	echo get_template('templ/opinion_db.htm', $replace);
+	exit;
+}
+
 $replace = array();
 
 $replace['page_id'] = $page_id;
@@ -98,7 +122,17 @@ while($arr = @mysql_fetch_array($sql))
 	$arr['email'] = HtmlSpecialChars($arr['client_email']);
 	$arr['phone'] = HtmlSpecialChars($arr['client_phone']);
 	$arr['page_name'] = HtmlSpecialChars($arr['page_name']);
+	
+	$arr['more'] = '';
+	if (preg_match("/([^(\s)]*\s+){30}/i",$arr['text'],$F))
+	{
+		$text = $arr['text'];
+		$arr['text'] = $F[0];
+		$arr['more'] = str_replace($F[0], '', $text);
+		$arr['more'] = nl2br($arr['more']);
+	}
 	$arr['text'] = nl2br(HtmlSpecialChars($arr['text']));
+	
 	$d = split("-", $arr['date']);
 	$arr['date'] = "$d[2].$d[1].$d[0]";
 	$arr['del_link'] = "?p=$part&del_mes=$arr[opinion_id]";

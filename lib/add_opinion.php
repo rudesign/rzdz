@@ -41,7 +41,7 @@ if(!$text)
 	exit;
 }
 	
-if(!@$ucaptcha || @$ucaptcha!=$_SESSION['captcha'])  
+if(!@$ucaptcha || @$ucaptcha!=@$_SESSION['captcha'])  
 {
 	$_SESSION['message'] =  $lang_phrases['err_captcha'];
 	Header("Location: ".$url);

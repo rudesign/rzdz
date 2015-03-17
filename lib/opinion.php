@@ -89,6 +89,7 @@ while($arr = @mysql_fetch_array($sql))
 		$text = $arr['text'];
 		$arr['text'] = $F[0];
 		$arr['more'] = str_replace($F[0], '', $text);
+		$arr['more'] = nl2br($arr['more']);
 	}
 	$arr['text'] = nl2br(HtmlSpecialChars($arr['text']));
 	

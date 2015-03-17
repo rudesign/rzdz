@@ -7,11 +7,13 @@
 	<option value="<?=$v['page_id']?>" <?=$v['sel']?>><?=$v['name']?>, г.<?=$v['city']?></option>
 	<?}?>
 </select>
+
+<a href="?p=opinion&db" style="margin-left:100px;" target="_blank">База адресов</a>
 </p>
 
 <?if(count($list)){?>
 	<?foreach($list as $v){?><form>
-	<p class="p_name_2"> 
+	<p class="p_name_2"> <a name="o<?=$v['opinion_id']?>"></a>
 		<a href="<?=$v['del_link']?>" onclick="return delete_confirm('отзыв');"><img src="images/del.gif" border="0" alt="Удалить"></a>
 		&nbsp;&nbsp;&nbsp; <?if($v['public']){?>включен <a href="?p=opinion&unpublicop=<?=$v['opinion_id']?>&page_id=<?=$page_id?>">отключить</a><?}else{?><a href="?p=opinion&publicop=<?=$v['opinion_id']?>&page_id=<?=$page_id?>">включить</a> отключен <?}?>
 		&nbsp;&nbsp; <?=$v['name']?> 
@@ -29,7 +31,12 @@
 		   
 	</p>
 	<div id="datePtr" style="WIDTH: 1px; HEIGHT: 1px"><spacer height="1" width="1" type="block" /></div>
-	<p class="p_otziv" <?if(!$v['public']){?>style="color:#999999" <?}?>><?=$v['text']?></p>
+	<p class="p_otziv" <?if(!$v['public']){?>style="color:#999999" <?}?>><?=$v['text']?><?if($v['more']){?><span id="mnogotochie<?=$v['opinion_id']?>">...</span><span style="display:none" id="more<?=$v['opinion_id']?>"><?=$v['more']?></span><?}?>
+					<?if($v['more']){?>	
+				  <a class="open_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='none';mnogotochie<?=$v['opinion_id']?>.style.display='';close<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="open<?=$v['opinion_id']?>" style="display:none"><span>Скрыть</span></a>
+				  <a class="close_ql rd" href="javascript:void(0);" onclick="more<?=$v['opinion_id']?>.style.display='';mnogotochie<?=$v['opinion_id']?>.style.display='none';open<?=$v['opinion_id']?>.style.display='';this.style.display='none';" id="close<?=$v['opinion_id']?>"><span>Раскрыть</span></a>
+				  </p>
+					  <?}?>
 	</form><?}?>
 	<p>Всего отзывов  <b><?=$all?></b> &nbsp;&nbsp;&nbsp; 
 	Выводить отзывов <?=$onpage_select?> &nbsp;&nbsp; <?=$pages?></p>
