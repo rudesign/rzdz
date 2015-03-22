@@ -110,62 +110,124 @@
         <!-- Profiles page -->
 		<?if($cure['cure_id']==1 && !$extrasite_id){?>
 
-        <style>
-            .man-test{
-                position: relative;
-            }
-            .man-test .links a{
-                display: inline-block;
-                position: absolute;
-                z-index: 10;
-                top: 0;
-                left: 0;
-                font-size: 18px;
-                line-height: 1.3em;
-                color: white;
-            }
-            .man-test .links a.s1{
-                top: 65px;
-                left: 120px;
-            }
-            .man-test .links a.s2{
-                top: 110px;
-                left: 120px;
-            }
-            .man-test .links a.s3{
-                top: 190px;
-                left: 120px;
-            }
-            .man-test .links a.s4{
-                top: 45px;
-                left: 245px;
-            }
-            .man-test .links a.s5{
-                top: 155px;
-                left: 245px;
-            }
-
-        </style>
-
-        <div id="pdescription" style="width: 382px; float: right;">
-            <? // $profile ?>
-            <div class="man-test">
-                <div class="links">
-                    <a href="/medicine/1/30" class="s1">Руки</a>
-                    <a href="/medicine/1/31" class="s2">Живот</a>
-                    <a href="/medicine/1/32" class="s3">Ноги</a>
-                    <a href="/medicine/1/35" class="s4">Спина</a>
-                    <a href="/medicine/1/36" class="s5">Ягодицы</a>
+            <style>
+                .cure-locator input,.cure-locator textarea{
+                    box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
+                }
+                .cure-locator a{
+                    color: #008c95;
+                }
+                .cure-locator .lc{
+                    float: left;
+                    width: 350px;
+                }
+                .cure-locator .alert{
+                    position: relative;
+                    display: none;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    background-color: #008c95;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                    color: #fff;
+                }
+                .cure-locator .alert p{
+                    text-align: left;
+                }
+                .cure-locator .alert .close{
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    width: 1.5em;
+                    height: 1.4em;
+                    padding-top: 0.1em;
+                    background: #fff;
+                    border-radius: 1.5em;
+                    font-size: 12px;
+                    line-height: 1em;
+                    text-align: center;
+                    color: #000;
+                    cursor: pointer;
+                }
+                .cure-locator .search-area{
+                    position: relative;
+                    margin-bottom: 15px;
+                }
+                .cure-locator .search-area ul{
+                    position: absolute;
+                    top: 30px;
+                    left: 10px;
+                    padding: 15px;
+                    background-color: #fff;
+                    box-shadow: 0 1px 3px 2px #bbb;
+                }
+                .cure-locator .search-area li{
+                    margin-bottom: 5px;
+                }
+                .cure-locator .search-area li:last-child{
+                    margin-bottom: 0;
+                }
+                .cure-locator .search-area input[type="text"]{
+                    width: 100%;
+                    padding: 8px;
+                    border: 1px solid #008c95;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                }
+                .cure-locator .search-area input[type="image"]{
+                    position: absolute;
+                    top: 2px;
+                    right: 4px;
+                }
+                .cure-locator .teaser{
+                    margin-bottom: 10px;
+                }
+                .cure-locator .found{
+                    max-height: 605px;
+                    overflow-y: auto;
+                }
+                .cure-locator .found li{
+                    padding: 4px 10px;
+                }
+                .cure-locator .found li:nth-child(2n){
+                    background-color: #eee;
+                }
+                .cure-locator .rc{
+                    float: right;
+                    width: 189px;
+                }
+            </style>
+            <script language="javascript">
+                $(document).ready(function(){
+                    if(!$.cookie("cureAlertClosed")) $('.cure-locator .alert').slideDown('fast');
+                });
+                function closeCureAlert(){
+                    var container = $('.cure-locator .alert');
+                    $.cookie("cureAlertClosed", 1, { expires: 1 });
+                    container.slideUp('fast');
+                }
+            </script>
+            <div class="cure-locator clearfix">
+                <div class="alert">
+                    <div class="close" onclick="closeCureAlert();">x</div>
+                    <p><b><?=$cure['att_name']?></b></p>
+                    <?=$cure['att_description']?>
+					<p>
+					<?foreach($cure['att_list'] as $v){?>
+					<a href="<?=$v['link']?>" style="color:#FFFFFF"><?=$v['name']?></a><br />
+					<?}?>
+					</p>
                 </div>
-                <img src="/img/cure/man.jpg" style="max-width: 100%;" />
-                <br />
-                <h3><span style="color: #008080;">Что Вас беспокоит?</span></h3>
-                Вам следует определить область боли. Для этого необходимо навести курсор и кликнуть на ту часть тела (на рисунке - руки, спина и т.п.), где вы испытываете болевой синдром.
-            </div>
-        </div>
+			</div>
 
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div>
 		
-		<div class="plofiles-list">
+		<div class="plofiles-list" style="width:100%; margin-top:20px">
             <ul>
                 <?foreach($cure_list as $k=>$v){?>
 				<li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>

@@ -642,7 +642,7 @@ function menu_medicine()
 	$sql = mysql_query("SELECT p.cure_id, $nf as name, p.type
 		FROM ".TABLE_CURE."  p
 		$table_plus
-		WHERE p.parent=0 AND !p.partof AND p.public $w 
+		WHERE p.parent=0 AND !p.partof AND cure_id!=14 AND p.public $w 
 		ORDER BY p.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))
 	{

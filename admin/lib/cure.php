@@ -693,7 +693,7 @@ if($cure_id)
 				$tinymce_elements = 'description, description_en';
 				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 			}
-			if($cure_id==5 || $cure_id==8)
+			if($cure_id==5 || $cure_id==8 || $cure_id==1|| $cure_id==14)
 			{
 				$replace['description'] = HtmlSpecialChars($replace['description']);
 				$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
