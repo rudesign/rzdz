@@ -238,8 +238,8 @@
 		
 		<?}else{?>
 		
-		<?if($cure['type']==4){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div>
-		<div class="clear"></div><?}?>
+		<?if($cure['type']==4 || $cure['type']==1){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear" style="margin-bottom:20px"></div><?}?>
 		
 		<?if($cure['type']==4 && !$cure['description']){?>
 			  <ul class="news_list clearfix">

@@ -35,7 +35,7 @@
 	<tr><td>Название для спутников eng: </td><td><input type="text" name="name_extra_en" value="<?=$name_extra_en?>" maxlength="255" size="50"></td></tr>
 	
 	<?}?>
-	<?if($type==4 || $cure_id==5 || $cure_id==8 || $cure_id==1 || $cure_id==14){?><tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$description?></textarea> </td></tr>
+	<?if($type==4 || $cure_id==5 || $cure_id==8 || $type==1){?><tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$description?></textarea> </td></tr>
 	<tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$description_en?></textarea> </td></tr><?}?>
 	
 	<?if(!$partof && $cure_id!=1 && $cure_id!=14){?><tr><td>Санатории:</td><td>
