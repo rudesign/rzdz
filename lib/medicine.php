@@ -222,7 +222,32 @@ if($cure_id)
 				}
 				else $info['photo'] = '';
 
-                $info['teaser'] = HtmlSpecialChars($info['anons'], ENT_COMPAT, 'cp1251');;
+                $info['teaser'] = HtmlSpecialChars($info['anons'], ENT_COMPAT, 'cp1251');
+				
+				$info['podrazdel'] = array();
+				if($cure['type']==1)
+				{
+					if($extrasite_id) 
+						$query ="SELECT c.cure_id, c.name$englang as name
+							FROM ".TABLE_CURE." c 
+						LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
+						WHERE c.parent=$info[cure_id] AND c.public AND h.cure_id
+						GROUP BY c.cure_id
+						ORDER BY $ord";
+					else
+						$query ="SELECT c.cure_id, c.name$englang as name  
+							FROM ".TABLE_CURE." c 
+							WHERE c.parent=$info[cure_id] AND c.public ORDER BY $ord";
+					$sql1 = mysql_query($query) or Error(1, __FILE__, __LINE__);
+					$list = array();
+					while($info1 = @mysql_fetch_array($sql1))
+					{
+						$info1['name'] = $info1['name'] ? HtmlSpecialChars($info1['name']) : NONAME;
+						$info1['url'] = $link_medicine."$cure_id/"."$info1[cure_id]/";
+						$list[] = $info1;
+					}	
+					$info['podrazdel'] = 	$list;			
+				}
 				
 				$cures[] = $info;
 			}
@@ -442,14 +467,48 @@ if($cure_id)
 	
 if($subcure_id)
 {
-	$sql = mysql_query("SELECT cure_id, name$englang as name, profile$englang as profile, description$englang as description
+	$sql = mysql_query("SELECT cure_id, parent, name$englang as name, profile$englang as profile, description$englang as description
 		FROM ".TABLE_CURE." WHERE cure_id=$subcure_id AND public") or Error(1, __FILE__, __LINE__);
 	if(!($subcure = @mysql_fetch_array($sql))) {page404();return;}
 	
 	$subcure['name'] = htmlspecialchars($subcure['name']);
 	$page_name = $subcure['name'];
 	
-	$link = ''; $link_medicine."$cure_id/$subcure_id/";
+	if($subcure['parent']!=$cure_id)
+	{
+		$sql1 = mysql_query("SELECT name$englang as name FROM ".TABLE_CURE." WHERE cure_id=$subcure[parent]") or Error(1, __FILE__, __LINE__);
+		$info = @mysql_fetch_array($sql1);
+		$link = $link_medicine."$cure_id/$subcure[parent]/";
+		$navig[] = array('link'=>$link, 'name'=>$info['name']);
+	}
+	else
+	{
+		$subcure_list = array();
+		
+		$ord = 'ord';
+		if($extrasite_id && $cure['type']==1) 
+			$query ="SELECT c.cure_id, c.name$englang as name
+				FROM ".TABLE_CURE." c 
+			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
+			WHERE c.parent=$subcure_id AND c.public
+			GROUP BY c.cure_id
+			ORDER BY $ord";
+		else
+			$query ="SELECT c.cure_id, c.name$englang as name 
+				FROM ".TABLE_CURE." c 
+				WHERE c.parent=$subcure_id AND c.public ORDER BY $ord";
+		$sql1 = mysql_query($query) or Error(1, __FILE__, __LINE__);
+		
+		while($info = @mysql_fetch_array($sql1))
+		{ 
+			$info['url'] = $link_medicine."$cure_id/$info[cure_id]/";
+			$subcure_list[] = $info;
+		}
+		$subcure['subcure_list'] = $subcure_list;
+	
+	}
+	
+	$link = $subcure['parent']==$cure_id ? '' : $link_medicine."$cure_id/$subcure_id/";
 	$navig[] = array('link'=>$link, 'name'=>$subcure['name']);
 	
 	$cure['inhotel'] = str_replace("[service]", $subcure['name'], $cure['inhotel']);

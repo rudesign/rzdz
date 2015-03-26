@@ -891,6 +891,10 @@ if($cure_id)
 		$sql = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE cure_id=$subcure_id") or Error(1, __FILE__, __LINE__);
 		$subcure = @mysql_fetch_array($sql);
 
+		$sql1 = mysql_query("SELECT name FROM ".TABLE_CURE." WHERE cure_id=$cure_id") 
+			or Error(1, __FILE__, __LINE__);		
+		$info = @mysql_fetch_array($sql1);
+		$subcure['cure_name'] = $info['name'] ? $info['name'] : NONAME;	
 		
 		if(@$descr)
 		{
@@ -1032,6 +1036,40 @@ if($cure_id)
 						"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
 						LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
 						$subcure['page_id']);
+			}
+			
+			$subcure['podrazdel'] = 0;
+			if($cure_type==1 && $cure_id!=1 && $cure_id==$subcure['parent'])
+			{
+				$subcure['podrazdel'] = 1;
+				
+				$ord = 'ord';
+				$sql = mysql_query("SELECT cure_id, name FROM ".TABLE_CURE." WHERE parent=$subcure_id ORDER BY $ord") 
+					or Error(1, __FILE__, __LINE__);
+				
+				$cures = array(); 
+				while($info = @mysql_fetch_array($sql))
+				{ 
+					$info['name'] = $info['name'] ? HtmlSpecialChars($info['name']) : NONAME;	
+					
+					$info['del_link'] = ""; $info['icount'] = 0;
+					if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
+					else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id&subcure_id=$subcure_id";
+				
+					$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
+					
+					$cures[] = $info;
+				}
+			
+				$replace['cure_list'] = $cures;
+			}
+			elseif($cure_id!=$subcure['parent'])
+			{		
+				$sql1 = mysql_query("SELECT cure_id, name FROM ".TABLE_CURE." WHERE cure_id=$subcure[parent]") 
+					or Error(1, __FILE__, __LINE__);		
+				$info = @mysql_fetch_array($sql1);
+				$subcure['subcure_parent'] = $info['name'] ? $info['name'] : NONAME;	
+				$subcure['subcure_link'] = "?p=$part&cure_id=$cure_id&subcure_id=$subcure[parent]";
 			}
 		}
 			

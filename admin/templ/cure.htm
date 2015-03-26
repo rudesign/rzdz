@@ -165,9 +165,11 @@
 	<p>&nbsp;</p>
 <?}?>
 <?}else{?>
-<P><a href="<?=$subcure['list_link']?>">к списку разделов</a>
-<?if(@$descr){?>&nbsp;&nbsp; <a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>">к описанию услуги <?=$subcure['name']?></a>
+<P><a href="<?=$subcure['list_link']?>"><?=$subcure['cure_name']?></a>
+<?if(@$descr){?>&nbsp;&nbsp; <a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>"><?=$subcure['name']?></a>
 &nbsp;&nbsp; <strong><?=$subcure['pname']?></strong>
+<?}?>
+<?if(@$subcure['subcure_parent']){?>&nbsp;&nbsp; <a href="<?=$subcure['subcure_link']?>"><?=$subcure['subcure_parent']?></a>
 <?}?>
 </P>
     <?if(@$descr){?>
@@ -322,6 +324,22 @@
             <input type="hidden" name="subcure_id" value="<?=$subcure_id?>">
             <input type="hidden" name="p" value="cure">
         </form>
+			<?if($subcure['podrazdel']){?>
+			<P><a href="?p=cure&addcure=<?=$subcure_id?>&cure_id=<?=$cure_id?>">Добавить подраздел ›››</a></P>
+			<table cellpadding="2" border="0">
+			<tr><td>
+			<?foreach($cure_list as $v){?>
+				<p>
+					<a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
+		
+					<?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+					<?}else{?><font class="hid"><?=$v['icount']?></font><?}?>
+				</p>
+			<?}?>
+			</td></tr>
+			</table>
+			<p>&nbsp;</p>	
+			<?}?>
             <?}?>
         <?}?>
 
