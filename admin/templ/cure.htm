@@ -73,30 +73,94 @@
 	
 	<p><a href="?p=cure&cure_id=<?=$cure_id?>">Структура</a> &nbsp;&nbsp; <b>Услуги</b></p>
 	<p>Выберите раздел: <?=$curestr_select?>
-		<?if($curestr_id){?> &nbsp;&nbsp;<a href="?p=cure&addcure=<?=$cure_id?>&curestr_id=<?=$curestr_id?>">Добавить услугу ›››</a>
-		<!--br />
-		<form method="post">
-		<?=$san_select?><br />
-		<textarea name="text" cols="50" rows="5"></textarea><br />
-		<input type="submit" name="loadcure" value="Добавить" class="button">
-    <input type="hidden" name="curestr_id" value="<?=$curestr_id?>">
-    <input type="hidden" name="cure_id" value="<?=$cure_id?>">
-    <input type="hidden" name="p" value="cure">
-		</form-->
-		<?}?>
+		<?if($curestr_id){?> &nbsp;&nbsp;<a href="?p=cure&addcure=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить услугу ›››</a><?}?>
+		
+		<p>Санаторий: <?=$san_select?></p>
+		
 	</p>
 	
 		
 		<?foreach($cure_list as $v){?>
 			<p <?if($v['inmenu']){?>style="font-weight:bold"<?}?>>
 				<a href="<?=$v['inmenu_link']?>" title="<?=$v['inmenu_alt']?>"><img src="images/<?if(!$v['inmenu']){?>n<?}?>gal.png" border="0"></a>
-				<a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
+				<a href="<?=$v['edit_link']?>"><?=$v['name']?></a>
 	
+				<?if(!$page_id){?>
 				<?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
 				<?}else{?><font class="hid"><?=$v['icount']?></font><?}?>
+				<?}?>
 			</p>
 		<?}?>
-	
+		
+		
+		<?if($page_id && $curestr_id){?>
+		<!--form method="post">
+		<textarea name="text" cols="50" rows="5"></textarea><br />
+		<input type="submit" name="loadcure" value="Добавить" class="button">
+		<input type="hidden" name="curestr_id" value="<?=$curestr_id?>">
+		<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+		<input type="hidden" name="page_id" value="<?=$page_id?>">
+		<input type="hidden" name="p" value="cure">
+		</form-->
+		<p>&nbsp;<br /><b>Таблицы</b></p>
+		
+		<P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить таблицу ›››</a></P>
+		<?if(count($tables)){?>
+			<table border="1" style="border-collapse: collapse;" cellpadding="4">
+			<tr align="center">
+				<td>№</td>
+				<td colspan="3">Название</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<?foreach($tables as $v){?>
+			
+			<FORM method="post" enctype="multipart/form-data">
+			<tr align="center" class="maincure">
+				<td width="20"><a name="link<?=$v['table_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
+				<td colspan="3"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
+				<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
+				<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
+			</tr>
+			<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+		<input type="hidden" name="curestr_id" value="<?=$curestr_id?>">
+			<input type="hidden" name="page_id" value="<?=$page_id?>">
+			<input type="hidden" name="table_id" value="<?=$v['table_id']?>">
+			<input type="hidden" name="p" value="cure">
+			</FORM>
+			
+			<tr>
+				<td>Заголовок</td>
+				<td colspan="2"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить строку ›››</a></td>
+				<td><?if($type!=2){?>&darr;<?}?></td>
+			</tr>
+			<?foreach($v['list'] as $k=>$v1){?>
+			<FORM method="post" enctype="multipart/form-data">
+			<tr align="center">
+				<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
+				<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
+					<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
+				<td><?if(!($k && $v['list'][$k-1]['rowspan'])){?>
+					<?if($v1['rowspan']){?><textarea name="name1" cols="38" rows="5" ><?=$v1['name1']?></textarea>
+					<?}else{?><input type="text" name="name1" value="<?=$v1['name1']?>" size="42"><?}?>
+					<?}?></td>
+				<td><?if($k+1!=count($v['list']) && $type!=2){?>
+					<input type="checkbox" name="rowspan" value="1" <?if($v1['rowspan']){?>checked="checked"<?}?> /><?}?>
+				</td>
+				<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
+				<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>
+			</tr>
+			<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+		<input type="hidden" name="curestr_id" value="<?=$curestr_id?>">
+			<input type="hidden" name="page_id" value="<?=$page_id?>">
+			<input type="hidden" name="table_id" value="<?=$v1['table_id']?>">
+			<input type="hidden" name="p" value="cure">
+			</FORM>
+			<?}?>
+			<?}?>
+			</table>
+		<?}?>
+		<?}?>
 		
 	<?}else{?>
 	

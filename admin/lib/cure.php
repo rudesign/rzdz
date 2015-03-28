@@ -1,4 +1,16 @@
 <?php
+
+/*$sql = mysql_query("SELECT cure_id, name, inmenu FROM ".TABLE_CURE." WHERE parent=2 ORDER BY cure_id") or Error(1, __FILE__, __LINE__);
+
+while($info = @mysql_fetch_array($sql))
+{ 
+	echo $info['inmenu']." ".$info['cure_id']." ".$info['name']."<br>";
+	mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$info[cure_id]") or Error(1, __FILE__, __LINE__);
+	if(!$info['inmenu']) mysql_query("DELETE FROM ".TABLE_CURE." WHERE cure_id=$info[cure_id]") or Error(1, __FILE__, __LINE__);
+	
+}*/
+
+
 $cure_id = (int)@$cure_id;
 $subcure_id = (int)@$subcure_id;
 $cure_type_list = array(
@@ -14,6 +26,7 @@ if(isset($addcure))
 {	
 	$addcure = (int)@$addcure;
 	$curestr_id = (int)@$curestr_id;
+	$page_id = (int)@$page_id;
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$addcure AND curestr_id=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -21,9 +34,12 @@ if(isset($addcure))
 	
 	mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$addcure, curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
+	
+	if($page_id)
+	mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET page_id=$page_id, cure_id=$id") or Error(1, __FILE__, __LINE__);
 		
 	$link = "?p=$part";
-	if($addcure) $link .= "&cure_id=$addcure&subcure_id=$id";
+	if($addcure) $link .= "&cure_id=$addcure&subcure_id=$id&page_id=$page_id";
 	else $link .= "&cure_id=$id";
 	Header("Location: ".$link);
 	exit;
@@ -460,12 +476,25 @@ if(isset($inmenu))
 	$cure_id = (int)@$cure_id;
 	$subcure_id = (int)@$subcure_id;
 	$curestr_id = (int)@$curestr_id;
+	$page_id = (int)@$page_id;
 	$inmenu = (int)@$inmenu;
 	
-	
-	mysql_query("UPDATE ".TABLE_CURE." SET inmenu='$inmenu' WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
+	if($page_id)
+	{
+		$sql_f = mysql_query("SELECT count(*) FROM ".TABLE_CUREHOTEL." 	
+			WHERE page_id=$page_id AND cure_id=$subcure_id") or Error(1, __FILE__, __LINE__);	
+		$info = @mysql_fetch_array($sql_f);	 		
+		if(!$info[0] && $inmenu)
+			mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET cure_id=$subcure_id, page_id='$page_id'") 
+			or Error(1, __FILE__, __LINE__);
+		elseif($info[0] && !$inmenu)
+			mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id AND page_id='$page_id'") 
+			or Error(1, __FILE__, __LINE__);
+	}
+	else
+		mysql_query("UPDATE ".TABLE_CURE." SET inmenu='$inmenu' WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 				
-	$url = "?p=$part&cure_id=$cure_id&curestr_id=$curestr_id&service";
+	$url = "?p=$part&cure_id=$cure_id&curestr_id=$curestr_id&service&page_id=$page_id";
 	
 	Header("Location: ".$url);
 	exit;
@@ -511,18 +540,22 @@ if(@$delcurestr)
 	exit;
 }
 
-if(isset($addtable) && $subcure_id)
+if(isset($addtable) && ($subcure_id || $page_id))
 {	
 	$addtable = (int)@$addtable;
 	$page_id = (int)@$page_id;
-	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	$curestr_id = (int)@$curestr_id;
+	$url = $subcure_id ? "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id" :
+		"?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&page_id=$page_id";
 	
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$addtable AND cure_id=$subcure_id AND page_id=$page_id") 
+	$ff = $subcure_id ? "cure_id=$subcure_id" : "curestr_id=$curestr_id";
+	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$addtable AND $ff AND page_id=$page_id") 
 		or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$ord = (int)@$arr[0] + 1;
 	
-	mysql_query("INSERT INTO ".TABLE_TABLE." SET ord=$ord, parent=$addtable, cure_id=$subcure_id, page_id=$page_id") or Error(1, __FILE__, __LINE__);
+	mysql_query("INSERT INTO ".TABLE_TABLE." SET ord=$ord, parent=$addtable, $ff, page_id=$page_id") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
 		
 	Header("Location: $url"."#link$id");
@@ -533,7 +566,9 @@ if(@$savetable)
 {
 	$table_id = (int)@$table_id;
 	$page_id = (int)@$page_id;
-	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	$curestr_id = (int)@$curestr_id;
+	$url = $subcure_id ? "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id" :
+		"?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&page_id=$page_id";
 	
 	$sql = mysql_query("SELECT ord, parent, cure_id FROM ".TABLE_TABLE." WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -579,14 +614,17 @@ if(@$deltable)
 {
 	$table_id = (int)@$table_id;
 	
-	$sql = mysql_query("SELECT ord, parent, cure_id, page_id FROM ".TABLE_TABLE." WHERE table_id=$table_id") or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query("SELECT ord, parent, cure_id, page_id, curestr_id FROM ".TABLE_TABLE." 
+		WHERE table_id=$table_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$ord = (int)@$arr['ord']; 
 	$parent = (int)@$arr['parent']; 
 	$subcure_id = (int)@$arr['cure_id'];
 	$page_id = (int)@$arr['page_id'];
+	$curestr_id = (int)@$arr['curestr_id'];
 	
-	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	$url = $subcure_id ? "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id" :
+		"?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&page_id=$page_id";
 	
 	if($parent) $url .= "#link$parent";
 	
@@ -693,7 +731,7 @@ if($cure_id)
 				$tinymce_elements = 'description, description_en';
 				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 			}
-			if($cure_id==5 || $cure_id==8 || $cure_type=1)
+			if($cure_id==5 || $cure_id==8 || $cure_type==1)
 			{
 				$replace['description'] = HtmlSpecialChars($replace['description']);
 				$replace['description_en'] = HtmlSpecialChars($replace['description_en']);
@@ -782,18 +820,47 @@ if($cure_id)
 				if($replace['service'])
 				{
 					$replace['curestr_id'] = $curestr_id = (int)@$curestr_id;
-					
-					$page_id = 22;
+
+					$replace['page_id'] = $page_id = (int)@$page_id;					
 					$replace['san_select'] = mysql_select('page_id', 
-							"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
-							LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 ORDER BY p.ord",	
-							$page_id);
+						"SELECT p.page_id, concat(p.name, ' ', ct.name) as name FROM ".TABLE_PAGE." p 
+						LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id WHERE p.parent=1 AND page_id!=663 ORDER BY p.ord",	
+						$page_id, 1, 
+						"id=\"s_id\" onchange=\"window.location='?p=cure&cure_id=$cure_id&service&curestr_id=$curestr_id&page_id='+this.value\"");
+							
+					if($page_id && $curestr_id)
+					{
+						$sql = mysql_query("SELECT * FROM ".TABLE_TABLE." 
+							WHERE parent=0 AND curestr_id=$curestr_id AND page_id=$page_id ORDER BY ord") 
+						or Error(1, __FILE__, __LINE__);
+						
+						$tables = array(); 
+						while($info = @mysql_fetch_array($sql))
+						{ 
+							$info['name'] = HtmlSpecialChars($info['name']);		
+							
+							$sql1 = mysql_query("SELECT * FROM ".TABLE_TABLE." WHERE parent=$info[table_id] ORDER BY ord") 
+							or Error(1, __FILE__, __LINE__);	
+							$list = array(); 
+							while($info1 = @mysql_fetch_array($sql1))
+							{ 
+								$info1['name'] = HtmlSpecialChars($info1['name']);		
+								$info1['name1'] = HtmlSpecialChars($info1['name1']);							
+								$list[] = $info1;
+							}
+							$info['list'] = $list;
+						
+							$tables[] = $info;
+						}
+					
+						$replace['tables'] = $tables;
+					}
 					
 					$sql = mysql_query("SELECT curestr_id, name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 						or Error(1, __FILE__, __LINE__);
 					
-					$select =  "<select name=\"curestr_id\" ".
-						"onchange=\"document.location='?p=$part&cure_id=$cure_id&service&curestr_id='+this.value\">\n";
+					$select =  "<select name=\"curestr_id\" id=\"cs_id\" ".
+						"onchange=\"document.location='?p=$part&cure_id=$cure_id&service&page_id=$page_id&curestr_id='+this.value\">\n";
 					$select .= "<option value='0'>все</option>\n";
 					while($info = @mysql_fetch_array($sql))
 					{ 
@@ -823,10 +890,18 @@ if($cure_id)
 					
 					//if($curestr_id)
 					{
-						$where = "parent=$cure_id";
-						if($curestr_id) $where .= " AND curestr_id=$curestr_id";
-						$ord = $curestr_id ? 'ord' : 'name';
-						$sql = mysql_query("SELECT cure_id, name, inmenu FROM ".TABLE_CURE." WHERE  $where ORDER BY $ord") 
+						$where = "c.parent=$cure_id";
+						if($curestr_id) $where .= " AND c.curestr_id=$curestr_id";
+						$ord = $curestr_id ? 'c.ord' : 'c.name';
+						$ltable = ''; $lfield = '';
+						if($page_id)
+						{
+							$ltable = "LEFT JOIN ".TABLE_CUREHOTEL." ch ON (ch.page_id=$page_id AND ch.cure_id=c.cure_id)";
+							$lfield = ", ch.cure_id as chotel";
+						}
+						$sql = mysql_query("SELECT c.cure_id, c.name, c.inmenu $lfield FROM ".TABLE_CURE." c 
+							$ltable
+							WHERE  $where ORDER BY $ord") 
 							or Error(1, __FILE__, __LINE__);
 						
 						$cures = array(); 
@@ -836,14 +911,28 @@ if($cure_id)
 							
 							$info['del_link'] = ""; $info['icount'] = 0;
 							if($i=check_cure($info['cure_id'])) $info['icount'] = $i;
-							else $info['del_link'] = ADMIN_URL."?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id&curestr_id=$curestr_id";
+							else $info['del_link'] = "?p=$part&del_cure=$info[cure_id]&cure_id=$cure_id&curestr_id=$curestr_id&page_id=$page_id";
 						
-							$info['edit_link'] = ADMIN_URL."?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
-							
-							$info['inmenu_link'] = "?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&subcure_id=$info[cure_id]&inmenu=";
-							$info['inmenu_link'] .= $info['inmenu'] ? "0" : "1";
-							
-							$info['inmenu_alt'] = $info['inmenu'] ? "убрать из меню основного сайта" : "добавить в меню основного сайта";
+							if($page_id)
+							{
+								$info['edit_link'] = $info['chotel'] ? "?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]&descr=$page_id" : '';
+								
+								$info['inmenu'] = $info['chotel'];
+								$info['inmenu_link'] = "?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id".
+														"&subcure_id=$info[cure_id]&page_id=$page_id&inmenu=";
+								$info['inmenu_link'] .= $info['chotel'] ? "0" : "1";
+								
+								$info['inmenu_alt'] = $info['chotel'] ? "убрать из списка" : "добавить в список";
+							}
+							else
+							{
+								$info['edit_link'] = "?p=$part&cure_id=$cure_id&subcure_id=$info[cure_id]";
+								
+								$info['inmenu_link'] = "?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&subcure_id=$info[cure_id]&inmenu=";
+								$info['inmenu_link'] .= $info['inmenu'] ? "0" : "1";
+								
+								$info['inmenu_alt'] = $info['inmenu'] ? "убрать из меню основного сайта" : "добавить в меню основного сайта";
+							}
 							
 							$cures[] = $info;
 						}
@@ -908,7 +997,7 @@ if($cure_id)
 				or Error(1, __FILE__, __LINE__);
 			$info = @mysql_fetch_array($sql);
 				
-			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
+			$subcure['list_link'] = "?p=cure&cure_id=$cure_id&page_id=$page_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['page_id'] =  $page_id;
 			$subcure['pname'] =  HtmlSpecialChars($info['pname']);
