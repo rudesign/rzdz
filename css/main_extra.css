@@ -1056,6 +1056,49 @@ font-weight:normal;
 .simple_content table.zebra td:last-child{
     border-right: none!important;
 }
+
+/* zebra1 */
+.simple_content table.zebra1{
+    width: 100%;
+    border-collapse: collapse!important;
+    border-spacing: 0!important;
+}
+.simple_content table.zebra1 thead td,
+.simple_content table.zebra1 th td{
+    text-align: center;
+}
+.simple_content table.zebra1 thead td:first-child,
+.simple_content table.zebra1 th td:first-child{
+    text-align: left;
+}
+.simple_content table.zebra1 thead td,
+.simple_content table.zebra1 th td,
+.simple_content table.zebra1 thead tr:nth-child(2n) td{
+    background-color: #ebebeb!important;
+}
+.simple_content table.zebra1 tr:last-child td{
+}
+.simple_content table.zebra1 tr td{
+    border-bottom: 1px #ebebeb solid!important;
+    border-right: 1px #fff solid!important;
+    padding: 3px;
+}
+.simple_content table.zebra1.small tr td{
+    font-size: 9px;
+    line-height: 1.3em;
+}
+.simple_content table.zebra1 thead td,
+.simple_content table.zebra1 th td,
+.simple_content table.zebra1 tr:nth-child(2) td{
+    border-right: 1px #fff solid!important;
+}
+.simple_content table.zebra1 thead td:last-child,
+.simple_content table.zebra1 th td:last-child,
+.simple_content table.zebra1 td:last-child{
+    border-right: none!important;
+}
+
+
 .double_simple img{
 float:left;
 margin-right:12px;

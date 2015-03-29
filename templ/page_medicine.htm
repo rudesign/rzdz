@@ -437,30 +437,31 @@
 		<?if($extrasite_id){?>
 		
 		<?foreach($cure_list as $k=>$v){?>
-		<table class="zebra">
+		<table class="zebra1">
 			<thead>
 			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
 			<td width="108"><div align="center"><strong>÷ена, руб.</strong></div></td></tr>
 			</thead>
-			<?foreach($v['uslugi'] as $v1){?>
-			<tr <?if($v1['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:<?if($v1['sub'] && !$v1['title']){?>40<?}else{?>40<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;<?}?><?if($v1['title']){?>font-weight:bold;<?}?>" 
-					<?if($v1['sel']){?>id="pr<?=$v1['cure_id']?>"<?}?> >
-					<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}else{?><?=$v1['name']?><?}?></td>
-				<td width="108" style="<?if($v1['sel']){?>background-color:#159fa7!important;<?}?>"><div align="center"><strong><?=$v1['price']?></strong></div></td>
-			</tr>
-			<?}?>
 			<?foreach($v['list'] as $v1){?>
-			<tr><td colspan="2"><strong><?=$v1['name']?></strong></td></tr>
+			<tr><td colspan="2"><strong><?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
+					<?}else{?><?=$v1['name']?><?}?></strong></td></tr>
 				<?foreach($v1['uslugi'] as $v2){?>
 			<tr <?if($v2['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:<?if($v2['sub'] && !$v2['title']){?>40<?}else{?>40<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;<?}?><?if($v2['title']){?>font-weight:bold;<?}?>" 
-					<?if($v2['sel']){?>id="pr<?=$v2['cure_id']?>"<?}?>>
+				<td style="padding-left:<?if(@$v2['tab']){?>50<?}else{?>30<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v2['title']){?>font-weight:bold;<?}?>" 
+					<?if($v2['sel']){?>id="pr<?if(@$v2['table_id']) echo $v2['table_id']; else echo $v2['cure_id'];?>"<?}?>>
 					<?if($v2['url']){?><a href="<?=$v2['url']?>"><?=$v2['name']?></a><?}else{?><?=$v2['name']?><?}?></td>
-				<td width="108"<?if($v2['sel']){?> style="background-color:#159fa7!important;"<?}?>>
+				<td width="108"<?if($v2['sel']){?> style="background-color:#159fa7!important;color:#FFFFFF!important;"<?}?>>
 					<div align="center"><strong><?=$v2['price']?></strong></div></td>
 			</tr>
 				<?}?>
+			<?}?>
+			<?foreach($v['uslugi'] as $v1){?>
+			<tr <?if($v1['sel']){?>class="sel"<?}?>>
+				<td style="padding-left:<?if(@$v1['tab']){?>50<?}elseif(!count($v['list'])){?>30<?}else{?>0<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v1['title']){?>font-weight:bold;<?}?>" 
+					<?if($v1['sel']){?>id="pr<?if(@$v1['table_id']) echo $v1['table_id']; else echo $v1['cure_id'];?>"<?}?> >
+					<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}else{?><?=$v1['name']?><?}?></td>
+				<td width="108" style="<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?>"><div align="center"><strong><?=$v1['price']?></strong></div></td>
+			</tr>
 			<?}?>
 		</table><p>&nbsp;</p>
 		<?}?>

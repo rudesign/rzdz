@@ -94,31 +94,33 @@
 		
 		
 		<?if($page_id && $curestr_id){?>
-		<!--form method="post">
+		<p>&nbsp;<br /><b>Таблица</b></p>
+		
+		<form method="post">
 		<textarea name="text" cols="50" rows="5"></textarea><br />
+		<input type="checkbox" name="tab" value="1" /> отступ  &nbsp;&nbsp;
 		<input type="submit" name="loadcure" value="Добавить" class="button">
 		<input type="hidden" name="curestr_id" value="<?=$curestr_id?>">
 		<input type="hidden" name="cure_id" value="<?=$cure_id?>">
 		<input type="hidden" name="page_id" value="<?=$page_id?>">
 		<input type="hidden" name="p" value="cure">
-		</form-->
-		<p>&nbsp;<br /><b>Таблицы</b></p>
+		</form>
 		
-		<P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить таблицу ›››</a></P>
+		<?if(!count($tables)){?><P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить таблицу ›››</a></P><?}?>
 		<?if(count($tables)){?>
 			<table border="1" style="border-collapse: collapse;" cellpadding="4">
 			<tr align="center">
 				<td>№</td>
-				<td colspan="3">Название</td>
+				<td colspan="4">Название</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<?foreach($tables as $v){?>
 			
-			<FORM method="post" enctype="multipart/form-data">
+			<!--FORM method="post" enctype="multipart/form-data">
 			<tr align="center" class="maincure">
 				<td width="20"><a name="link<?=$v['table_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
-				<td colspan="3"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
+				<td colspan="4"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
 				<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
 				<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
 			</tr>
@@ -127,10 +129,11 @@
 			<input type="hidden" name="page_id" value="<?=$page_id?>">
 			<input type="hidden" name="table_id" value="<?=$v['table_id']?>">
 			<input type="hidden" name="p" value="cure">
-			</FORM>
+			</FORM-->
 			
 			<tr>
 				<td>Заголовок</td>
+				<td>Отступ</td>
 				<td colspan="2"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить строку ›››</a></td>
 				<td><?if($type!=2){?>&darr;<?}?></td>
 			</tr>
@@ -138,6 +141,7 @@
 			<FORM method="post" enctype="multipart/form-data">
 			<tr align="center">
 				<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
+				<td><input type="checkbox" name="tab" value="1" <?if($v1['tab']){?>checked="checked"<?}?> /></td>
 				<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
 					<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
 				<td><?if(!($k && $v['list'][$k-1]['rowspan'])){?>
@@ -196,7 +200,8 @@
 	<tr align="center">
 		<td></td>
 		<td><a name="link<?=$v1['curestr_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
-			<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
+			<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255">
+			<?if($v1['descrlink']){?> <a href="<?=$v1['descrlink']?>">Описание</a><?}?></td>
 		<td><input type="submit" name="savecurestr" value="Сохранить" class="button"></td>
 		<td><input type="submit" name="delcurestr" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>
 	</tr>
@@ -261,12 +266,22 @@
 		
 		<p>&nbsp;<br /><b>Таблицы</b></p>
 		
+		<form method="post">
+		<textarea name="text" cols="50" rows="5"></textarea><br />
+		<input type="checkbox" name="tab" value="1" checked="checked" /> отступ  &nbsp;&nbsp;
+		<input type="submit" name="loadcure" value="Добавить" class="button">
+		<input type="hidden" name="subcure_id" value="<?=$subcure_id?>">
+		<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+		<input type="hidden" name="page_id" value="<?=$descr?>">
+		<input type="hidden" name="p" value="cure">
+		</form>
+		
 		<?if($type!=2 || !count($tables)){?><P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить таблицу ›››</a></P><?}?>
 		<?if(count($tables)){?>
 		<table border="1" style="border-collapse: collapse;" cellpadding="4">
 		<tr align="center">
 			<td>№</td>
-			<td colspan="3">Название</td>
+			<td colspan="4">Название</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -275,7 +290,7 @@
 		<FORM method="post" enctype="multipart/form-data">
 		<tr align="center" class="maincure">
 			<td width="20"><a name="link<?=$v['table_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
-			<td colspan="3"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
+			<td colspan="4"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
 			<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
 			<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
 		</tr>
@@ -288,6 +303,7 @@
 		<?}?>
 		<tr>
 			<td>Заголовок</td>
+			<td>Отступ</td>
 			<td colspan="2"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить строку ›››</a></td>
 			<td><?if($type!=2){?>&darr;<?}?></td>
 		</tr>
@@ -295,6 +311,7 @@
 		<FORM method="post" enctype="multipart/form-data">
 		<tr align="center">
 			<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
+			<td><input type="checkbox" name="tab" value="1" <?if($v1['tab']){?>checked="checked"<?}?> /></td>
 			<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
 				<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
 			<td><?if(!($k && $v['list'][$k-1]['rowspan'])){?>

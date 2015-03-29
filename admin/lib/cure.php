@@ -1,15 +1,5 @@
 <?php
 
-/*$sql = mysql_query("SELECT cure_id, name, inmenu FROM ".TABLE_CURE." WHERE parent=2 ORDER BY cure_id") or Error(1, __FILE__, __LINE__);
-
-while($info = @mysql_fetch_array($sql))
-{ 
-	echo $info['inmenu']." ".$info['cure_id']." ".$info['name']."<br>";
-	mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$info[cure_id]") or Error(1, __FILE__, __LINE__);
-	if(!$info['inmenu']) mysql_query("DELETE FROM ".TABLE_CURE." WHERE cure_id=$info[cure_id]") or Error(1, __FILE__, __LINE__);
-	
-}*/
-
 
 $cure_id = (int)@$cure_id;
 $subcure_id = (int)@$subcure_id;
@@ -359,12 +349,15 @@ function check_cure($subcure_id, $parent=0)
 if(isset($loadcure))
 {	
 	$cure_id = (int)@$cure_id;
+	$subcure_id = (int)@$subcure_id;
 	$curestr_id = (int)@$curestr_id;
 	$page_id = (int)@$page_id;
+	$tab = (int)@$tab;
 	
-	$url = "?p=$part&cure_id=$cure_id&curestr_id=$curestr_id&service";
+	$url = $subcure_id ? "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id" :
+		"?p=$part&cure_id=$cure_id&service&curestr_id=$curestr_id&page_id=$page_id";
 	
-	if(!$cure_id || !$curestr_id || !$page_id)
+	if((!$subcure_id && !$curestr_id)  || !$page_id)
 	{
 		Header("Location: ".$url); 
 		exit;
@@ -372,46 +365,36 @@ if(isset($loadcure))
 	
 	$text_arr = explode("\n", from_form(@$text));
 	
-	foreach($text_arr as $v)
+	$ff = $subcure_id ? "cure_id='$subcure_id'" : "curestr_id='$curestr_id'";
+	$sql = mysql_query("SELECT table_id FROM ".TABLE_TABLE." WHERE $ff AND parent=0 AND page_id=$page_id") 
+		or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	if(@$arr[0]) $table_id = $arr[0];
+	else
 	{
-		$list = explode(";", $v);
-		if(isset($list[0]) && isset($list[1]) && isset($list[2]))
-		{
-			if(!strpos($list[2], "-00")) continue;
-			
-			$name = escape_string($list[0]);
-			$price = str_replace("-00", '', escape_string($list[2]));
-			
-			$sql = mysql_query("SELECT cure_id FROM ".TABLE_CURE." WHERE name='$name' AND parent=$cure_id") or Error(1, __FILE__, __LINE__);
-			$arr = @mysql_fetch_array($sql);
-			if(@$arr[0]) $subcure_id = $arr[0];
-			else
-			{
-				$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE parent=$cure_id") or Error(1, __FILE__, __LINE__);
-				$arr = @mysql_fetch_array($sql);
-				$ord = (int)@$arr[0] + 1;
-				
-				mysql_query("INSERT INTO ".TABLE_CURE." SET ord=$ord, parent=$cure_id, curestr_id='$curestr_id', name='$name'") 
-					or Error(1, __FILE__, __LINE__);
-				$subcure_id = mysql_insert_id();
-			}
-			
-			
-			$sql = mysql_query("SELECT count(*) FROM ".TABLE_CUREHOTEL." WHERE page_id=$page_id AND cure_id=$subcure_id") 
-				or Error(1, __FILE__, __LINE__);
-			$arr = @mysql_fetch_array($sql);
-			$count = $arr[0];
-			
-			if($count)
-				mysql_query("UPDATE ".TABLE_CUREHOTEL." SET price='".escape_string($price)."' WHERE cure_id=$subcure_id AND page_id='$page_id'") 
-					or Error(1, __FILE__, __LINE__);
-			else
-				mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET cure_id=$subcure_id, page_id='$page_id', price='".escape_string($price)."'") 
-				or Error(1, __FILE__, __LINE__);
-			
-		}
+		mysql_query("INSERT INTO ".TABLE_TABLE." SET $ff, page_id=$page_id") or Error(1, __FILE__, __LINE__);
+		$table_id = mysql_insert_id();
 	}
 	
+	$sql = mysql_query("SELECT max(ord) FROM ".TABLE_TABLE." WHERE parent=$table_id") 
+		or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr[0]+1;	
+	
+	foreach($text_arr as $v)
+	{
+		$list = explode("\t", $v);
+		if(isset($list[0]) && $list[0]!='')
+		{			
+			$name = escape_string($list[0]);
+			$price = str_replace("-00", '', escape_string(@$list[1]));
+			
+			mysql_query("INSERT INTO ".TABLE_TABLE." SET parent=$table_id, ord=$ord, tab=$tab, name='$name', name1='$price', 
+				$ff, page_id=$page_id") 
+				or Error(1, __FILE__, __LINE__);	
+			$ord++;		
+		}
+	}
 		
 	Header("Location: ".$url);
 	exit;
@@ -513,7 +496,7 @@ if(@$delcurestr)
 	
 	if($parent) $url .= "#link$parent";
 	
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$curestr_id") or Error(1, __FILE__, __LINE__);
+	/*$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURESTR." WHERE parent=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$count = (int)@$arr[0];
 	if($count) 
@@ -521,7 +504,7 @@ if(@$delcurestr)
 		$_SESSION['message'] = "–аздел не может быть удален, в нем есть подразделы";
 		Header("Location: ".$url);
 		exit;
-	}
+	}*/
 	
 	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CURE." WHERE curestr_id=$curestr_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
@@ -534,7 +517,8 @@ if(@$delcurestr)
 	}
 		
 	mysql_query("DELETE FROM ".TABLE_CURESTR." WHERE curestr_id='$curestr_id'") or Error(1, __FILE__, __LINE__);
-	mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord") or Error(1, __FILE__, __LINE__);	
+	mysql_query("UPDATE ".TABLE_CURESTR." SET ord=ord-1 WHERE parent=$parent AND cure_id=$cure_id AND ord>$ord") or Error(1, __FILE__, __LINE__);
+	mysql_query("DELETE FROM ".TABLE_CURESTR." WHERE parent='$curestr_id'") or Error(1, __FILE__, __LINE__);	
 		
 	Header("Location: ".$url);
 	exit;
@@ -557,6 +541,7 @@ if(isset($addtable) && ($subcure_id || $page_id))
 	
 	mysql_query("INSERT INTO ".TABLE_TABLE." SET ord=$ord, parent=$addtable, $ff, page_id=$page_id") or Error(1, __FILE__, __LINE__);
 	$id = mysql_insert_id();
+	mysql_query("INSERT INTO ".TABLE_TABLE." SET ord=1, parent=$id, $ff, page_id=$page_id") or Error(1, __FILE__, __LINE__);
 		
 	Header("Location: $url"."#link$id");
 	exit;
@@ -591,9 +576,10 @@ if(@$savetable)
 	$name = escape_string(from_form(@$name));
 	$name1 = escape_string(from_form(@$name1));
 	$title = (int)@$title;
+	$tab = (int)@$tab;
 	$rowspan = (int)@$rowspan;
 	
-	mysql_query("UPDATE ".TABLE_TABLE." SET name='$name', name1='$name1', title='$title', ord='$ord', rowspan='$rowspan' ".
+	mysql_query("UPDATE ".TABLE_TABLE." SET name='$name', name1='$name1', title='$title', tab='$tab', ord='$ord', rowspan='$rowspan' ".
 				"WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
 				
 	if($ord > $oldord) mysql_query("UPDATE ".TABLE_TABLE." SET ord=ord-1 ".
@@ -628,7 +614,7 @@ if(@$deltable)
 	
 	if($parent) $url .= "#link$parent";
 	
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$table_id") or Error(1, __FILE__, __LINE__);
+	/*$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_TABLE." WHERE parent=$table_id") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	$count = (int)@$arr[0];
 	if($count) 
@@ -636,11 +622,12 @@ if(@$deltable)
 		$_SESSION['message'] = "–аздел не может быть удален, в нем есть подразделы";
 		Header("Location: ".$url);
 		exit;
-	}
+	}*/
 			
 	mysql_query("DELETE FROM ".TABLE_TABLE." WHERE table_id='$table_id'") or Error(1, __FILE__, __LINE__);
 	mysql_query("UPDATE ".TABLE_TABLE." SET ord=ord-1 WHERE parent=$parent AND page_id=$page_id AND cure_id=$subcure_id AND ord>$ord") 
 		or Error(1, __FILE__, __LINE__);	
+	mysql_query("DELETE FROM ".TABLE_TABLE." WHERE parent='$table_id'") or Error(1, __FILE__, __LINE__);
 		
 	Header("Location: ".$url);
 	exit;
@@ -956,7 +943,8 @@ if($cure_id)
 						$list = array(); 
 						while($info1 = @mysql_fetch_array($sql1))
 						{ 
-							$info1['name'] = HtmlSpecialChars($info1['name']);							
+							$info1['name'] = HtmlSpecialChars($info1['name']);	
+							$info1['descrlink'] = $cure_type==2 ? 	"?p=cure&curestrd=$info1[curestr_id]&cure_id=$cure_id" : '';				
 							$list[] = $info1;
 						}
 						$info['list'] = $list;
