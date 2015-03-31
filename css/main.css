@@ -709,7 +709,7 @@ width:100%;
 }
 
 .for_people_lc{
-    background:url(../img/for_people_lc.png) no-repeat;
+    background:url(../img/for_people_lc1.png) no-repeat;
     display:block;
     width:310px;
     height:178px;
@@ -751,7 +751,7 @@ margin-top:10px;
 margin-right:15px;
 }
 .list_lc_people li{
-margin-bottom:11px;
+margin-bottom:5px;
 }
 
 .for_news_lc{

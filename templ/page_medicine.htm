@@ -137,9 +137,9 @@
                 .cure-locator .alert{
                     position: relative;
                     display: none;
-                    padding: 20px;
+                    padding: 14px 20px 15px;
                     margin-bottom: 15px;
-                    background-color: #008c95;
+                    background-color: #009745;
                     border-radius: 5px;
                     -moz-border-radius: 5px;
                     -webkit-border-radius: 5px;
@@ -214,15 +214,46 @@
             </style>
             <script language="javascript">
                 $(document).ready(function(){
-                    if(!$.cookie("cureAlertClosed")) $('.cure-locator .alert').slideDown('fast');
+
+                    var containers = $('.cure-locator .alert');
+                    var container = containers.eq(0);
+                    var container1 = containers.eq(1);
+
+                    if($.cookie("cureAlertClosed")) {
+                        container.show();
+                    }else{
+                        container1.show();
+                    }
                 });
-                function closeCureAlert(){
-                    var container = $('.cure-locator .alert');
-                    $.cookie("cureAlertClosed", 1, { expires: 1 });
+                function openCureAlert()
+                {
+                    var containers = $('.cure-locator .alert');
+                    var container = containers.eq(0);
+                    var container1 = containers.eq(1);
+
+                    $.cookie("cureAlertClosed", 0, { expires: 1 });
+
                     container.slideUp('fast');
+                    container1.slideDown('fast');
+                }
+
+                function closeCureAlert()
+                {
+                    var containers = $('.cure-locator .alert');
+                    var container = containers.eq(0);
+                    var container1 = containers.eq(1);
+
+                    $.cookie("cureAlertClosed", 1, { expires: 1 });
+
+                    container.slideDown('fast');
+                    container1.slideUp('fast');
                 }
             </script>
             <div class="cure-locator clearfix">
+                <div class="alert">
+                    <div class="close" onclick="openCureAlert();">&darr;</div>
+                    Противопоказания
+                </div>
                 <div class="alert">
                     <div class="close" onclick="closeCureAlert();">x</div>
                     <p><b><?=$cure['att_name']?></b></p>
