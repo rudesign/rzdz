@@ -304,7 +304,8 @@ padding-top: 7px;
     border-bottom: 1px #ebebeb solid!important;
 }
 .drevo ul li:nth-child(2n){
-    background-color: #ebebeb!important;
+    /*background-color: #ebebeb!important;*/
+	
 }
 
 .top, .top a{

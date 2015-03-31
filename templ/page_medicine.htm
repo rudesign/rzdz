@@ -478,7 +478,7 @@
 					<?}else{?><?=$v1['name']?><?}?></strong></td></tr>
 				<?foreach($v1['uslugi'] as $v2){?>
 			<tr <?if($v2['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:<?if(@$v2['tab']){?>50<?}else{?>30<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v2['title']){?>font-weight:bold;<?}?>" 
+				<td style="padding-left:<?if(@$v2['tab']){?>0<?}else{?>0<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v2['title']){?>font-weight:bold;<?}?>" 
 					<?if($v2['sel']){?>id="pr<?if(@$v2['table_id']) echo $v2['table_id']; else echo $v2['cure_id'];?>"<?}?>>
 					<?if($v2['url']){?><a href="<?=$v2['url']?>"><?=$v2['name']?></a><?}else{?><?=$v2['name']?><?}?></td>
 				<td width="108"<?if($v2['sel']){?> style="background-color:#159fa7!important;color:#FFFFFF!important;"<?}?>>
@@ -488,7 +488,7 @@
 			<?}?>
 			<?foreach($v['uslugi'] as $v1){?>
 			<tr <?if($v1['sel']){?>class="sel"<?}?>>
-				<td style="padding-left:<?if(@$v1['tab']){?>50<?}elseif(!count($v['list'])){?>30<?}else{?>0<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v1['title']){?>font-weight:bold;<?}?>" 
+				<td style="padding-left:<?if(@$v1['tab']){?>0<?}elseif(!count($v['list'])){?>0<?}else{?>0<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v1['title']){?>font-weight:bold;<?}?>" 
 					<?if($v1['sel']){?>id="pr<?if(@$v1['table_id']) echo $v1['table_id']; else echo $v1['cure_id'];?>"<?}?> >
 					<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}else{?><?=$v1['name']?><?}?></td>
 				<td width="108" style="<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?>"><div align="center"><strong><?=$v1['price']?></strong></div></td>
@@ -530,7 +530,7 @@
 			<?if(count($v['list'])){?>
 			<ul id="l<?=$v['curestr_id']?>" style="display:none">
 			<?foreach($v['list'] as $v1){?>
-			<li>
+			<li <?if(count($v['list']) || count($v['uslugi'])){?>style="font-weight:bold;"<?}?>> 
 				<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
 				<?}elseif(count($v1['uslugi'])){?><a href="javascript:ShowCureList(<?=$v1['curestr_id']?>)"><?=$v1['name']?></a>
 				<?}else{?><?=$v1['name']?><?}?>
@@ -538,7 +538,7 @@
 				<?if(count($v1['uslugi'])){?>
 			<ul id="u<?=$v1['curestr_id']?>" style="display:none">
 				<?foreach($v1['uslugi'] as $v2){?>
-			<li style="padding-left:30px"><a href="<?=$v2['url']?>"><?=$v2['name']?></a></li>
+			<li><a href="<?=$v2['url']?>"><?=$v2['name']?></a></li>
 				<?}?>
 			</ul>
 				<?}?>
@@ -549,7 +549,7 @@
 			<?if(count($v['uslugi'])){?>
 			<ul id="u<?=$v['curestr_id']?>" style="display:none">
 			<?foreach($v['uslugi'] as $i=>$v1){?>
-			<li <?if(!count($v['list'])){?>style="padding-left:30px;"<?}?>><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
+			<li><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
 			<?}?>
 			</ul>
 			<?}?>
