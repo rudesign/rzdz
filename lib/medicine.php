@@ -19,7 +19,7 @@ function uslugi($curestr_id, $cure_id, $sid)
 		LEFT JOIN ".TABLE_TABLE." t ON (t.parent=0 AND t.cure_id=c.cure_id AND t.page_id=$extrasite_id)
 		" : '';
 	$fields = $extrasite_id ? ", c.inmenu, h.cure_id, h.price$englang as  price, 
-		h.name$englang as prname, h.description$englang as prdescription, t.table_id" : '';
+		h.name$englang as prname, h.description$englang as prdescription, h.title, t.table_id" : '';
 	$where = $extrasite_id ? " AND h.cure_id" : " AND c.inmenu";
 	
 	$sql_uslugi = mysql_query("SELECT c.cure_id, c.name$englang as name, c.description$englang as description $fields FROM ".TABLE_CURE." c

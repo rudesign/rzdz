@@ -244,10 +244,11 @@ if(@$savedescr)
 	$price1_en = escape_string(from_form(@$price1_en));
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
+	$title = (int)@$title;
 		
 	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET name='$name' , name_en='$name_en', 
 		price='$price' , price_en='$price_en', price1='$price1' , price1_en='$price1_en',
-		description='$description', description_en='$description_en'
+		description='$description', description_en='$description_en', title='$title'
 		WHERE cure_id=$subcure_id AND page_id='$page_id'") 
 	or Error(1, __FILE__, __LINE__);
 	
@@ -979,7 +980,7 @@ if($cure_id)
 			$replace['descr'] = $page_id;
 			
 			$sql = mysql_query("SELECT cr.name, cr.name_en, cr.description, cr.description_en, 
-				cr.price, cr.price_en, cr.price1, cr.price1_en, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
+				cr.price, cr.price_en, cr.price1, cr.price1_en, cr.title, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
 				LEFT JOIN ".TABLE_PAGE." p ON p.page_id=cr.page_id
 				WHERE cr.cure_id=$subcure_id AND cr.page_id=$page_id") 
 				or Error(1, __FILE__, __LINE__);
@@ -997,6 +998,7 @@ if($cure_id)
 			$subcure['price1_en'] =  HtmlSpecialChars($info['price1_en']);
 			$subcure['description'] = HtmlSpecialChars($info['description']);
 			$subcure['description_en'] = HtmlSpecialChars($info['description_en']);
+			$subcure['title'] =  $info['title'];
 			$tinymce_elements = 'description, description_en';
 			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 			

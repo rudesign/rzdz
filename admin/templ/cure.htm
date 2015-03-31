@@ -132,8 +132,7 @@
 			</FORM-->
 			
 			<tr>
-				<td>Заголовок</td>
-				<td>Отступ</td>
+				<td>Выделить</td>
 				<td colspan="2"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить строку ›››</a></td>
 				<td><?if($type!=2){?>&darr;<?}?></td>
 			</tr>
@@ -141,7 +140,6 @@
 			<FORM method="post" enctype="multipart/form-data">
 			<tr align="center">
 				<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
-				<td><input type="checkbox" name="tab" value="1" <?if($v1['tab']){?>checked="checked"<?}?> /></td>
 				<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
 					<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
 				<td><?if(!($k && $v['list'][$k-1]['rowspan'])){?>
@@ -248,6 +246,7 @@
 	<tr><td>Название для прайса (заполнять поле,<br /> если отличается от названия услуги): </td>
 		<td><input type="text" name="name" value="<?=$subcure['prname']?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['prname_en']?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Выделить</td><td><input type="checkbox" name="title" value="1" <?if($subcure['title']){?>checked="checked"<?}?> /></td>
     <tr><td>Цена для филиала: </td><td><input type="text" name="price" value="<?=$subcure['price']?>" maxlength="255" size="50"></td></tr>
     <tr><td>Цена для филиала eng: </td><td><input type="text" name="price_en" value="<?=$subcure['price_en']?>" maxlength="255" size="50"></td></tr>
     <tr><td>Цена для основного сайта: </td><td><input type="text" name="price1" value="<?=$subcure['price1']?>" maxlength="255" size="50"></td></tr>
@@ -302,8 +301,7 @@
 		</FORM>
 		<?}?>
 		<tr>
-			<td>Заголовок</td>
-			<td>Отступ</td>
+			<td>Выделить</td>
 			<td colspan="2"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить строку ›››</a></td>
 			<td><?if($type!=2){?>&darr;<?}?></td>
 		</tr>
@@ -311,7 +309,6 @@
 		<FORM method="post" enctype="multipart/form-data">
 		<tr align="center">
 			<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
-			<td><input type="checkbox" name="tab" value="1" <?if($v1['tab']){?>checked="checked"<?}?> /></td>
 			<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
 				<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
 			<td><?if(!($k && $v['list'][$k-1]['rowspan'])){?>
