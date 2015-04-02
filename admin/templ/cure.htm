@@ -350,8 +350,8 @@
         <tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['name_en']?>" maxlength="255" size="50"></td></tr>
         <?if($type<3){?><tr><td>Заголовок: </td><td><input type="text" name="anons" value="<?=$subcure['anons']?>"  size="50"/></td></tr>
         <tr><td>Заголовок eng: </td><td><input type="text" name="anons_en" value="<?=$subcure['anons_en']?>" size="50" /></td></tr><?}?>
-            <?if($cure_id==1){?><tr><td>Текст для выбора профиля: </td><td><textarea name="profile" cols="48" rows="5"><?=$subcure['profile']?></textarea></td></tr>
-            <tr><td>Текст для выбора профиля eng: </td><td><textarea name="profile_en" cols="48" rows="5"><?=$subcure['profile_en']?></textarea></td></tr><?}?>
+            <?if($cure_id==1){?><tr><td>Текст перед профилем: </td><td><textarea name="profile" cols="48" rows="5" class="edit"><?=$subcure['profile']?></textarea></td></tr>
+            <tr><td>Текст перед профилем eng: </td><td><textarea name="profile_en" cols="48" rows="5" class="edit"><?=$subcure['profile_en']?></textarea></td></tr><?}?>
             <?if($type==2 || $type==4 || $type==7){?>
             <tr><td>отображать в меню: </td><td><input type="checkbox" name="inmenu" value="1" <?if($subcure['inmenu']){?>checked="checked"<?}?>></td></tr>
             <?}?>

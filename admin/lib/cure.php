@@ -950,7 +950,8 @@ if($cure_id)
 						}
 						$info['list'] = $list;
 						
-						$info['descrlink'] = !count($list) ? "?p=cure&curestrd=$info[curestr_id]&cure_id=$cure_id" : '';	
+						//$info['descrlink'] = !count($list) ? "?p=cure&curestrd=$info[curestr_id]&cure_id=$cure_id" : '';	
+						$info['descrlink'] = "?p=cure&curestrd=$info[curestr_id]&cure_id=$cure_id";	
 					
 						$cures[] = $info;
 					}
@@ -1060,7 +1061,7 @@ if($cure_id)
 			$subcure['profile_en'] = HtmlSpecialChars($subcure['profile_en']);
 			$subcure['description'] = HtmlSpecialChars($subcure['description']);
 			$subcure['description_en'] = HtmlSpecialChars($subcure['description_en']);
-			$tinymce_elements = 'description, description_en';
+			$tinymce_elements = 'description, description_en, profile, profile_en';
 			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 			
 			$curehotel = array();

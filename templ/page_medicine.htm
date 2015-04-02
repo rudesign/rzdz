@@ -3,7 +3,7 @@
 		
             <div id="pdescription" style="width:auto">
 			
-			<?if($cure['cure_id']!=1){?><?=$subcure['description']?><?}?>
+			<?if($cure['cure_id']==1){?><?=$subcure['profile']?><?}else{?><?=$subcure['description']?><?}?>
 			
 			
             <?if(count(@$tables)){?>
@@ -55,13 +55,13 @@
 				  </td><?}?>
 					<td valign="top">
 					<strong>Цена СКК, взрослые,</strong><br />
-					<strong> мужчины, руб.</strong>
+					<strong> мужчины, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong>
 				  </td>
 					<td valign="top">
-					<strong>Цена СКК, взрослые, женщины, руб.</strong>
+					<strong>Цена СКК, взрослые, женщины, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong>
 				  </td>
 					<td valign="top">
-					<strong>Цена СКК,<br /> дети, руб.</strong>
+					<strong>Цена СКК,<br /> дети, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong>
 				  </td>
 					<td valign="top">
 					<strong>Возраст приема ребенка на лечение </strong>
@@ -471,7 +471,7 @@
 		<table class="zebra1">
 			<thead>
 			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
-			<td width="108"><div align="center"><strong>Цена, руб.</strong></div></td></tr>
+			<td width="108"><div align="center"><strong>Цена, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong></div></td></tr>
 			</thead>
 			<?foreach($v['list'] as $v1){?>
 			<tr><td colspan="2"><strong><?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>

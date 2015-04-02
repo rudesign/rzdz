@@ -319,41 +319,44 @@ if($cure_id)
 			$cure['inhotel'] = str_replace("[service]", @$curestr['name'], $cure['inhotel']);
 			$curehotel = array(); 
 			
-			$sql = mysql_query("SELECT h.cure_id, p.page_id, p.name$englang as name, ct.name$englang as city,  
-				fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir, t.table_id
-				FROM ".TABLE_PAGE." p
-				LEFT JOIN ".TABLE_CUREHOTEL." h  ON ($where AND h.page_id=p.page_id)
-				LEFT JOIN ".TABLE_TABLE." tp  ON (tp.parent=0 AND tp.curestr_id=$curestr_id AND tp.page_id=p.page_id)
-				LEFT JOIN ".TABLE_TABLE." t  ON (t.parent=tp.table_id)
-				LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
-				LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
-				LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
-				LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
-				WHERE p.parent=1 AND p.public AND (h.cure_id OR (tp.curestr_id AND t.table_id))
-				GROUP BY p.page_id
-				ORDER BY p.name") 
-				or Error(1, __FILE__, __LINE__);
-				
-			while($info = @mysql_fetch_array($sql)) 
+			if($cure_id!=8)
 			{
-				$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
-				$info['name'] = htmlspecialchars($info['name']);
-				$info['city'] = htmlspecialchars($info['city']);
-				
-				if($info['sp_dir'])
-				{
-					if($cure_id==8 && @$curestr_id) 
-						$info['page_link'] = $info['sp_dir']."/medicine/9/?sid=$info[cure_id]#price\" target=\"_blank";
+				$sql = mysql_query("SELECT h.cure_id, p.page_id, p.name$englang as name, ct.name$englang as city,  
+					fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir, t.table_id
+					FROM ".TABLE_PAGE." p
+					LEFT JOIN ".TABLE_CUREHOTEL." h  ON ($where AND h.page_id=p.page_id)
+					LEFT JOIN ".TABLE_TABLE." tp  ON (tp.parent=0 AND tp.curestr_id=$curestr_id AND tp.page_id=p.page_id)
+					LEFT JOIN ".TABLE_TABLE." t  ON (t.parent=tp.table_id)
+					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+					LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
+					LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
+					LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
+					WHERE p.parent=1 AND p.public AND (h.cure_id OR (tp.curestr_id AND t.table_id))
+					GROUP BY p.page_id
+					ORDER BY p.name") 
+					or Error(1, __FILE__, __LINE__);
 					
-					elseif($curestr_id) 
-						$info['page_link'] = $info['table_id'] ? $info['sp_dir']."/medicine/$cure_id/?sid=$info[table_id]#price\" target=\"_blank" :
-							$info['sp_dir']."/medicine/$cure_id/?sid=$info[cure_id]#price\" target=\"_blank";
-							
-					else $info['page_link'] = $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank";
+				while($info = @mysql_fetch_array($sql)) 
+				{
+					$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+					$info['name'] = htmlspecialchars($info['name']);
+					$info['city'] = htmlspecialchars($info['city']);
+					
+					if($info['sp_dir'])
+					{
+						if($cure_id==8 && @$curestr_id) 
+							$info['page_link'] = $info['sp_dir']."/medicine/9/?sid=$info[cure_id]#price\" target=\"_blank";
+						
+						elseif($curestr_id) 
+							$info['page_link'] = $info['table_id'] ? $info['sp_dir']."/medicine/$cure_id/?sid=$info[table_id]#price\" target=\"_blank" :
+								$info['sp_dir']."/medicine/$cure_id/?sid=$info[cure_id]#price\" target=\"_blank";
+								
+						else $info['page_link'] = $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank";
+					}
+					else $info['page_link'] = "$lprefix/media/?s_id=$info[page_id]";
+					
+					$curehotel[] = $info;	
 				}
-				else $info['page_link'] = "$lprefix/media/?s_id=$info[page_id]";
-				
-				$curehotel[] = $info;	
 			}
 			$replace['curehotel'] = $curehotel;
 			
