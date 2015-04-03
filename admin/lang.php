@@ -62,6 +62,7 @@ $lang_settings['err_name'] = array('name'=>"Укажите ваше имя", 'name_en'=>"Pleas
 $lang_settings['err_email'] = array('name'=>"Неверно указан электронный адрес", 'name_en'=>"Please, check E-Mail");
 $lang_settings['err_captcha'] = array('name'=>"Укажите верно цифры на картинке", 'name_en'=>"Please, check Verification code");
 $lang_settings['err_text'] = array('name'=>"Укажите текст сообщения", 'name_en'=>"Ukazhite text");
+$lang_settings['sent_msg'] = array('name'=>"Сообщение отправлено. После модерации отзыв будет доступен для чтения.", 'name_en'=>"Сообщение отправлено. После модерации отзыв будет доступен для чтения.");
 $lang_settings['dobavlen_otziv'] = array('name'=>"Ваш отзыв будет добавлен в ближайшее время", 'name_en'=>"Vash otziv budet dobavlen v blizhaishee vremya");
 $lang_settings['otvetim'] = array('name'=>"Спасибо! В ближайшее время мы ответим на ваш вопрос.", 'name_en'=>"Spasibo, my otvetim");
 $lang_settings['close'] = array('name'=>"Закрыть", 'name_en'=>"Close");

@@ -159,15 +159,15 @@ if($cure_id)
 	
 	if($cure['cure_id']==1)
 	{
-		$sql1 = mysql_query("SELECT name$englang as name, description$englang as description
-			FROM ".TABLE_CURE." WHERE cure_id=14") or Error(1, __FILE__, __LINE__);
+        $q = "SELECT name$englang as name, description$englang as description FROM ".TABLE_CURE." WHERE cure_id=14";
+		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
 		$arr = @mysql_fetch_array($sql1);
 		$cure['att_name'] = 	$arr['name'];	
 		$cure['att_description'] = $arr['description'];	
 		
 		$list = array();
-		$sql1 = mysql_query("SELECT cure_id, name$englang as name
-			FROM ".TABLE_CURE." WHERE parent=14") or Error(1, __FILE__, __LINE__);	
+        $q = "SELECT cure_id, name$englang as name FROM ".TABLE_CURE." WHERE parent=14";
+		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
 		while($info = @mysql_fetch_array($sql1))
 		{ 
 			$list[] = array('name'=>$info['name'], 'link'=>$link_medicine."14/".$info['cure_id']);
@@ -231,7 +231,7 @@ if($cure_id)
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
 				
 				$price = (int)@$info['price'];
-				$info['price'] = $price>0 && @$info['price']==$price ? $price." руб." : htmlspecialchars(@$info['price']);
+				$info['price'] = $price>0 && @$info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars(@$info['price']);
 				
 				$f= @$info['photo_id'] ? "images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]" : '';
 				if($f && file_exists($f))
@@ -603,7 +603,7 @@ if($subcure_id)
 			else 
 			{
 				$price = (int)$info['price'];
-				$info['price'] = $price>0 && $info['price']==$price ? $price." руб." : htmlspecialchars($info['price']);
+				$info['price'] = $price>0 && $info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars($info['price']);
 			}
 			$info['page_link'] = $info['sp_dir'] ?  
 				($cure['type']==2 ? $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank"

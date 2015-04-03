@@ -18,8 +18,12 @@
 		 	 
 		 <?if(!$print_page){?>
 		 <?=$pages?>
-		 
-		   <?if($err_name){?>
+
+           <?if($sent_msg){?>
+           <p align="center"><strong><font color="#CC0000"><?=$lang_phrases['sent_msg']?></font></strong> </p>
+           <?}?>
+
+           <?if($err_name){?>
 		   <p align="center"><strong><font color="#CC0000"><?=$lang_phrases['err_name']?></font></strong> </p>
 		   <?}?>
 		   
