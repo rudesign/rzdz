@@ -285,10 +285,11 @@ if($cure_id)
 				$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
 				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
 			}
-			elseif($cure['cure_id']==8)
+			if($cure['cure_id']==8)
 			{
-				$curestr = array();
-				$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=9 ORDER BY ord") 
+				$sql = mysql_query("SELECT c.curestr_id, c.name$englang as name, f.photo_id, f.ext FROM ".TABLE_CURESTR." c 					
+					LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[curestr] AND f.owner_id=c.curestr_id)
+					WHERE c.parent=$curestr_id AND c.cure_id=9 ORDER BY c.ord") 
 					or Error(1, __FILE__, __LINE__);
 				
 				$curestr =  array();
@@ -299,6 +300,8 @@ if($cure_id)
 					
 					$info['link'] = "$lprefix/medicine/$cure_id/?curestr_id=$info[curestr_id]";
 					
+					$info['photo'] = @$info['photo_id'] ? "images/$photo_dir[curestr]/$info[photo_id]-s.$info[ext]" :	"";
+					
 					$curestr[] = $info;
 				}
 				$replace['curestr'] = $curestr;
@@ -308,30 +311,33 @@ if($cure_id)
 			{
 				$replace['curestr_id'] = $curestr_id;
 				$arr = array();
-				$sql = mysql_query("SELECT cure_id FROM ".TABLE_CURE." WHERE curestr_id=$curestr_id") 
+				$table = TABLE_CURESTRHOTEL;
+				$where  = "h.curestr_id=$curestr_id";
+				$hf = "h.curestr_id";
+				/*$sql = mysql_query("SELECT cure_id FROM ".TABLE_CURE." WHERE curestr_id=$curestr_id") 
 					or Error(1, __FILE__, __LINE__);
 				while($info = @mysql_fetch_array($sql)) $arr[] = "h.cure_id=$info[cure_id]";
 				if(count($arr)) $where = "(".join(" OR ", $arr).")";
-				else $where = "h.cure_id=-1";
+				else $where = "h.cure_id=-1";*/
 			}
-			else $where = "h.cure_id=$cure[cure_id]";
+			else {$table = TABLE_CUREHOTEL; $where = "h.cure_id=$cure[cure_id]"; $hf = "h.cure_id";}
 			
 			$cure['inhotel'] = str_replace("[service]", @$curestr['name'], $cure['inhotel']);
 			$curehotel = array(); 
 			
-			if($cure_id!=8)
+			if($cure_id!=8 || $curestr_id)
 			{
-				$sql = mysql_query("SELECT h.cure_id, p.page_id, p.name$englang as name, ct.name$englang as city,  
+				$sql = mysql_query("SELECT $hf, p.page_id, p.name$englang as name, ct.name$englang as city,  
 					fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir, t.table_id
 					FROM ".TABLE_PAGE." p
-					LEFT JOIN ".TABLE_CUREHOTEL." h  ON ($where AND h.page_id=p.page_id)
+					LEFT JOIN $table h  ON ($where AND h.page_id=p.page_id)
 					LEFT JOIN ".TABLE_TABLE." tp  ON (tp.parent=0 AND tp.curestr_id=$curestr_id AND tp.page_id=p.page_id)
 					LEFT JOIN ".TABLE_TABLE." t  ON (t.parent=tp.table_id)
 					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
 					LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
 					LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
 					LEFT JOIN ".TABLE_PHOTO." fb ON (fb.owner_id=p.page_id AND fb.owner=$photo_owner[brochure])
-					WHERE p.parent=1 AND p.public AND (h.cure_id OR (tp.curestr_id AND t.table_id))
+					WHERE p.parent=1 AND p.public AND ($hf OR (tp.curestr_id AND t.table_id))
 					GROUP BY p.page_id
 					ORDER BY p.name") 
 					or Error(1, __FILE__, __LINE__);
@@ -345,11 +351,11 @@ if($cure_id)
 					if($info['sp_dir'])
 					{
 						if($cure_id==8 && @$curestr_id) 
-							$info['page_link'] = $info['sp_dir']."/medicine/9/?sid=$info[cure_id]#price\" target=\"_blank";
+							$info['page_link'] = $info['sp_dir']."/medicine/9/?curestr_id=$info[curestr_id]\" target=\"_blank";
 						
 						elseif($curestr_id) 
 							$info['page_link'] = $info['table_id'] ? $info['sp_dir']."/medicine/$cure_id/?sid=$info[table_id]#price\" target=\"_blank" :
-								$info['sp_dir']."/medicine/$cure_id/?sid=$info[cure_id]#price\" target=\"_blank";
+								$info['sp_dir']."/medicine/$cure_id/?curestr_id=$info[curestr_id]\" target=\"_blank";
 								
 						else $info['page_link'] = $info['sp_dir']."/medicine/$cure_id/\" target=\"_blank";
 					}

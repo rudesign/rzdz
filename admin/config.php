@@ -59,6 +59,7 @@ define('TABLE_FIELD2', TABLE_PREFIX.'field2');
 define('TABLE_CURE', TABLE_PREFIX.'cure');
 define('TABLE_CUREHOTEL', TABLE_PREFIX.'curehotel');
 define('TABLE_CURESTR', TABLE_PREFIX.'curestr');
+define('TABLE_CURESTRHOTEL', TABLE_PREFIX.'curestrhotel');
 define('TABLE_SPEC', TABLE_PREFIX.'spec');
 define('TABLE_GEST', TABLE_PREFIX.'gest');
 define('TABLE_GTEMA', TABLE_PREFIX.'gtema');
@@ -88,7 +89,8 @@ $photo_owner = array(
 	'cure_part'=>17,
 	'logo_en'=>18,
 	'brochure_en'=>19,
-	'license'=>20
+	'license'=>20,
+	'curestr'=>21
 );
 $photo_dir = array(
 	'item'=>'item',
@@ -110,7 +112,8 @@ $photo_dir = array(
 	'cure_part'=>'cure',
 	'logo_en'=>'logo',
 	'brochure_en'=>'brochure',
-	'license'=>'license'
+	'license'=>'license',
+	'curestr'=>'cure'
 );
 $photo_limit = array(
 	'item'=>1000,
@@ -132,7 +135,9 @@ $photo_limit = array(
 	'cure_part'=>1,
 	'logo_en'=>1,
 	'brochure_en'=>1,
-	'license'=>1
+	'license'=>1,
+	'curestr'=>1
+
 );
 
 $rus_month = array('', '€нварь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сент€брь', 'окт€брь', 'но€брь', 'декабрь');

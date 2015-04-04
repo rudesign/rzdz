@@ -245,14 +245,21 @@ if(@$savedescr)
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 	$title = (int)@$title;
+	
+	$curestr_id = (int)@$curestr_id;
 		
-	mysql_query("UPDATE ".TABLE_CUREHOTEL." SET name='$name' , name_en='$name_en', 
+	$table = $subcure_id ? TABLE_CUREHOTEL : TABLE_CURESTRHOTEL;
+	$wh = $subcure_id ? "cure_id=$subcure_id" : "curestr_id=$curestr_id";
+	mysql_query("UPDATE $table SET name='$name' , name_en='$name_en', 
 		price='$price' , price_en='$price_en', price1='$price1' , price1_en='$price1_en',
 		description='$description', description_en='$description_en', title='$title'
-		WHERE cure_id=$subcure_id AND page_id='$page_id'") 
+		WHERE $wh AND page_id='$page_id'") 
 	or Error(1, __FILE__, __LINE__);
 	
-	$url = "?p=$part&cure_id=$cure_id&subcure_id=$subcure_id&descr=$page_id";
+	$url = "?p=$part&cure_id=$cure_id";
+	if($subcure_id) $url .= "&subcure_id=$subcure_id";
+	if($curestr_id) $url .= "&curestrd=$curestr_id";
+	$url .= "&descr=$page_id";
 	Header("Location: ".$url);
 	exit;
 }
@@ -270,7 +277,58 @@ if(@$savecurestr1)
 		WHERE curestr_id=$curestr_id") 
 	or Error(1, __FILE__, __LINE__);
 	
+	if(is_array(@$sanat)) 
+	{ 
+		$sql_f = mysql_query("SELECT p.page_id, ch.curestr_id FROM ".TABLE_PAGE." p 
+			LEFT JOIN ".TABLE_CURESTRHOTEL." ch ON (ch.page_id=p.page_id AND ch.curestr_id=$curestr_id)			
+			WHERE p.parent=1 GROUP BY p.page_id ORDER BY p.ord") 
+			or Error(1, __FILE__, __LINE__);				
+		while($info = @mysql_fetch_array($sql_f))
+		{		
+			$page_id = 	(int)$info['page_id'];
+			$count = (int)@$info['curestr_id'];
+						
+			$checked = in_array($info['page_id'], $sanat);
+			
+			if($count && !$checked)
+				mysql_query("DELETE FROM ".TABLE_CURESTRHOTEL." WHERE curestr_id=$curestr_id AND page_id='$page_id'") 
+				or Error(1, __FILE__, __LINE__);
+			elseif(!$count && $checked)
+				mysql_query("INSERT INTO ".TABLE_CURESTRHOTEL." SET curestr_id=$curestr_id, page_id='$page_id'") 
+				or Error(1, __FILE__, __LINE__);
+		}
+	}
+	else 
+		mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
+		or Error(1, __FILE__, __LINE__);
+		
 	$url = "?p=$part&cure_id=$cure_id&curestrd=$curestr_id";
+	
+	
+	$photo = @$_FILES["photo"]["tmp_name"]; 
+	$photo_name = @$_FILES["photo"]["name"];
+	if(@$photo)
+	{
+		if(!is_file($photo) || !($filename = @basename($photo_name))) 
+		{
+			$_SESSION['message'] = "Не найдена фотография!"; 
+			Header("Location: ".$url);
+			exit;
+		}
+		
+		$ext = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
+		
+		$owner_id = $curestr_id;
+		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$owner_id', owner='$photo_owner[curestr]', ext='$ext', ord=1") 
+			or Error(1, __FILE__, __LINE__);
+		$photo_id = mysql_insert_id();
+		
+		$small="../images/$photo_dir[curestr]/${photo_id}-s.$ext";
+		if(is_file($small)) unlink($small);
+		
+		copy($photo, $small);
+	}
+	
 	Header("Location: ".$url);
 	exit;
 }
@@ -313,13 +371,14 @@ if(@$delphoto) {
 	mysql_query("UPDATE ".TABLE_PHOTO." SET ord=ord-1 WHERE ord>$ord AND owner='$owner' AND owner_id='$owner_id'") 
 		or Error(1, __FILE__, __LINE__);
 	
-	$dir = $photo_dir['cure_part'];
+	$dir = $curestr_id ? $photo_dir['curestr'] : $photo_dir['cure_part'];
 	
 	@unlink("../images/$dir/$delphoto.$ext_b");
 	@unlink("../images/$dir/${delphoto}-s.$ext");
 	
 	$url = ADMIN_URL."?p=$part&cure_id=$cure_id";
 	if($subcure_id) $url .= "&subcure_id=$subcure_id";
+	if($curestr_id) $url .= "&curestrd=$curestr_id";
 		
 	Header("Location: ".$url); 
 	exit;
@@ -688,14 +747,79 @@ if($cure_id)
 			$curestr = @mysql_fetch_array($sql);
 
 			$replace['curestrd'] = $curestr_id;
-			$curestr['name'] = HtmlSpecialChars($curestr['name']);
-			$curestr['name_en'] = HtmlSpecialChars($curestr['name_en']);
-			$curestr['description'] = HtmlSpecialChars($curestr['description']);
-			$curestr['description_en'] = HtmlSpecialChars($curestr['description_en']);
-			$replace['curestr'] = $curestr;
+				
+			if(@$descr)
+			{
+				$page_id = (int)@$descr;
+				$replace['descr'] = $page_id;
+				
+				$sql = mysql_query("SELECT cr.name, cr.name_en, cr.description, cr.description_en,  p.name as pname FROM ".TABLE_CURESTRHOTEL." cr 
+					LEFT JOIN ".TABLE_PAGE." p ON p.page_id=cr.page_id
+					WHERE cr.curestr_id=$curestr_id AND cr.page_id=$page_id") 
+					or Error(1, __FILE__, __LINE__);
+				$info = @mysql_fetch_array($sql);
+					
+				$curestr['page_id'] =  $page_id;
+				$curestr['pname'] =  HtmlSpecialChars($info['pname']);
+				$curestr['prname'] =  HtmlSpecialChars($info['name']);
+				$curestr['prname_en'] =  HtmlSpecialChars($info['name_en']);
+				$curestr['description'] = HtmlSpecialChars($info['description']);
+				$curestr['description_en'] = HtmlSpecialChars($info['description_en']);
+				$tinymce_elements = 'description, description_en';
+				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));				
+				
+			}
+			else
+			{
+				
+				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
+						" WHERE owner_id=$curestr_id AND owner='$photo_owner[curestr]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+				$replace['photo'] = '';
+				if($arr_photos = @mysql_fetch_array($sql_photos)) {
+					$photo_id = $arr_photos['photo_id'];
+					$ext = $arr_photos['ext'];
+					$w_small=0; $h_small=0;
+					$f="../images/$photo_dir[curestr]/${photo_id}-s.$ext";
+					list($w_small, $h_small) = @getimagesize($f);
+					$replace['photo'] = $f;
+					$replace['smallsize'] = "width='$w_small' height='$h_small'";
+					$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id&curestr_id=$curestr_id";
+				}		
+				
+				$tinymce_elements = 'description, description_en';
+				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+				
+				
+				$curehotel = array();
+				$sql = mysql_query("SELECT page_id FROM ".TABLE_CURESTRHOTEL." WHERE curestr_id=$curestr_id") 
+					or Error(1, __FILE__, __LINE__);
+				while($info = @mysql_fetch_array($sql)) $curehotel[$info[0]] = 1;
+					
+				$sql_f = mysql_query("SELECT p.page_id, p.name, ct.name as city FROM ".TABLE_PAGE." p 
+					LEFT JOIN ".TABLE_CITY." ct ON ct.city_id=p.city_id
+					WHERE p.parent=1 AND p.public='1' ORDER BY p.ord") 
+					or Error(1, __FILE__, __LINE__);
+				
+				$i = 0;	
+				$page_box = array();
+				while($info = @mysql_fetch_array($sql_f))
+				{ 
+					$i++; 
+					$ch = isset($curehotel[$info['page_id']]) ? 'checked' : '';
+						$info['name'] .= " ($info[city])";
+					
+					$page_box[] = array('i'=>$i, 'page_id'=>$info['page_id'], 
+							'checked'=>$ch, 'name'=>$info['name']);
+				}			
+				$replace['page_box'] = $page_box;
+				
+				$curestr['name'] = HtmlSpecialChars($curestr['name']);
+				$curestr['name_en'] = HtmlSpecialChars($curestr['name_en']);
+				$curestr['description'] = HtmlSpecialChars($curestr['description']);
+				$curestr['description_en'] = HtmlSpecialChars($curestr['description_en']);
 			
-			$tinymce_elements = 'description, description_en';
-			$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
+			}
+			$replace['curestr'] = $curestr;
 			
 		}
 		else
