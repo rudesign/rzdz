@@ -276,16 +276,25 @@ if($cure_id)
 			$curestr_id = (int)@$curestr_id;
 			if($curestr_id)
 			{
-				$sql = mysql_query("SELECT name$englang as name, description$englang as description 
+				$sql = mysql_query("SELECT name$englang as name, description$englang as description, parent 
 					FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
 					or Error(1, __FILE__, __LINE__);
 				$curestr = @mysql_fetch_array($sql);
 				$cure['description'] = $curestr['description'];
 				
-				$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
-				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
-				
+				$navig[count($navig)-1]['link'] = $link_medicine."$cure_id";
 				$page_name = $curestr['name'];
+					
+				if($curestr['parent'])
+				{
+					$sql1 = mysql_query("SELECT name$englang as name, description$englang as description
+						FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr[parent]") 
+						or Error(1, __FILE__, __LINE__);
+					$info = @mysql_fetch_array($sql1);
+					
+					$navig[] = array('name'=>$info['name'], 'link'=>$link_medicine."$cure_id/?curestr_id=".$curestr['parent']);
+				}
+				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
 			}
 			if($cure['cure_id']==8)
 			{
@@ -393,7 +402,7 @@ if($cure_id)
 				if($extrasite_id)
 					$sql = mysql_query("
 					SELECT 
-						c.name$englang as name, c.description$englang as description ,
+						c.name$englang as name, c.description$englang as description , c.parent,
 						h.name$englang as ename, h.description$englang as edescription 
 					FROM 
 						".TABLE_CURESTR." c
@@ -408,10 +417,19 @@ if($cure_id)
 				$cure['description'] = @$curestr['edescription'] ? $curestr['edescription'] : $curestr['description'];
 				$curestr['name'] = @$curestr['ename'] ? $curestr['ename'] : $curestr['name'];
 				
-				$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
-				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
-				
+				$navig[count($navig)-1]['link'] = $link_medicine."$cure_id";
 				$page_name = $curestr['name'];
+					
+				if($curestr['parent'])
+				{
+					$sql1 = mysql_query("SELECT name$englang as name, description$englang as description
+						FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr[parent]") 
+						or Error(1, __FILE__, __LINE__);
+					$info = @mysql_fetch_array($sql1);
+					
+					$navig[] = array('name'=>$info['name'], 'link'=>$link_medicine."$cure_id/?curestr_id=".$curestr['parent']);
+				}
+				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
 			}
 			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 				or Error(1, __FILE__, __LINE__);

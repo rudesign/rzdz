@@ -299,7 +299,7 @@ if(@$savecurestr1)
 		}
 	}
 	else 
-		mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id") 
+		mysql_query("DELETE FROM ".TABLE_CURESTRHOTEL." WHERE curestr_id=$curestr_id") 
 		or Error(1, __FILE__, __LINE__);
 		
 	$url = "?p=$part&cure_id=$cure_id&curestrd=$curestr_id";
