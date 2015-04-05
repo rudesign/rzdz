@@ -284,6 +284,8 @@ if($cure_id)
 				
 				$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
 				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
+				
+				$page_name = $curestr['name'];
 			}
 			if($cure['cure_id']==8)
 			{
@@ -385,6 +387,32 @@ if($cure_id)
 		}
 		elseif($cure['type']==2)
 		{	
+			$curestr_id = (int)@$curestr_id;
+			if($curestr_id)
+			{
+				if($extrasite_id)
+					$sql = mysql_query("
+					SELECT 
+						c.name$englang as name, c.description$englang as description ,
+						h.name$englang as ename, h.description$englang as edescription 
+					FROM 
+						".TABLE_CURESTR." c
+						LEFT JOIN ".TABLE_CURESTRHOTEL." h ON (h.curestr_id=c.curestr_id AND h.page_id=$extrasite_id)
+					WHERE c.curestr_id=$curestr_id") 
+					or Error(1, __FILE__, __LINE__);
+				else
+					$sql = mysql_query("SELECT name$englang as name, description$englang as description 
+					FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
+					or Error(1, __FILE__, __LINE__);
+				$curestr = @mysql_fetch_array($sql);
+				$cure['description'] = @$curestr['edescription'] ? $curestr['edescription'] : $curestr['description'];
+				$curestr['name'] = @$curestr['ename'] ? $curestr['ename'] : $curestr['name'];
+				
+				$navig[count($navig)-1]['link'] = "$lprefix/medicine/$cure_id";
+				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
+				
+				$page_name = $curestr['name'];
+			}
 			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
 				or Error(1, __FILE__, __LINE__);
 			
@@ -433,7 +461,7 @@ if($cure_id)
 				
 				$cures[] = $info;
 			}
-			$replace['cure_list'] = $cures;
+			$replace['cure_list'] = $cures; 
 		}
 		elseif($cure['type']==5)
 		{	
