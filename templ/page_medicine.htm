@@ -260,36 +260,18 @@
             <div class="cure-locator clearfix">
                 <a id="popup-link" href="/cure_alert1.php" class="fancybox"></a>
                 <div class="alert">
-                    <p class="centered"><b>ВНИМАНИЕ!</b></p>
+                    <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
                     <p>&nbsp;</p>
-                    <p>Санаторно-курортное лечение является эффективным и интенсивным методом воздействия… <a href="/medicine/14" target="_blank"><b>далее</b></a></p>
-                    <p>&nbsp;</p>
-                    <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
-                </div>
-                <!--
-                <div class="alert">
-                    <p><b><?=$cure['att_name']?></b></p>
-                    <p>
-                    <?php
+                    <p><?php
                         $limit = 180;
                         $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
                         $limited = explode(' ', $limited);
                         array_pop($limited);
                         echo implode(' ', $limited).'...';
-                     ?>
-                    <a href="/cure_alert.php" class="fancybox-iframe"><b>далее</b></a></p>
-                    <p><a href="/cure_alert.php" class="fancybox-iframe"><b>Полный список противопоказаний</b></a></p>
+                     ?><a href="/medicine/14" target="_blank"><b>далее</b></a></p>
+                    <p>&nbsp;</p>
+                    <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
                 </div>
-                <div class="alert">
-                    <p><b><?=$cure['att_name']?></b></p>
-                    <?=$cure['att_description']?>
-					<p>
-                        <?foreach($cure['att_list'] as $v){?>
-                        <a href="<?=$v['link']?>" style="color:#FFFFFF"><?=$v['name']?></a><br />
-                        <?}?>
-					</p>
-                </div>
-                -->
 			</div>
 
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
@@ -306,7 +288,20 @@
 		
 		<?}else{?>
 		
-		<?if($cure['type']==4 || $cure['type']==1){?><div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<?if($cure['type']==4 || $cure['type']==1){?><div id="pdescription" style="width:auto"><?=$cure['description']?>
+		
+			<?if($cure_id==14){?>
+			<div class="clear" style="margin-bottom:20px"></div>
+			<ul class="contraindications">
+				<?foreach($cure['att_list'] as $v){?>
+				<li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>				
+				<?}?>
+			</ul>
+	
+			
+			<?}?>
+		
+		</div>
 		<div class="clear" style="margin-bottom:20px"></div><?}?>
 		
 		<?if($cure['type']==4 && !$cure['description']){?>

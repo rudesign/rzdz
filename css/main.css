@@ -2945,3 +2945,8 @@ border-radius: 5px;
 .cure-progs .title a{
     color: #008c95
 }
+
+
+div.mx-ac-wrapper {
+   height:0px;
+}

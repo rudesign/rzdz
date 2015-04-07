@@ -165,6 +165,9 @@ if($cure_id)
 		$cure['att_name'] = 	$arr['name'];	
 		$cure['att_description'] = $arr['description'];	
 		
+	}
+	if($cure['cure_id']==14)
+	{
 		$list = array();
         $q = "SELECT cure_id, name$englang as name FROM ".TABLE_CURE." WHERE parent=14";
 		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
