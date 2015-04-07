@@ -169,7 +169,7 @@ if($cure_id)
 	if($cure['cure_id']==14)
 	{
 		$list = array();
-        $q = "SELECT cure_id, name$englang as name FROM ".TABLE_CURE." WHERE parent=14";
+        $q = "SELECT cure_id, name$englang as name FROM ".TABLE_CURE." WHERE parent=14 ORDER BY ord";
 		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
 		while($info = @mysql_fetch_array($sql1))
 		{ 
