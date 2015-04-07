@@ -138,7 +138,6 @@
                 }
                 .cure-locator .alert{
                     position: relative;
-                    display: none;
                     padding: 14px 20px 15px;
                     margin-bottom: 15px;
                     background-color: #009745;
@@ -152,6 +151,9 @@
                 }
                 .cure-locator .alert p{
                     text-align: left;
+                }
+                .cure-locator .alert p.centered{
+                    text-align: center;
                 }
                 .cure-locator .alert .close{
                     position: absolute;
@@ -219,15 +221,16 @@
             </style>
             <script language="javascript">
                 $(document).ready(function(){
+                    $('#popup-link').click();
 
                     var containers = $('.cure-locator .alert');
                     var container = containers.eq(0);
                     var container1 = containers.eq(1);
 
                     if($.cookie("cureAlertClosed")) {
-                        container.show();
+                        //container.show();
                     }else{
-                        container1.show();
+                        //container1.show();
                     }
                 });
                 function openCureAlert()
@@ -255,13 +258,21 @@
                 }
             </script>
             <div class="cure-locator clearfix">
+                <a id="popup-link" href="/cure_alert1.php" class="fancybox"></a>
                 <div class="alert">
-                    <!-- <div class="close" onclick="openCureAlert();">&darr;</div>-->
+                    <p class="centered"><b>ВНИМАНИЕ!</b></p>
+                    <p>&nbsp;</p>
+                    <p>Санаторно-курортное лечение является эффективным и интенсивным методом воздействия… <a href="/medicine/14" target="_blank"><b>далее</b></a></p>
+                    <p>&nbsp;</p>
+                    <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
+                </div>
+                <!--
+                <div class="alert">
                     <p><b><?=$cure['att_name']?></b></p>
                     <p>
                     <?php
                         $limit = 180;
-                        $limited = mb_substr($cure['att_description'], 0, $limit);
+                        $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
                         $limited = explode(' ', $limited);
                         array_pop($limited);
                         echo implode(' ', $limited).'...';
@@ -270,7 +281,6 @@
                     <p><a href="/cure_alert.php" class="fancybox-iframe"><b>Полный список противопоказаний</b></a></p>
                 </div>
                 <div class="alert">
-                    <div class="close" onclick="closeCureAlert();">x</div>
                     <p><b><?=$cure['att_name']?></b></p>
                     <?=$cure['att_description']?>
 					<p>
@@ -279,6 +289,7 @@
                         <?}?>
 					</p>
                 </div>
+                -->
 			</div>
 
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
@@ -340,17 +351,22 @@
                 }
                 .cure-locator .alert{
                     position: relative;
-                    display: none;
-                    padding: 20px;
+                    padding: 14px 20px 15px;
                     margin-bottom: 15px;
-                    background-color: #008c95;
+                    background-color: #009745;
                     border-radius: 5px;
                     -moz-border-radius: 5px;
                     -webkit-border-radius: 5px;
                     color: #fff;
                 }
+                .cure-locator .alert a{
+                    color: #fff;
+                }
                 .cure-locator .alert p{
                     text-align: left;
+                }
+                .cure-locator .alert p.centered{
+                    text-align: center;
                 }
                 .cure-locator .alert .close{
                     position: absolute;
@@ -418,19 +434,17 @@
             </style>
             <script language="javascript">
                 $(document).ready(function(){
-                    if(!$.cookie("cureAlertClosed")) $('.cure-locator .alert').slideDown('fast');
+                    $('#popup-link1').click();
                 });
-                function closeCureAlert(){
-                    var container = $('.cure-locator .alert');
-                    $.cookie("cureAlertClosed", 1, { expires: 1 });
-                    container.slideUp('fast');
-                }
             </script>
             <div class="cure-locator clearfix">
+                <a id="popup-link1" href="/cure_alert1.php" class="fancybox"></a>
                 <div class="alert">
-                    <div class="close" onclick="closeCureAlert();">x</div>
-                    <p><b>Внимание!</b></p>
-                    <p>Здесь содержится важная информация о санкур. лечении, а также о противопоказаниях - эта иконка, всплывающая при первоначальном выборе «поиск по диагнозу», она же здесь остается потом наверху.</p>
+                    <p class="centered"><b>ВНИМАНИЕ!</b></p>
+                    <p>&nbsp;</p>
+                    <p>Санаторно-курортное лечение является эффективным и интенсивным методом воздействия… <a href="/medicine/14"><b>далее</b></a></p>
+                    <p>&nbsp;</p>
+                    <p class="centered"><a href="/medicine/14"><b>Полный список противопоказаний</b></a></p>
                 </div>
                 <div class="search-area">
                     <ul>
@@ -459,6 +473,14 @@
                     </ul>
                 </div>
             </div>
+        <?
+        // Противопоказания
+        }else if($cure['type']=14){?>
+            <!--
+            <ul class="contraindications">
+                <li></li>
+            </ul>
+            -->
         <?
         // Что-то другое
         }elseif($cure['type']!=4){?>

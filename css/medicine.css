@@ -256,6 +256,21 @@
     /*float: left;*/
     width: 362px;
 }
+#pdescription .contraindications, #pdescription .contraindications li{
+    padding: 0;
+    margin: 0;
+}
+#pdescription .contraindications li{
+    padding: 3px 7px;
+    list-style-type: none;
+}
+#pdescription .contraindications li:nth-child(odd){
+    background-color: #008c95;
+    color: #fff;
+}
+#pdescription .contraindications li:nth-child(even){
+    background-color: #ebebeb;
+}
 .simple_content .plofiles-list{
     float: right;
     width: 170px;
