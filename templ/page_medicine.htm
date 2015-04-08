@@ -268,9 +268,9 @@
                         $limited = explode(' ', $limited);
                         array_pop($limited);
                         echo implode(' ', $limited).'...';
-                     ?><a href="/medicine/14" target="_blank"><b>далее</b></a></p>
+                     ?><a href="/medicine/1238" target="_blank"><b>далее</b></a></p>
                     <p>&nbsp;</p>
-                    <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
+                    <p class="centered"><a href="/medicine/1238" target="_blank"><b>Полный список противопоказаний</b></a></p>
                 </div>
 			</div>
 
@@ -435,11 +435,17 @@
             <div class="cure-locator clearfix">
                 <a id="popup-link1" href="/cure_alert1.php" class="fancybox"></a>
                 <div class="alert">
-                    <p class="centered"><b>ВНИМАНИЕ!</b></p>
+                    <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
                     <p>&nbsp;</p>
-                    <p>Санаторно-курортное лечение является эффективным и интенсивным методом воздействия… <a href="/medicine/14"><b>далее</b></a></p>
+                    <p><?php
+                        $limit = 180;
+                        $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
+                        $limited = explode(' ', $limited);
+                        array_pop($limited);
+                        echo implode(' ', $limited).'...';
+                     ?><a href="/medicine/1238" target="_blank"><b>далее</b></a></p>
                     <p>&nbsp;</p>
-                    <p class="centered"><a href="/medicine/14"><b>Полный список противопоказаний</b></a></p>
+                    <p class="centered"><a href="/medicine/1238" target="_blank"><b>Полный список противопоказаний</b></a></p>
                 </div>
                 <div class="search-area">
                     <ul>
@@ -470,7 +476,7 @@
             </div>
         <?
         // Противопоказания
-        }else if($cure['type']=14){?>
+        }else if($cure['type']=1238){?>
             <!--
             <ul class="contraindications">
                 <li></li>
