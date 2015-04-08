@@ -477,11 +477,14 @@
         <?
         // Противопоказания
         }else if($cure['type']=1238){?>
-            <!--
+
             <ul class="contraindications">
-                <li></li>
+                <?foreach($cure_list as $k=>$v){?>
+                <li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
+                <?}?>
+
             </ul>
-            -->
+
         <?
         // Что-то другое
         }elseif($cure['type']!=4){?>
