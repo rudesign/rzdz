@@ -256,24 +256,6 @@
     /*float: left;*/
     width: 362px;
 }
-.contraindications, .contraindications li{
-    padding: 0;
-    margin: 0;
-}
-.contraindications li{
-    padding: 3px 7px;
-    list-style-type: none;
-}
-.contraindications li a{
-    text-decoration: none;
-}
-.contraindications li:nth-child(odd){
-    background-color: #008c95;
-    color: #fff;
-}
-.contraindications li:nth-child(even){
-    background-color: #ebebeb;
-}
 .simple_content .plofiles-list{
     float: right;
     width: 170px;
@@ -372,4 +354,24 @@ text-decoration:underline!important;
 .download a span{
     display: block;
     padding: 5px;
+}
+
+ul.contraindications, ul.contraindications li{
+    list-style-type: none!important;
+    padding: 0;
+    margin: 0!important;
+}
+ul.contraindications li{
+    padding: 3px 7px;
+    list-style-type: none;
+}
+ul.contraindications li a{
+    text-decoration: none;
+}
+ul.contraindications li:nth-child(odd){
+    background-color: #008c95;
+    color: #fff;
+}
+ul.contraindications li:nth-child(even){
+    background-color: #ebebeb;
 }
