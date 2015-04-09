@@ -593,7 +593,7 @@
 			<?if(count($v['uslugi'])){?>
 			<ul id="u<?=$v['curestr_id']?>"  <?if(!$showall){?>style="display:none"<?}?>>
 			<?foreach($v['uslugi'] as $i=>$v1){?>
-			<li><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
+			<li <?if(count($v['list'])){?>style="font-weight:bold;"<?}?>><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
 			<?}?>
 			</ul>
 			<?}?>
