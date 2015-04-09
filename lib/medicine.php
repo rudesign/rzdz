@@ -186,7 +186,7 @@ if($cure_id)
 	if(!$subcure_id || $cure['type']==1)  
 	{
 		if($cure['type']==1 || $cure['type']==4)
-		{
+		{ 
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
 			
 			if($extrasite_id && $cure['type']!=4) 
@@ -272,7 +272,7 @@ if($cure_id)
 				
 				$cures[] = $info;
 			}
-			$replace['cure_list'] = $cures;
+			$replace['cure_list'] = $cures; 
 		}
 		elseif( ($cure['type']==3 || ($cure['type']==2 && @$curestr_id)) && !$extrasite_id)
 		{
@@ -299,7 +299,7 @@ if($cure_id)
 				}
 				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
 			}
-			if($cure['cure_id']==8)
+			if($cure['cure_id']==8 && !$curestr_id)
 			{
 				$sql = mysql_query("SELECT c.curestr_id, c.name$englang as name, f.photo_id, f.ext FROM ".TABLE_CURESTR." c 					
 					LEFT JOIN ".TABLE_PHOTO." f ON (f.owner=$photo_owner[curestr] AND f.owner_id=c.curestr_id)
