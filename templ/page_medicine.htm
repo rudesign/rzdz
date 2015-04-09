@@ -512,7 +512,7 @@
 		<table class="zebra1">
 			<thead>
 			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
-			<td width="108"><div align="center"><strong>Цена, <span class="rub">a</span>.</strong></div></td></tr>
+			<td width="108"><div align="center"><strong>Стоимость  услуги в рублях, <span class="rub">a</span>.</strong></div></td></tr>
 			</thead>
 			<?foreach($v['list'] as $v1){?>
 			<tr><td colspan="2"><strong><?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
@@ -560,8 +560,11 @@
             <?}?>
         <?}?>
 		</script>
+		 <?if($showall){?><p>&nbsp;</p>
+		 <?}else{?>
 		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Раскрыть все</a></div>	
-		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>	
+		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>
+		<?}?>
 		<?foreach($cure_list as $k=>$v){?>
 		<ul class="drevo">
 			<li class="top">
@@ -569,7 +572,7 @@
 				<?}else{?><a href="<?=$v['url']?>"><?=$v['name']?></a><?}?>
 			</li>
 			<?if(count($v['list'])){?>
-			<ul id="l<?=$v['curestr_id']?>" style="display:none">
+			<ul id="l<?=$v['curestr_id']?>" <?if(!$showall){?>style="display:none"<?}?>>
 			<?foreach($v['list'] as $v1){?>
 			<li <?if(count($v['list']) || count($v['uslugi'])){?>style="font-weight:bold;"<?}?>> 
 				<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
@@ -577,7 +580,7 @@
 				<?}else{?><?=$v1['name']?><?}?>
 			</li>	
 				<?if(count($v1['uslugi'])){?>
-			<ul id="u<?=$v1['curestr_id']?>" style="display:none">
+			<ul id="u<?=$v1['curestr_id']?>" <?if(!$showall){?>style="display:none"<?}?>>
 				<?foreach($v1['uslugi'] as $v2){?>
 			<li><a href="<?=$v2['url']?>"><?=$v2['name']?></a></li>
 				<?}?>
@@ -588,7 +591,7 @@
 			</ul>
 			<?}?>
 			<?if(count($v['uslugi'])){?>
-			<ul id="u<?=$v['curestr_id']?>" style="display:none">
+			<ul id="u<?=$v['curestr_id']?>"  <?if(!$showall){?>style="display:none"<?}?>>
 			<?foreach($v['uslugi'] as $i=>$v1){?>
 			<li><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
 			<?}?>

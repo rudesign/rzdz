@@ -180,7 +180,8 @@ if($cure_id)
 	
 	$cure['name'] = htmlspecialchars($cure['name']);
 
-	$link = $subcure_id || ($cure['type']==6 && @$s_id) ? $link_medicine."$cure_id/" : '';
+	$link = $cure['cure_id']==9 && @$curestr_id && !$extrasite_id ?  $link_medicine."8/"  :
+		( $subcure_id || ($cure['type']==6 && @$s_id) ? $link_medicine."$cure_id/" : '' );
 	$navig[] = array('link'=>$link, 'name'=>$cure['name']);
 	
 	if(!$subcure_id || $cure['type']==1)  
@@ -274,7 +275,8 @@ if($cure_id)
 			}
 			$replace['cure_list'] = $cures; 
 		}
-		elseif( ($cure['type']==3 || ($cure['type']==2 && @$curestr_id)) && !$extrasite_id)
+		elseif( ($cure['type']==3 || ($cure['type']==2 && 
+			(($cure['cure_id']==9 && !@$curestr_id) || ($cure['cure_id']!=9 && @$curestr_id)) )) && !$extrasite_id)
 		{
 			$curestr_id = (int)@$curestr_id;
 			if($curestr_id)
@@ -312,7 +314,7 @@ if($cure_id)
 					$info['name'] = HtmlSpecialChars($info['name']);
 					if(!$info['name']) $info['name'] = NONAME;
 					
-					$info['link'] = "$lprefix/medicine/$cure_id/?curestr_id=$info[curestr_id]";
+					$info['link'] = "$lprefix/medicine/9/?curestr_id=$info[curestr_id]";
 					
 					$info['photo'] = @$info['photo_id'] ? "images/$photo_dir[curestr]/$info[photo_id]-s.$info[ext]" :	"";
 					
@@ -413,14 +415,14 @@ if($cure_id)
 					WHERE c.curestr_id=$curestr_id") 
 					or Error(1, __FILE__, __LINE__);
 				else
-					$sql = mysql_query("SELECT name$englang as name, description$englang as description 
+					$sql = mysql_query("SELECT name$englang as name, description$englang as description, parent
 					FROM ".TABLE_CURESTR." WHERE curestr_id=$curestr_id") 
 					or Error(1, __FILE__, __LINE__);
 				$curestr = @mysql_fetch_array($sql);
 				$cure['description'] = @$curestr['edescription'] ? $curestr['edescription'] : $curestr['description'];
 				$curestr['name'] = @$curestr['ename'] ? $curestr['ename'] : $curestr['name'];
 				
-				$navig[count($navig)-1]['link'] = $link_medicine."$cure_id";
+				$navig[count($navig)-1]['link'] = $cure_id==9 && !$extrasite_id ? $link_medicine."8" : $link_medicine."$cure_id";
 				$page_name = $curestr['name'];
 					
 				if($curestr['parent'])
@@ -434,7 +436,10 @@ if($cure_id)
 				}
 				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
 			}
-			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." WHERE parent=0 AND cure_id=$cure_id ORDER BY ord") 
+			$where = $curestr_id ? " AND curestr_id=$curestr_id" : '';
+			$replace['showall'] = $curestr_id ? 1 : 0;
+			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." 
+				WHERE parent=0 AND cure_id=$cure_id $where ORDER BY ord") 
 				or Error(1, __FILE__, __LINE__);
 			
 			$replace['sid'] = $sid = (int)@$_GET['sid'];
