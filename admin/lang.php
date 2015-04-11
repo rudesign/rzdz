@@ -62,9 +62,8 @@ $lang_settings['err_name'] = array('name'=>"Укажите ваше имя", 'name_en'=>"Pleas
 $lang_settings['err_email'] = array('name'=>"Неверно указан электронный адрес", 'name_en'=>"Please, check E-Mail");
 $lang_settings['err_captcha'] = array('name'=>"Укажите верно цифры на картинке", 'name_en'=>"Please, check Verification code");
 $lang_settings['err_text'] = array('name'=>"Укажите текст сообщения", 'name_en'=>"Ukazhite text");
-$lang_settings['sent_msg'] = array('name'=>"Сообщение отправлено. После модерации отзыв будет доступен для чтения.", 'name_en'=>"Сообщение отправлено. После модерации отзыв будет доступен для чтения.");
-$lang_settings['dobavlen_otziv'] = array('name'=>"Ваш отзыв будет добавлен в ближайшее время", 'name_en'=>"Vash otziv budet dobavlen v blizhaishee vremya");
-$lang_settings['otvetim'] = array('name'=>"Спасибо! В ближайшее время мы ответим на ваш вопрос.", 'name_en'=>"Spasibo, my otvetim");
+$lang_settings['dobavlen_otziv'] = array('name'=>"Сообщение получено. После модерации отзыв будет доступен для чтения.", 'name_en'=>"Vash otziv budet dobavlen v blizhaishee vremya");
+$lang_settings['otvetim'] = array('name'=>"Спасибо! Сообщение получено. В ближайшее время мы ответим на ваш вопрос.", 'name_en'=>"Spasibo, my otvetim");
 $lang_settings['close'] = array('name'=>"Закрыть", 'name_en'=>"Close");
 $lang_settings['thank'] = array('name'=>"Спасибо!", 'name_en'=>"Thank!");
 $lang_settings['our_manager'] = array('name'=>" Наши менеджеры свяжуться с Вами в самое ближайшее время!", 'name_en'=>"We will call you");
@@ -84,7 +83,8 @@ $lang_settings['weather'] = array('name'=>"Погода в", 'name_en'=>"Weather in");
 $lang_settings['2week'] = array('name'=>"Прогноз на 2 недели", 'name_en'=>"2-week forecast");
 $lang_settings['kakdobratsya'] = array('name'=>"Как добраться:", 'name_en'=>"Как dobratsya");
 $lang_settings['oshibka'] = array('name'=>"Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.", 'name_en'=>"Esli zametili oshibku");
-$lang_settings['allrights'] = array('name'=>"Все права на опубликованные материалы принадлежат ОАО&nbsp;«РЖД-ЗДОРОВЬЕ»", 'name_en'=>"All rights");
+$lang_settings['allrights'] = array('name'=>"Все права на опубликованные материалы принадлежат <br>ОАО&nbsp;«РЖД-ЗДОРОВЬЕ»", 'name_en'=>"All rights");
 $lang_settings['razrabotka'] = array('name'=>"Разработка сайта", 'name_en'=>"Made in");
 $lang_settings['cureprofile'] = array('name'=>"Медицинский профиль", 'name_en'=>"Profile");
+$lang_settings['price'] = array('name'=>"Стоимость в рублях, (Р).", 'name_en'=>"Price, (Р).");
 ?>

@@ -57,13 +57,13 @@
 				  </td><?}?>
 					<td valign="top">
 					<strong>Цена СКК, взрослые,</strong><br />
-					<strong> мужчины, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong>
+					<strong> мужчины, <span class="rub">a</span>.</strong>
 				  </td>
 					<td valign="top">
-					<strong>Цена СКК, взрослые, женщины, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong>
+					<strong>Цена СКК, взрослые, женщины, <span class="rub">a</span>.</strong>
 				  </td>
 					<td valign="top">
-					<strong>Цена СКК,<br /> дети, <del><span style="font-family: Arial; font-size: 12.0pt;">P</span></del>.</strong>
+					<strong>Цена СКК,<br /> дети, <span class="rub">a</span>.</strong>
 				  </td>
 					<td valign="top">
 					<strong>Возраст приема ребенка на лечение </strong>
@@ -512,7 +512,7 @@
 		<table class="zebra1">
 			<thead>
 			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
-			<td width="108"><div align="center"><strong>Стоимость  услуги в рублях, <span class="rub">a</span>.</strong></div></td></tr>
+			<td width="108"><div align="center"><strong><?=$lang_phrases['price']?></strong></div></td></tr>
 			</thead>
 			<?foreach($v['list'] as $v1){?>
 			<tr><td colspan="2"><strong><?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>

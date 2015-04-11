@@ -247,7 +247,7 @@ if($cure_id)
                 $info['teaser'] = HtmlSpecialChars($info['anons'], ENT_COMPAT, 'cp1251');
 				
 				$info['podrazdel'] = array();
-				if($cure['type']==1)
+				if($cure['type']==1 && $cure_id!=4)
 				{
 					if($extrasite_id) 
 						$query ="SELECT c.cure_id, c.name$englang as name
@@ -276,7 +276,7 @@ if($cure_id)
 			$replace['cure_list'] = $cures; 
 		}
 		elseif( ($cure['type']==3 || ($cure['type']==2 && 
-			(($cure['cure_id']==9 && !@$curestr_id) || ($cure['cure_id']!=9 && @$curestr_id)) )) && !$extrasite_id)
+			(($cure['cure_id']==9) || ($cure['cure_id']!=9 && @$curestr_id)) )) && !$extrasite_id)
 		{
 			$curestr_id = (int)@$curestr_id;
 			if($curestr_id)
@@ -287,7 +287,7 @@ if($cure_id)
 				$curestr = @mysql_fetch_array($sql);
 				$cure['description'] = $curestr['description'];
 				
-				$navig[count($navig)-1]['link'] = $link_medicine."$cure_id";
+				$navig[count($navig)-1]['link'] = $cure['cure_id']==9 ? $link_medicine."8" : $link_medicine."$cure_id";
 				$page_name = $curestr['name'];
 					
 				if($curestr['parent'])
@@ -366,8 +366,8 @@ if($cure_id)
 					
 					if($info['sp_dir'])
 					{
-						if($cure_id==8 && @$curestr_id) 
-							$info['page_link'] = $info['sp_dir']."/medicine/9/?curestr_id=$info[curestr_id]\" target=\"_blank";
+						if($cure_id==9 && @$curestr_id) 
+							$info['page_link'] = $info['sp_dir']."/medicine/9/\" target=\"_blank";
 						
 						elseif($curestr_id) 
 							$info['page_link'] = $info['table_id'] ? $info['sp_dir']."/medicine/$cure_id/?sid=$info[table_id]#price\" target=\"_blank" :
