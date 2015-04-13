@@ -586,7 +586,7 @@ if($subcure_id)
 	{
 		$subcure_list = array();
 		
-		$ord = 'ord';
+		$ord = 'c.ord';
 		if($extrasite_id && $cure['type']==1) 
 			$query ="SELECT c.cure_id, c.name$englang as name
 				FROM ".TABLE_CURE." c 
@@ -595,14 +595,20 @@ if($subcure_id)
 			GROUP BY c.cure_id
 			ORDER BY $ord";
 		else
-			$query ="SELECT c.cure_id, c.name$englang as name 
+			$query ="SELECT c.cure_id, c.name$englang as name,  sd.dir
 				FROM ".TABLE_CURE." c 
-				WHERE c.parent=$subcure_id AND c.public ORDER BY $ord";
+				LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id)
+				LEFT JOIN ".TABLE_PAGE." s ON (s.site=h.page_id AND s.public='1') 
+				LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 				
+				WHERE c.parent=$subcure_id AND c.public 
+				GROUP BY c.cure_id
+				ORDER BY $ord";
 		$sql1 = mysql_query($query) or Error(1, __FILE__, __LINE__);
 		
 		while($info = @mysql_fetch_array($sql1))
 		{ 
-			$info['url'] = $link_medicine."$cure_id/$info[cure_id]/";
+			$info['url'] = @$info['dir'] && $cure_id==4 ? "$lprefix/$info[dir]/medicine/$cure_id/$info[cure_id]\" target=\"_blank" : 
+				$link_medicine."$cure_id/$info[cure_id]/";
 			$subcure_list[] = $info;
 		}
 		$subcure['subcure_list'] = $subcure_list;
