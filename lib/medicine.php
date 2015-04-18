@@ -146,6 +146,8 @@ if($cure_id)
 	if(!($cure = @mysql_fetch_array($sql))) {page404();return;}
 	
 	$page_name = $cure['name'];
+	
+	if($extrasite_id && $cure_id==11) $cure['description'] = str_replace("medicine/11/49", "$request[0]/medicine/11/49",$cure['description']);
 		
 	/*if($cure['type']==3 && ! ( ($cure['cure_id']==5 || $cure['cure_id']==8) && !$extrasite_id ) )
 	{

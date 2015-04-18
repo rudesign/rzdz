@@ -49,52 +49,6 @@
 			<p>&nbsp;</p>
 		<?}?>
 		
-        <?if($cure['type']==4 && count($curehotel)){?><p>&nbsp;</p>
-		<table border="1" id="sk_karta">
-				<tr>
-				 <?if(!$extrasite_id){?> <td valign="top">
-					<strong>Филиал </strong>
-				  </td><?}?>
-					<td valign="top">
-					<strong>Цена СКК, взрослые,</strong><br />
-					<strong> мужчины, <span class="rub">a</span>.</strong>
-				  </td>
-					<td valign="top">
-					<strong>Цена СКК, взрослые, женщины, <span class="rub">a</span>.</strong>
-				  </td>
-					<td valign="top">
-					<strong>Цена СКК,<br /> дети, <span class="rub">a</span>.</strong>
-				  </td>
-					<td valign="top">
-					<strong>Возраст приема ребенка на лечение </strong>
-				  </td>
-					<td valign="top">
-					<strong>Справка об эпид.окружении, карта прививок (детям)</strong>
-				  </td>
-				</tr>
-				<?foreach($curehotel as $v){?>
-				<tr>
-				  <?if(!$extrasite_id){?><td>
-					<?=$v['name']?> <br /><?=$v['city']?>
-				  </td><?}?>
-					<td>
-					<?=$v['col1']?>
-				  </td>
-					<td>
-					<?=$v['col2']?>
-				  </td>
-					<td>
-					<?=$v['col3']?>
-				  </td>
-					<td>
-					<?=$v['col4']?>
-				  </td>
-					<td>
-					<?=$v['col5']?>
-				  </td>
-				</tr>
-				<?}?>
-		</table><?}?>
 			</div>
         </div>
 
