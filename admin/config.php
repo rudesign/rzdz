@@ -90,7 +90,8 @@ $photo_owner = array(
 	'logo_en'=>18,
 	'brochure_en'=>19,
 	'license'=>20,
-	'curestr'=>21
+	'curestr'=>21,
+	'cure_pdf'=>22
 );
 $photo_dir = array(
 	'item'=>'item',
@@ -113,7 +114,8 @@ $photo_dir = array(
 	'logo_en'=>'logo',
 	'brochure_en'=>'brochure',
 	'license'=>'license',
-	'curestr'=>'cure'
+	'curestr'=>'cure',
+	'cure_pdf'=>'cure'
 );
 $photo_limit = array(
 	'item'=>1000,
@@ -136,7 +138,8 @@ $photo_limit = array(
 	'logo_en'=>1,
 	'brochure_en'=>1,
 	'license'=>1,
-	'curestr'=>1
+	'curestr'=>1,
+	'cure_pdf'=>1
 
 );
 

@@ -116,6 +116,26 @@
 <?if($type==2 && !@$curestrd){?>
 	<?if($service){?>
 	
+	<?if($cure_id==2 && $page_id && !$curestr_id){?>
+	<div style="float: right; margin-right:50px">
+    <p>PDF-файл<br />
+    <?if(@$photo){?><a href="<?=$photo?>" target="_blank"><?=$photo?></a><br>
+    <a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+    <?}else{?>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="photo" size="5">
+    <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+    <input type="hidden" name="page_id" value="<?=$page_id?>">
+    <input type="hidden" name="p" value="cure"><br />
+    <input type="submit" name="addpdf" value="Загрузить" class="button">
+	</form>
+	<?}?>
+	
+    </p>
+	
+	</div>
+	<?}?>
+	
 	<p><a href="?p=cure&cure_id=<?=$cure_id?>">Структура</a> &nbsp;&nbsp; <b>Услуги</b></p>
 	<p>Выберите раздел: <?=$curestr_select?>
 		<?if($curestr_id){?> &nbsp;&nbsp;<a href="?p=cure&addcure=<?=$cure_id?>&curestr_id=<?=$curestr_id?>&page_id=<?=$page_id?>">Добавить услугу ›››</a><?}?>

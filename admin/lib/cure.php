@@ -233,6 +233,38 @@ if(@$save)
 	exit;
 }
 
+if(@$addpdf)
+{
+	$page_id = (int)@$page_id;
+	$url = "?p=cure&cure_id=$cure_id&service&page_id=$page_id";
+	$photo = @$_FILES["photo"]["tmp_name"];
+	$photo_name = @$_FILES["photo"]["name"];
+	if(@$photo)
+	{
+		if(!is_file($photo) || !($filename = @basename($photo_name))) 
+		{
+			$_SESSION['message'] = "Файл не найден!"; 
+			Header("Location: ".$url);
+			exit;
+		}
+		
+		$ext = strtolower(escape_string(substr($filename, strrpos($filename, ".")+1)));
+		
+		$owner_id = $page_id;
+		mysql_query("INSERT INTO ".TABLE_PHOTO." SET owner_id='$owner_id', owner='$photo_owner[cure_pdf]', ext='$ext', ord=1") 
+			or Error(1, __FILE__, __LINE__);
+		$photo_id = mysql_insert_id();
+		
+		$small="../images/$photo_dir[cure_pdf]/${photo_id}-s.$ext";
+		if(is_file($small)) unlink($small);
+		
+		copy($photo, $small);
+	}
+	
+	Header("Location: ".$url);
+	exit;
+}
+
 if(@$savedescr)
 {
 
@@ -371,14 +403,16 @@ if(@$delphoto) {
 	mysql_query("UPDATE ".TABLE_PHOTO." SET ord=ord-1 WHERE ord>$ord AND owner='$owner' AND owner_id='$owner_id'") 
 		or Error(1, __FILE__, __LINE__);
 	
-	$dir = $curestr_id ? $photo_dir['curestr'] : $photo_dir['cure_part'];
+	$dir = isset($service) ? $photo_dir['cure_pdf'] : (@$curestr_id ? $photo_dir['curestr'] : $photo_dir['cure_part']);
 	
 	@unlink("../images/$dir/$delphoto.$ext_b");
 	@unlink("../images/$dir/${delphoto}-s.$ext");
 	
 	$url = ADMIN_URL."?p=$part&cure_id=$cure_id";
 	if($subcure_id) $url .= "&subcure_id=$subcure_id";
-	if($curestr_id) $url .= "&curestrd=$curestr_id";
+	if(@$curestr_id) $url .= "&curestrd=$curestr_id";
+	if(@$page_id) $url .= "&page_id=$page_id";
+	if(isset($service)) $url .= "&service";
 		
 	Header("Location: ".$url); 
 	exit;
@@ -851,7 +885,7 @@ if($cure_id)
 				$tinymce_head = get_template('templ/tinymce_head.htm', array('tinymce_elements'=>$tinymce_elements));
 				
 			}
-			if(!$replace['partof'])
+			if(!$replace['partof'] && !isset($service))
 			{
 				$curehotel = array();
 				$page_box = array();
@@ -892,6 +926,22 @@ if($cure_id)
 					$replace['photo'] = $f;
 					$replace['smallsize'] = "width='$w_small' height='$h_small'";
 					$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id";
+				}		
+			}
+			if(isset($service) && $page_id && !@$curestr_id)
+			{
+				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
+						" WHERE owner_id=$page_id AND owner='$photo_owner[cure_pdf]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+				$replace['photo'] = '';
+				if($arr_photos = @mysql_fetch_array($sql_photos)) {
+					$photo_id = $arr_photos['photo_id'];
+					$ext = $arr_photos['ext'];
+					$w_small=0; $h_small=0;
+					$f="../images/$photo_dir[cure_pdf]/${photo_id}-s.$ext";
+					list($w_small, $h_small) = @getimagesize($f);
+					$replace['photo'] = $f;
+					$replace['smallsize'] = "width='$w_small' height='$h_small'";
+					$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id&service&page_id=$page_id";
 				}		
 			}
 			

@@ -438,58 +438,74 @@ if($cure_id)
 				}
 				$navig[] = array('name'=>$curestr['name'], 'link'=>'');
 			}
-			$where = $curestr_id ? " AND curestr_id=$curestr_id" : '';
-			$replace['showall'] = $curestr_id ? 1 : 0;
-			$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." 
-				WHERE parent=0 AND cure_id=$cure_id $where ORDER BY ord") 
-				or Error(1, __FILE__, __LINE__);
-			
 			$replace['sid'] = $sid = (int)@$_GET['sid'];
 			$cures =  array();
-			while($info = @mysql_fetch_array($sql))
-			{ 
-				$info['name'] = HtmlSpecialChars($info['name']);
-				if(!$info['name']) $info['name'] = NONAME;
-				
-				$info['url'] = $link_medicine."$cure_id/"."?curestr_id=$info[curestr_id]";
-				
-				$list = array();
-				
-				$info['uslugi'] = uslugi($info['curestr_id'], $cure_id, $sid);
-				
-				$sql_sect = mysql_query("SELECT cs.curestr_id, cs.name$englang as name, tb.table_id FROM ".TABLE_CURESTR."  cs
-					LEFT JOIN ".TABLE_TABLE."  tb ON (tb.curestr_id=cs.curestr_id)
-					WHERE cs.parent=$info[curestr_id] 
-					GROUP BY cs.curestr_id
-					ORDER BY cs.ord") 
+			
+			$replace['pdf'] = '';
+			if($extrasite_id)
+			{
+				$sql = mysql_query("SELECT f.photo_id, f.ext
+					FROM ".TABLE_PHOTO."  f 
+					WHERE f.owner=$photo_owner[cure_pdf] AND f.owner_id=$extrasite_id") 
 					or Error(1, __FILE__, __LINE__);
-				while($info_sect = @mysql_fetch_array($sql_sect))
-				{ 
-					$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
-					if(!$info_sect['name']) $info_sect['name'] = NONAME;
-							
-					$info_sect['uslugi'] = uslugi($info_sect['curestr_id'], $cure_id, $sid);
-					if(!count($info_sect['uslugi']) && $extrasite_id) continue;
-					
-					$sub = 0;
-					foreach($info_sect['uslugi'] as $v) {if(@$v['cure_id']) break; if(@$v['sub']) {$sub=1;break;} }
-					
-					if($info_sect['curestr_id']==69)
-						$info_sect['url'] = "$lprefix/medicine/11/49/";
-					elseif($sub)  
-						$info_sect['url'] = $extrasite_id ? "$lprefix/medicine/$cure_id/"."?curestr_id=$info_sect[curestr_id]\" target=\"_blank" : '';
-					elseif($info_sect['table_id'] && !$extrasite_id) 
-						$info_sect['url'] = "$lprefix/medicine/$cure_id/"."?curestr_id=$info_sect[curestr_id]";
-					else $info_sect['url'] = '';
-					
-					$list[] = $info_sect;
-				}
-				$info['list'] = $list;
-				if(!count($info['uslugi']) && !count($info['list']) && $extrasite_id) continue;
+				$arr = @mysql_fetch_array($sql);
 				
-				$cures[] = $info;
+				$replace['pdf'] = file_exists($f="images/$photo_dir[cure_pdf]/$arr[photo_id]-s.$arr[ext]") ? "/".$f : "";
 			}
-			$replace['cure_list'] = $cures; 
+			
+			if(!$replace['pdf'])
+			{
+				$where = $curestr_id ? " AND curestr_id=$curestr_id" : '';
+				$replace['showall'] = $curestr_id ? 1 : 0;
+				$sql = mysql_query("SELECT curestr_id, name$englang as name FROM ".TABLE_CURESTR." 
+					WHERE parent=0 AND cure_id=$cure_id $where ORDER BY ord") 
+					or Error(1, __FILE__, __LINE__);
+				
+				while($info = @mysql_fetch_array($sql))
+				{ 
+					$info['name'] = HtmlSpecialChars($info['name']);
+					if(!$info['name']) $info['name'] = NONAME;
+					
+					$info['url'] = $link_medicine."$cure_id/"."?curestr_id=$info[curestr_id]";
+					
+					$list = array();
+					
+					$info['uslugi'] = uslugi($info['curestr_id'], $cure_id, $sid);
+					
+					$sql_sect = mysql_query("SELECT cs.curestr_id, cs.name$englang as name, tb.table_id FROM ".TABLE_CURESTR."  cs
+						LEFT JOIN ".TABLE_TABLE."  tb ON (tb.curestr_id=cs.curestr_id)
+						WHERE cs.parent=$info[curestr_id] 
+						GROUP BY cs.curestr_id
+						ORDER BY cs.ord") 
+						or Error(1, __FILE__, __LINE__);
+					while($info_sect = @mysql_fetch_array($sql_sect))
+					{ 
+						$info_sect['name'] = HtmlSpecialChars($info_sect['name']);
+						if(!$info_sect['name']) $info_sect['name'] = NONAME;
+								
+						$info_sect['uslugi'] = uslugi($info_sect['curestr_id'], $cure_id, $sid);
+						if(!count($info_sect['uslugi']) && $extrasite_id) continue;
+						
+						$sub = 0;
+						foreach($info_sect['uslugi'] as $v) {if(@$v['cure_id']) break; if(@$v['sub']) {$sub=1;break;} }
+						
+						if($info_sect['curestr_id']==69)
+							$info_sect['url'] = "$lprefix/medicine/11/49/";
+						elseif($sub)  
+							$info_sect['url'] = $extrasite_id ? "$lprefix/medicine/$cure_id/"."?curestr_id=$info_sect[curestr_id]\" target=\"_blank" : '';
+						elseif($info_sect['table_id'] && !$extrasite_id) 
+							$info_sect['url'] = "$lprefix/medicine/$cure_id/"."?curestr_id=$info_sect[curestr_id]";
+						else $info_sect['url'] = '';
+						
+						$list[] = $info_sect;
+					}
+					$info['list'] = $list;
+					if(!count($info['uslugi']) && !count($info['list']) && $extrasite_id) continue;
+					
+					$cures[] = $info;
+				}
+				$replace['cure_list'] = $cures; 
+			}
 		}
 		elseif($cure['type']==5)
 		{	

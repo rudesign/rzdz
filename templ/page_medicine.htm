@@ -460,7 +460,15 @@
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		
-		<?if($extrasite_id){?>
+		<?if($pdf){?>
+		<table class="zebra1">
+			<thead>
+			<tr><td><strong><span style="color: #159fa7;">Стоимость медицинских услуг</span></strong></td></tr>
+			</thead>
+			<tr><td><a href="<?=$pdf?>" target="_blank">Скачать файл</a></td></tr>
+		</table>
+		
+		<?}elseif($extrasite_id){?>
 		
 		<?foreach($cure_list as $k=>$v){?>
 		<table class="zebra1">
