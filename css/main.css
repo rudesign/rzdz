@@ -874,22 +874,23 @@ font-weight:bold;
 .simple_content table.zebra thead td,
 .simple_content table.zebra th td,
 .simple_content table.zebra tr:nth-child(2n) td{
-    background-color: #ebebeb!important;
+    background-color: #ebebeb;
 }
 .simple_content table.zebra tr:last-child td{
     border-bottom: 1px #ebebeb solid!important;
 }
-.simple_content table.zebra tr td{
-    border: none!important;
-    border-right: 1px #fff solid!important;
-    padding: 3px;
+.simple_content table.zebra tr td,
+.simple_content table.zebra tr th{
+    border: none;
+    border-right: 1px #fff solid;
+    padding: 5px;
 }
 .simple_content table.zebra.small tr td{
     font-size: 9px;
     line-height: 1.3em;
 }
 .simple_content table.zebra thead td,
-.simple_content table.zebra th td,
+.simple_content table.zebra th,
 .simple_content table.zebra tr:nth-child(2) td{
     border-right: 1px #fff solid!important;
 }
@@ -897,6 +898,19 @@ font-weight:bold;
 .simple_content table.zebra th td:last-child,
 .simple_content table.zebra td:last-child{
     border-right: none!important;
+}
+
+.simple_content table.green.zebra thead td,
+.simple_content table.green.zebra th,
+.simple_content table.green.zebra tr:nth-child(2n) td{
+    background-color: rgb(225, 238, 227);
+    border-top: 1px solid #fff;
+}
+.simple_content table.green.zebra th{
+    color: rgb(0, 151, 69);
+}
+.simple_content table.green.zebra tr:last-child td{
+    border-bottom: 1px rgb(225, 238, 227) solid!important;
 }
 
 .double_simple img{
