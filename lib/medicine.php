@@ -159,7 +159,7 @@ if($cure_id)
 		else $request[1] = $cure_id;
 	}*/
 	
-	if($cure['cure_id']==1)
+	if($cure['cure_id']==1 || $cure_id==90)
 	{
         $q = "SELECT name$englang as name, description$englang as description FROM ".TABLE_CURE." WHERE cure_id=14";
 		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);

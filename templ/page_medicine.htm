@@ -75,7 +75,7 @@
 
 	<?if($cure['type']==1 || $cure['type']==4){?>
         <!-- Profiles page -->
-		<?if($cure['cure_id']==1 && !$extrasite_id){?>
+		<?if(($cure['cure_id']==1 || $cure['cure_id']==90) && !$extrasite_id){?>
 
             <style>
                 .cure-locator input,.cure-locator textarea{
@@ -227,6 +227,37 @@
                     <p class="centered"><a href="/medicine/1238" target="_blank"><b>Полный список противопоказаний</b></a></p>
                 </div>
 			</div>
+			
+			<?if($cure['cure_id'] == 90){?>
+            <div class="cure-locator clearfix">
+                <div class="search-area">
+                    <ul>
+                        <li><a href="">При наборе: Результат поиска 1</a></li>
+                        <li><a href="">При наборе: Результат поиска 2</a></li>
+                        <li><a href="">При наборе: Результат поиска 3</a></li>
+                    </ul>
+                    <form action="" method="get">
+                        <input type="image" src="/img/for_loop.png">
+                        <input name="" type="text" />
+                    </form>
+                </div>
+                <div class="teaser">
+                    Терапия (греч. — лечение, оздоровление) — процесс, целью которого является облегчение, снятие или устранение симптомов и проявлений того или иного заболевания, патологического состояния или иного нарушения жизнедеятельности, нормализация нарушенных процессов жизнедеятельности и выздоровление, восстановление здоровья.
+                </div>
+                <div class="found">
+                    <ul>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                        <li><a href="">Показание, диагноз</a></li>
+                    </ul>
+                </div>
+            </div>
+			<?}?>
 
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
@@ -278,170 +309,11 @@
 				</li>
 				<?}?>
 			  </ul><!--news_list-->
-		<?}?>
+		
         <!-- Cure progs list -->
 
-        <?
-        // По диагнозу и всё такое
-        if($cure['cure_id'] == 90){ ?>
 
-            <style>
-                .cure-locator input,.cure-locator textarea{
-                    box-sizing: border-box;
-                    -moz-box-sizing: border-box;
-                    -webkit-box-sizing: border-box;
-                }
-                .cure-locator a{
-                    color: #008c95;
-                }
-                .cure-locator .lc{
-                    float: left;
-                    width: 350px;
-                }
-                .cure-locator .alert{
-                    position: relative;
-                    padding: 14px 20px 15px;
-                    margin-bottom: 15px;
-                    background-color: #009745;
-                    border-radius: 5px;
-                    -moz-border-radius: 5px;
-                    -webkit-border-radius: 5px;
-                    color: #fff;
-                }
-                .cure-locator .alert a{
-                    color: #fff;
-                }
-                .cure-locator .alert p{
-                    text-align: left;
-                }
-                .cure-locator .alert p.centered{
-                    text-align: center;
-                }
-                .cure-locator .alert .close{
-                    position: absolute;
-                    top: 5px;
-                    right: 5px;
-                    width: 1.5em;
-                    height: 1.4em;
-                    padding-top: 0.1em;
-                    background: #fff;
-                    border-radius: 1.5em;
-                    font-size: 12px;
-                    line-height: 1em;
-                    text-align: center;
-                    color: #000;
-                    cursor: pointer;
-                }
-                .cure-locator .search-area{
-                    position: relative;
-                    margin-bottom: 15px;
-                }
-                .cure-locator .search-area ul{
-                    position: absolute;
-                    top: 30px;
-                    left: 10px;
-                    padding: 15px;
-                    background-color: #fff;
-                    box-shadow: 0 1px 3px 2px #bbb;
-                }
-                .cure-locator .search-area li{
-                    margin-bottom: 5px;
-                }
-                .cure-locator .search-area li:last-child{
-                    margin-bottom: 0;
-                }
-                .cure-locator .search-area input[type="text"]{
-                    width: 100%;
-                    padding: 8px;
-                    border: 1px solid #008c95;
-                    border-radius: 5px;
-                    -moz-border-radius: 5px;
-                    -webkit-border-radius: 5px;
-                }
-                .cure-locator .search-area input[type="image"]{
-                    position: absolute;
-                    top: 2px;
-                    right: 4px;
-                }
-                .cure-locator .teaser{
-                    margin-bottom: 10px;
-                }
-                .cure-locator .found{
-                    max-height: 605px;
-                    overflow-y: auto;
-                }
-                .cure-locator .found li{
-                    padding: 4px 10px;
-                }
-                .cure-locator .found li:nth-child(2n){
-                    background-color: #eee;
-                }
-                .cure-locator .rc{
-                    float: right;
-                    width: 189px;
-                }
-            </style>
-            <script language="javascript">
-                $(document).ready(function(){
-                    $('#popup-link1').click();
-                });
-            </script>
-            <div class="cure-locator clearfix">
-                <a id="popup-link1" href="/cure_alert.php" class="fancybox"></a>
-                <div class="alert">
-                    <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
-                    <p>&nbsp;</p>
-                    <p><?php
-                        $limit = 180;
-                        $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
-                        $limited = explode(' ', $limited);
-                        array_pop($limited);
-                        echo implode(' ', $limited).'...';
-                     ?><a href="/medicine/1238" target="_blank"><b>далее</b></a></p>
-                    <p>&nbsp;</p>
-                    <p class="centered"><a href="/medicine/1238" target="_blank"><b>Полный список противопоказаний</b></a></p>
-                </div>
-                <div class="search-area">
-                    <ul>
-                        <li><a href="">При наборе: Результат поиска 1</a></li>
-                        <li><a href="">При наборе: Результат поиска 2</a></li>
-                        <li><a href="">При наборе: Результат поиска 3</a></li>
-                    </ul>
-                    <form action="" method="get">
-                        <input type="image" src="/img/for_loop.png">
-                        <input name="" type="text" />
-                    </form>
-                </div>
-                <div class="teaser">
-                    Терапия (греч. — лечение, оздоровление) — процесс, целью которого является облегчение, снятие или устранение симптомов и проявлений того или иного заболевания, патологического состояния или иного нарушения жизнедеятельности, нормализация нарушенных процессов жизнедеятельности и выздоровление, восстановление здоровья.
-                </div>
-                <div class="found">
-                    <ul>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                        <li><a href="">Показание, диагноз</a></li>
-                    </ul>
-                </div>
-            </div>
-        <?
-        // Противопоказания
-        }else if($cure['type']==1238){?>
-
-            <ul class="contraindications">
-                <?foreach($cure_list as $k=>$v){?>
-                <li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
-                <?}?>
-
-            </ul>
-
-        <?
-        // Что-то другое
-        }elseif($cure['type']!=4){?>
+        <?}elseif($cure['type']!=4){?>
             <div class="cure-progs">
                 <?foreach($cure_list as $k=>$v){?>
                 <div class="items">
