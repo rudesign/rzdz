@@ -35,7 +35,7 @@ else $print_url .= "/?print";
 $lprefix = $englang ? '/en' : '';
 $lang_phrases = array();
 $nn = $englang ? "name$englang" : 'name';
-foreach($lang_settings as $k=>$v) $lang_phrases[$k] = $k=='price' ? str_replace("Ð", "<span class=\"rub\">a</span>", $v[$nn]) : $v[$nn];
+foreach($lang_settings as $k=>$v) $lang_phrases[$k] = $k=='price' ? str_replace("ï¿½", "<span class=\"rub\">a</span>", $v[$nn]) : $v[$nn];
 
 dbconnect($config['dbhost'], $config['dbname'], $config['dblogin'], $config['dbpassword']);
 
@@ -70,7 +70,7 @@ if($part)
 	if(!$request[2] && !$request[1])
 	{
         $page_dir = mysql_escape_string($request[0]);
-;
+
 		$sql = mysql_query("
 			SELECT 
 				i.page_id, i.site, i.name$englang as name, i.description, i.facebook, i.vk, d2.dir_id

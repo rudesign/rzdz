@@ -72,12 +72,12 @@
     <div class="parallax-2 parallax">
         <div class="first">
             <ul class="main bg">
-                <?foreach($sanatorii as $k=>$v){?><li class="house-<?=$v['photo_id']?>"><a><span></span></a></li><?}?>
+                <?foreach($sanatorii as $k=>$v){ ?><li class="house-<?=$k?>"><a><span></span></a></li><? }?>
             </ul>
 
             <ul class="main link">
                 <?foreach($sanatorii as $k=>$v){?>
-				<li class="house-<?=$v['photo_id']?>">
+				<li class="house-<?=$k?>">
                     <div class="tip">
                         <div class="tipsy-inner">
                             <?=$v['name']?>
@@ -116,7 +116,7 @@
         <ul>
             <?foreach($sanatorii as $k=>$v){?>
             <!--<li class="front" rel="house-<?=$k==0?2:($k==1?1:$k+1)?>" title="<?= $v['name'] ?>"><img src="img_paralax/house-<?=$k==0?2:($k==1?1:$k+1)?>.jpg" alt="" /><span class="house-<?=$k==0?2:($k==1?1:$k+1)?>"></span></li>-->
-            <li class="front" rel="house-<?=$v['photo_id']?>" title="<?=$v['name']?>"><img src="img_paralax/house-<?=$v['photo_id']?>.jpg" alt="" /><span class="house-<?=$v['photo_id']?>"></span></li>
+            <li class="front" rel="house-<?=$k?>" title='<?=$v['name']?>'><img src="img_paralax/house-<?=$k?>.jpg" alt="" /><span class="house-<?=$k?>"></span></li>
 			<?}?>
         </ul>
     </div>

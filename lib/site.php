@@ -1,10 +1,22 @@
 <?php
 
+if($extrasite_id){
+
+    $query = "SELECT facebook, vk FROM ".TABLE_PAGE." WHERE site={$extrasite_id} LIMIT 1";
+    if($res = mysql_query($query)){
+        if($row = mysql_fetch_assoc($res)){
+            $facebook = $row["facebook"];
+            $vk = $row["vk"];
+        }
+    }
+}
+
 $page = array();
 $query = "SELECT p.*, o.opinion_id, COUNT(*) as opinioncount FROM ".TABLE_PAGE." p
 			LEFT JOIN ".TABLE_OPINION." o ON (o.page_id=p.page_id AND o.public=1)
 			 WHERE p.page_id='$page_id' AND p.public='1'
 			GROUP BY p.page_id";
+
 $sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 
 if($arr_page = @mysql_fetch_array($sql))
@@ -16,8 +28,7 @@ if($arr_page = @mysql_fetch_array($sql))
 	$page['parent'] = $arr_page["parent"];	
 	$page['dir_id'] = $arr_page['dir_id'];	
 	
-	$facebook = $arr_page["facebook"];
-	$vk = $arr_page["vk"];
+
 
 	if(ereg("\\[\\:form([[:digit:]]+)\\:\\]", $page['description'], $F))
 	{

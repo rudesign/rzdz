@@ -14,52 +14,43 @@ var pos;
 
 var linkhover;
 
-
-
 $(document).ready(function(){
 
 	//$('.bgallery-wrap > div a').fancybox2();
 		
     var scpane = $('.nav-scroll');
 
-    var navul = $('#nav ul').width();
+    var navul = $('#nav ul').width() + 300;
 
-	var panul = $('#pan ul.main').width()-300;
+	var panul = $('#pan ul.main').width();
 
 	var	wrapw = $('#nav').width();
 
 	var	winwi = $(window).width();
 
-
 	$(window).resize(function(){
-
         winwi = $(window).width();
-
 	});
 
+    console.log(navul, panul, wrapw, winwi);
 
     // trees
 	$('#pan ul.grass-3, #pan ul.grass-2, #pan ul.grass-1').width(panul);
 
-
  	scpane.bind('jsp-scroll-x', function(event, scrollPositionX)
+    {
+        delta = scrollPositionX * (panul - winwi) / (wrapw - navul);
 
-		{
+        percant = delta / (panul - winwi) * 100;
 
-			delta = scrollPositionX * (panul - winwi) / (wrapw - navul);
+        $('#pan .sec').css({left: delta});
 
-			percant = delta / (panul - winwi) * 100;
+        $('#pan .first').css({marginLeft:percant*5, left: delta});
 
-		    $('#pan .sec').css({left: delta});
+        $('#pan ul.grass-3').css({marginLeft:-delta + percant*10, left: delta });
 
-			$('#pan .first').css({marginLeft:percant*5, left: delta});
-
-			$('#pan ul.grass-3').css({marginLeft:-delta + percant*10, left: delta });
-
-			$('#pan ul.grass-1').css({marginLeft:percant*40, left: delta});
-
-
-		}
+        $('#pan ul.grass-1').css({marginLeft:percant*20, left: delta});
+    }
 
 	).jScrollPane({
 
@@ -116,8 +107,6 @@ $(document).ready(function(){
 
 	})
 
-
-
 	$('.moveright').hover(function(){
 
 	    curulleft = parseInt($('.first').css('left'));
@@ -137,9 +126,6 @@ $(document).ready(function(){
 		clearInterval(moveright);
 
 	})
-
-
-
 
 
 	$('.main.link li').hover(function(){
@@ -215,9 +201,6 @@ $(document).ready(function(){
 			});
 
 		}
-
-		
-
 	});
 
 
@@ -358,7 +341,7 @@ $(document).ready(function(){
 
 		scrollPositionXnew = navlioff * (wrapw - navul ) / (panul - winwi);
 
-		newnum = (panul - winwi) / 500; // 500 = percant * множитель
+		newnum = (panul - winwi) / 500; // 500 = percent * множитель
 
 		if (navliclass == 'front') {
 

@@ -2909,12 +2909,13 @@ margin:7px 0px;
     font-size:11px;
 }
 .left_bfc{
-margin-right:36px;
-float:left;
+    float:left;
+    list-style:none;
 }
 .left_bfc li{
-list-style:none;
-margin-bottom:3px;
+    display: inline-block;
+    float: left;
+    margin-right:5px;
 }
 
 /*nika*/

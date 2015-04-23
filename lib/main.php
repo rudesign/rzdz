@@ -25,43 +25,21 @@ while($arr = @mysql_fetch_array($sql))
 	$partners[] = $arr; 
 }
 $replace['partners'] = $partners;
-	
 
+// Sanatorium parallax slider
 $sanatorii = array();
 
-$query = "
-	SELECT
-		s.slider_id, s.url, s.name$englang as name, s.teaser ,
-		f.photo_id, f.ext, s.page_id,
-		p.photo_id as preview_id, p.ext as preview_ext
-	FROM
-		".TABLE_SLIDER." s
-		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner_id=s.slider_id AND f.owner='$photo_owner[slider]')
-		LEFT JOIN ".TABLE_PHOTO." p ON (p.owner_id=s.slider_id AND p.owner='$photo_owner[slider_preview]')
-	WHERE
-	 	s.public AND f.photo_id
-	GROUP BY
-		s.slider_id
-	ORDER BY
-	 	s.ord";
+$query = "SELECT * FROM ".TABLE_SLIDER." WHERE public ORDER BY ord";
+
+//echo $query;
 
 $sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 
 while($arr = @mysql_fetch_array($sql, MYSQL_ASSOC))
 {
-    $f="images/$photo_dir[slider]/$arr[photo_id]-s.$arr[ext]";
-	$p="images/$photo_dir[slider_preview]/$arr[preview_id]-s$arr[preview_ext]";
-	list($w_small, $h_small) = @getimagesize($f);
-    $sanatorii[] = array(
-        'photo'=>$f,
-        'preview'=>$p,
-        'url'=>$arr['url'],
-        'id'=>$arr['page_id'],
-        'photo_id'=>$arr['photo_id'],
-        'name'=>htmlentities($arr['name'], ENT_QUOTES, 'cp1251'),
-        'teaser'=>htmlentities($arr['teaser'], ENT_QUOTES, 'cp1251'),
-    );
+    $sanatorii[$arr['slider_id']] = $arr;
 }
+
 $replace['sanatorii'] = $sanatorii;
 
 //print_r($sanatorii);
