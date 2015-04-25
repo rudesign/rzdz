@@ -68,6 +68,7 @@ define('TABLE_TABLE', TABLE_PREFIX.'table');
 define('TABLE_QUESTFIELD', TABLE_PREFIX.'questfield');
 define('TABLE_QUESTIONNAIRE', TABLE_PREFIX.'questionnaire');
 define('TABLE_QUESTMAIL', TABLE_PREFIX.'questmail');
+define('TABLE_PHONE', TABLE_PREFIX.'phone');
 
 $photo_owner = array(
 	'item'=>1,
