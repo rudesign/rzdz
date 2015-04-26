@@ -505,7 +505,7 @@ z-index:50;
     padding:20px 24px;
     border-radius:5px;
     behavior: url(PIE.htc);
-    top:-420px;
+    top:-414px;
     left:50px;
     z-index:100;
     position:absolute;
@@ -3245,6 +3245,4 @@ td.vertical > div {
     font-weight: 700;
     line-height: 1.3em;
 }
-.cure-progs .title a{
-    color: #19979f
-}
+.cure-
