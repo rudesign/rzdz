@@ -31,6 +31,7 @@ if(isset($addcure))
 	$link = "?p=$part";
 	if($addcure) $link .= "&cure_id=$addcure&subcure_id=$id&page_id=$page_id";
 	else $link .= "&cure_id=$id";
+	
 	Header("Location: ".$link);
 	exit;
 }
@@ -86,6 +87,8 @@ if(@$save)
 		    profile='$profile', profile_en='$profile_en', 
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
+		
+		if($parent==90) renew_objects("../");
 				
 		//if($cure_type!=2)
 		{	
@@ -380,6 +383,8 @@ if(@$del_cure)
 	mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
 	mysql_query("DELETE FROM ".TABLE_TABLE." WHERE cure_id='$del_cure'") or Error(1, __FILE__, __LINE__);
 		
+	if($parent==90) renew_objects("../");
+				
 	$url = "?p=$part&cure_id=$cure_id";
 	if(isset($curestr_id)) $url .= "&service&curestr_id=$curestr_id";
 	

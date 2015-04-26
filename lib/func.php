@@ -367,4 +367,29 @@ function separ_float($digit)
 	return ($fractional) ? $whole.".".$fractional : $whole;
 }
 
+function renew_objects($root_dir)
+{
+	$sql = mysql_query("SELECT name, cure_id FROM ".TABLE_CURE."  WHERE parent=90 ORDER BY ord") 
+		or Error(1, __FILE__, __LINE__, 1);
+	
+	$f = fopen($root_dir.'/js/autocomplete/objects.js', 'w');
+	flock($f, LOCK_EX);
+	
+	fwrite($f, "var objects = {\n");
+		
+	while($info = @mysql_fetch_array($sql))
+	{ 
+		$str = "    \"$info[cure_id]\":  \"".addslashes($info['name'])."\",\n";
+		fwrite($f, $str);
+	}
+	
+	
+	fwrite($f, "}");
+	
+	fflush($f);
+	flock($f, LOCK_UN);
+	fclose($f);
+
+}
+
 ?>
