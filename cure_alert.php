@@ -29,37 +29,38 @@ $description = $info['description'];
 
 	
 ?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-<meta content="text/html; charset=windows-1251" http-equiv=Content-Type>
+
 <style>
-    a{
-        color: #008c95;
+
+    .pop-content{
+        display: table-cell;
+        vertical-align: middle;
+        width: 563px;
+        height: 376px;
+        color: #fff;
+        font-family: Arial,sans-serif;
+        font-size: 16px;
+        line-height: 1.3;
+        border:none;
+        background: url("../img/medicine_popup_window.png") no-repeat;
     }
-    .u{
+    .pop-content a{
+        color: #fff;
+    }
+    .pop-content .u{
+        font-size: 18px;
+        line-height: 1.2em;
         text-transform: uppercase;
     }
-    .content{
-        width: 600px;
-        height: 400px;
-        color: #636363;
-        font-family: Tahoma,Arial,sans-serif;
-        font-size: 13px;
-        line-height: 1.3;
-    }
-    .centered{
+    .pop-content .centered{
         text-align: center;
     }
 </style>
-  </head>
-  <body>
-  <div class="content">
-            <p class="centered u"><b><?=$name?></b></p>
-            <p>&nbsp;</p>
-            <p><?=$description?></p>
-            <p>&nbsp;</p>
-            <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
-  </div>
-  </body>
- </html>
+
+<div class="pop-content">
+    <div class="centered">
+        <p class="u"><b><?=$name?></b></p>
+        <p>&nbsp;</p>
+        <p><?=$description?></p>
+    </div>
+</div>
