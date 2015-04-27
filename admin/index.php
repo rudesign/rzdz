@@ -27,7 +27,8 @@ $section_list = array(
 						'gest', 
 						'opinion', 
 						'quest',   
-						'searchstat', 
+						'searchstat',
+						'phone', 
 						'settings', 
 						'english', 
 						'user');
@@ -49,6 +50,7 @@ $section_name = array(	'Страницы сайта',
 						'Отзывы',
 						'Опросник',
 						'Статистика поиска',
+						'Телефоны',
 						'Настройки',
 						'English',
 						'Пользователи');
