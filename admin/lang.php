@@ -87,5 +87,5 @@ $lang_settings['oshibka'] = array('name'=>"Если вы заметили ошибку на этом сайте
 $lang_settings['allrights'] = array('name'=>"Все права на опубликованные материалы принадлежат <br>ОАО&nbsp;«РЖД-ЗДОРОВЬЕ»", 'name_en'=>"All rights");
 $lang_settings['razrabotka'] = array('name'=>"Разработка сайта", 'name_en'=>"Made in");
 $lang_settings['cureprofile'] = array('name'=>"Медицинский профиль", 'name_en'=>"Profile");
-$lang_settings['price'] = array('name'=>"Стоимость в рублях, (Р).", 'name_en'=>"Price, (Р).");
+$lang_settings['price'] = array('name'=>"Стоимость в рублях, (Р)", 'name_en'=>"Price, (Р).");
 ?>
