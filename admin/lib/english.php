@@ -1,7 +1,7 @@
 <?php
 
 $lang_list = array(
-	'search', 'search_site', 'search_cure', 'free_call', 'region_phone',
+	'search', 'search_site', 'search_cure', 'search_diagnosis', 'free_call', 'region_phone',
 	'news', 'spec', 'sitemap', 'faq', 'print', 'bystroe', 'san_kur_lechenie',
 	'zabolev', 'san_kurort_karta', 'sanatorii', 'zhd', 'press',
 	'reklamnye', 'item', 'video', 'virtual', 'pdf', 'partners', 'oplata', 'nashy_san', 'media', 'more',

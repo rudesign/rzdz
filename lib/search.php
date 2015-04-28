@@ -121,8 +121,8 @@ if($word && strlen($word) >= 2)
 							"p.description$englang regexp '$ereg_string')";
 			$news_arr[] = "(i.name$englang regexp '$ereg_string' OR ".
 							"i.description$englang regexp '$ereg_string')";
-			$cure_arr[] = "(i.name$englang regexp '$ereg_string' OR ".
-							"i.description$englang regexp '$ereg_string')";
+			$cure_arr[] = "(p.name$englang regexp '$ereg_string' OR ".
+							"p.description$englang regexp '$ereg_string')";
 		}
 		else
 		{

@@ -2,6 +2,7 @@
 $lang_settings['search'] = array('name'=>"Поиск", 'name_en'=>"Search");
 $lang_settings['search_site'] = array('name'=>"По сайту", 'name_en'=>"Po situ");
 $lang_settings['search_cure'] = array('name'=>"По профилю лечения", 'name_en'=>"Po Profilu lecheniya");
+$lang_settings['search_diagnosis'] = array('name'=>"По диагнозу", 'name_en'=>"Po diagnozu");
 $lang_settings['free_call'] = array('name'=>"Бесплатный звонок по Росcии", 'name_en'=>"Besplatny zvonok po Rossii");
 $lang_settings['region_phone'] = array('name'=>"Региональный номер", 'name_en'=>"Regionalny nomer");
 $lang_settings['news'] = array('name'=>"Новости", 'name_en'=>"News");
