@@ -95,11 +95,12 @@
 
 #fancybox-close {
 	position: absolute;
-	top: -15px;
-	right: -15px;
-	width: 30px;
-	height: 30px;
-	background: transparent url('fancybox.png') -40px 0px;
+	top: 10px;
+	right: 10px;
+	width: 33px;
+	height: 33px;
+	/*background: transparent url('fancybox.png') -40px 0px;*/
+	background: transparent url('../../img/medicine_popup_window_close.png') 0 0;
 	cursor: pointer;
 	z-index: 110003;
 	display: none;
