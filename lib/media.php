@@ -34,7 +34,7 @@ else $group = "p.page_id";
 //$sort = $m=='pdf' || $m=='virtual' ? "p.page_id=$page_id desc, p.ord, f.ord" : 'f.ord';
 //$sort = $page_id ? 'f.ord' : ($m ? "f.ord, p.ord" : "p.ord");
 		
-if($m) $sort = $page_id ? 'f.ord, p.ord' : "p.page_id=$onlyvideo_id, p.ord, f.ord";
+if($m) $sort = $page_id ? 'f.ord, p.ord' : "p.page_id=$onlyvideo_id desc, p.ord, f.ord";
 else $sort = "p.ord, f.ord";
 		
 $limit = $page_id ? '' : "LIMIT 30";
