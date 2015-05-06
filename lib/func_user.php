@@ -223,6 +223,7 @@ function get_menu2()
 	}
 	elseif($part == 'site')
 	{
+		if($request[0] == 'partners') return '';
 		$region_dir = mysql_escape_string($request[0]);
 		$parent_dir = mysql_escape_string($request[1]);
 		$page_dir = mysql_escape_string($request[2]);
