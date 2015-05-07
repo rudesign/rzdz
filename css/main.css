@@ -836,12 +836,8 @@ font-weight:bold;
     margin-bottom: 23px;
 }
 .simple_content p{
-    margin-bottom:0px;
+    margin-bottom:0;
     text-align: justify;
-}
-.simple_content table td,
-.simple_content table td p{
-    text-align: left;
 }
 .simple_content img{
     display: block;
