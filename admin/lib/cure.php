@@ -933,7 +933,7 @@ if($cure_id)
 					$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id";
 				}		
 			}
-			if(isset($service) && $page_id && !@$curestr_id)
+			if(isset($service) && @$page_id && !@$curestr_id)
 			{
 				$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
 						" WHERE owner_id=$page_id AND owner='$photo_owner[cure_pdf]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
