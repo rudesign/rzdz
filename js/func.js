@@ -55,7 +55,7 @@ function add_favorite(a) {
       }
       else {
         // Unknown
-        alert('Нажмите Ctrl+D для добавления в Избранное');
+        alert('пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Ctrl+D пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ');
       }
     }
   }
@@ -227,4 +227,8 @@ offT+=document.body.topMargin;
 }
 
 return {left:offL , top:offT}
+}
+
+function popupMessage(){
+    $('.root_popup_message_lnk').click();
 }

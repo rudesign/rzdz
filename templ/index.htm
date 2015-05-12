@@ -166,7 +166,7 @@ $(document).ready(function($){
 <?}?>
 		
 </head>
-<body onLoad="<?=$message?>">
+<body onLoad="<?= $message ?>">
     <div class="sticker">
       <span class="scrollToTheTopBtn"></span>
       <a href="https://vk.com/rzdz_official" target="_blank"></a>
@@ -427,5 +427,7 @@ $(document).ready(function($){
         </div><!--inf_footer_block-->		
 	  </div><!--footer-->
 	</div><!--all-->
+    <a href="/popup_message.php" class="root_popup_message_lnk fancybox"></a>
+    <div class="root_popup_message" style="display:none;"><?= $_SESSION['message'] ?></div>
   </body>
 </html>

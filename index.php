@@ -384,7 +384,8 @@ $description = $meta_tags['description'];
 $keywords = $meta_tags['keywords'];
 
 $message = @$_SESSION['message'];
-if($message) $message = "alert('".addslashes($message)."')";
+//if($message) $message = "alert('".addslashes($message)."')";
+if($message) $message = "popupMessage()";
 
 if($extrasite_id) 
 {
