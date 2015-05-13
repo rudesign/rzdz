@@ -67,7 +67,7 @@ $lang_settings['dobavlen_otziv'] = array('name'=>"Сообщение получено. После моде
 $lang_settings['otvetim'] = array('name'=>"Спасибо! Сообщение получено. В ближайшее время мы ответим на ваш вопрос.", 'name_en'=>"Spasibo, my otvetim");
 $lang_settings['close'] = array('name'=>"Закрыть", 'name_en'=>"Close");
 $lang_settings['thank'] = array('name'=>"Спасибо!", 'name_en'=>"Thank!");
-$lang_settings['our_manager'] = array('name'=>" Наши менеджеры свяжуться с Вами в самое ближайшее время!", 'name_en'=>"We will call you");
+$lang_settings['our_manager'] = array('name'=>" Наши менеджеры свяжутся с Вами в самое ближайшее время!", 'name_en'=>"We will call you");
 $lang_settings['po_zaprosu'] = array('name'=>"По запросу", 'name_en'=>"Po zaprosu");
 $lang_settings['naideno'] = array('name'=>"найдено страниц", 'name_en'=>"naideno stranic");
 $lang_settings['ne_naideno'] = array('name'=>"ничего не найдено", 'name_en'=>"nichego ne naideno");

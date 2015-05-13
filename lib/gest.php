@@ -1,5 +1,6 @@
 <?php
 
+$returnUrl = $page_url."#form";
 
 $order_fields = array('name', 'email', 'text', 'digits', 'err_text', 'err_name', 'err_email', 'err_digit', 'gtema_id');
 
@@ -8,7 +9,7 @@ if(@$_POST['mode'])
 	if($_POST['mode'] == 'reset')
 	{
 		$_SESSION['gest_data'] = '';
-		Header("Location: ".$page_url."#form");
+        Header("Location: ".$returnUrl);
 		exit;
 	}
 	
@@ -30,36 +31,32 @@ if(@$_POST['mode'])
 		
 	if(!$arr['name'])  
 	{
-		$arr['err_name'] = 1;
-		$_SESSION['gest_data'] = Serialize($arr);
-		Header("Location: ".$page_url."#form");
-		exit;
+        $_SESSION['message'] =  $lang_phrases['err_name'];
+        Header("Location: ".$returnUrl);
+        exit;
 	}
 	
 	if(!$arr['email'])  
 	{
-		$arr['err_email'] = 1;
-		$_SESSION['gest_data'] = Serialize($arr);
-		Header("Location: ".$page_url);
-		exit;
+        $_SESSION['message'] =  $lang_phrases['err_email'];
+        Header("Location: ".$returnUrl);
+        exit;
 	}
 	
 	$arr['text'] = trim(substr($arr['text'], 0, 3000));
 	
 	if(!$arr['text'])  
 	{
-		$arr['err_text'] = 1;
-		$_SESSION['gest_data'] = Serialize($arr);
-		Header("Location: ".$page_url);
-		exit;
+        $_SESSION['message'] =  $lang_phrases['err_text'];
+        Header("Location: ".$returnUrl);
+        exit;
 	}
 
 	if(!@$ucaptcha || @$ucaptcha!=$_SESSION['captcha'])  
 	{
-		$arr['err_digit'] = 1;
-		$_SESSION['gest_data'] = Serialize($arr);
-		Header("Location: ".$page_url);
-		exit;
+        $_SESSION['message'] =  $lang_phrases['err_captcha'];
+        Header("Location: ".$returnUrl);
+        exit;
 	}
 	
 	$mess = get_template('templ/mail_gest.htm', array(
@@ -67,7 +64,7 @@ if(@$_POST['mode'])
 			'email'=>HtmlSpecialChars($arr['email']), 
 			'text'=>nl2br(HtmlSpecialChars($arr['text']))
 			)); 
-	send_mail($settings['admin_email'], 'новое сообщение', $mess);
+	send_mail($settings['admin_email'], 'Ќовый вопрос в разделе FAQ', $mess);
 	
 	$name = escape_string($arr['name']);
 	$email = escape_string($arr['email']);
@@ -85,9 +82,6 @@ if(@$_POST['mode'])
 	exit;
 }
 
-
-
-
 $replace = array();
 $data_arr = @Unserialize($_SESSION['gest_data']);
 foreach($order_fields as $v) $replace[$v] = HtmlSpecialChars(@$data_arr[$v]);
@@ -96,7 +90,6 @@ foreach($order_fields as $v) $replace[$v] = HtmlSpecialChars(@$data_arr[$v]);
 $replace['send'] = @$send; 
 
 $wh = $englang ? "english" : "!english";
-
 
 if((int)@$_GET['tema']) 
 {
@@ -132,8 +125,5 @@ while($arr = @mysql_fetch_array($sql))
 $replace['list'] = $list;
 $replace['order_url'] = $page_url;
 
-
-$form_content = get_template('templ/gest.htm', $replace); 
-
-
+$form_content = get_template('templ/gest.htm', $replace);
 ?>

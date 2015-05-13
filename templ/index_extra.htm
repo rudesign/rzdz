@@ -190,22 +190,22 @@ $(document).ready(function($){
                 <?=$weather_informer?>
             </div>
               <div class="for_people_lc clearfix">
-				<form name="sendform" id="sendform" method="post" action="/sendphone.php" target="sendphone" 
-					onSubmit="var obj=window.open('', 'sendphone', 		'location=0,status=1,scrollbars=1,dialog=0,minimizable=1,modal=1,resizable=1,width=400,height=200');sendform.submit();obj.focus();">	
-			  <ul class="list_lc_people">
-			    <li><span><?=$lang_phrases['leave_phone']?></span></li>
-				<li><input type="text" class="form_people_lc" name="name" size="3" placeholder="<?=$lang_phrases['name']?>"/></li>
-				<li><input type="text" class="form_people_lc" name="phone" size="3" placeholder="<?=$lang_phrases['phone_number']?>"/></li>
-				<li>
-				  <ul class="for_bad_scg clearfix">
-				    <li class="for_num_img"><img src="/digit.php" alt="" /></li>
-					<li><input type="text" class="form_scg" name="ucaptcha" size="3" placeholder="<?=$lang_phrases['captcha2']?>"/></li>
-					<li><input type="submit" class="scg_button"  value="<?=$lang_phrases['sendphone']?>" /></li>
-				  </ul>
-				</li>
-              </ul><!--list_lc_people-->           
-              	<input type="hidden" name="en" value="<?=$englang?>">
-				</form>  			  
+                  <form name="sendform" id="sendform" method="post" action="/">
+                      <input type="hidden" name="en" value="<?=$englang?>">
+                      <input name="submit_callback_form" value="1" type="hidden" />
+                      <ul class="list_lc_people">
+                        <li><span><?=$lang_phrases['leave_phone']?></span></li>
+                        <li><input type="text" class="form_people_lc" name="name" size="3" placeholder="<?=$lang_phrases['name']?>"/></li>
+                        <li><input type="text" class="form_people_lc" name="phone" size="3" placeholder="<?=$lang_phrases['phone_number']?>"/></li>
+                        <li>
+                          <ul class="for_bad_scg clearfix">
+                            <li class="for_num_img"><img src="/digit.php" alt="" /></li>
+                            <li><input type="text" class="form_scg" name="ucaptcha" size="3" placeholder="<?=$lang_phrases['captcha2']?>"/></li>
+                            <li><input type="submit" class="scg_button"  value="<?=$lang_phrases['sendphone']?>" /></li>
+                          </ul>
+                        </li>
+                      </ul><!--list_lc_people-->
+				</form>
 			</div><!--for_people_lc-->
 		  </div><!--left_column-->
 		  <div class="right_column clearfix for_aqc_styles ld">

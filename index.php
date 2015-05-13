@@ -41,6 +41,7 @@ dbconnect($config['dbhost'], $config['dbname'], $config['dblogin'], $config['dbp
 
 if($request[0] == 'video') { require 'lib/video.php'; exit; }
 if(isset($add_opinion)) { require 'lib/add_opinion.php'; }
+if(isset($submit_callback_form)) { require 'lib/submit_callback_form.php'; }
 if($request[0] == 'ajax') { require 'lib/ajax.php'; exit; }
 
 global $part, $menu1, $page, $parent, $page_id, $current_page, $request, $san_id, 
