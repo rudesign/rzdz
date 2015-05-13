@@ -2144,12 +2144,28 @@ font-size:14px;
 font-weight:bold;
 }
 .simple_partner{
-    padding-top:40px;
+    display: table;
+    margin-top:40px;
 }
+
 .simple_partner li{
-    float:left;
-    margin-right:10px;
+    float: left;
+    width: 16.666%;
+    vertical-align: middle;
 }
+.simple_partner li span{
+    display: table-cell;
+    width: inherit;
+    height: 115px;
+    padding: 5px;
+    vertical-align: middle;
+}
+.simple_partner li span img{
+    display: block;
+    max-width: 130px;
+    margin: 0 auto;
+}
+
 .luft_landing_bottom{
 margin-top:-20px;
 }

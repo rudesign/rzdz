@@ -201,10 +201,10 @@
             </div><!--standart_land-->
 			<div class="landing_info width_control">
 			  <ul class="simple_partner clearfix">
-			    <?foreach($partners as $k=>$v){?>
-				<li <?if($k+1==count($partners)){?> class="margin_r"<?}?>><a href="<?=$v['link']?>"><img src="<?=$v['photo']?>" alt="" /></a></li>
-				<?}?>
-              </ul><!--simple_partner-->			  
+                <?foreach($partners as $i=>$v):?>
+                    <li><span><a href="<?=$v['link']?>"><img src="<?=$v['photo']?>" alt="" /></a></span></li>
+                <?endforeach;?>
+              </ul><!--simple_partner-->
 			</div><!--landing_info-->
           </div><!--landing_block-->
 		  
