@@ -2144,11 +2144,11 @@ font-size:14px;
 font-weight:bold;
 }
 .simple_partner{
-padding-top:40px;
+    padding-top:40px;
 }
 .simple_partner li{
-float:left;
-margin-right:10px;
+    float:left;
+    margin-right:10px;
 }
 .luft_landing_bottom{
 margin-top:-20px;
