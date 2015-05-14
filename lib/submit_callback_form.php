@@ -47,6 +47,13 @@ $mess = ereg_replace("\\:domain\\:", DOMAIN, $mess);
 foreach($arr as $v) mail($v, DOMAIN, $mess, $head);
 $yes = 1;
 
+
+$sql = mysql_query("SELECT count(*) FROM ".TABLE_PHONE."  WHERE phone='".escape_string($phone)."'") or Error(1, __FILE__, __LINE__);
+$arr = @mysql_fetch_array($sql);
+if(!$arr[0])
+mysql_query("INSERT INTO ".TABLE_PHONE." SET phone='".escape_string($phone)."', name='".escape_string($name)."', date=CURDATE()") 
+	or Error(1, __FILE__, __LINE__);
+	
 $_SESSION['message'] =  $lang_phrases['our_manager'];
 Header("Location: ".$referrer);
 exit;
