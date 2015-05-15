@@ -308,6 +308,7 @@
 <form name="edit-form" method="post">
     <table cellpadding="2">
 
+	<?if($cure_id==1){?><tr><td>Порядок отображения: </td><td><input type="text" name="ord" value="<?=$subcure['dord']?>" size="8"></td></tr><?}?>
 	<tr><td>Название для прайса (заполнять поле,<br /> если отличается от названия услуги): </td>
 		<td><input type="text" name="name" value="<?=$subcure['prname']?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['prname_en']?>" maxlength="255" size="50"></td></tr>

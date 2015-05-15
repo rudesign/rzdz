@@ -837,7 +837,7 @@ if(!$cure_id && !$subcure_id)
 			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
 			WHERE c.parent=1 AND c.public AND h.cure_id IS NOT NULL
 			GROUP BY c.cure_id
-			ORDER BY c.ord";
+			ORDER BY h.ord=0, h.ord, c.ord";
 		$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 		
 		$cures = array(); 

@@ -280,6 +280,7 @@ if(@$savedescr)
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 	$title = (int)@$title;
+	$ord = (int)@$ord;
 	
 	$curestr_id = (int)@$curestr_id;
 		
@@ -287,7 +288,7 @@ if(@$savedescr)
 	$wh = $subcure_id ? "cure_id=$subcure_id" : "curestr_id=$curestr_id";
 	mysql_query("UPDATE $table SET name='$name' , name_en='$name_en', 
 		price='$price' , price_en='$price_en', price1='$price1' , price1_en='$price1_en',
-		description='$description', description_en='$description_en', title='$title'
+		description='$description', description_en='$description_en', title='$title', ord='$ord'
 		WHERE $wh AND page_id='$page_id'") 
 	or Error(1, __FILE__, __LINE__);
 	
@@ -871,7 +872,7 @@ if($cure_id)
 			$replace['inhotel'] = HtmlSpecialChars($replace['inhotel']);		
 			$replace['inhotel_en'] = HtmlSpecialChars($replace['inhotel_en']);	
 			$replace['ord_select'] = ord_select("SELECT name FROM ".TABLE_CURE.
-					" WHERE parent=0 ORDER BY ord", 'ord', $replace['ord']);
+					" WHERE parent=0 AND cure_id!=$cure_id ORDER BY ord", 'ord', $replace['ord']);
 			$replace['type_select'] = array_select('type', $cure_type_list, $replace['type'], 0);
 			$replace['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $replace['public'], 0);
 			
@@ -1160,7 +1161,7 @@ if($cure_id)
 			$replace['descr'] = $page_id;
 			
 			$sql = mysql_query("SELECT cr.name, cr.name_en, cr.description, cr.description_en, 
-				cr.price, cr.price_en, cr.price1, cr.price1_en, cr.title, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
+				cr.price, cr.price_en, cr.price1, cr.price1_en, cr.title, cr.ord, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
 				LEFT JOIN ".TABLE_PAGE." p ON p.page_id=cr.page_id
 				WHERE cr.cure_id=$subcure_id AND cr.page_id=$page_id") 
 				or Error(1, __FILE__, __LINE__);
@@ -1169,6 +1170,7 @@ if($cure_id)
 			$subcure['list_link'] = "?p=cure&cure_id=$cure_id&page_id=$page_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['page_id'] =  $page_id;
+			$subcure['dord'] =  $info['ord'];
 			$subcure['pname'] =  HtmlSpecialChars($info['pname']);
 			$subcure['prname'] =  HtmlSpecialChars($info['name']);
 			$subcure['prname_en'] =  HtmlSpecialChars($info['name_en']);
