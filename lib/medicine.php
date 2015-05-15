@@ -138,7 +138,7 @@ if($cure_id)
 {
 	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
 	$fields = "cure_id, $fn as name, type, inhotel$englang ";
-	if(!$subcure_id)  $fields .=  ", description$englang as description";
+	if(!$subcure_id || $cure_id==11)  $fields .=  ", description$englang as description";
 	if($subcure_id && @$curestr_id)  $fields .=  ", inhotel$englang as inhotel";
 	  
 	$sql = mysql_query("SELECT $fields 
@@ -147,7 +147,16 @@ if($cure_id)
 	
 	$page_name = $cure['name'];
 	
-	if($extrasite_id && $cure_id==11) $cure['description'] = str_replace("medicine/11/49", "$request[0]/medicine/11/49",$cure['description']);
+	if($extrasite_id && $cure_id==11 && !$subcure_id) 
+	{
+		$sql1 = mysql_query("SELECT description$englang as description
+			FROM ".TABLE_CUREHOTEL." WHERE cure_id=49 AND page_id='$extrasite_id'") or Error(1, __FILE__, __LINE__);
+		$info = @mysql_fetch_array($sql1);
+		if(@$info['description']) $cure['description'] = 
+			str_replace("medicine/11/49", "$request[0]/medicine/11/49",$cure['description']);
+		else  $cure['description'] = 
+			str_replace("medicine/11/49", "medicine/11/49\" target=\"_blank",$cure['description']);
+	}
 		
 	/*if($cure['type']==3 && ! ( ($cure['cure_id']==5 || $cure['cure_id']==8) && !$extrasite_id ) )
 	{
@@ -624,6 +633,7 @@ if($subcure_id)
 	$subcure['name'] = htmlspecialchars($subcure['name']);
 	$page_name = $subcure['name'];
 	
+	
 	if($subcure['parent']!=$cure_id)
 	{
 		$sql1 = mysql_query("SELECT name$englang as name FROM ".TABLE_CURE." WHERE cure_id=$subcure[parent]") or Error(1, __FILE__, __LINE__);
@@ -669,7 +679,7 @@ if($subcure_id)
 	
 	$cure['inhotel'] = str_replace("[service]", $subcure['name'], $cure['inhotel']);
 	
-	if($extrasite_id && $cure['type']!=4)
+	if($extrasite_id)
 	{ 
 		$sql = mysql_query("SELECT description$englang as description, h.price$englang as  price 
 			FROM ".TABLE_CUREHOTEL." h  

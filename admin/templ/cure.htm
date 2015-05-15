@@ -328,6 +328,7 @@
         <input type="hidden" name="p" value="cure">
         </form>
 		
+		<?if($type!=4){?>
 		<p>&nbsp;<br /><b>Таблицы</b></p>
 		
 		<form method="post">
@@ -395,6 +396,7 @@
 		<?}?>
 		<?}?>
 		</table>
+		<?}?>
 	<?}?>
 		<p>&nbsp;</p>
 		
@@ -425,6 +427,7 @@
             <tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$subcure['description_en']?></textarea>
             </td></tr>
 
+			
 			<?if($type<3 && $cure_id!=14){?><tr><td>Санатории:</td><td colspan="2">
             <table>
             <tr><td>Наличие</td><td>Цена (филиал)</td><td>Цена (осн.сайт)</td></tr>
@@ -443,22 +446,19 @@
             </table>
             </td></tr>
             <?}elseif($type==4){?><tr><td>Таблица:</td><td>
-            <table>
-            <tr><td>Санаторий</td><td>Значения (русские и английские)</td></tr>
-            <?foreach($subcure['page_box'] as $k=>$v){?>
-                <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
-                <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none'"
-                value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
-                </td>
-                <td  id="price<?=$v['page_id']?>" style="<?if(!$v['checked']){?>display:none;<?}?>">
-				<textarea name="descr[<?=$v['page_id']?>]" cols="30" rows="5" 
-					style="<?if($k%2){?>background:#E9E9E9;<?}?>"><?=$v['description']?></textarea>  
-				<textarea name="descr_en[<?=$v['page_id']?>]" cols="30" rows="5" 
-					style="<?if($k%2){?>background:#E9E9E9;<?}?>"><?=$v['description_en']?></textarea>              
-                </td>
-                </tr>
-            <?}?>
-            </table>
+			<table>
+			<tr><td>Наличие</td></tr>
+			<?foreach($subcure['page_box'] as $k=>$v){?>
+				<tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
+				<input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" value="<?=$v['page_id']?>" <?=$v['checked']?> >
+				<?if($v['checked']){?><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>"><?}?>
+				<?=$v['name']?>
+				<?if($v['checked']){?></a><?}?>
+				<br>
+				</td>
+				</tr>
+			<?}?>
+			</table>
             </td></tr>
             <?}?>
             <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
