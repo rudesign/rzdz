@@ -832,7 +832,7 @@ if(!$cure_id && !$subcure_id)
 		
 	if($extrasite_id)
 	{
-		$query ="SELECT c.cure_id, c.name$englang as name
+		$query ="SELECT c.cure_id, c.name$englang as name, h.name$englang as hname
 			FROM ".TABLE_CURE." c 
 			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
 			WHERE c.parent=1 AND c.public AND h.cure_id IS NOT NULL
@@ -843,7 +843,8 @@ if(!$cure_id && !$subcure_id)
 		$cures = array(); 
 		while($info = @mysql_fetch_array($sql))
 		{ 
-			$info['name'] = $info['name'] ? HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251') : NONAME;
+			$info['name'] = $info['hname'] ? HtmlSpecialChars($info['hname'], ENT_COMPAT, 'cp1251') :
+				( $info['name'] ? HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251') : NONAME );
 						
 			$info['url'] = $link_medicine."1/"."$info[cure_id]/";
 			
