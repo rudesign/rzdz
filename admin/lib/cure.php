@@ -115,20 +115,20 @@ if(@$save)
 				$price_old = @$info['price'];				
 				$checked = in_array($info['page_id'], $sanat);
 				
-				if($count && !$checked)
+				if($count && !$checked) 
 					mysql_query("DELETE FROM ".TABLE_CUREHOTEL." WHERE cure_id=$subcure_id AND page_id='$page_id'") 
 					or Error(1, __FILE__, __LINE__);
-				elseif(!$count && $checked)
+				elseif(!$count && $checked) 
 					mysql_query("INSERT INTO ".TABLE_CUREHOTEL." SET cure_id=$subcure_id, page_id='$page_id'") 
 					or Error(1, __FILE__, __LINE__);
 					
 				if($cure_type==4)
 				{ 
-					$description = @from_form($descr[$page_id]);
+					/*$description = @from_form($descr[$page_id]);
 					$description_en = @from_form($descr_en[$page_id]); 
 					mysql_query("UPDATE ".TABLE_CUREHOTEL." SET description='".escape_string($description)."',
 						 description_en='".escape_string($description_en)."'
-						WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);
+						WHERE cure_id=$subcure_id AND page_id='$page_id'") or Error(1, __FILE__, __LINE__);*/
 				}
 				else
 				{
