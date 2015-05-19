@@ -11,7 +11,7 @@ $lang_list = array(
 	'err_phone', 'err_name', 'err_email', 'err_captcha', 'err_text', 'dobavlen_otziv', 'otvetim', 'close', 'thank', 'our_manager',
 	'po_zaprosu', 'naideno', 'ne_naideno', 'big_quality' , 'gtema', 'gtema_choise', 'medicine',
 	'allsan', 'siterzd', 'uvgosti', 'kakoplatit', 'proverkascheta', 'weather', '2week', 'kakdobratsya', 'oshibka', 'allrights', 'razrabotka',
-	'cureprofile', 'price');
+	'cureprofile', 'price', 'development');
 
 
 if(@$_POST['save'])

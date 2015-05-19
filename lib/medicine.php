@@ -193,7 +193,7 @@ if($cure_id)
 
 	$link = $cure['cure_id']==9 && @$curestr_id && !$extrasite_id ?  $link_medicine."8/"  :
 		( $subcure_id || ($cure['type']==6 && @$s_id) ? $link_medicine."$cure_id/" : '' );
-	$navig[] = array('link'=>$link, 'name'=>$cure['name']);
+	if(!($cure_id==1 && $extrasite_id && $subcure_id)) $navig[] = array('link'=>$link, 'name'=>$cure['name']);
 	
 	if(!$subcure_id || $cure['type']==1)  
 	{
@@ -632,6 +632,8 @@ if($subcure_id)
 	
 	$subcure['name'] = htmlspecialchars($subcure['name']);
 	$page_name = $subcure['name'];
+	
+	if(!$subcure['description'] && $extrasite_id) $subcure['description'] = $lang_phrases['development'];
 	
 	
 	if($subcure['parent']!=$cure_id)
