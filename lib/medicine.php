@@ -201,6 +201,17 @@ if($cure_id)
 		{ 
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
 			
+			if($extrasite_id && $cure['type']==4) 
+			{
+				$q = "SELECT  h.description$englang as description 
+					FROM  ".TABLE_CUREHOTEL." h
+				WHERE h.cure_id=$cure_id AND h.page_id=$extrasite_id";
+				$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
+				$arr = @mysql_fetch_array($sql1);
+				
+				if(@$arr['description']) $cure['description'] = $arr['description'];
+			}
+			
 			if($extrasite_id && $cure['type']!=4) 
 				$query ="SELECT c.cure_id, c.name$englang as name, anons$englang as anons, h.cure_id, h.price$englang as  price
 					FROM ".TABLE_CURE." c 
