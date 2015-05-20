@@ -1,10 +1,15 @@
 <?if(!$subcure_id){?>
 
-<?if(@$curestrd){?>
+<?if(@$curestrd || @$curedescr){?>
 
 	<?if(@$descr){?>
+		<?if(!@$curedescr){?>
 		<p><a href="?p=cure&cure_id=<?=$cure_id?>&curestrd=<?=$curestrd?>"><?=$curestr['name']?></a>
 &nbsp;&nbsp; <strong><?=$curestr['pname']?></strong></p>
+		<?}else{?>
+		<p><a href="?p=cure&cure_id=<?=$cure_id?>"><?=$name?></a>
+&nbsp;&nbsp; <strong><?=$curestr['pname']?></strong></p>
+		<?}?>
 <form name="edit-form" method="post">
     <table cellpadding="2">
 
@@ -18,7 +23,7 @@
         <tr><td></td><td><input type="submit" name="savedescr" value="Сохранить" class="button"></td></tr>
         </table>
         <input type="hidden" name="cure_id" value="<?=$cure_id?>">
-        <input type="hidden" name="curestr_id" value="<?=$curestrd?>">
+        <?if(!@$curedescr){?><input type="hidden" name="curestr_id" value="<?=$curestrd?>"><?}?>
         <input type="hidden" name="page_id" value="<?=$curestr['page_id']?>">
         <input type="hidden" name="p" value="cure">
         </form>
@@ -88,7 +93,11 @@
 	<tr><td>Наличие</td></tr>
 	<?foreach($page_box as $k=>$v){?>
 		<tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
-		<input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+		<input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" value="<?=$v['page_id']?>" <?=$v['checked']?> >
+			<?if($v['checked']){?><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>"><?}?>
+			<?=$v['name']?>
+			<?if($v['checked']){?></a><?}?>
+		<br>
 		</td>
 		</tr>
 	<?}?>
@@ -280,6 +289,7 @@
 	<?}?>
 	<?}?>
 <?}elseif($type==1 || $type==4 || $type==7){?>
+	<?if(!@$curedescr){?>
 <P><a href="?p=cure&addcure=<?=$cure_id?>">Добавить подраздел ›››</a></P>
     <table cellpadding="2" border="0">
     <tr><td>
@@ -295,6 +305,7 @@
     </td></tr>
     </table>
 	<p>&nbsp;</p>
+	<?}?>
 <?}?>
 <?}else{?>
 <P><a href="<?=$subcure['list_link']?>"><?=$subcure['cure_name']?></a>
@@ -308,6 +319,7 @@
 <form name="edit-form" method="post">
     <table cellpadding="2">
 
+	<?if($cure_id==1){?><tr><td>Порядок отображения: </td><td><input type="text" name="ord" value="<?=$subcure['dord']?>" size="8"></td></tr><?}?>
 	<tr><td>Название для прайса (заполнять поле,<br /> если отличается от названия услуги): </td>
 		<td><input type="text" name="name" value="<?=$subcure['prname']?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['prname_en']?>" maxlength="255" size="50"></td></tr>
@@ -328,6 +340,7 @@
         <input type="hidden" name="p" value="cure">
         </form>
 		
+		<?if($type!=4){?>
 		<p>&nbsp;<br /><b>Таблицы</b></p>
 		
 		<form method="post">
@@ -395,6 +408,7 @@
 		<?}?>
 		<?}?>
 		</table>
+		<?}?>
 	<?}?>
 		<p>&nbsp;</p>
 		
@@ -425,6 +439,7 @@
             <tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$subcure['description_en']?></textarea>
             </td></tr>
 
+			
 			<?if($type<3 && $cure_id!=14){?><tr><td>Санатории:</td><td colspan="2">
             <table>
             <tr><td>Наличие</td><td>Цена (филиал)</td><td>Цена (осн.сайт)</td></tr>
@@ -443,22 +458,19 @@
             </table>
             </td></tr>
             <?}elseif($type==4){?><tr><td>Таблица:</td><td>
-            <table>
-            <tr><td>Санаторий</td><td>Значения (русские и английские)</td></tr>
-            <?foreach($subcure['page_box'] as $k=>$v){?>
-                <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
-                <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none'"
-                value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
-                </td>
-                <td  id="price<?=$v['page_id']?>" style="<?if(!$v['checked']){?>display:none;<?}?>">
-				<textarea name="descr[<?=$v['page_id']?>]" cols="30" rows="5" 
-					style="<?if($k%2){?>background:#E9E9E9;<?}?>"><?=$v['description']?></textarea>  
-				<textarea name="descr_en[<?=$v['page_id']?>]" cols="30" rows="5" 
-					style="<?if($k%2){?>background:#E9E9E9;<?}?>"><?=$v['description_en']?></textarea>              
-                </td>
-                </tr>
-            <?}?>
-            </table>
+			<table>
+			<tr><td>Наличие</td></tr>
+			<?foreach($subcure['page_box'] as $k=>$v){?>
+				<tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
+				<input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" value="<?=$v['page_id']?>" <?=$v['checked']?> >
+				<?if($v['checked']){?><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>"><?}?>
+				<?=$v['name']?>
+				<?if($v['checked']){?></a><?}?>
+				<br>
+				</td>
+				</tr>
+			<?}?>
+			</table>
             </td></tr>
             <?}?>
             <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>

@@ -88,4 +88,5 @@ $lang_settings['allrights'] = array('name'=>"Все права на опубликованные материа
 $lang_settings['razrabotka'] = array('name'=>"Разработка сайта", 'name_en'=>"Made in");
 $lang_settings['cureprofile'] = array('name'=>"Медицинский профиль", 'name_en'=>"Profile");
 $lang_settings['price'] = array('name'=>"Стоимость в рублях, (Р)", 'name_en'=>"Price, (Р).");
+$lang_settings['development'] = array('name'=>"страница в стадии разработки", 'name_en'=>"the page is under development");
 ?>

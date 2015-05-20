@@ -308,7 +308,8 @@
             <div class="cure-progs">
                 <?foreach($cure_list as $k=>$v){?>
                 <div class="items">
-                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a><?if(@$v['price']){?><br /><?=$v['price']?><?}?></div>
+                    <div class="title"><?if(count(@$v['podrazdel'])){?><?=$v['name']?><?}else{?><a href="<?=$v['url']?>"><?=$v['name']?></a><?}?>
+						<?if(@$v['price']){?><br /><?=$v['price']?><?}?></div>
                     <div class="teaser"><?=$v['teaser']?>
 					<?foreach($v['podrazdel'] as $k=>$v1){?><br /><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}?>
 					</div>

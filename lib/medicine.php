@@ -138,7 +138,7 @@ if($cure_id)
 {
 	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
 	$fields = "cure_id, $fn as name, type, inhotel$englang ";
-	if(!$subcure_id)  $fields .=  ", description$englang as description";
+	if(!$subcure_id || $cure_id==11)  $fields .=  ", description$englang as description";
 	if($subcure_id && @$curestr_id)  $fields .=  ", inhotel$englang as inhotel";
 	  
 	$sql = mysql_query("SELECT $fields 
@@ -147,7 +147,16 @@ if($cure_id)
 	
 	$page_name = $cure['name'];
 	
-	if($extrasite_id && $cure_id==11) $cure['description'] = str_replace("medicine/11/49", "$request[0]/medicine/11/49",$cure['description']);
+	if($extrasite_id && $cure_id==11 && !$subcure_id) 
+	{
+		$sql1 = mysql_query("SELECT description$englang as description
+			FROM ".TABLE_CUREHOTEL." WHERE cure_id=49 AND page_id='$extrasite_id'") or Error(1, __FILE__, __LINE__);
+		$info = @mysql_fetch_array($sql1);
+		if(@$info['description']) $cure['description'] = 
+			str_replace("medicine/11/49", "$request[0]/medicine/11/49",$cure['description']);
+		else  $cure['description'] = 
+			str_replace("medicine/11/49", "medicine/11/49\" target=\"_blank",$cure['description']);
+	}
 		
 	/*if($cure['type']==3 && ! ( ($cure['cure_id']==5 || $cure['cure_id']==8) && !$extrasite_id ) )
 	{
@@ -184,13 +193,24 @@ if($cure_id)
 
 	$link = $cure['cure_id']==9 && @$curestr_id && !$extrasite_id ?  $link_medicine."8/"  :
 		( $subcure_id || ($cure['type']==6 && @$s_id) ? $link_medicine."$cure_id/" : '' );
-	$navig[] = array('link'=>$link, 'name'=>$cure['name']);
+	if(!($cure_id==1 && $extrasite_id && $subcure_id)) $navig[] = array('link'=>$link, 'name'=>$cure['name']);
 	
 	if(!$subcure_id || $cure['type']==1)  
 	{
 		if($cure['type']==1 || $cure['type']==4)
 		{ 
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
+			
+			if($extrasite_id && $cure['type']==4) 
+			{
+				$q = "SELECT  h.description$englang as description 
+					FROM  ".TABLE_CUREHOTEL." h
+				WHERE h.cure_id=$cure_id AND h.page_id=$extrasite_id";
+				$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
+				$arr = @mysql_fetch_array($sql1);
+				
+				if(@$arr['description']) $cure['description'] = $arr['description'];
+			}
 			
 			if($extrasite_id && $cure['type']!=4) 
 				$query ="SELECT c.cure_id, c.name$englang as name, anons$englang as anons, h.cure_id, h.price$englang as  price
@@ -624,6 +644,9 @@ if($subcure_id)
 	$subcure['name'] = htmlspecialchars($subcure['name']);
 	$page_name = $subcure['name'];
 	
+	if(!$subcure['description'] && $extrasite_id) $subcure['description'] = $lang_phrases['development'];
+	
+	
 	if($subcure['parent']!=$cure_id)
 	{
 		$sql1 = mysql_query("SELECT name$englang as name FROM ".TABLE_CURE." WHERE cure_id=$subcure[parent]") or Error(1, __FILE__, __LINE__);
@@ -669,7 +692,7 @@ if($subcure_id)
 	
 	$cure['inhotel'] = str_replace("[service]", $subcure['name'], $cure['inhotel']);
 	
-	if($extrasite_id && $cure['type']!=4)
+	if($extrasite_id)
 	{ 
 		$sql = mysql_query("SELECT description$englang as description, h.price$englang as  price 
 			FROM ".TABLE_CUREHOTEL." h  
@@ -822,18 +845,19 @@ if(!$cure_id && !$subcure_id)
 		
 	if($extrasite_id)
 	{
-		$query ="SELECT c.cure_id, c.name$englang as name
+		$query ="SELECT c.cure_id, c.name$englang as name, h.name$englang as hname
 			FROM ".TABLE_CURE." c 
 			LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id=$extrasite_id)
 			WHERE c.parent=1 AND c.public AND h.cure_id IS NOT NULL
 			GROUP BY c.cure_id
-			ORDER BY c.ord";
+			ORDER BY h.ord=0, h.ord, c.ord";
 		$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 		
 		$cures = array(); 
 		while($info = @mysql_fetch_array($sql))
 		{ 
-			$info['name'] = $info['name'] ? HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251') : NONAME;
+			$info['name'] = $info['hname'] ? HtmlSpecialChars($info['hname'], ENT_COMPAT, 'cp1251') :
+				( $info['name'] ? HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251') : NONAME );
 						
 			$info['url'] = $link_medicine."1/"."$info[cure_id]/";
 			
