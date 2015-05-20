@@ -2,6 +2,17 @@
 
 $gest_id = (int)@$gest_id;
 
+if(isset($_GET['addgest']))
+{
+	$english = get_post('english');
+		
+	mysql_query("INSERT INTO ".TABLE_GEST." SET datetime=NOW(), english='$english'")	
+		or Error(1, __FILE__, __LINE__);
+				
+	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page");
+	exit;
+}
+
 if(@$_POST['save'])
 {
 	$name = get_post('name');

@@ -231,11 +231,6 @@
 			<?if($cure['cure_id'] == 90){?>
             <div class="cure-locator clearfix">
                 <div class="search-area">
-                    <!--ul>
-                        <li><a href="">При наборе: Результат поиска 1</a></li>
-                        <li><a href="">При наборе: Результат поиска 2</a></li>
-                        <li><a href="">При наборе: Результат поиска 3</a></li>
-                    </ul-->
                     <form action="" method="get" >
                         <input type="image" src="/img/for_loop.png">
                         <input name="" type="text" id="autocomplete"/>
@@ -519,7 +514,7 @@
 		 <?if($cure['pdf_photo']){?>
 		 <a href="<?=$cure['pdf_link']?>"><img src="<?=$cure['pdf_photo']?>" /></a>
 			<?if($cure['license_link']){?>
-			<div class="download"><a href="<?=$cure['license_link']?>" style="width:163px"><span>Скачать</span></a></div>
+			<div class="download"><a href="<?=$cure['license_link']?>" style="width:163px"><span>???????</span></a></div>
 			<?}?>
 		<?}?>
 		<?}else{?>
@@ -534,7 +529,7 @@
 							<?}else{?><!--<?=$v['name']?> <br /><?=$v['city']?> --><?}?>
 						</a>
 						<?if($v['license_link']){?>
-						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>Скачать</span></a></div>
+						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>???????</span></a></div>
 						<?}?>
                     </div>
 					<?}?>
