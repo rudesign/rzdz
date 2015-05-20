@@ -382,7 +382,7 @@ if($cure_id)
 					
 				while($info = @mysql_fetch_array($sql)) 
 				{
-					$info['photo'] = file_exists($fb="/images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+					$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
 					
@@ -470,7 +470,7 @@ if($cure_id)
 					or Error(1, __FILE__, __LINE__);
 				$arr = @mysql_fetch_array($sql);
 				
-				$replace['pdf'] = file_exists($f="/images/$photo_dir[cure_pdf]/$arr[photo_id]-s.$arr[ext]") ? "/".$f : "";
+				$replace['pdf'] = file_exists($f="images/$photo_dir[cure_pdf]/$arr[photo_id]-s.$arr[ext]") ? "/".$f : "";
 			}
 			elseif($cure_id==2)
 			{
@@ -490,7 +490,7 @@ if($cure_id)
 					or Error(1, __FILE__, __LINE__); 
 				while($info = @mysql_fetch_array($sql)) 
 				{
-					$info['photo'] = file_exists($fb="/images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+					$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 					$info['name'] = htmlspecialchars($info['name']);
 					$info['city'] = htmlspecialchars($info['city']);
 					
@@ -586,9 +586,9 @@ if($cure_id)
 				$cure['description'] = @$info['description'];
 				if($info['ext_b'])
 				{
-					$cure['pdf_photo'] = $info['ext_b'] && file_exists($fl="/images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl
+					$cure['pdf_photo'] = $info['ext_b'] && file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl
 						: (file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg");
-					$cure['pdf_link'] = $info['ext_b'] && file_exists($pdf="/images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ?
+					$cure['pdf_link'] = $info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ?
 						 "/$pdf\" target=\"_blank" : ''; 
 					$cure['license_link'] = 
 						$info['ext_b'] && file_exists($pdf) ? 
@@ -614,12 +614,12 @@ if($cure_id)
 					or Error(1, __FILE__, __LINE__);
 				while($info = @mysql_fetch_array($sql)) 
 				{
-					$info['photo_logo'] = file_exists($fb="/images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]")
+					$info['photo_logo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]")
 						 ? "/".$fb : "/images/brochure.jpg";
-					$info['photo_license'] = file_exists($fl="/images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl : '';
+					$info['photo_license'] = file_exists($fl="images/$photo_dir[license]/$info[fl_id]-s.$info[fl_ext]") ? $fl : '';
 					$info['city'] = htmlspecialchars($info['city']);
 					$info['page_link'] = 
-						$info['ext_b'] && file_exists($pdf="/images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ?
+						$info['ext_b'] && file_exists($pdf="images/$photo_dir[license]/$info[fl_id].$info[ext_b]") ?
 						 "/$pdf\" target=\"_blank" : 
 						($info['sp_dir'] ?  $info['sp_dir']."/medicine/$cure_id\" target=\"_blank" : 
 						"$lprefix/medicine/$cure_id/$info[cure_id]"); 
@@ -727,7 +727,7 @@ if($subcure_id)
 			or Error(1, __FILE__, __LINE__); 
 		while($info = @mysql_fetch_array($sql)) 
 		{
-			$info['photo'] = file_exists($fb="/images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+			$info['photo'] = file_exists($fb="images/$photo_dir[brochure]/$info[fb_id]-s.$info[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 			$info['name'] = htmlspecialchars($info['name']);
 			$info['city'] = htmlspecialchars($info['city']);
 			if($cure['type']==4)

@@ -42,7 +42,7 @@ $description = $info['description'];
         font-size: 16px;
         line-height: 1.3;
         border:none;
-        background: url("../img/medicine_popup_window.png") no-repeat;
+        background: url("/img/medicine_popup_window.png") no-repeat;
     }
     .pop-content a{
         color: #fff;

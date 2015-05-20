@@ -13,7 +13,7 @@ $sql = mysql_query("SELECT p.page_id, p.name, p.cures, d.dir, f.photo_id, f.ext,
 	ORDER BY p.ord") or Error(1, __FILE__, __LINE__);
 while($arr = @mysql_fetch_array($sql))
 {
-	$f = "/images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
+	$f = "images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
 	//if(!file_exists($f)) continue;
 	$arr['photo'] = "/".$f;
 
