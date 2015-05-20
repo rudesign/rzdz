@@ -102,9 +102,9 @@ function get_topimg(){
 
                 $photo_id = $arr_photos['photo_id'];
                 $ext = $arr_photos['ext'];
-                if(is_file($f="/images/$photo_dir[topimg]/${photo_id}-s.$ext")) {
+                if(is_file($f="images/$photo_dir[topimg]/${photo_id}-s.$ext")) {
                     list($w_small, $h_small) = @getimagesize($f);
-                    $photo_list[] = array('photo'=>$f, 'url'=>$arr['url'], 'name'=>htmlspecialchars($arr['name'], null, 'cp1251'));
+                    $photo_list[] = array('photo'=>'/'.$f, 'url'=>$arr['url'], 'name'=>htmlspecialchars($arr['name'], null, 'cp1251'));
                 }
         }
 
@@ -468,7 +468,7 @@ function recom_menu($dir_sanatorium, $sanat_id)
 		ORDER BY r.ord") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))
 	{
-		$f = "/images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
+		$f = "images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
 		if(!file_exists($f)) continue;
 		$arr['photo'] = "/".$f;
 
@@ -734,9 +734,9 @@ function slider_images($dir_sanatorium)
 	{
 		if($san_id == $arr['page_id']) $id = 1;
 		
-		$f = "/images/$photo_dir[slide]/$arr[photo_id]-s.$arr[ext]";
+		$f = "images/$photo_dir[slide]/$arr[photo_id]-s.$arr[ext]";
 		if(!file_exists($f)) continue;
-		$arr['photo'] = "/".$f;
+		$arr['photo'] = '/'.$f;
 
 		$arr['name'] = $arr['slide_name'] ? HtmlSpecialChars($arr['slide_name'], null, 'cp1251') : HtmlSpecialChars($arr['name'], null, 'cp1251');
 		$arr['slide_text'] = HtmlSpecialChars($arr['slide_text'], null, 'cp1251');
@@ -764,7 +764,7 @@ function block_images($dir_sanatorium)
 		LIMIT 5") or Error(1, __FILE__, __LINE__);
 	while($arr = @mysql_fetch_array($sql))
 	{
-		$f = "/images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
+		$f = "images/$photo_dir[logo]/$arr[photo_id]-s.$arr[ext]";
 		if(!file_exists($f)) continue;
 		$arr['photo'] = "/".$f;
 

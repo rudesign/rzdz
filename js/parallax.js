@@ -32,8 +32,6 @@ $(document).ready(function(){
         winwi = $(window).width();
 	});
 
-    console.log(navul, panul, wrapw, winwi);
-
     // trees
 	$('#pan ul.grass-3, #pan ul.grass-2, #pan ul.grass-1').width(panul);
 
