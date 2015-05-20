@@ -45,12 +45,12 @@ if($gallery_id)
 		$sel = ($arr_photos['photo_id'] == $photo_id) ? 1 : 0;
 		$i++; 
 		
-		$f="images/$photo_dir[gallery]/$arr_photos[photo_id]-s.$ext";
+		$f="/images/$photo_dir[gallery]/$arr_photos[photo_id]-s.$ext";
 		list($w_small, $h_small) = @getimagesize($f); 
 		
 		if($sel)
 		{
-			$bf="images/$photo_dir[gallery]/$arr_photos[photo_id].$ext_b";
+			$bf="/images/$photo_dir[gallery]/$arr_photos[photo_id].$ext_b";
 			$gallery['photo'] = $bf;
 			list($w, $h) = @getimagesize($bf);
 			$gallery['photosize'] = "width='$w' height='$h'";

@@ -33,8 +33,8 @@ $description = $info['description'];
     .pop-content{
         display: table-cell;
         vertical-align: middle;
-        width: 563px;
-        height: 376px;
+        width: 560px;
+        height: 160px;
         color: #fff;
         font-family: Arial,sans-serif;
         font-size: 16px;

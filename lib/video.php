@@ -5,15 +5,15 @@ if(isset($pdf))
 
 	$name = @$name ? str_replace(" ","_", @$name) : $pdf;
 	$ext = @$ext;
-	$path = "images/$photo_dir[license]/$pdf.$ext";
+	$path = "/images/$photo_dir[license]/$pdf.$ext";
 	
 	if (file_exists($path)) {
-		// сбрасываем буфер вывода PHP, чтобы избежать переполнения памяти выделенной под скрипт
-		// если этого не сделать файл будет читаться в память полностью!
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ PHP, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
 		if (ob_get_level()) {
 		  ob_end_clean();
 		}
-		// заставляем браузер показать окно сохранения файла
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');
 		if($request[0]!='listen') header('Content-Disposition: attachment; filename=' . "$name.$ext");
@@ -22,7 +22,7 @@ if(isset($pdf))
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($path));
-		// читаем файл и отправляем его пользователю
+		// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		readfile($path);
 		exit;
 	}
@@ -50,7 +50,7 @@ if(@$photo_id)
 		$m_list = array('', 'item', 'panor', 'video', 'wallpaper', 'other');
 		$mm = $m_list[$arr['owner']];  
 		
-		$f_big = "images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
+		$f_big = "/images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
 		if(!file_exists($f_big)) {echo "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ $f_big"; exit;}
 		list($w, $h) = getimagesize($f_big);
 		
@@ -77,12 +77,12 @@ if(@$other)
 		$m_list = array('', 'item', 'panor', 'video', 'wallpaper', 'other');
 		$mm = $m_list[$arr['owner']];  
 		
-		$f_big = "images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
+		$f_big = "/images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
 		if(!file_exists($f_big)) {echo "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ $f_big"; exit;}
 		list($w, $h) = getimagesize($f_big);
 		
 		$bigphoto = "/".$f_big;
-		$superphoto = is_file($bf="images/big/$arr[photo_id].jpg") ?  "/".$bf : '';
+		$superphoto = is_file($bf="/images/big/$arr[photo_id].jpg") ?  "/".$bf : '';
 		
 ?>
 <!DOCTYPE html>

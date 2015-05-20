@@ -69,7 +69,7 @@ while($arr = @mysql_fetch_array($sql))
 	
 	if($page['mm'] && $page['mm']!='pdf')	
 	{
-		$f ="images/$photo_dir[$mm]/$arr[photo_id]-s.$arr[ext]";  
+		$f ="/images/$photo_dir[$mm]/$arr[photo_id]-s.$arr[ext]";
 		if(!file_exists($f) && $page['mm']!='video') continue;
 		list($page['w'], $page['h']) = @getimagesize($f);
 	}
@@ -77,19 +77,19 @@ while($arr = @mysql_fetch_array($sql))
 	
 	if(!$page['mm'])
 	{
-		$page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+		$page['photo'] = file_exists($fb="/images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 		$page['bigphoto'] = "$lprefix/media/?s_id=$page[page_id]";
 	}
 	elseif($page['mm']=='pdf')
 	{
-		$page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+		$page['photo'] = file_exists($fb="/images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 		$page['bigphoto'] = $arr['ext'] ? "/images/$photo_dir[$mm]/$arr[photo_id].$arr[ext]" : "$lprefix/video/?photo_id=$page[photo_id]";
 		$page['file'] =  $arr['ext'] ? 1 : 0;
         $page['exists'] = file_exists("images/$photo_dir[brochure]/pdf/$arr[photo_id].pdf") ? 1 : 0;
 	}
 	elseif($page['mm']=='virtual')
 	{
-		$f_big = "images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]"; 
+		$f_big = "/images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
 		if(!file_exists($f_big) && $mm=='item') continue;
 		$page['photo'] = "/".$f;
 		$page['bigphoto'] = $arr["description"];
@@ -97,13 +97,13 @@ while($arr = @mysql_fetch_array($sql))
 	}
 	else
 	{
-		$f_big = "images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]"; 
+		$f_big = "/images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
 		if(!file_exists($f_big) && $mm=='item') continue;
 		$page['photo'] = "/".$f;
-		if(!file_exists($f)) $page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
+		if(!file_exists($f)) $page['photo'] = file_exists($fb="/images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 		//$page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 
-		if($m=='item') $page['big'] =  is_file($bf="images/big/$arr[photo_id].jpg") ? "/".$bf : '';
+		if($m=='item') $page['big'] =  is_file($bf="/images/big/$arr[photo_id].jpg") ? "/".$bf : '';
 		else $page['big'] =  '';
 	
 		if($medicine && !$page_id) $page['bigphoto'] = $link_medicine."?s_id=$page[page_id]";

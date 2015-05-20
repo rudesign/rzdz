@@ -2,7 +2,7 @@
 
 $returnUrl = $page_url."#form";
 
-$order_fields = array('name', 'email', 'text', 'digits', 'err_text', 'err_name', 'err_email', 'err_digit', 'gtema_id');
+$order_fields = array('name', 'email', 'phone', 'text', 'digits', 'err_text', 'err_name', 'err_email', 'err_digit', 'gtema_id');
 
 if(@$_POST['mode'])
 {
@@ -62,6 +62,7 @@ if(@$_POST['mode'])
 	$mess = get_template('templ/mail_gest.htm', array(
 			'name'=>HtmlSpecialChars($arr['name']), 
 			'email'=>HtmlSpecialChars($arr['email']), 
+			'phone'=>HtmlSpecialChars($arr['phone']),
 			'text'=>nl2br(HtmlSpecialChars($arr['text']))
 			)); 
 	send_mail($settings['admin_email'], 'Новый вопрос в разделе FAQ', $mess);

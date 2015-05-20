@@ -50,7 +50,7 @@ if($spec_id)
 			{ 
 				$photo_id = $info['photo_id'];
 				$ext = $info['ext'];
-				if(is_file($f="images/$photo_dir[spec]/${photo_id}-s.$ext")) {
+				if(is_file($f="/images/$photo_dir[spec]/${photo_id}-s.$ext")) {
 					list($w_small, $h_small) = @getimagesize($f);
 					$replace['photo'] = $f;
 					$replace['photosize'] = "width='$w_small' height='$h_small'";
@@ -173,7 +173,7 @@ else
 		{ 
 			$photo_id = $info['photo_id'];
 			$ext = $info['ext'];
-			if(is_file($f="images/$photo_dir[spec]/${photo_id}-s.$ext")) {
+			if(is_file($f="/images/$photo_dir[spec]/${photo_id}-s.$ext")) {
 				list($w_small, $h_small) = @getimagesize($f);
 				$info['photo'] = $f;
 				$info['photosize'] = "width='$w_small' height='$h_small'";

@@ -2,6 +2,9 @@
 <table>
 <tr><td>Имя</td><td>&nbsp;</td><td><?=$replace['name']?></td></tr>
 <tr><td>E-Mail</td><td>&nbsp;</td><td><?=$replace['email']?></td></tr>
+<? if($replace['phone']): ?>
+<tr><td>Номер телефона</td><td>&nbsp;</td><td><?=$replace['phone']?></td></tr>
+<? endif; ?>
 <tr><td>Текст</td><td>&nbsp;</td><td><?=$replace['text']?></td></tr>
 </table>
 <p>Для ответа пользуйтесь административной панелью 
