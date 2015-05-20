@@ -10,8 +10,8 @@ session_name(SES_NAME);
 session_start();
 
 global $englang, $lprefix, $lang_phrases;
-$r_u = ereg_replace("^(\/)?", "", getenv('REQUEST_URI'));  
-$r_u = ereg_replace("(\/)?(\?.*)?$", "", $r_u);  
+$r_u = preg_replace("/^(\/)?/", "", getenv('REQUEST_URI'));
+$r_u = preg_replace("/(\/)?(\?.*)?$/", "", $r_u);
 $rus_url = preg_replace("/(^|\/)en\/?/", '', getenv('REQUEST_URI'));
 $eng_url = preg_match("~^/~", $rus_url) ?  "/en".$rus_url : "/en/".$rus_url;
 
