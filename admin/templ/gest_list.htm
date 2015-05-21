@@ -18,7 +18,7 @@
 <?foreach($replace['gests'] as $v){?>
 <FORM method="post">
 <tr align="center">
-	<td width="20"><?=$v['j']?></td>
+	<td width="20"><?=$v['j']?><br /><input type="checkbox" name="public" class="chb_input" value="1" <?if($v['public']){?>checked="checked"<?}?>></td>
 	<td><?=$v['datetime']?></td>
 	<td><input type="text" name="name" value="<?=$v['name']?>" size="20" maxlength="255"></td>
 	<td><input type="text" name="email" value="<?=$v['email']?>" size="20" maxlength="255"></td>

@@ -20,6 +20,7 @@ if(@$_POST['save'])
 	$text = get_post('text');
 	$answer = get_post('answer');
 	$gtema_id = (int)(@$gtema_id);
+	$public = (int)(@$public);
 	
 	if(@$sendemail && $email)
 	{
@@ -40,7 +41,7 @@ if(@$_POST['save'])
 	$text = escape_string($text);
 	$answer = escape_string($answer);
 	
-	mysql_query("UPDATE ".TABLE_GEST." SET name='$name', email='$email', text='$text', gtema_id='$gtema_id', ".
+	mysql_query("UPDATE ".TABLE_GEST." SET name='$name', email='$email', text='$text', gtema_id='$gtema_id', public='$public', ".
 				" answer='$answer' WHERE gest_id='$gest_id'") or Error(1, __FILE__, __LINE__);
 				
 	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page");

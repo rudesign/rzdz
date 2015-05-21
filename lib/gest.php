@@ -72,7 +72,7 @@ if(@$_POST['mode'])
 	$text = escape_string($arr['text']);
 	$english = $englang ? 1 : 0;
 	mysql_query("INSERT INTO ".TABLE_GEST." SET datetime=NOW(), ip='$ip', english='$english', ".
-		"name='$name', email='$email', text='$text', gtema_id='$gtema_id'")	
+		"name='$name', email='$email', text='$text', gtema_id='$gtema_id', public=0")	
 		or Error(1, __FILE__, __LINE__);
 		
 	$_SESSION['message'] = $lang_phrases['otvetim'];
@@ -91,6 +91,7 @@ foreach($order_fields as $v) $replace[$v] = HtmlSpecialChars(@$data_arr[$v]);
 $replace['send'] = @$send; 
 
 $wh = $englang ? "english" : "!english";
+$wh .= " AND public";
 
 if((int)@$_GET['tema']) 
 {
