@@ -257,7 +257,7 @@ if($cure_id)
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
 				
 				$price = (int)@$info['price'];
-				$info['price'] = $price>0 && @$info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars(@$info['price']);
+				$info['price'] = $price>0 && @$info['price']==$price ? $price." ???." : htmlspecialchars(@$info['price']);
 				
 				$f= @$info['photo_id'] ? "/images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]" : '';
 				if($f && file_exists($f))
@@ -741,7 +741,7 @@ if($subcure_id)
 			else 
 			{
 				$price = (int)$info['price'];
-				$info['price'] = $price>0 && $info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars($info['price']);
+				$info['price'] = $price>0 && $info['price']==$price ? $price." ???." : htmlspecialchars($info['price']);
 			}
 			$info['page_link'] = $info['sp_dir'] ?  
 				($cure['type']==2 ? $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank"
@@ -835,10 +835,14 @@ if(!$cure_id && !$subcure_id)
 		}
 		else $f="/images/$photo_dir[cure_part]/$arr[photo_id]-s.$arr[ext]";
 		//list($w_small, $h_small) = @getimagesize($f);
+		
+		//$arr['name'] = htmlspecialchars($arr['name'], null, 'cp1251');
+		if($arr['cure_id']==1) $arr['name'] = str_replace("по", "<br>по", $arr['name']); 
+		
 		$blocks[] = array(
 			'photo'=>$f,
 			'url'=>$link_medicine."$arr[cure_id]/",
-			'name'=>htmlspecialchars($arr['name'], null, 'cp1251')
+			'name'=>$arr['name']
 		);
 	}
 	$replace['blocks'] = $blocks;

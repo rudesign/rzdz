@@ -217,14 +217,14 @@
                     <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
                     <p>&nbsp;</p>
                     <p><?php
-                        $limit = 180;
+                        /*$limit = 250;
                         $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
                         $limited = explode(' ', $limited);
-                        array_pop($limited);
-                        echo implode(' ', $limited).'...';
-                     ?><a href="/medicine/14" target="_blank"><b>далее</b></a></p>
+                        array_pop($limited);*/
+                        echo $cure['att_description'] //implode(' ', $limited).'...';
+                     ?><!--a href="/medicine/14" target="_blank"><b>далее</b></a--></p>
                     <p>&nbsp;</p>
-                    <p class="centered"><a href="/medicine/14" target="_blank"><b>ѕолный список противопоказаний</b></a></p>
+                    <!--p class="centered"><a href="/medicine/14" target="_blank"><b>ѕолный список противопоказаний</b></a></p-->
                 </div>
 			</div>
 			

@@ -649,6 +649,7 @@ function menu_medicine()
 	{
 		$arr['sel'] = $cure_id==$arr['cure_id'] ? 1 : 0;
 		$arr['name'] = HtmlSpecialChars($arr['name'], null, 'cp1251');
+		if($arr['cure_id']==1) $arr['name'] = str_replace("по", "<br>по", $arr['name']);
 		
 		$arr['link'] =  $link_medicine."$arr[cure_id]/";
 		
