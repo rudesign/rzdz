@@ -475,7 +475,7 @@ if($cure_id)
 			elseif($cure_id==2)
 			{
 				$curehotel = array();
-				$ord = 'p.name';
+				/*$ord = 'p.name';
 				$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, 
 					fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 					FROM ".TABLE_PAGE." p
@@ -500,7 +500,7 @@ if($cure_id)
 								$info['sp_dir']."/medicine/$cure_id/$subcure_id\" target=\"_blank")  )
 						: "$lprefix/media/?s_id=$info[page_id]"; 
 					$curehotel[] = $info;	
-				}
+				}*/
 				$replace['curehotel'] = $curehotel;
 			}
 			
