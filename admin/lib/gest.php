@@ -1,15 +1,16 @@
 <?php
 
 $gest_id = (int)@$gest_id;
+$gtema_id = (int)@$gtema_id;
 
 if(isset($_GET['addgest']))
 {
 	$english = get_post('english');
 		
-	mysql_query("INSERT INTO ".TABLE_GEST." SET datetime=NOW(), english='$english'")	
+	mysql_query("INSERT INTO ".TABLE_GEST." SET datetime=NOW(), english='$english', gtema_id='$gtema_id'")	
 		or Error(1, __FILE__, __LINE__);
 				
-	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page");
+	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page&gtema_id=$gtema_id");
 	exit;
 }
 
@@ -44,7 +45,7 @@ if(@$_POST['save'])
 	mysql_query("UPDATE ".TABLE_GEST." SET name='$name', email='$email', text='$text', gtema_id='$gtema_id', public='$public', ".
 				" answer='$answer' WHERE gest_id='$gest_id'") or Error(1, __FILE__, __LINE__);
 				
-	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page");
+	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page&gtema_id=$gtema_id");
 	exit;
 }
 
@@ -52,7 +53,7 @@ if(@$del)
 {
 	mysql_query("DELETE FROM ".TABLE_GEST." WHERE gest_id='$gest_id'") or Error(1, __FILE__, __LINE__);
 	
-	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page");
+	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page&gtema_id=$gtema_id");
 	exit;
 }
 
@@ -154,8 +155,10 @@ if(isset($gtemas))
 	return;
 }
 
+$where = '';
+if($gtema_id) $where = " WHERE gtema_id=$gtema_id";
 
-$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_GEST) or Error(1, __FILE__, __LINE__);
+$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_GEST." $where") or Error(1, __FILE__, __LINE__);
 $arr = mysql_fetch_array($sql);
 $replace['all'] = $all = $arr[0];
 
@@ -163,7 +166,7 @@ list($limit, $replace['pages']) = pages($all, ADMIN_URL."?p=$part&");
 $replace['onpage_select'] = array_select('onpage', $onpage_list, $_SESSION['on_page'], 0, 
 	"onchange=\"window.location='".ADMIN_URL."?p=$part&onpage='+this.value\"");
 		
-$sql = mysql_query("SELECT g.* FROM ".TABLE_GEST." g ".
+$sql = mysql_query("SELECT g.* FROM ".TABLE_GEST." g $where ".
 	" ORDER BY gest_id desc LIMIT $limit") or Error(1, __FILE__, __LINE__);
 
 $gests = array(); $i = ($current_page-1)*$_SESSION['on_page']; 
@@ -189,6 +192,11 @@ while($info = @mysql_fetch_array($sql))
 
 $replace['gests'] = $gests;
 $replace['current_page'] = $current_page;
+
+$replace['gtema_select'] = mysql_select('gtema_id', 
+		"SELECT gtema_id, name FROM ".TABLE_GTEMA." ORDER BY ord",
+		$gtema_id, 1, "onchange=\"window.location='?p=$part&gtema_id='+this.value\"");
+$replace['gtema_id'] = $gtema_id;
 
 $content = get_template('templ/gest_list.htm', $replace);
 
