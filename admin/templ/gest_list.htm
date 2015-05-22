@@ -1,5 +1,7 @@
-<p><a href="?p=gest&gtemas">Темы</a> <a href="?p=gest&addgest" style="margin-left:50px">Добавить вопрос</a> &nbsp;&nbsp; 
-	<a href="?p=gest&addgest&english=1" style="margin-left:30px">Добавить вопрос (english)</a></p>
+<p><a href="?p=gest&addgest&gtema_id=<?=$gtema_id?>">Добавить вопрос</a> &nbsp;&nbsp; 
+	<a href="?p=gest&addgest&english=1&gtema_id=<?=$gtema_id?>" style="margin-left:30px">Добавить вопрос (english)</a>
+	<span style="margin-left:50px">тема:</span> <?=$gtema_select?> <a href="?p=gest&gtemas" style="margin-left:10px">Редактировать темы</a> 
+	</p>
 
 <?if(count($replace['gests'])){?>
 <table border="1" style="border-collapse: collapse;" cellpadding="3">
@@ -31,6 +33,7 @@
 </tr>
 <input type="hidden" name="gest_id" value="<?=$v['gest_id']?>">
 <input type="hidden" name="page" value="<?=$replace['current_page']?>">
+<input type="hidden" name="gtema_id" value="<?=$gtema_id?>">
 <input type="hidden" name="p" value="gest">
 </FORM>
 <?}?>
