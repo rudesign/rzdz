@@ -11,7 +11,6 @@ if(@$s_id)
 }
 
 
-
 $page_id = (int)@$page_id;
 
 $replace = array();
