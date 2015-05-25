@@ -7,10 +7,10 @@ if(@$save)
 	{
 		$str .= "\$settings['$v[field]'] = ";
 		$val = @${$v['field']};
-		if($v['type'] == 'int') 
+		if($v['type'] == 'int' || $v['type'] == 'checkbox') 
 		{
 			$val = (int)$val;
-			if($val < 1)
+			if($val < 1 && $v['type'] == 'int')
 			{
 				$_SESSION['message'] = "«начение пол€ \'".AddSlashes($v['name'])."\' может быть только целым, больше нул€";
 				Header("Location: ".ADMIN_URL."?p=$part");
