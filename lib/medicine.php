@@ -462,7 +462,7 @@ if($cure_id)
 			$cures =  array();
 			
 			$replace['pdf'] = '';
-			if($extrasite_id)
+			if($extrasite_id && !$settings['medservice'])
 			{
 				$sql = mysql_query("SELECT f.photo_id, f.ext
 					FROM ".TABLE_PHOTO."  f 
@@ -472,10 +472,11 @@ if($cure_id)
 				
 				$replace['pdf'] = file_exists($f="images/$photo_dir[cure_pdf]/$arr[photo_id]-s.$arr[ext]") ? "/".$f : "";
 			}
-			elseif($cure_id==2)
+			
+			if(!$extrasite_id && $cure_id==2 && !$settings['medservice'])
 			{
 				$curehotel = array();
-				/*$ord = 'p.name';
+				$ord = 'p.name';
 				$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, 
 					fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 					FROM ".TABLE_PAGE." p
@@ -500,11 +501,12 @@ if($cure_id)
 								$info['sp_dir']."/medicine/$cure_id/$subcure_id\" target=\"_blank")  )
 						: "$lprefix/media/?s_id=$info[page_id]"; 
 					$curehotel[] = $info;	
-				}*/
+				}
 				$replace['curehotel'] = $curehotel;
+				
 			}
 			
-			if(!$replace['pdf'])
+			if((!$replace['pdf'] && $extrasite_id) || $settings['medservice'])
 			{
 				$where = $curestr_id ? " AND curestr_id=$curestr_id" : '';
 				$replace['showall'] = $curestr_id ? 1 : 0;
@@ -881,6 +883,9 @@ if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
 }else{
     $replace['profile'] = '';
 }
+
+$replace['contra_indication_sm'] = $settings['contra_indication_sm'];
+$replace['contra_indication'] = $settings['contra_indication'];
 
 $content = get_template("templ/page_medicine.htm", $replace);
 

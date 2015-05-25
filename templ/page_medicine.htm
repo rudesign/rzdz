@@ -211,22 +211,18 @@
                     container1.slideUp('fast');
                 }
             </script>
-            <div class="cure-locator clearfix">
-                <a id="popup-link" href="/cure_alert.php" class="fancybox"></a>
+			
+            <?if($contra_indication){?> <a id="popup-link" href="/cure_alert.php" class="fancybox"></a><?}?>
+            <?if($contra_indication_sm){?>
+			<div class="cure-locator clearfix">
                 <div class="alert">
                     <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
                     <p>&nbsp;</p>
-                    <p><?php
-                        /*$limit = 250;
-                        $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
-                        $limited = explode(' ', $limited);
-                        array_pop($limited);*/
-                        echo $cure['att_description'] //implode(' ', $limited).'...';
-                     ?><!--a href="/medicine/14" target="_blank"><b>далее</b></a--></p>
+                    <p><?=$cure['att_description']?></p>
                     <p>&nbsp;</p>
-                    <!--p class="centered"><a href="/medicine/14" target="_blank"><b>ѕолный список противопоказаний</b></a></p-->
                 </div>
 			</div>
+			<?}?>
 			
 			<?if($cure['cure_id'] == 90){?>
             <div class="cure-locator clearfix">
@@ -370,6 +366,7 @@
 		
 		<?}else{?>
 		
+			<?if(@$cure_list){?>
 		<script language="javascript">
 		var CureList = new Array();
         <?$i=0;foreach($cure_list as $k=>$v){?>
@@ -421,7 +418,7 @@
 		</ul><p>&nbsp;</p>
 		
 		<?}?>
-			
+		<?}?>
 		
         <?if(@count($curehotel)){?>
 		<div class="medicine-sanatorium-services section">

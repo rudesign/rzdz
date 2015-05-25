@@ -70,6 +70,9 @@ $settings_list = array(
 	array('field'=>'admin_email', 'name'=>'E-Mail админа (для заявок)', 'type'=>'email'),
 	array('field'=>'site_email', 'name'=>'E-Mail (отображается на сайте)', 'type'=>'email'),
 	//array('field'=>'admin1_email', 'name'=>'E-Mail админа (для контактов)', 'type'=>'email'),
+	array('field'=>'contra_indication', 'name'=>'Всплывающее окно противопоказаний', 'type'=>'checkbox'),
+	array('field'=>'contra_indication_sm', 'name'=>'Маленькое окно противопоказаний', 'type'=>'checkbox'),
+	array('field'=>'medservice', 'name'=>'Медицинские услуги', 'type'=>'checkbox'),
 );
  
 global $tinymce_elements, $tinymce_head;
