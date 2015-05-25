@@ -3239,10 +3239,12 @@ td.vertical > div {
 .cure-progs .items:last-child{
     margin-bottom: 0;
 }
+.cure-progs .items a{
+    color: #008c95;
+}
 .cure-progs .title{
     margin-bottom: 12px;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.3em;
 }
-.cure-

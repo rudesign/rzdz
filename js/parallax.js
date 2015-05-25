@@ -43,7 +43,7 @@ $(document).ready(function(){
 
         $('#pan .sec').css({left: delta});
 
-        $('#pan .first').css({marginLeft:percant*5, left: delta});
+        $('#pan .first').css({marginLeft:percant*1, left: delta});
 
         $('#pan ul.grass-3').css({marginLeft:-delta + percant*10, left: delta });
 
