@@ -75,10 +75,12 @@ if(@$_POST['mode'])
 		"name='$name', email='$email', text='$text', gtema_id='$gtema_id', public=0")	
 		or Error(1, __FILE__, __LINE__);
 		
-	$_SESSION['message'] = $lang_phrases['otvetim'];
-		
+	//$_SESSION['message'] = $lang_phrases['otvetim'];
+
+    $_SESSION['message'] = '<h2>Спасибо за Ваш вопрос!</h2><p>Мы получили Ваше сообщение и обязательно</p><p>ответим на него в ближайшее время.</p>';
+    $_SESSION['messageType'] = 'feedback.sent';
 	$_SESSION['gest_data'] = '';
-	
+
 	Header("Location: ".$page_url);
 	exit;
 }

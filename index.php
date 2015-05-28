@@ -414,6 +414,8 @@ if(isset($_GET['print'])) $file =  "print.htm";
 elseif($extrasite_id)  $file =  "index_extra.htm";
 else  $file =  "index.htm" ;
 
+
 require 'templ/'.$file;
+
 $_SESSION['message']='';
 ?>

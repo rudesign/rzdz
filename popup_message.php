@@ -82,7 +82,7 @@ switch($_SESSION['messageType']){
         ';
     break;
 }
-
+unset($_SESSION['messageType']);
 ?>
 
 <script language="javascript">
