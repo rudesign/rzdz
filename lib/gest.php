@@ -77,7 +77,7 @@ if(@$_POST['mode'])
 		
 	//$_SESSION['message'] = $lang_phrases['otvetim'];
 
-    $_SESSION['message'] = '<h2>Спасибо за Ваш вопрос!</h2><p>Мы получили Ваше сообщение и обязательно</p><p>ответим на него в ближайшее время.</p>';
+    $_SESSION['message'] = '<h2>'.$lang_phrases['faq_alert_title'].'</h2><p>'.$lang_phrases['faq_alert_text'].'</p>';
     $_SESSION['messageType'] = 'feedback.sent';
 	$_SESSION['gest_data'] = '';
 

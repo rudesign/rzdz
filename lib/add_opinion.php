@@ -78,7 +78,7 @@ mysql_query("INSERT INTO ".TABLE_OPINION." SET $data")	or Error(1, __FILE__, __L
 
 $_SESSION['opinion_data'] = '';
  
-$_SESSION['message'] = '<h2>Спасибо за Ваш отзыв!</h2><p>Мы получили Ваше сообщение и обязательно</p><p>ответим на него в ближайшее время.</p>';
+$_SESSION['message'] = '<h2>'.$lang_phrases['feedback_alert_title'].'</h2><p>'.$lang_phrases['feedback_alert_text'].'</p>';
 $_SESSION['messageType'] = 'feedback.sent';
 
 Header("Location: ".$url);

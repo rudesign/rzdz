@@ -9,6 +9,8 @@ $lang_settings['news'] = array('name'=>"Новости", 'name_en'=>"News");
 $lang_settings['spec'] = array('name'=>"Акции ", 'name_en'=>"Akcii ");
 $lang_settings['sitemap'] = array('name'=>"Карта сайта", 'name_en'=>"Sitemap");
 $lang_settings['faq'] = array('name'=>"Часто задаваемые вопросы", 'name_en'=>"FAQ");
+$lang_settings['faq_alert_title'] = array('name'=>"Спасибо за Ваш вопрос!", 'name_en'=>"Thank you for the question");
+$lang_settings['faq_alert_text'] = array('name'=>"Мы получили Ваше сообщение и обязательно ответим на него в ближайшее время.", 'name_en'=>"Your question have been sent. We will give you an answer shortly");
 $lang_settings['print'] = array('name'=>"Версия для печати", 'name_en'=>"Print page");
 $lang_settings['bystroe'] = array('name'=>"Быстрое бронирование", 'name_en'=>"Bystroe bronirovanie");
 $lang_settings['san_kur_lechenie'] = array('name'=>"Санаторно-курортное лечение", 'name_en'=>"Sanatorno-kurortnoe lechenie");
@@ -32,6 +34,8 @@ $lang_settings['opisanie'] = array('name'=>"Описание санатория", 'name_en'=>"Opi
 $lang_settings['opinion'] = array('name'=>"Отзывы ", 'name_en'=>"Otzivi");
 $lang_settings['ostavit_otziv'] = array('name'=>"Оставить отзыв", 'name_en'=>"Ostavit otziv");
 $lang_settings['dobavit_otziv'] = array('name'=>"Добавить отзыв", 'name_en'=>"Dobavit otziv");
+$lang_settings['feedback_alert_title'] = array('name'=>"Спасибо за Ваш отзыв!", 'name_en'=>"Thank you for the feedback!");
+$lang_settings['feedback_alert_text'] = array('name'=>"Мы получили Ваше сообщение и обязательно ответим на него в ближайшее время.", 'name_en'=>"Your message have been sent. We will give you an answer shortly");
 $lang_settings['kogda_otdyh'] = array('name'=>"Когда вы отдыхали?", 'name_en'=>"Kogda vy otdyhali");
 $lang_settings['from'] = array('name'=>"с", 'name_en'=>"s");
 $lang_settings['to'] = array('name'=>"по", 'name_en'=>"po");
@@ -63,8 +67,8 @@ $lang_settings['err_name'] = array('name'=>"Укажите ваше имя", 'name_en'=>"Pleas
 $lang_settings['err_email'] = array('name'=>"Неверно указан электронный адрес", 'name_en'=>"Please, check E-Mail");
 $lang_settings['err_captcha'] = array('name'=>"Укажите верно цифры на картинке", 'name_en'=>"Please, check Verification code");
 $lang_settings['err_text'] = array('name'=>"Укажите текст сообщения", 'name_en'=>"Ukazhite text");
-$lang_settings['dobavlen_otziv'] = array('name'=>"Сообщение получено. После модерации отзыв будет доступен для чтения.", 'name_en'=>"Vash otziv budet dobavlen v blizhaishee vremya");
-$lang_settings['otvetim'] = array('name'=>"Спасибо! Сообщение получено. В ближайшее время мы ответим на ваш вопрос.", 'name_en'=>"Spasibo, my otvetim");
+//$lang_settings['dobavlen_otziv'] = array('name'=>"Сообщение получено. После модерации отзыв будет доступен для чтения.", 'name_en'=>"Vash otziv budet dobavlen v blizhaishee vremya");
+//$lang_settings['otvetim'] = array('name'=>"Спасибо! Сообщение получено. В ближайшее время мы ответим на ваш вопрос.", 'name_en'=>"Spasibo, my otvetim");
 $lang_settings['close'] = array('name'=>"Закрыть", 'name_en'=>"Close");
 $lang_settings['thank'] = array('name'=>"Спасибо!", 'name_en'=>"Thank!");
 $lang_settings['our_manager'] = array('name'=>" Наши менеджеры свяжутся с Вами в самое ближайшее время!", 'name_en'=>"We will call you");

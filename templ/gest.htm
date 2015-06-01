@@ -3,7 +3,7 @@
               <ul class="voice_list faq_list">
 			 <?foreach($list as $k=>$v){?>
 			    <li class="clearfix<?if($k%2) echo ' grey_vl_info';?>">
-				  <p><strong><?=$v['name']?></strong><br /><?=$v['text']?></p>
+				  <p><?=$v['name']?><?=$v['text']?></p>
 				  <?if($v['answer']){?>
 				  <?if($print_page){?><p class="for_answer_ql"><?=$v['answer']?></p>
 				  <?}else{?>

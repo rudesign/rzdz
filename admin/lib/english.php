@@ -8,10 +8,10 @@ $lang_list = array(
 	'zakazat',  'opisanie', 'opinion', 'ostavit_otziv', 'dobavit_otziv', 'kogda_otdyh', 'from', 'to', 'vash_otzyv', 'vse_sanatorii',
 	'captcha', 'captcha1', 'captcha2', 'sendphone', '404', 'notfound', 'home', 'sitemap', 'pages', 'favourites',
 	'we_will_call', 'leave_phone', 'name', 'phone_number', 'email', 'skryt', 'raskryt',  'otvet', 'svernut', 'zadaite', 'vash_vopros',
-	'err_phone', 'err_name', 'err_email', 'err_captcha', 'err_text', 'dobavlen_otziv', 'otvetim', 'close', 'thank', 'our_manager',
+	'err_phone', 'err_name', 'err_email', 'err_captcha', 'err_text', 'close', 'thank', 'our_manager',
 	'po_zaprosu', 'naideno', 'ne_naideno', 'big_quality' , 'gtema', 'gtema_choise', 'medicine',
 	'allsan', 'siterzd', 'uvgosti', 'kakoplatit', 'proverkascheta', 'weather', '2week', 'kakdobratsya', 'oshibka', 'allrights', 'razrabotka',
-	'cureprofile', 'price', 'development');
+	'cureprofile', 'price', 'development', 'feedback_alert_title', 'feedback_alert_text', 'faq_alert_title', 'faq_alert_text');
 
 
 if(@$_POST['save'])
