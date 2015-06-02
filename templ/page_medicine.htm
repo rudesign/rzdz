@@ -1,5 +1,3 @@
-
-
 <?if($subcure_id){?>
         <div class="section clearfix">
 		
@@ -72,7 +70,6 @@
 			<?if($cure['cure_id']==1){?><?=$subcure['description']?><?}?>
 
 <?}elseif($cure_id){?>
-
 	<?if($cure['type']==1 || $cure['type']==4){?>
         <!-- Profiles page -->
 		<?if(($cure['cure_id']==1 || $cure['cure_id']==90) && !$extrasite_id){?>
@@ -211,8 +208,9 @@
                     container1.slideUp('fast');
                 }
             </script>
-			
-            <?if($contra_indication){?> <a id="popup-link" href="/cure_alert.php" class="fancybox"></a><?}?>
+
+            <a id="popup-link" href="/cure_alert.php" class="fancybox"></a>
+            <?if(false && $contra_indication){?> <a id="popup-link" href="/cure_alert.php" class="fancybox"></a><?}?>
             <?if($contra_indication_sm){?>
 			<div class="cure-locator clearfix">
                 <div class="alert">
@@ -318,9 +316,9 @@
 		<?if($pdf){?>
 		<table class="zebra1">
 			<thead>
-			<tr><td><strong><span style="color: #159fa7;">Стоимость медицинских услуг</span></strong></td></tr>
+			<tr><td><strong><span style="color: #159fa7;">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ</span></strong></td></tr>
 			</thead>
-			<tr><td><a href="<?=$pdf?>" target="_blank">Скачать файл</a></td></tr>
+			<tr><td><a href="<?=$pdf?>" target="_blank">пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ</a></td></tr>
 		</table>
 		
 		<?}elseif($extrasite_id){?>
@@ -380,8 +378,8 @@
 		</script>
 		 <?if($showall){?><p>&nbsp;</p>
 		 <?}else{?>
-		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Раскрыть все</a></div>	
-		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>
+		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ</a></div>	
+		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ</a></div>
 		<?}?>
 		<?foreach($cure_list as $k=>$v){?>
 		<ul class="drevo">
