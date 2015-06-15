@@ -102,15 +102,20 @@ if((int)@$_GET['tema'])
 }
 else $gtema_id = $replace['gtema_id'];
 
+// err
+
 $replace['gtema_select'] = mysql_select('gtema_id', 
 	"SELECT gtema_id, name$englang as name FROM ".TABLE_GTEMA." ORDER BY ord",
 	$gtema_id, 0, "class='select_big_fixed bgr_bs'");
 	
 $sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_GEST." WHERE $wh ") or Error(1, __FILE__, __LINE__);
 $arr = mysql_fetch_array($sql);
+
+
 $replace['all'] = $all = $arr[0];
 
 list($limit, $replace['pages']) = user_pages($all, $page_url."?", $settings['gest_count']);
+
 
 $list = array();
 $sql = mysql_query("SELECT gest_id, datetime, name, email, text, answer FROM ".TABLE_GEST." WHERE $wh ORDER BY gest_id desc LIMIT $limit") 
