@@ -8,8 +8,7 @@
 <tr align="center">
 	<td>№</td>
 	<td>Дата</td>
-	<td>Имя</td>
-	<td>E-Mail</td>
+	<td>Имя/E-Mail/Телефон</td>
 	<td>Тема</td>
 	<td>Сообщение</td>
 	<td>Ответ</td>
@@ -22,8 +21,9 @@
 <tr align="center">
 	<td width="20"><?=$v['j']?><br /><input type="checkbox" name="public" class="chb_input" value="1" <?if($v['public']){?>checked="checked"<?}?>></td>
 	<td><?=$v['datetime']?></td>
-	<td><input type="text" name="name" value="<?=$v['name']?>" size="20" maxlength="255"></td>
-	<td><input type="text" name="email" value="<?=$v['email']?>" size="20" maxlength="255"></td>
+	<td><input type="text" name="name" value="<?=$v['name']?>" size="20" maxlength="255"><br />
+		<input type="text" name="email" value="<?=$v['email']?>" size="20" maxlength="255" style="margin-top:5px"><br />
+		<input type="text" name="phone" value="<?=$v['phone']?>" size="20" maxlength="255" style="margin-top:5px"></td>
 	<td><?=$v['gtema_select']?></td>
 	<td><textarea cols="30" rows="4" name="text"><?=$v['text']?></textarea></td>
 	<td><textarea cols="30" rows="4" name="answer"><?=$v['answer']?></textarea></td>

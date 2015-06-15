@@ -18,6 +18,7 @@ if(@$_POST['save'])
 {
 	$name = get_post('name');
 	$email = get_post('email');
+	$phone = get_post('phone');
 	$text = get_post('text');
 	$answer = get_post('answer');
 	$gtema_id = (int)(@$gtema_id);
@@ -39,10 +40,11 @@ if(@$_POST['save'])
 	
 	$name = escape_string($name);
 	$email = escape_string($email);
+	$phone = escape_string($phone);
 	$text = escape_string($text);
 	$answer = escape_string($answer);
 	
-	mysql_query("UPDATE ".TABLE_GEST." SET name='$name', email='$email', text='$text', gtema_id='$gtema_id', public='$public', ".
+	mysql_query("UPDATE ".TABLE_GEST." SET name='$name', email='$email', phone='$phone', text='$text', gtema_id='$gtema_id', public='$public', ".
 				" answer='$answer' WHERE gest_id='$gest_id'") or Error(1, __FILE__, __LINE__);
 				
 	Header("Location: ".ADMIN_URL."?p=$part&page=$current_page&gtema_id=$gtema_id");
