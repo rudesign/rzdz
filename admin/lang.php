@@ -36,7 +36,7 @@ $lang_settings['ostavit_otziv'] = array('name'=>"Оставить отзыв", 'name_en'=>"Os
 $lang_settings['dobavit_otziv'] = array('name'=>"Добавить отзыв", 'name_en'=>"Dobavit otziv");
 $lang_settings['feedback_alert_title'] = array('name'=>"Спасибо за Ваш отзыв!", 'name_en'=>"Thank you for the feedback!");
 $lang_settings['feedback_alert_text'] = array('name'=>"Мы получили Ваше сообщение и обязательно ответим на него в ближайшее время.", 'name_en'=>"Your message have been sent. We will give you an answer shortly");
-$lang_settings['kogda_otdyh'] = array('name'=>"Когда вы отдыхали?", 'name_en'=>"Kogda vy otdyhali");
+$lang_settings['kogda_otdyh'] = array('name'=>"Когда Вы отдыхали?", 'name_en'=>"Kogda vy otdyhali");
 $lang_settings['from'] = array('name'=>"с", 'name_en'=>"s");
 $lang_settings['to'] = array('name'=>"по", 'name_en'=>"po");
 $lang_settings['vash_otzyv'] = array('name'=>"Ваш отзыв", 'name_en'=>"Vash otziv");
@@ -60,7 +60,7 @@ $lang_settings['skryt'] = array('name'=>"Скрыть", 'name_en'=>"Skryt");
 $lang_settings['raskryt'] = array('name'=>"Раскрыть", 'name_en'=>"Raskryt");
 $lang_settings['otvet'] = array('name'=>"Ответ", 'name_en'=>"Answer");
 $lang_settings['svernut'] = array('name'=>"Свернуть", 'name_en'=>"Svernut");
-$lang_settings['zadaite'] = array('name'=>"Задайте свой вопрос", 'name_en'=>"Zadaite svoi vopros");
+$lang_settings['zadaite'] = array('name'=>"Если Вы не нашли ответ на свой вопрос, Вы можете задать его в данной форме.", 'name_en'=>"Zadaite svoi vopros");
 $lang_settings['vash_vopros'] = array('name'=>"Ваш вопрос", 'name_en'=>"Vash vopros");
 $lang_settings['err_phone'] = array('name'=>"Неверный формат телефона!", 'name_en'=>"Please, check phone");
 $lang_settings['err_name'] = array('name'=>"Укажите ваше имя", 'name_en'=>"Please, check your name");
