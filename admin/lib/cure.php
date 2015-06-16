@@ -239,7 +239,7 @@ if(@$save)
 if(@$addpdf)
 {
 	$page_id = (int)@$page_id;
-	$url = "?p=cure&cure_id=$cure_id&service&page_id=$page_id";
+	$url = "?p=cure&cure_id=$cure_id&descr=$page_id";
 	$photo = @$_FILES["photo"]["tmp_name"];
 	$photo_name = @$_FILES["photo"]["name"];
 	if(@$photo)
@@ -418,6 +418,7 @@ if(@$delphoto) {
 	if($subcure_id) $url .= "&subcure_id=$subcure_id";
 	if(@$curestr_id) $url .= "&curestrd=$curestr_id";
 	if(@$page_id) $url .= "&page_id=$page_id";
+	if(@$descr) $url .= "&descr=$descr";
 	if(isset($service)) $url .= "&service";
 		
 	Header("Location: ".$url); 
@@ -868,7 +869,7 @@ if($cure_id)
 			if(@$descr)
 			{
 				$page_id = (int)@$descr;
-				$replace['descr'] = $page_id;
+				$replace['descr'] = $replace['page_id'] = $page_id;
 				
 				$sql = mysql_query("SELECT cr.name, cr.name_en, cr.description, cr.description_en, 
 					cr.price, cr.price_en, cr.price1, cr.price1_en, cr.title, cr.ord, p.name as pname FROM ".TABLE_CUREHOTEL." cr 
@@ -896,6 +897,26 @@ if($cure_id)
 				$replace['curedescr'] = 1;
 				$replace['name'] = HtmlSpecialChars($replace['name']);		
 				$replace['curestr'] = $curestr;
+						
+				$replace['pdf'] = 0;
+				if($cure_id==2)
+				{
+					$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
+							" WHERE owner_id=$page_id AND owner='$photo_owner[cure_pdf]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
+					$replace['photo'] = '';
+					if($arr_photos = @mysql_fetch_array($sql_photos)) {
+						$photo_id = $arr_photos['photo_id'];
+						$ext = $arr_photos['ext'];
+						$w_small=0; $h_small=0;
+						$f="../images/$photo_dir[cure_pdf]/${photo_id}-s.$ext";
+						list($w_small, $h_small) = @getimagesize($f);
+						$replace['photo'] = $f;
+						$replace['smallsize'] = "width='$w_small' height='$h_small'";
+						$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id&descr=$page_id";
+					}	
+					$replace['pdf'] = 1;
+				}
+				
 			}
 			else
 			{
@@ -966,22 +987,6 @@ if($cure_id)
 						$replace['photo'] = $f;
 						$replace['smallsize'] = "width='$w_small' height='$h_small'";
 						$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id";
-					}		
-				}
-				if(isset($service) && @$page_id && !@$curestr_id)
-				{
-					$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
-							" WHERE owner_id=$page_id AND owner='$photo_owner[cure_pdf]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
-					$replace['photo'] = '';
-					if($arr_photos = @mysql_fetch_array($sql_photos)) {
-						$photo_id = $arr_photos['photo_id'];
-						$ext = $arr_photos['ext'];
-						$w_small=0; $h_small=0;
-						$f="../images/$photo_dir[cure_pdf]/${photo_id}-s.$ext";
-						list($w_small, $h_small) = @getimagesize($f);
-						$replace['photo'] = $f;
-						$replace['smallsize'] = "width='$w_small' height='$h_small'";
-						$replace['photo_del_link'] = "?p=$part&delphoto=$photo_id&cure_id=$cure_id&service&page_id=$page_id";
 					}		
 				}
 				

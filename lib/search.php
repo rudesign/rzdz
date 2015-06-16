@@ -249,14 +249,17 @@ if((!$only || $only == 'page' || $only == 'site'))
 		$sql = mysql_query("
 			SELECT 
 				p.page_id, p.name$englang as name, p.description$englang as description, d.dir, ct.name$englang as city,
-				c.page_id as parent_id, c.name$englang as parent_name, dc.dir as dirc, r.page_id as pp_id , sd.dir as sp_dir
+				c.page_id as parent_id, c.name$englang as parent_name, dc.dir as dirc, 
+				r.page_id as pp_id , dr.dir as dirr,
+				sd.dir as sp_dir
 			FROM 
 				".TABLE_PAGE." p
+				LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)
 				LEFT JOIN ".TABLE_CITY." ct ON (ct.city_id=p.city_id)
 				LEFT JOIN ".TABLE_PAGE." c ON (c.page_id=p.parent)
-				LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)
 				LEFT JOIN ".TABLE_DIR." dc ON (dc.dir_id=c.dir_id)
 				LEFT JOIN ".TABLE_PAGE." r ON (r.page_id=c.parent)
+				LEFT JOIN ".TABLE_DIR." dr ON (dr.dir_id=r.dir_id)
 				LEFT JOIN ".TABLE_PAGE." r1 ON (r1.page_id=r.parent)
 				LEFT JOIN ".TABLE_PAGE." s ON (s.site=p.page_id AND s.public='1') 
 				LEFT JOIN ".TABLE_DIR." sd ON (sd.dir_id=s.dir_id) 
@@ -278,24 +281,35 @@ if((!$only || $only == 'page' || $only == 'site'))
 			$info['name'] = HtmlSpecialChars($info['name']);
 			if($info['city']) $info['name'] .= " ($info[city])";
 			
+			$info['description'] = cat_description($info['description'], $word_arr);
+			
 			if($info['parent_id']==1)
 			{
 				$info['link'] = $info['sp_dir'] ?  "$lprefix/".$info['sp_dir']."/\" target=\"_blank" : "$lprefix/media/?s_id=$info[page_id]";
+				
+				$info['parent_link'] = $extrasite_id ? "$lprefix/$request[0]/$info[dirc]" :  "$lprefix/$info[dirc]/";	
 			}
 			else
 			{
-				$info['link'] = ($info['parent_id']) ? 
-					($info['pp_id'] && $extrasite_id ?  "$lprefix/$request[0]/$info[dirc]" : "$lprefix/$info[dirc]") : "";	
-				$info['link'] .= "/$info[dir]/";	
+				if($extrasite_id)
+				{
+					if($info['pp_id']) $info['parent_link'] = "$lprefix/$request[0]/$info[dirr]/$info[dirc]";
+					elseif($info['parent_id']) $info['parent_link'] = "$lprefix/$request[0]/$info[dirc]";
+					else $info['parent_link'] = "$lprefix/$request[0]";
+				}
+				else
+				{
+					if($info['pp_id']) $info['parent_link'] = "$lprefix/$info[dirr]/$info[dirc]";
+					elseif($info['parent_id']) $info['parent_link'] = "$lprefix/$info[dirc]";
+					else $info['parent_link'] = "";
+				}
+				
+				$info['link'] = $info['parent_link']."/$info[dir]/";	
 			}
 			
-			$info['description'] = cat_description($info['description'], $word_arr);
+			if(!$info['parent_name']) $info['parent_name'] = NONAME;
 			
-			if($info['parent_id'])
-			{
-				$info['parent_link'] = $info['pp_id'] && $extrasite_id ? "$lprefix/$request[0]/$info[dirc]" :  "$lprefix/$info[dirc]/";	
-				if(!$info['parent_name']) $info['parent_name'] = NONAME;
-			}
+			
 			
 			$items[] = $info;
 		}

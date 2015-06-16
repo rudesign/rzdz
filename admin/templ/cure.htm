@@ -123,10 +123,9 @@
 <?}?>
 
 <?if($type==2 && !@$curestrd){?>
-	<?if($service){?>
-	
-	<?if($cure_id==2 && $page_id && !$curestr_id){?>
-	<div style="float: right; margin-right:50px">
+
+	<?if(@$pdf){?>
+	<div>
     <p>PDF-файл<br />
     <?if(@$photo){?><a href="<?=$photo?>" target="_blank"><?=$photo?></a><br>
     <a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
@@ -143,7 +142,8 @@
     </p>
 	
 	</div>
-	<?}?>
+	
+	<?}elseif(@$service){?>
 	
 	<p><a href="?p=cure&cure_id=<?=$cure_id?>">Структура</a> &nbsp;&nbsp; <b>Услуги</b></p>
 	<p>Выберите раздел: <?=$curestr_select?>
