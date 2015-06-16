@@ -379,7 +379,6 @@ if($part){
 	$banner = get_banners();
 }
 
-
 $title = $meta_tags['title'];
 $description = $meta_tags['description'];
 $keywords = $meta_tags['keywords'];
@@ -413,7 +412,6 @@ if($extrasite_id)
 if(isset($_GET['print'])) $file =  "print.htm";
 elseif($extrasite_id)  $file =  "index_extra.htm";
 else  $file =  "index.htm" ;
-
 
 require 'templ/'.$file;
 
