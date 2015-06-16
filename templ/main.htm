@@ -1,43 +1,41 @@
-  		
-		  <div class="landing_block">		  
-            <div class="standart_land">
-		      <div class="width_control">
-				<div class="form_fixed_ow">
-				  <p class="title_armor"><?=$lang_phrases['bystroe']?>:</p>
-				  <div  id="booking-0"><p align="center"><img src="img/loading.gif" style="margin-top:20px"></p></div>					
-				</div><!--form_fixed-->		  		    
-			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
-		        <a class="title_land" href="<?=$lprefix?>/news"><span><?=$lang_phrases['news']?></span></a>		  
-			    <span class="arrow_land"></span>
-			  </div><!--width_control-->
-            </div><!--standart_land-->
-			
-			<div class="landing_info for_slider_li">
-			  <div id="wrapper" class="clearfix width_control">
-				<div class="mp-carousel news-carousel jcarousel-wrapper">
-					<div class="jcarousel">
-					  <ul>
-						<?foreach($news_anons as $v){?>
-						<li>
-						  <a href="<?=$v['link']?>">
-							<span><?=$v['date']?></span>
-							<div class="for_img_slider">
-							  <img src="<?=$v['photo']?>" alt="" />
-							</div>
-							<div class="slider_cont">
-							  <p><?=$v['name']?></p>
-							</div>
-						  </a>
-						</li>
-						<?}?>
-					  </ul>
-					</div>
-					<a href="#" class="jcarousel-control-prev"></a>
-					<a href="#" class="jcarousel-control-next"></a>
-				</div><!--d-carousel-->
-			  </div><!--#wrapper-->	 
-			</div><!--landing_info-->
-          </div><!--landing_block-->
+            <div class="landing_block">
+                <div class="standart_land">
+                    <div class="width_control">
+                        <div class="form_fixed_ow">
+                            <p class="title_armor"><?=$lang_phrases['bystroe']?>:</p>
+                            <div  id="booking-0"><p align="center"><img src="img/loading.gif" style="margin-top:20px"></p></div>
+                        </div><!--form_fixed-->
+                        <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+                        <a class="title_land" href="/spec"><span><?=$lang_phrases['spec']?></span></a>
+                        <span class="arrow_land"></span>
+                    </div><!--width_control-->
+                </div><!--standart_land-->
+
+                <div class="landing_info for_slider_li for_slider_li_chh">
+                    <div id="wrapper"  class="clearfix width_control">
+                        <div class="mp-carousel promo-carousel jcarousel-wrapper">
+                            <div class="jcarousel">
+                                <ul>
+                                    <?foreach($spec_anons as $v){?>
+                                    <li>
+                                        <a href="<?=$v['link']?>">
+                                            <div class="for_img_slider">
+                                                <img src="<?=$v['photo']?>" alt="" />
+                                            </div>
+                                            <div class="slider_cont">
+                                                <p><?=$v['name']?></p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <?}?>
+                                </ul>
+                            </div>
+                            <a href="#" class="jcarousel-control-prev"></a>
+                            <a href="#" class="jcarousel-control-next"></a>
+                        </div><!--d-carousel-->
+                    </div><!--#wrapper-->
+                </div><!--landing_info-->
+            </div><!--landing_block-->
 		  
           <div class="landing_block">
             <div class="standart_land">
@@ -124,53 +122,43 @@
 
           </div><!--landing_block-->
 		  
-          <div class="landing_block">
-            <div class="standart_land">
-		      <div class="width_control">
-			    <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
-		        <a class="title_land" href="/spec"><span><?=$lang_phrases['spec']?></span></a>
-			    <span class="arrow_land"></span>
-			  </div><!--width_control-->
-            </div><!--standart_land-->
-			<div class="landing_info for_slider_li for_slider_li_chh">
-			  <div id="wrapper"  class="clearfix width_control">
-				<div class="mp-carousel promo-carousel jcarousel-wrapper">
-					<div class="jcarousel">
-						<ul>
-							<?foreach($spec_anons as $v){?>
-								<li>
-									<a href="<?=$v['link']?>">
-										<div class="for_img_slider">
-										  <img src="<?=$v['photo']?>" alt="" />
-										</div>
-										<div class="slider_cont">
-										  <p><?=$v['name']?></p>
-										</div>
-									</a>
-								</li>
-							<?}?>
-						</ul>
-					</div>
-					<a href="#" class="jcarousel-control-prev"></a>
-					<a href="#" class="jcarousel-control-next"></a>
-				</div><!--d-carousel-->
-			  </div><!--#wrapper-->							  
-			</div><!--landing_info-->
-          </div><!--landing_block-->
+          <!-- News -->
+            <div class="landing_block">
+                <div class="standart_land">
+                    <div class="width_control">
+                        <a  class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+                        <a class="title_land" href="<?=$lprefix?>/news"><span><?=$lang_phrases['news']?></span></a>
+                        <span class="arrow_land"></span>
+                    </div><!--width_control-->
+                </div><!--standart_land-->
 
-          <div class="landing_block">
-            <div class="standart_land">
-		      <div class="width_control">
-			    <a class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
-		        <a class="title_land" href="javascript:void(0)"><span><?=$lang_phrases['zhd']?></span></a>		  
-			    <span class="arrow_land"></span>
-			  </div><!--width_control-->
-            </div><!--standart_land-->
-			<div class="landing_info for_ticket_li">
-			  <a class="take_ticket<?=$englang?>" href="https://rzdz.gdbilet.ru/"></a>
-			  <a class="take_ticket avia<?=$englang?>" href="https://rzdz.gdbilet.ru/Avia"></a>
-			</div><!--landing_info-->
-          </div><!--landing_block-->
+                <div class="landing_info for_slider_li">
+                    <div id="wrapper" class="clearfix width_control">
+                        <div class="mp-carousel news-carousel jcarousel-wrapper">
+                            <div class="jcarousel">
+                                <ul>
+                                    <?foreach($news_anons as $v){?>
+                                    <li>
+                                        <a href="<?=$v['link']?>">
+                                            <span><?=$v['date']?></span>
+                                            <div class="for_img_slider">
+                                                <img src="<?=$v['photo']?>" alt="" />
+                                            </div>
+                                            <div class="slider_cont">
+                                                <p><?=$v['name']?></p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <?}?>
+                                </ul>
+                            </div>
+                            <a href="#" class="jcarousel-control-prev"></a>
+                            <a href="#" class="jcarousel-control-next"></a>
+                        </div><!--d-carousel-->
+                    </div><!--#wrapper-->
+                </div><!--landing_info-->
+            </div><!--landing_block-->
+
 		  
 		  <div class="landing_block">
             <div class="standart_land">
@@ -189,6 +177,20 @@
 			  </ul><!--press_list-->
 			</div><!--landing_info-->
           </div><!--landing_block-->
+
+            <div class="landing_block">
+                <div class="standart_land">
+                    <div class="width_control">
+                        <a class="up<?=$englang?>" href="<?=$lprefix?>/#"></a>
+                        <a class="title_land" href="javascript:void(0)"><span><?=$lang_phrases['zhd']?></span></a>
+                        <span class="arrow_land"></span>
+                    </div><!--width_control-->
+                </div><!--standart_land-->
+                <div class="landing_info for_ticket_li">
+                    <a class="take_ticket<?=$englang?>" href="https://rzdz.gdbilet.ru/"></a>
+                    <a class="take_ticket avia<?=$englang?>" href="https://rzdz.gdbilet.ru/Avia"></a>
+                </div><!--landing_info-->
+            </div><!--landing_block-->
 		  
 		  
 		  <div class="landing_block">

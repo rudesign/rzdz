@@ -476,7 +476,7 @@ if($cure_id)
 			if(!$extrasite_id && $cure_id==2 && !$settings['medservice'])
 			{
 				$curehotel = array();
-				$ord = 'p.name';
+				$ord = 'p.ord';
 				$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, 
 					fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 					FROM ".TABLE_PAGE." p

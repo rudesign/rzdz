@@ -154,7 +154,7 @@
 #fancybox-left-ico, #fancybox-right-ico {
 	position: absolute;
 	top: 50%;
-	left: -9999px;
+	/*left: -9999px;*/
 	width: 30px;
 	height: 30px;
 	cursor: pointer;
@@ -172,17 +172,23 @@
 	background-position: -40px -60px;
 }
 
+/*
 #fancybox-left:hover, #fancybox-right:hover {
-	visibility: visible; /* IE6 */
+	visibility: visible;
+}
+*/
+
+#fancybox-left, #fancybox-right {
+    visibility: visible;
 }
 
 #fancybox-left:hover span {
-	left: 20px;
+	left: 27px;
 }
 
 #fancybox-right:hover span {
 	left: auto;
-	right: 20px;
+	right: 27px;
 }
 
 .fancybox-bg {

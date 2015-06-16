@@ -126,8 +126,6 @@ $config['Thumbnails'] = Array(
 		'bmpSupported' => false,
 		'quality' => 80);
 
-print_r($config['Thumbnails']);
-
 /*
 Set the maximum size of uploaded images. If an uploaded image is larger, it
 gets scaled down proportionally. Set to 0 to disable this feature.

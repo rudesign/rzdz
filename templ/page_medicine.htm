@@ -316,9 +316,9 @@
 		<?if($pdf){?>
 		<table class="zebra1">
 			<thead>
-			<tr><td><strong><span style="color: #159fa7;">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ</span></strong></td></tr>
+			<tr><td><strong><span style="color: #159fa7;">Стоимость медицинских услуг</span></strong></td></tr>
 			</thead>
-			<tr><td><a href="<?=$pdf?>" target="_blank">пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ</a></td></tr>
+			<tr><td><a href="<?=$pdf?>" target="_blank">Скачать файл</a></td></tr>
 		</table>
 		
 		<?}elseif($extrasite_id){?>
@@ -378,7 +378,7 @@
 		</script>
 		 <?if($showall){?><p>&nbsp;</p>
 		 <?}else{?>
-		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Показать все</a></div>
+		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Раскрыть все</a></div>	
 		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>
 		<?}?>
 		<?foreach($cure_list as $k=>$v){?>
@@ -524,7 +524,7 @@
 							<?}else{?><!--<?=$v['name']?> <br /><?=$v['city']?> --><?}?>
 						</a>
 						<?if($v['license_link']){?>
-						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>???????</span></a></div>
+						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>Скачать</span></a></div>
 						<?}?>
                     </div>
 					<?}?>
