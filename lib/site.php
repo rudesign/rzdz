@@ -125,13 +125,13 @@ if($arr_page = @mysql_fetch_array($sql))
 			$ext_b = $arr_photos['ext_b'];
 			$alt = HtmlSpecialChars($arr_photos['alt'], null, 'cp1251');
 			$w_big=0; $h_big=0; $w_small=0; $h_small=0; $bigsize = ""; $bigphoto = ""; $biglink = ""; 
-			if(is_file($f="/images/$photo_dir[$s]/$photo_id.$ext_b"))
+			if(is_file($f="images/$photo_dir[$s]/$photo_id.$ext_b"))
 			{
-				$bigphoto = "/images/$photo_dir[$s]/$photo_id.$ext_b";
+				$bigphoto = "images/$photo_dir[$s]/$photo_id.$ext_b";
 				@list($w_big, $h_big) = @getimagesize($f);
 				if($w_big && $h_big) $bigsize = "$w_big,$h_big";
 			}
-			if(is_file($f="/images/$photo_dir[$s]/${photo_id}-s.$ext"))
+			if(is_file($f="images/$photo_dir[$s]/${photo_id}-s.$ext"))
 			{
 				$i++; 
 				list($w_small, $h_small) = @getimagesize($f);
@@ -146,7 +146,7 @@ if($arr_page = @mysql_fetch_array($sql))
         $page['type'] = $arr_page['gallery_id'] ? 1 : 2;
 	}
 	$page['photos'] = $photos;
-	
+
 	$page['contacts'] = @$arr_page['contacts'];	
 	$page['navig'] = $navig;	
 	

@@ -62,7 +62,6 @@ $(document).ready(function(){
 	});
 
 
-
 	var api = scpane.data('jsp');
 	
 	//$.cookie('main_scroll', null);
@@ -103,7 +102,7 @@ $(document).ready(function(){
 
 		clearInterval(moveleft);
 
-	})
+	});
 
 	$('.moveright').hover(function(){
 
@@ -123,7 +122,7 @@ $(document).ready(function(){
 
 		clearInterval(moveright);
 
-	})
+	});
 
 
 	$('.main.link li').hover(function(){
@@ -515,7 +514,6 @@ $(document).ready(function(){
 
 	});
 });
-
 
 
 function refreshgallery(){

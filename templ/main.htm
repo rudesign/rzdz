@@ -61,64 +61,66 @@
 			    <span class="arrow_land"></span>
 			  </div><!--width_control-->
             </div><!--standart_land-->
-<div id="wrapper_parallax">
-<div class="moveleft"></div>
-<div class="moveright"></div>
-<div id="pan">
-    <div class="parallax-1 parallax"></div>
 
-    <div class="parallax-2 parallax">
-        <div class="first">
-            <ul class="main bg">
-                <?foreach($sanatorii as $k=>$v){ ?><li class="house-<?=$k?>"><a><span></span></a></li><? }?>
-            </ul>
+        <div id="wrapper_parallax">
+            <div class="moveleft"></div>
+            <div class="moveright"></div>
+            <div id="pan">
+                <div class="parallax-1 parallax"></div>
 
-            <ul class="main link">
-                <?foreach($sanatorii as $k=>$v){?>
-				<li class="house-<?=$k?>">
-                    <div class="tip">
-                        <div class="tipsy-inner">
-                            <?=$v['name']?>
-                        </div>
-                        <div class="tipsy-left"></div>
-                        <div class="tipsy-right"></div>
-                        <div class="tipsy-str"></div>
+                <div class="parallax-2 parallax">
+                    <div class="first">
+                        <ul class="main bg">
+                            <?foreach($sanatorii as $k=>$v){ ?><li class="house-<?=$k?>"><a><span></span></a></li><? }?>
+                        </ul>
+
+                        <ul class="main link">
+                            <?foreach($sanatorii as $k=>$v){?>
+                            <li class="house-<?=$k?>">
+                                <div class="tip">
+                                    <div class="tipsy-inner">
+                                        <?=$v['name']?>
+                                    </div>
+                                    <div class="tipsy-left"></div>
+                                    <div class="tipsy-right"></div>
+                                    <div class="tipsy-str"></div>
+                                </div>
+                                <a href="<?= $v['url'] ?>" class="move" target="_blank"><span></span></a>
+                                <div class="bubble">
+                                    <div class="bubble-c"></div>
+                                    <div class="bubble-t"></div>
+                                    <div class="bubble-m">
+                                        <div class="name"><?=$v['name']?></div>
+                                        <?=$v['teaser']?>
+                                        <?if($v['url']):?><div class="more"><a href="<?=$v['url']?>">Подробнее ></a></div><?endif;?>
+                                    </div>
+                                    <div class="bubble-b"></div>
+                                </div>
+                            </li>
+                            <?}?>
+                        </ul>
                     </div>
-                    <a href="<?= $v['url'] ?>" class="move" target="_blank"><span></span></a>
-                    <div class="bubble">
-                        <div class="bubble-c"></div>
-                        <div class="bubble-t"></div>
-                        <div class="bubble-m">
-                            <div class="name"><?=$v['name']?></div>
-                            <?=$v['teaser']?>
-                            <?if($v['url']):?><div class="more"><a href="<?=$v['url']?>">Подробнее ></a></div><?endif;?>
-                        </div>
-                        <div class="bubble-b"></div>
-                    </div>
-                </li>
-				<?}?>
-            </ul>
+                </div>
+                <div class="parallax-5 parallax">
+                    <ul class="grass-1">
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="parallax-5 parallax">
-        <ul class="grass-1">
-            <li></li>
-        </ul>
-    </div></div>
-</div>
 
 
-<div id="nav">
-    <div class="nav-head"><a href="" class="nav-left"></a> <?=$lang_phrases['sanatorii']?> <a href="" class="nav-right"></a></div>
-    <div class="nav-scroll">
-        <ul>
-            <?foreach($sanatorii as $k=>$v){?>
-            <!--<li class="front" rel="house-<?=$k==0?2:($k==1?1:$k+1)?>" title="<?= $v['name'] ?>"><img src="img_paralax/house-<?=$k==0?2:($k==1?1:$k+1)?>.jpg" alt="" /><span class="house-<?=$k==0?2:($k==1?1:$k+1)?>"></span></li>-->
-            <li class="front" rel="house-<?=$k?>" title='<?=$v['name']?>'><img src="img_paralax/house-<?=$k?>.jpg" alt="" /><span class="house-<?=$k?>"></span></li>
-			<?}?>
-        </ul>
-    </div>
-</div>
+        <div id="nav">
+            <div class="nav-head"><a href="" class="nav-left"></a> <?=$lang_phrases['sanatorii']?> <a href="" class="nav-right"></a></div>
+            <div class="nav-scroll">
+                <ul>
+                    <?foreach($sanatorii as $k=>$v){?>
+                    <!--<li class="front" rel="house-<?=$k==0?2:($k==1?1:$k+1)?>" title="<?= $v['name'] ?>"><img src="img_paralax/house-<?=$k==0?2:($k==1?1:$k+1)?>.jpg" alt="" /><span class="house-<?=$k==0?2:($k==1?1:$k+1)?>"></span></li>-->
+                    <li class="front" rel="house-<?=$k?>" title='<?=$v['name']?>'><img src="img_paralax/house-<?=$k?>.jpg" alt="" /><span class="house-<?=$k?>"></span></li>
+                    <?}?>
+                </ul>
+            </div>
+        </div>
 
           </div><!--landing_block-->
 		  

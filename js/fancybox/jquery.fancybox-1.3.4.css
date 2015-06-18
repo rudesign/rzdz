@@ -182,13 +182,11 @@
     visibility: visible;
 }
 
-#fancybox-left:hover span {
-	left: 27px;
+#fancybox-left span, #fancybox-left:hover span{
+    left: 30px;
 }
-
-#fancybox-right:hover span {
-	left: auto;
-	right: 27px;
+#fancybox-right, #fancybox-right:hover span{
+    left: auto;
 }
 
 .fancybox-bg {

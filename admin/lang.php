@@ -89,6 +89,7 @@ $lang_settings['2week'] = array('name'=>"Прогноз на 2 недели", 'name_en'=>"2-wee
 $lang_settings['kakdobratsya'] = array('name'=>"Как добраться:", 'name_en'=>"Как dobratsya");
 $lang_settings['oshibka'] = array('name'=>"Если вы заметили ошибку на этом сайте, просто выделите ее мышью и нажмите ctrl+enter на клавиатуре.", 'name_en'=>"Esli zametili oshibku");
 $lang_settings['allrights'] = array('name'=>'АО "РЖД-ЗДОРОВЬЕ", 2015 все права защищены', 'name_en'=>"All rights");
+$lang_settings['allrights1'] = array('name'=>'Воспроизведение или распространение материалов в любой форме может производиться только с письменного разрешения АО "РЖД-ЗДОРОВЬЕ". При использовании ссылка на правообладателя и источник заимствования обязательна.', 'name_en'=>"Copy is prohibited");
 $lang_settings['razrabotka'] = array('name'=>"Разработка сайта", 'name_en'=>"Made in");
 $lang_settings['cureprofile'] = array('name'=>"Медицинский профиль", 'name_en'=>"Profile");
 $lang_settings['price'] = array('name'=>"Стоимость в рублях, (Р)", 'name_en'=>"Price, (Р).");

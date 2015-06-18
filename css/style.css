@@ -320,8 +320,11 @@
 
 #pan ul.main li.house-21 span {
   height: 190px;
-  margin-top: 0px;
+  margin-top: 0;
   background-position: 0 -4436px; }
+
+.link .house-21 .bubble {
+  margin-left: -700px; }
 
 #pan ul.main.link {
   z-index: 11; }
@@ -553,18 +556,15 @@
 #pan ul.grass-1 {
   position: absolute;
   bottom: -4px;
-  left: 100px;
+  left: 0;
   float: left;
   white-space: nowrap;
   z-index: 6;
   height: 250px; }
 
 #pan ul.grass-1 li {
-    position: relative;
-    width: 10800px;
-    height: 250px;
-    background: url(../img_paralax/grass.png) 0 0 repeat-x;
-}
+  height: 250px;
+  background: url(../img_paralax/grass.png) 0 0 repeat-x; }
 
 #pan ul.grass-1 li div {
   width: 143px;
@@ -586,8 +586,7 @@
 
 #pan ul.grass-2 li {
   height: 42px;
-  background: url(../img_paralax/grass-2.png) 50% 0 repeat-x;
-  }
+  background: url(../img_paralax/grass-2.png) 50% 0 repeat-x; }
 
 #pan ul.grass-3 {
   position: absolute;
@@ -600,8 +599,7 @@
 
 #pan ul.grass-3 li {
   height: 810px;
-  background: url(../img_paralax/grass-3.png) 0% 0 repeat-x;
-}
+  background: url(../img_paralax/grass-3.png) 0% 0 repeat-x; }
 
 #nav {
   position: relative;
@@ -821,8 +819,7 @@
   position: absolute;
   left: 50%;
   margin-left: -15px;
-  bottom: -16px;
-}
+  bottom: -16px; }
 
 .bubble {
   padding-bottom: 200px; }

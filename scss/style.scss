@@ -248,10 +248,13 @@
 
 #pan ul.main li.house-21 span {
   height: 190px;
-  margin-top:0px;
-  background-position:0 -4436px;
+  margin-top:0;
+  background-position: 0 -4436px;
 }
 
+.link .house-21 .bubble{
+  margin-left: -700px;
+}
 
 #pan ul.main.link {z-index:11;}
 

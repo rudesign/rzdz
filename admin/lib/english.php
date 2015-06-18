@@ -10,7 +10,7 @@ $lang_list = array(
 	'we_will_call', 'leave_phone', 'name', 'phone_number', 'email', 'skryt', 'raskryt',  'otvet', 'svernut', 'zadaite', 'vash_vopros',
 	'err_phone', 'err_name', 'err_email', 'err_captcha', 'err_text', 'close', 'thank', 'our_manager',
 	'po_zaprosu', 'naideno', 'ne_naideno', 'big_quality' , 'gtema', 'gtema_choise', 'medicine',
-	'allsan', 'siterzd', 'uvgosti', 'kakoplatit', 'proverkascheta', 'weather', '2week', 'kakdobratsya', 'oshibka', 'allrights', 'razrabotka',
+	'allsan', 'siterzd', 'uvgosti', 'kakoplatit', 'proverkascheta', 'weather', '2week', 'kakdobratsya', 'oshibka', 'allrights', 'allrights1', 'razrabotka',
 	'cureprofile', 'price', 'development', 'feedback_alert_title', 'feedback_alert_text', 'faq_alert_title', 'faq_alert_text');
 
 

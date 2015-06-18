@@ -149,11 +149,9 @@ $(document).ready(function($){
 				});
 	});
 	</script>	
-		
 
     <link href="/css/style.css" rel="stylesheet" />
     <link href="/css/jquery.jscrollpane.css" rel="stylesheet" />
-
     <script type="text/javascript" src="/js/jquery.jscrollpane.js"></script>
     <script type="text/javascript" src="/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="/js/jquery.mwheelIntent.js"></script>
@@ -161,10 +159,8 @@ $(document).ready(function($){
     <script type="text/javascript" src="/js/jquery.jparallax.js"></script>
     <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
     <script type="text/javascript" src="/js/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/js/parallax.js"></script>
-
 <?}?>
-		
+      <link rel="icon" type="image/ico" href="/favicon.ico" />
 </head>
 <body onLoad="<?= $message ?>">
     <div class="sticker">
@@ -211,11 +207,11 @@ $(document).ready(function($){
 					<option value="3" <?php if(@$_GET['how'] == 3) echo ' selected'; ?>><?=$lang_phrases['search_diagnosis']?></option>
 				</select>
 				<div id="selection_m"></div>
-    <link href="js/autocomplete/styles.css" rel="stylesheet" />
-    <script type="text/javascript" src="/js/autocomplete/jquery.autocomplete.js"></script>
-    <script type="text/javascript" src="/js/autocomplete/objects.js"></script>
-    <script type="text/javascript" src="/js/autocomplete/obj_m.js"></script>
-	<input type="hidden" name="object_id" value="0">
+                <link href="js/autocomplete/styles.css" rel="stylesheet" />
+                <script type="text/javascript" src="/js/autocomplete/jquery.autocomplete.js"></script>
+                <script type="text/javascript" src="/js/autocomplete/objects.js"></script>
+                <script type="text/javascript" src="/js/autocomplete/obj_m.js"></script>
+	            <input type="hidden" name="object_id" value="0">
                 <div class="clear"></div>
 		    </div>
             <div class="clear"></div>
@@ -244,24 +240,6 @@ $(document).ready(function($){
                 <li>
                     <a class="neth6" target="_blank" href="http://www.youtube.com/channel/UCJnvXBlZSZq80NltdXJ8Bpg"></a>
                 </li>
-                <!--
-                <li>
-                    <div id="SkypeButton_Call_rzd-zdorovie_1">
-                      <script type="text/javascript">
-                        Skype.ui({
-                          "name": "call",
-                          "element": "SkypeButton_Call_rzd-zdorovie_1",
-                          "participants": ["rzd-zdorovie"],
-                          "imageSize": 24
-                        });
-                      var el = document.getElementById('SkypeButton_Call_rzd-zdorovie_1');
-                      var skypeimg = $('img', el);
-                      skypeimg[0].style.margin = '1px 0 0 0';
-                      skypeimg[0].style.verticalAlign = 0;
-                      </script>
-                    </div>
-				</li>
-				-->
 			  </ul><!--menu_net_header-->
 			  <ul class="select_header_lang clearfix rd">
 				<li><a href="<?=$eng_url?>"><img src="/img/lang2.png" alt="" /></a></li>			 
@@ -386,7 +364,7 @@ $(document).ready(function($){
 			<p>Razrabotka saita <a href="http://rudes.ru" target="_blank">«RuDesign»<br/> Informacia o saite</a></p>
 			<?}else{?>
 			<p>&copy;  <?=$lang_phrases['allrights']?></p>
-            <p>Воспроизведение или распространение материалов в любой форме может производиться только с письменного разрешения АО "РЖД-ЗДОРОВЬЕ". При использовании ссылка на правообладателя и источник заимствования обязательна.</p>
+			<p><?=$lang_phrases['allrights1']?></p>
 			<p>Разработка сайта <a href="http://rudes.ru" target="_blank">"РУДизайн"</a></p>
 			<?}?>
 		  </div><!--grey_footer-->
@@ -480,5 +458,7 @@ $(document).ready(function($){
     </script>
     <noscript><div><img src="//mc.yandex.ru/watch/16790644" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
+
+    <script type="text/javascript" src="/js/parallax.js"></script>
   </body>
 </html>
