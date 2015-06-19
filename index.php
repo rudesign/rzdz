@@ -393,7 +393,8 @@ if($extrasite_id)
 	
 	$logo = $photo_owner["logo$englang"];
 	$brochure = $photo_owner["brochure$englang"];
-	$sql = mysql_query("SELECT f.photo_id, f.ext,
+	
+	$sql = mysql_query("SELECT p.weather$englang as weather, p.footer$englang as footer, f.photo_id, f.ext,
 			fb.photo_id as fb_id, fb.ext as fb_ext
 		FROM  ".TABLE_PAGE."  p 
 		LEFT JOIN ".TABLE_PHOTO." f ON (f.owner_id=p.page_id AND f.owner=$logo)
@@ -405,8 +406,8 @@ if($extrasite_id)
 	$logo_img = "/images/$logo/$arr[photo_id]-s.$arr[ext]";
 	$phone_img = "/images/$brochure/$arr[fb_id]-s.$arr[fb_ext]";
 	
-	$weather_informer = get_template("templ/extra/weather_informer{$englang}_$extrasite_id.htm", array());
-	$footer = get_template("templ/extra/footer{$englang}_$extrasite_id.htm", array());
+	$weather_informer = $arr['weather']; //get_template("templ/extra/weather_informer{$englang}_$extrasite_id.htm", array());
+	$footer = $arr['footer']; //get_template("templ/extra/footer{$englang}_$extrasite_id.htm", array());
 }
 
 if(isset($_GET['print'])) $file =  "print.htm";

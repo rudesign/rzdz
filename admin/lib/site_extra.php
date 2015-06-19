@@ -121,10 +121,10 @@ if(@$addnewsite)
 		$dir_id = mysql_insert_id();
 		mysql_query("UPDATE ".TABLE_PAGE." SET dir_id=$dir_id WHERE page_id=$id") or Error(1, __FILE__, __LINE__);
 		
-		copy("../templ/extra/footer_8.htm", "../templ/extra/footer_$site.htm");
+		/*copy("../templ/extra/footer_8.htm", "../templ/extra/footer_$site.htm");
 		copy("../templ/extra/footer_en_8.htm", "../templ/extra/footer_en_$site.htm");
 		copy("../templ/extra/weather_informer_8.htm", "../templ/extra/weather_informer_$site.htm");
-		copy("../templ/extra/weather_informer_en_8.htm", "../templ/extra/weather_informer_en_$site.htm");
+		copy("../templ/extra/weather_informer_en_8.htm", "../templ/extra/weather_informer_en_$site.htm");*/
 	}
 	
 	Header("Location: ".ADMIN_URL."?p=$part&page_id=$page_id");
@@ -470,6 +470,10 @@ if(@$save)
 	$brochure_url = escape_string(from_form(@$brochure_url));
     $facebook = escape_string(from_form(@$facebook));
     $vk = escape_string(from_form(@$vk));
+	$weather = escape_string(from_form(@$weather));
+	$weather_en = escape_string(from_form(@$weather_en));
+	$footer = escape_string(from_form(@$footer));
+	$footer_en = escape_string(from_form(@$footer_en));
 	
 	if(is_array(@$cure)) $cures = @join(',', $cure);
 	else $cures = '';
@@ -490,6 +494,7 @@ if(@$save)
 	mysql_query("UPDATE ".TABLE_PAGE." SET public='$public', contacts='$contacts', name='$name',  name_en='$name_en', ".
 				"gallery_id='$gallery_id', photocount='$photocount',  topimg_id='$topimg_id', opinion='$opinion', ".
 				"description='$description', description_en='$description_en', ord='$ord',  cures='$cures', ".
+				"weather='$weather', weather_en='$weather_en', footer='$footer', footer_en='$footer_en',  ".
 				"region_id='$region_id', city_id='$city_id', stars='$stars', price='$price', url='$url', brochure_url='$brochure_url', facebook='$facebook', vk='$vk' ".
 				"WHERE page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 				
@@ -504,7 +509,7 @@ if(@$save)
 				title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'  ".
 				"WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
 				
-	if($parent==0 && $site)
+	/*if($parent==0 && $site)
 	{
 		$arr = array('footer', 'footer_en', 'weather_informer', 'weather_informer_en');
 		foreach($arr as $v)
@@ -518,7 +523,7 @@ if(@$save)
 			flock($f, LOCK_UN);
 			fclose($f);
 		}
-	}
+	}*/
 	
 	$url = ADMIN_URL."?p=$part&page_id=$page_id";
 	
@@ -1050,12 +1055,17 @@ if($page_id)
 		
 		if($parent==0)
 		{
-			foreach(array('weather_informer', 'weather_informer_en', 'footer', 'footer_en') as $v)
+			/*foreach(array('weather_informer', 'weather_informer_en', 'footer', 'footer_en') as $v)
 			{
 				$f = "../templ/extra/${v}_$page[site].htm";
 				if(!file_exists($f)) {$fn = fopen($f, 'w'); fclose($fn);}
 				$page[$v] = htmlspecialchars(get_template($f, $page));
-			}
+			}*/
+			
+			$page['weather'] = HtmlSpecialChars($page['weather']);
+			$page['weather_en'] = HtmlSpecialChars($page['weather_en']);
+			$page['footer'] = HtmlSpecialChars($page['footer']);
+			$page['footer_en'] = HtmlSpecialChars($page['footer_en']);
 			
 			$sql_photos = mysql_query("SELECT photo_id, ext, ext_b, ord FROM ".TABLE_PHOTO.
 					" WHERE owner_id=$page[page_id] AND owner='$photo_owner[logo]' ORDER BY ord") or Error(1, __FILE__, __LINE__);
