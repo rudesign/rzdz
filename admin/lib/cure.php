@@ -158,6 +158,7 @@ if(@$save)
 		$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
 		$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
 		$public = (int)@$public;
+		$develop = (int)@$develop;
 		$ord = (int)@$ord;
 		$type = (int)@$type;
 		$partof = (int)@$partof;
@@ -175,7 +176,7 @@ if(@$save)
 		
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en', name_extra='$name_extra', name_extra_en='$name_extra_en',
 			 ord='$ord', public='$public', 
-			type='$type', partof='$partof',
+			type='$type', partof='$partof', develop='$develop',
 			description='$description', description_en='$description_en',inhotel='$inhotel', inhotel_en='$inhotel_en' $update
 			WHERE cure_id='$cure_id'") or Error(1, __FILE__, __LINE__);
 			
@@ -930,6 +931,7 @@ if($cure_id)
 						" WHERE parent=0 AND cure_id!=$cure_id ORDER BY ord", 'ord', $replace['ord']);
 				$replace['type_select'] = array_select('type', $cure_type_list, $replace['type'], 0);
 				$replace['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $replace['public'], 0);
+				$replace['develop_select'] = array_select('develop', array(0=>'', 1=>'Режим разработки раздела'), $replace['develop'], 0);
 				
 				if($cure_type==4)
 				{
