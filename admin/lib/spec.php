@@ -110,12 +110,6 @@ if(@$save)
 	$dir_id = (int)@$arr[0];
 	$olddir = @$arr[1];
 	
-	$title = escape_string(from_form(@$title));
-	$mdescription = escape_string(from_form(@$mdescription));
-	$keywords = escape_string(from_form(@$keywords));
-	$title_en = escape_string(from_form(@$title_en));
-	$mdescription_en = escape_string(from_form(@$mdescription_en));
-	$keywords_en = escape_string(from_form(@$keywords_en));
 	$dir = escape_string(from_form(@$dir));
 	
 	if($dir != $olddir)
@@ -123,16 +117,17 @@ if(@$save)
 		$dir = check_dir($dir, $olddir, $parent_dir_id);
 	}
 	
+	$arr = array();
+	$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+					'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+	foreach($list as $v)  $arr[] = "$v='".escape_string(from_form(@${$v}))."'";	
+	$str = join(",", $arr);
+	
 	if($dir_id)
-	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir',".
-				"title='$title', mdescription='$mdescription', keywords='$keywords',
-				title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'  ".
-				"WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
+	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir', $str WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
 	else
 	{
-		mysql_query("INSERT INTO ".TABLE_DIR." SET dir='$dir', parent=$parent_dir_id, ".
-					"title='$title', mdescription='$mdescription', keywords='$keywords',
-					title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'") or Error(1, __FILE__, __LINE__);
+		mysql_query("INSERT INTO ".TABLE_DIR." SET dir='$dir', parent=$parent_dir_id, $str") or Error(1, __FILE__, __LINE__);
 		$dir_id = mysql_insert_id();
 		
 		mysql_query("UPDATE ".TABLE_SPEC." SET dir_id='$dir_id' WHERE spec_id='$spec_id'") or Error(1, __FILE__, __LINE__);
@@ -283,7 +278,9 @@ $left_menu = get_template('templ/spec_list.htm', $replace);
 
 if($spec_id)
 {
-	$sql = mysql_query("SELECT n.*, d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en
+	$sql = mysql_query("SELECT n.*, 
+				d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en,  
+						d.title1, d.mdescription1, d.keywords1, d.title1_en, d.mdescription1_en, d.keywords1_en
 		 FROM ".TABLE_SPEC." n LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=n.dir_id)  WHERE n.spec_id='$spec_id'") or Error(1, __FILE__, __LINE__);
 	if($spec = @mysql_fetch_array($sql))
 	{
@@ -354,12 +351,10 @@ if($spec_id)
 		$spec['descr'] = HtmlSpecialChars($spec['descr']);
 		$spec['descr_en'] = HtmlSpecialChars($spec['descr_en']);
 		
-		$spec['title'] = HtmlSpecialChars($spec['title']);
-		$spec['mdescription'] = HtmlSpecialChars($spec['mdescription']);
-		$spec['keywords'] = HtmlSpecialChars($spec['keywords']);
-		$spec['title_en'] = HtmlSpecialChars($spec['title_en']);
-		$spec['mdescription_en'] = HtmlSpecialChars($spec['mdescription_en']);
-		$spec['keywords_en'] = HtmlSpecialChars($spec['keywords_en']);
+		$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+						'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+		foreach($list as $v) $spec[$v] = HtmlSpecialChars($spec[$v], ENT_COMPAT, 'cp1251');
+		
 		$spec['dir'] = $spec['dir'] ? HtmlSpecialChars($spec['dir']) : "n$spec[spec_id]";
 		
 		$content = get_template('templ/spec.htm', $spec);

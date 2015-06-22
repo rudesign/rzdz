@@ -448,14 +448,8 @@ if(@$save)
 	$ord = (int)@$ord;
 	$name = escape_string(from_form(@$name));
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
-	$title = escape_string(from_form(@$title));
-	$mdescription = escape_string(from_form(@$mdescription));
-	$keywords = escape_string(from_form(@$keywords));
 	$name_en = escape_string(from_form(@$name_en));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
-	$title_en = escape_string(from_form(@$title_en));
-	$mdescription_en = escape_string(from_form(@$mdescription_en));
-	$keywords_en = escape_string(from_form(@$keywords_en));
 	$gallery_id = (int)@$gallery_id;
 	$photocount = (int)@$photocount;
 	$dir = escape_string(from_form(@$dir));
@@ -504,26 +498,14 @@ if(@$save)
 	elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_PAGE." SET ord=ord+1 ".
 		"WHERE ord>='$ord' AND ord<'$oldord' AND parent='$parent' AND page_id!='$page_id' $w") or Error(1, __FILE__, __LINE__);
 	
-	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir', ".
-				"title='$title', mdescription='$mdescription', keywords='$keywords',
-				title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'  ".
-				"WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
+	$arr = array();
+	$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+					'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+	foreach($list as $v)  $arr[] = "$v='".escape_string(from_form(@${$v}))."'";	
+	$str = join(",", $arr);
+	
+	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir', $str WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
 				
-	/*if($parent==0 && $site)
-	{
-		$arr = array('footer', 'footer_en', 'weather_informer', 'weather_informer_en');
-		foreach($arr as $v)
-		{
-			$text = from_form(@${$v});
-			
-			$f = fopen("../templ/extra/${v}_$site.htm", 'w');
-			flock($f, LOCK_EX);
-			fwrite($f, $text);
-			fflush($f);
-			flock($f, LOCK_UN);
-			fclose($f);
-		}
-	}*/
 	
 	$url = ADMIN_URL."?p=$part&page_id=$page_id";
 	
@@ -759,101 +741,6 @@ if(@$delregion)
 }
 
 
-if(@$addcity)
-{	
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CITY) or Error(1, __FILE__, __LINE__);
-	$arr = @mysql_fetch_array($sql);
-	$ord = (int)@$arr[0] + 1;
-	
-	mysql_query("INSERT INTO ".TABLE_CITY." SET ord=$ord") or Error(1, __FILE__, __LINE__);
-	$id = mysql_insert_id();
-		
-	mysql_query("INSERT INTO ".TABLE_DIR." SET parent=$city_parent_dir_id, dir='c$id'") or Error(1, __FILE__, __LINE__);
-	$dir_id = mysql_insert_id();
-	mysql_query("UPDATE ".TABLE_CITY." SET dir_id=$dir_id WHERE city_id=$id") or Error(1, __FILE__, __LINE__);
-	
-	Header("Location: ".ADMIN_URL."?p=$part&citys=1&city_id=$id");
-	exit;
-}
-
-if(@$savecity)
-{
-	$city_id = (int)@$city_id;
-	$public = (int)@$public;
-	$ord = (int)@$ord;
-	$name = escape_string(from_form(@$name));
-	$name_en = escape_string(from_form(@$name_en));
-	$dir = escape_string(from_form(@$dir));
-	$description = escape_string(from_form(@$description));
-	$title = escape_string(from_form(@$title));
-	$mdescription = escape_string(from_form(@$mdescription));
-	$keywords = escape_string(from_form(@$keywords));
-	$gallery_id = (int)@$gallery_id;
-	$photocount = (int)@$photocount;
-	
-	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_CITY) or Error(1, __FILE__, __LINE__);
-	$arr = @mysql_fetch_array($sql);
-	$count = (int)@$arr[0];
-	
-	$sql = mysql_query("SELECT p.ord, d.dir_id, d.dir FROM ".TABLE_CITY." p LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)".
-							" WHERE p.city_id=$city_id") or Error(1, __FILE__, __LINE__);
-	$arr = @mysql_fetch_array($sql);
-	$oldord = (int)@$arr[0];
-	$dir_id = (int)@$arr[1];
-	$olddir = @$arr[2];
-	
-	if($ord < 1 || $ord > $count) 
-	{
-		$_SESSION['message'] = "Неверное значение порядкового номера (от 1 до $count)";
-		Header("Location: ".ADMIN_URL."?p=$part&citys=1&city_id=$city_id");
-		exit;
-	}
-	
-	if($dir != $olddir)
-	{
-		$dir = check_dir($dir, $olddir, $city_parent_dir_id);
-	}
-	
-	mysql_query("UPDATE ".TABLE_CITY." SET public='$public', name='$name', name_en='$name_en', ord='$ord', description='$description',
-				gallery_id='$gallery_id', photocount='$photocount' ".
-				"WHERE city_id='$city_id'") or Error(1, __FILE__, __LINE__);
-				
-	if($ord > $oldord) mysql_query("UPDATE ".TABLE_CITY." SET ord=ord-1 ".
-		"WHERE ord>'$oldord' AND ord<='$ord' AND city_id!='$city_id'") or Error(1, __FILE__, __LINE__);
-	elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_CITY." SET ord=ord+1 ".
-		"WHERE ord>='$ord' AND ord<'$oldord' AND city_id!='$city_id'") or Error(1, __FILE__, __LINE__);
-	
-	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir', ".
-				"title='$title', mdescription='$mdescription', keywords='$keywords'  ".
-				"WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
-	
-	$url = ADMIN_URL."?p=$part&citys=1&city_id=$city_id";
-	
-	Header("Location: ".$url);
-	exit;
-}
-
-if(@$delcity)
-{
-	$sql = mysql_query("SELECT count(*) FROM ".TABLE_PAGE." WHERE city_id=$city_id") or Error(1, __FILE__, __LINE__);
-	$arr = @mysql_fetch_array($sql);
-	if($arr[0])
-	{
-		$_SESSION['message'] = "Невозможно удалить город, используется для $arr[0] объектов";
-		Header("Location: ".ADMIN_URL."?p=$part&citys=1");
-		exit;
-	}
-	$sql = mysql_query("SELECT ord FROM ".TABLE_CITY." WHERE city_id=$city_id") or Error(1, __FILE__, __LINE__);
-	$arr = @mysql_fetch_array($sql);
-	$ord = (int)@$arr['ord']; 
-	
-	mysql_query("DELETE FROM ".TABLE_CITY." WHERE city_id='$city_id'") or Error(1, __FILE__, __LINE__);
-	mysql_query("UPDATE ".TABLE_CITY." SET ord=ord-1 WHERE ord>$ord") or Error(1, __FILE__, __LINE__);	
-		
-	Header("Location: ".ADMIN_URL."?p=$part&citys=1");
-	exit;
-}
-
 $replace = array();
 
 
@@ -926,8 +813,10 @@ if(isset($addsite))
 
 if($page_id)
 {
-	$sql = mysql_query("SELECT p.*, d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en  ".
-			"FROM ".TABLE_PAGE." p LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)".
+	$sql = mysql_query("SELECT p.*, 
+				d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en,  
+						d.title1, d.mdescription1, d.keywords1, d.title1_en, d.mdescription1_en, d.keywords1_en
+			FROM ".TABLE_PAGE." p LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)".
 			" WHERE p.page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 	if($page = @mysql_fetch_array($sql))
 	{
@@ -1028,12 +917,9 @@ if($page_id)
 			
 		}
 		
-		$page['title'] = HtmlSpecialChars($page['title']);
-		$page['mdescription'] = HtmlSpecialChars($page['mdescription']);
-		$page['keywords'] = HtmlSpecialChars($page['keywords']);
-		$page['title_en'] = HtmlSpecialChars($page['title_en']);
-		$page['mdescription_en'] = HtmlSpecialChars($page['mdescription_en']);
-		$page['keywords_en'] = HtmlSpecialChars($page['keywords_en']);
+		$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+						'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+		foreach($list as $v) $page[$v] = HtmlSpecialChars($page[$v], ENT_COMPAT, 'cp1251');
 		
 		if(!$page['public'] && !$page['name'] && !$page['description']) $page['public'] = 1;
 		$page['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $page['public'], 0);

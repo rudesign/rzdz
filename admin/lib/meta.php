@@ -28,22 +28,21 @@ function check_dr($dir_id, $parent)
 
 if(@$save)
 {
-	$title = escape_string(from_form(@$title));
-	$mdescription = escape_string(from_form(@$mdescription));
-	$keywords = escape_string(from_form(@$keywords));
 	$text = escape_string(from_form(@$text));
-	$title_en = escape_string(from_form(@$title_en));
-	$mdescription_en = escape_string(from_form(@$mdescription_en));
-	$keywords_en = escape_string(from_form(@$keywords_en));
 	$text_en = escape_string(from_form(@$text_en));
 	$help = escape_string(from_form(@$help));
 	$page_id = (int)(@$page_id);
 	$topimg_id = (int)(@$topimg_id);
+	
+	$arr = array();
+	$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+					'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+	foreach($list as $v)  $arr[] = "$v='".escape_string(from_form(@${$v}))."'";	
+	$str = join(",", $arr);
+	
 		
-	mysql_query("UPDATE ".TABLE_DIR." SET page_id='$page_id',  topimg_id='$topimg_id', ".
-				"title='$title', mdescription='$mdescription', keywords='$keywords', text='$text',  ".
-				"title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en', text_en='$text_en',  ".
-				"help='$help' WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
+	mysql_query("UPDATE ".TABLE_DIR." SET page_id='$page_id',  topimg_id='$topimg_id', help='$help', $str
+				 WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
 			
 	
 	$url = "?p=$part&dir_id=$dir_id";
@@ -109,9 +108,10 @@ if($dir_id)
 			"SELECT page_id, name FROM ".TABLE_PAGE." WHERE parent=0 AND page_id!=2 ORDER BY ord",
 			$dir['page_id'], 1);
 
-		$dir['title'] = HtmlSpecialChars($dir['title']);
-		$dir['mdescription'] = HtmlSpecialChars($dir['mdescription']);
-		$dir['keywords'] = HtmlSpecialChars($dir['keywords']);
+		$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+						'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+		foreach($list as $v) $dir[$v] = HtmlSpecialChars($dir[$v], ENT_COMPAT, 'cp1251');
+		
 			
 		$dir['title_en'] = HtmlSpecialChars($dir['title_en']);
 		$dir['mdescription_en'] = HtmlSpecialChars($dir['mdescription_en']);
