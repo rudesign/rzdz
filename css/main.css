@@ -2981,3 +2981,15 @@ border-radius: 5px;
 div.mx-ac-wrapper {
    height:0px;
 }
+
+/* fancybox */
+
+#fancybox-close{
+    right: -50px !important;
+}
+#fancybox-right {
+    right: -74px !important;;
+}
+#fancybox-left {
+    left: -74px !important;;
+}

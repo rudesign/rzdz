@@ -3248,3 +3248,15 @@ td.vertical > div {
     font-weight: 700;
     line-height: 1.3em;
 }
+
+/* fancybox */
+
+#fancybox-close{
+    right: -50px !important;
+}
+#fancybox-right {
+    right: -74px !important;;
+}
+#fancybox-left {
+    left: -74px !important;;
+}
