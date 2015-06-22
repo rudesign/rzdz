@@ -553,14 +553,8 @@ if(@$save)
 	$ord = (int)@$ord;
 	$name = escape_string(from_form(@$name));
 	$description = @$editor ?  escape_string(from_form(@$description1)) : escape_string(from_form(@$description));
-	$title = escape_string(from_form(@$title));
-	$mdescription = escape_string(from_form(@$mdescription));
-	$keywords = escape_string(from_form(@$keywords));
 	$name_en = escape_string(from_form(@$name_en));
 	$description_en = @$editor_en ?  escape_string(from_form(@$description_en1)) : escape_string(from_form(@$description_en));
-	$title_en = escape_string(from_form(@$title_en));
-	$mdescription_en = escape_string(from_form(@$mdescription_en));
-	$keywords_en = escape_string(from_form(@$keywords_en));
 	$gallery_id = (int)@$gallery_id;
 	$photocount = (int)@$photocount;
 	$dir = escape_string(from_form(@$dir));
@@ -600,10 +594,16 @@ if(@$save)
 	elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_PAGE." SET ord=ord+1 ".
 		"WHERE ord>='$ord' AND ord<'$oldord' AND parent='$parent' AND page_id!='$page_id' AND !site") or Error(1, __FILE__, __LINE__);
 	
-	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir', ".
-				"title='$title', mdescription='$mdescription', keywords='$keywords',
-				title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'  ".
-				"WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
+	$arr = array();
+	$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+					'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+	foreach($list as $v) 
+	{
+		$arr[] = "$v='".escape_string(from_form(@${$v}))."'";
+	}
+	$str = join(",", $arr);
+	
+	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir',  $str WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
 	
 	$url = ADMIN_URL."?p=$part&page_id=$page_id";
 	
@@ -1052,9 +1052,11 @@ if(isset($citys))
 
 if($page_id)
 {
-	$sql = mysql_query("SELECT p.*, d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en  ".
-			"FROM ".TABLE_PAGE." p LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)".
-			" WHERE p.page_id='$page_id'") or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query("SELECT p.*, 
+				d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en,  
+						d.title1, d.mdescription1, d.keywords1, d.title1_en, d.mdescription1_en, d.keywords1_en
+			FROM ".TABLE_PAGE." p LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=p.dir_id)
+			WHERE p.page_id='$page_id'") or Error(1, __FILE__, __LINE__);
 	if($page = @mysql_fetch_array($sql))
 	{
 		$page['name'] = HtmlSpecialChars($page['name'], ENT_COMPAT, 'cp1251');
@@ -1169,12 +1171,9 @@ if($page_id)
 			
 		}
 		
-		$page['title'] = HtmlSpecialChars($page['title'], ENT_COMPAT, 'cp1251');
-		$page['mdescription'] = HtmlSpecialChars($page['mdescription'], ENT_COMPAT, 'cp1251');
-		$page['keywords'] = HtmlSpecialChars($page['keywords'], ENT_COMPAT, 'cp1251');
-		$page['title_en'] = HtmlSpecialChars($page['title_en'], ENT_COMPAT, 'cp1251');
-		$page['mdescription_en'] = HtmlSpecialChars($page['mdescription_en'], ENT_COMPAT, 'cp1251');
-		$page['keywords_en'] = HtmlSpecialChars($page['keywords_en'], ENT_COMPAT, 'cp1251');
+		$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+						'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+		foreach($list as $v) $page[$v] = HtmlSpecialChars($page[$v], ENT_COMPAT, 'cp1251');
 		
 		if(!$page['public'] && !$page['name'] && !$page['description']) $page['public'] = 1;
 		$page['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $page['public'], 0);

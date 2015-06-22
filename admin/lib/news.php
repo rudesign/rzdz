@@ -112,12 +112,6 @@ if(@$save)
 	$dir_id = (int)@$arr[0];
 	$olddir = @$arr[1];
 	
-	$title = escape_string(from_form(@$title));
-	$mdescription = escape_string(from_form(@$mdescription));
-	$keywords = escape_string(from_form(@$keywords));
-	$title_en = escape_string(from_form(@$title_en));
-	$mdescription_en = escape_string(from_form(@$mdescription_en));
-	$keywords_en = escape_string(from_form(@$keywords_en));
 	$dir = escape_string(from_form(@$dir));
 	
 	if($dir != $olddir)
@@ -125,16 +119,19 @@ if(@$save)
 		$dir = check_dir($dir, $olddir, $parent_dir_id);
 	}
 	
+	
+	$arr = array();
+	$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+					'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+	foreach($list as $v)  $arr[] = "$v='".escape_string(from_form(@${$v}))."'";	
+	$str = join(",", $arr);
+	
+	
 	if($dir_id)
-	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir',".
-				"title='$title', mdescription='$mdescription', keywords='$keywords',
-				title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'  ".
-				"WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
+	mysql_query("UPDATE ".TABLE_DIR." SET dir='$dir', $str  WHERE dir_id='$dir_id'") or Error(1, __FILE__, __LINE__);
 	else
 	{
-		mysql_query("INSERT INTO ".TABLE_DIR." SET dir='$dir', parent=$parent_dir_id, ".
-					"title='$title', mdescription='$mdescription', keywords='$keywords',
-					title_en='$title_en', mdescription_en='$mdescription_en', keywords_en='$keywords_en'") or Error(1, __FILE__, __LINE__);
+		mysql_query("INSERT INTO ".TABLE_DIR." SET dir='$dir', parent=$parent_dir_id, $str") or Error(1, __FILE__, __LINE__);
 		$dir_id = mysql_insert_id();
 		
 		mysql_query("UPDATE ".TABLE_NEWS." SET dir_id='$dir_id' WHERE news_id='$news_id'") or Error(1, __FILE__, __LINE__);
@@ -285,7 +282,9 @@ $left_menu = get_template('templ/news_list.htm', $replace);
 
 if($news_id)
 {
-	$sql = mysql_query("SELECT n.*, d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en
+	$sql = mysql_query("SELECT n.*, 
+				d.dir, d.title, d.mdescription, d.keywords, d.title_en, d.mdescription_en, d.keywords_en,  
+						d.title1, d.mdescription1, d.keywords1, d.title1_en, d.mdescription1_en, d.keywords1_en
 		 FROM ".TABLE_NEWS." n LEFT JOIN ".TABLE_DIR." d ON (d.dir_id=n.dir_id) WHERE n.news_id='$news_id'") or Error(1, __FILE__, __LINE__);
 	if($news = @mysql_fetch_array($sql))
 	{
@@ -382,12 +381,10 @@ if($news_id)
 		}
 		$news['page_box'] = $page_box;
 		
-		$news['title'] = HtmlSpecialChars($news['title']);
-		$news['mdescription'] = HtmlSpecialChars($news['mdescription']);
-		$news['keywords'] = HtmlSpecialChars($news['keywords']);
-		$news['title_en'] = HtmlSpecialChars($news['title_en']);
-		$news['mdescription_en'] = HtmlSpecialChars($news['mdescription_en']);
-		$news['keywords_en'] = HtmlSpecialChars($news['keywords_en']);
+		$list = array('title', 'mdescription', 'keywords', 'title1', 'mdescription1', 'keywords1',
+						'title_en', 'mdescription_en', 'keywords_en', 'title1_en', 'mdescription1_en', 'keywords1_en');
+		foreach($list as $v) $news[$v] = HtmlSpecialChars($news[$v], ENT_COMPAT, 'cp1251');
+		
 		$news['dir'] = $news['dir'] ? HtmlSpecialChars($news['dir']) : "n$news[news_id]";
 		
 		$content = get_template('templ/news.htm', $news);

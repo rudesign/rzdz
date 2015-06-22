@@ -70,7 +70,8 @@
 			<?if($cure['cure_id']==1){?><?=$subcure['description']?><?}?>
 
 <?}elseif($cure_id){?>
-	<?if($cure['type']==1 || $cure['type']==4){?>
+	<?if($cure['develop']){?><p><?=$cure['description']?></p>
+	<?}elseif($cure['type']==1 || $cure['type']==4){?>
         <!-- Profiles page -->
 		<?if(($cure['cure_id']==1 || $cure['cure_id']==90) && !$extrasite_id){?>
 
@@ -209,8 +210,7 @@
                 }
             </script>
 
-            <a id="popup-link" href="/cure_alert.php" class="fancybox"></a>
-            <?if(false && $contra_indication){?> <a id="popup-link" href="/cure_alert.php" class="fancybox"></a><?}?>
+            <?if($contra_indication){?> <a id="popup-link" href="/cure_alert.php" class="fancybox"></a><?}?>
             <?if($contra_indication_sm){?>
 			<div class="cure-locator clearfix">
                 <div class="alert">

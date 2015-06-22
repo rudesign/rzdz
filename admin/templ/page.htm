@@ -36,6 +36,7 @@
 	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
 	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
 	<?if($page_id!=2 && $page_id!=3){?>
+	<tr><td><strong>Лето</strong></td></tr>
 	<tr><td>TITLE: </td><td nowrap="nowrap"><input type="text" name="title" value="<?=$title?>" maxlength="255" size="50"></tr>
 	<tr><td>TITLE eng: </td>
 		<td nowrap="nowrap">  <input type="text" name="title_en" value="<?=$title_en?>" maxlength="255" size="50"></td></tr>
@@ -43,6 +44,14 @@
 	<tr><td>DESCRIPTION eng: </td><td><input type="text" name="mdescription_en" value="<?=$mdescription_en?>" maxlength="255" size="50"></td></tr>
 	<tr><td>KEYWORDS: </td><td><input type="text" name="keywords" value="<?=$keywords?>" maxlength="255" size="50"></td></tr>
 	<tr><td>KEYWORDS eng: </td><td><input type="text" name="keywords_en" value="<?=$keywords_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td><strong>Зима</strong></td></tr>
+	<tr><td>TITLE: </td><td nowrap="nowrap"><input type="text" name="title1" value="<?=$title1?>" maxlength="255" size="50"></tr>
+	<tr><td>TITLE eng: </td>
+		<td nowrap="nowrap">  <input type="text" name="title1_en" value="<?=$title1_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>DESCRIPTION: </td><td><input type="text" name="mdescription1" value="<?=$mdescription1?>" maxlength="255" size="50"> </td></tr>
+	<tr><td>DESCRIPTION eng: </td><td><input type="text" name="mdescription1_en" value="<?=$mdescription1_en?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS: </td><td><input type="text" name="keywords1" value="<?=$keywords1?>" maxlength="255" size="50"></td></tr>
+	<tr><td>KEYWORDS eng: </td><td><input type="text" name="keywords1_en" value="<?=$keywords1_en?>" maxlength="255" size="50"></td></tr>
 	<?}?>
 	<?if($page_id>3 && $parent!=1){?><tr><td>Фотогалерея: </td><td><?=$gallery_select?></td></tr><?}?>
 	<?if($parent==1){?>

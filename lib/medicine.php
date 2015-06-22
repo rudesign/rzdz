@@ -137,7 +137,7 @@ $cure = array(); $subcure = array();
 if($cure_id)
 {
 	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
-	$fields = "cure_id, $fn as name, type, inhotel$englang ";
+	$fields = "cure_id, develop, $fn as name, type, inhotel$englang ";
 	if(!$subcure_id || $cure_id==11)  $fields .=  ", description$englang as description";
 	if($subcure_id && @$curestr_id)  $fields .=  ", inhotel$englang as inhotel";
 	  
@@ -197,7 +197,8 @@ if($cure_id)
 	
 	if(!$subcure_id || $cure['type']==1)  
 	{
-		if($cure['type']==1 || $cure['type']==4)
+		if($cure['develop']) $cure['description'] = $lang_phrases['vrazrabotke'];
+		elseif($cure['type']==1 || $cure['type']==4)
 		{ 
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
 			

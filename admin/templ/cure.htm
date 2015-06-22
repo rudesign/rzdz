@@ -72,7 +72,9 @@
 <form name="edit-form" method="post" enctype="multipart/form-data">
 <table><tr><td>
 	<table cellpadding="2">
-	<tr><td>Отображать на сайте? </td><td><?=$public_select?></td></tr>
+	<tr><td>Отображать на сайте? </td><td><?=$public_select?>
+		<?if(!$partof){?><?=$develop_select?><?}?>
+		</td></tr>
 	<tr><td>Тип раздела</td><td><?=$type_select?></td></tr>
 	<?if($partof_select){?><tr><td>Часть раздела</td><td><?=$partof_select?></td></tr><?}?>
 	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
