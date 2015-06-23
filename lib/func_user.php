@@ -2,16 +2,18 @@
 
 function get_page_info($dir, $dir_id=0, $name='', $addname=0)
 {	
-	global $meta_tags, $part, $photo_owner, $englang; 
-	
+	global $meta_tags, $part, $photo_owner, $englang;
+
+    $mtPostfix = getMetaTagsPostfix();
+
 	$where = ($dir_id) ? "d.dir_id=$dir_id" : "d.dir='$dir' AND parent=0";
 	
 	$sql_text = "
 		SELECT 
 			d.parent,
-			d.title$englang as title,
-			d.mdescription$englang as description,
-			d.keywords$englang as keywords
+			d.title$mtPostfix$englang as title,
+			d.mdescription$mtPostfix$englang as description,
+			d.keywords$mtPostfix$englang as keywords
 		FROM 
 			".TABLE_DIR." d 
 		WHERE ";
@@ -19,7 +21,7 @@ function get_page_info($dir, $dir_id=0, $name='', $addname=0)
 	$sql = mysql_query($sql_text." $where") or Error(1, __FILE__, __LINE__);
 	$arr = @mysql_fetch_array($sql);
 	
-	if(!$meta_tags['title'] && @$arr['title']) 
+	if(!$meta_tags['title'] && @$arr['title'])
 	{
 		$meta_tags['title'] = $arr['title'];
 		if($name && (!$dir_id || $addname)) $meta_tags['title'] = ($meta_tags['title']) ? 
@@ -27,7 +29,7 @@ function get_page_info($dir, $dir_id=0, $name='', $addname=0)
 	}
 	if(!$meta_tags['description']) $meta_tags['description'] = @$arr['description'];
 	if(!$meta_tags['keywords']) $meta_tags['keywords'] = @$arr['keywords'];
-	
+
 	$parent_dir_id = (int)@$arr['parent'];
 	
 	while(!$meta_tags['title'] || !$meta_tags['description'] || !$meta_tags['keywords'])
@@ -36,7 +38,7 @@ function get_page_info($dir, $dir_id=0, $name='', $addname=0)
 		$arr = @mysql_fetch_array($sql);
 		$parent_dir_id = (int)@$arr['parent'];
 		
-		if(!$meta_tags['title'] && @$arr['title']) 
+		if(!$meta_tags['title'] && @$arr['title'])
 		{
 			$meta_tags['title'] = $arr['title'];
 			if($name) $meta_tags['title'] = ($meta_tags['title']) ? 
@@ -51,7 +53,7 @@ function get_page_info($dir, $dir_id=0, $name='', $addname=0)
 			$arr = @mysql_fetch_array($sql);
 			$parent_dir_id = (int)@$arr['parent'];
 			
-			if(!$meta_tags['title'] && @$arr['title']) 
+			if(!$meta_tags['title'] && @$arr['title'])
 			{
 				$meta_tags['title'] = $arr['title'];
 				if($name) $meta_tags['title'] = ($meta_tags['title']) ? 
@@ -66,7 +68,7 @@ function get_page_info($dir, $dir_id=0, $name='', $addname=0)
 				$arr = @mysql_fetch_array($sql);
 				$parent_dir_id = (int)@$arr['parent'];
 				
-				if(!$meta_tags['title'] && @$arr['title']) 
+				if(!$meta_tags['title'] && @$arr['title'])
 				{
 					$meta_tags['title'] = $arr['title'];
 					if($name) $meta_tags['title'] = ($meta_tags['title']) ? 

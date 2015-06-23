@@ -35,7 +35,7 @@ else $print_url .= "/?print";
 $lprefix = $englang ? '/en' : '';
 $lang_phrases = array();
 $nn = $englang ? "name$englang" : 'name';
-foreach($lang_settings as $k=>$v) $lang_phrases[$k] = $k=='price' ? str_replace("ï¿½", "<span class=\"rub\">a</span>", $v[$nn]) : $v[$nn];
+foreach($lang_settings as $k=>$v) $lang_phrases[$k] = $k=='price' ? str_replace("ð", "<span class=\"rub\">a</span>", $v[$nn]) : $v[$nn];
 
 dbconnect($config['dbhost'], $config['dbname'], $config['dblogin'], $config['dbpassword']);
 

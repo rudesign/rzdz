@@ -392,4 +392,18 @@ function renew_objects($root_dir)
 
 }
 
-?>
+/**
+ * Get meta tag postfix depending on the current month
+ * 1.09-1.03 - winter time
+ */
+function getMetaTagsPostfix(){
+    try{
+        $month = date('n');
+
+        $postfix =  ($month < 3 && $month >= 9) ? '1' : '';
+
+        return $postfix;
+    }catch (\Exception $e){
+        return '';
+    }
+}
