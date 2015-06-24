@@ -93,4 +93,5 @@ $lang_settings['feedback_alert_text'] = array('name'=>"Мы получили Ваше сообщени
 $lang_settings['faq_alert_title'] = array('name'=>"Спасибо за Ваш вопрос!", 'name_en'=>"Thank you for the question");
 $lang_settings['faq_alert_text'] = array('name'=>"Мы получили Ваше сообщение и обязательно ответим на него в ближайшее время.", 'name_en'=>"Your question have been sent. We will give you an answer shortly");
 $lang_settings['vrazrabotke'] = array('name'=>"Раздел находится в разработке", 'name_en'=>"V razrabotke");
+$lang_settings['summer'] = array('name'=>3, 'name_en'=>"9");
 ?>

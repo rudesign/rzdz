@@ -12,7 +12,7 @@ $lang_list = array(
 	'po_zaprosu', 'naideno', 'ne_naideno', 'big_quality' , 'gtema', 'gtema_choise', 'medicine',
 	'allsan', 'siterzd', 'uvgosti', 'kakoplatit', 'proverkascheta', 'weather', '2week', 'kakdobratsya', 'oshibka', 'allrights', 'allrights1', 'razrabotka',
 	'cureprofile', 'price', 'development', 'feedback_alert_title', 'feedback_alert_text', 'faq_alert_title', 'faq_alert_text',
-	'vrazrabotke');
+	'vrazrabotke', 'summer');
 
 
 if(@$_POST['save'])
