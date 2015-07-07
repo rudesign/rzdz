@@ -400,14 +400,14 @@ function getMetaTagsPostfix(){
     try{
         $lang_settings = array();
 
-        @include $_SERVER['DOCUMENT_ROOT'].'/admin/lib.php';
+        @include $_SERVER['DOCUMENT_ROOT'].'/admin/lang.php';
 
         $summerStarts = intval($lang_settings['summer']['name']) ? intval($lang_settings['summer']['name']) : 3;
         $summerEnds = intval($lang_settings['summer']['name_en']) ? intval($lang_settings['summer']['name_en']) : 9;
 
         $month = date('n');
 
-        $postfix =  ($month < $summerStarts && $month >= $summerEnds) ? '1' : '';
+        $postfix = ((($month >= 1) && ($month < $summerStarts)) || (($month <= 12) && ($month >= $summerEnds))) ? '1' : '';
 
         return $postfix;
     }catch (\Exception $e){
