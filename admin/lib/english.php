@@ -56,7 +56,7 @@ require 'lang.php';
 $list = array();
 foreach($lang_list as $v)
 {
-	$arr = array('field'=>$v, 'name'=>HtmlSpecialChars(@$lang_settings[$v]['name']), 'name_en'=>HtmlSpecialChars(@$lang_settings[$v]['name_en']));
+	$arr = array('field'=>HtmlSpecialChars(@$lang_settings[$v]['title']), 'name'=>HtmlSpecialChars(@$lang_settings[$v]['name']), 'name_en'=>HtmlSpecialChars(@$lang_settings[$v]['name_en']));
 	$list[] = $arr;
 }
 
