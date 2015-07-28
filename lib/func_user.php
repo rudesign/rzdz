@@ -124,17 +124,23 @@ function get_banners()
 	
 	$p_id = $extra_parent_id;
 	
-	$where = $p_id ? "FIND_IN_SET('$p_id', pages)" : 'defaultban=1';	
+	$where = $p_id ? "FIND_IN_SET('$p_id', pages)" : 'defaultban=1';
+
+	$query = "SELECT description$englang as description FROM ".TABLE_BANNER." WHERE $where AND public=1 ORDER BY RAND() LIMIT 1";
+
+//	echo $query;
+//	die;
 	
-	$sql = mysql_query("SELECT description$englang as description FROM ".TABLE_BANNER." WHERE $where AND public=1 ORDER BY RAND() LIMIT 1") 
-		or Error(1, __FILE__, __LINE__);
-		
-	if(!mysql_num_rows($sql))		
-		$sql = mysql_query("SELECT description FROM ".TABLE_BANNER." WHERE defaultban=1 AND public=1 ORDER BY RAND() LIMIT 1") 
-			or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
+
+	if(!mysql_num_rows($sql)){
+		$sql = mysql_query("SELECT description FROM ".TABLE_BANNER." WHERE defaultban=1 AND public=1 ORDER BY RAND() LIMIT 1")  or Error(1, __FILE__, __LINE__);
+	}
 	
 	$ban_arr = array();
 	$arr = @mysql_fetch_array($sql);
+
+
 	
 	return @$arr['description']; 
 }

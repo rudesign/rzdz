@@ -197,9 +197,11 @@ $(document).ready(function($){
 		  <div class="func_chh clearfix">
 		  <form action="<?=$lprefix?>/search/">
 		    <div class="search-string-wrapper">
+
                 <input type="text" class="search-string" name="word" size="3" value="<?php echo !empty($_GET['word']) ? urldecode($_GET['word']) : ''; ?>" placeholder="<?=$lang_phrases['search']?>" id="autocomplete_m"/>
                 <input type="image" src="/img/for_loop.png" class="send-btn" value="" name="send" />
             </div>
+              <!--
 		  	<div class="search-area-switcher">
 				<select name="how" style="height:20px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;">
 					<option value="1" <?php if(@$_GET['how'] == 1) echo ' selected'; ?>><?=$lang_phrases['search_site']?></option>
@@ -214,6 +216,7 @@ $(document).ready(function($){
 	            <input type="hidden" name="object_id" value="0">
                 <div class="clear"></div>
 		    </div>
+		    -->
             <div class="clear"></div>
 		  </form>		  		  		
 		  </div><!--func_chh-->
