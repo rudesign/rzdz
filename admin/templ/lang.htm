@@ -1,13 +1,24 @@
 <FORM method="post">
 <table>
-<tr><td>id</td><td>русский</td><td>английский</td></tr>
+	<tr>
+		<td>русский</td>
+		<td>английский</td>
+	</tr>
 <?foreach($list as $v){?>
-<tr>
-	<td><?=$v['field']?></td>
-	<td><input type="text" name="<?=$v['field']?>" value="<?=$v['name']?>"  size="50"></td>
-	<td><input type="text" name="<?=$v['field']?>_en" value="<?=$v['name_en']?>" maxlength="255" size="50"></td></tr>
+	<tr>
+		<td colspan="2">
+			<b><?=$v['field']?></b>
+		</td>
+	</tr>
+	<tr>
+		<td><input type="text" name="<?=$v['field']?>" value="<?=$v['name']?>"  size="50"></td>
+		<td><input type="text" name="<?=$v['field']?>_en" value="<?=$v['name_en']?>" maxlength="255" size="50"></td>
+	</tr>
 <?}?>
-<tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+<tr>
+	<td><input type="submit" name="save" value="Сохранить" class="button"></td>
+	<td></td>
+</tr>
 <input type="hidden" name="p" value="settings">
 </table>
 </FORM>

@@ -122,7 +122,7 @@ if($banner_id)
 		
 		$banner['defaultban_select'] = array_select('defaultban', array(0=>'Нет', 1=>'Да'), $banner['defaultban'], 0);		
 		
-		$sql_f = mysql_query("SELECT page_id, name FROM ".TABLE_PAGE." WHERE parent=0 AND page_id!=2 AND page_id!=3 ORDER BY ord") 
+		$sql_f = mysql_query("SELECT page_id, name FROM ".TABLE_PAGE." WHERE name != '' AND ((parent=0 AND page_id!=2 AND page_id!=3) OR (page_id = 226)) ORDER BY ord")
 			or Error(1, __FILE__, __LINE__);
 		$i = 0;
 		$all = (mysql_num_rows($sql_f)%3) ? (int)(mysql_num_rows($sql_f)/3)+1 : mysql_num_rows($sql_f)/3; 
