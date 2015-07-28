@@ -1,0 +1,547 @@
+
+
+<?if($subcure_id){?>
+        <div class="section clearfix">
+		
+            <div id="pdescription" style="width:auto">
+			
+			<?if($cure['cure_id']==1){?><?=$subcure['profile']?><?}else{?><?=$subcure['description']?><?}?>
+			
+			
+            <?if(count(@$tables)){?>
+			
+				<?foreach($tables as $k=>$v){?>
+				
+				<p>&nbsp;</p>
+				<p style="color: rgb(0, 140, 149);font-size: 18px;">
+				<?=$v['name']?>
+				</p>
+				<p>&nbsp;</p>
+				
+				<table class="zebra">
+					<?foreach($v['list'] as $k=>$v1){?>
+						<?if($v1['title'] && !$k){?>
+						<thead>						
+						<tr><td <?if(!$v1['name1']){?>colspan="2"<?}?>><span style="color: #159fa7;"><strong><?=$v1['name']?></strong></span></td>
+							<?if($v1['name1']){?><td><span style="color: #159fa7;"><strong><?=$v1['name1']?></strong></span></td><?}?></tr>
+						</thead>
+						<?}else{?>
+						<tr <?if($v1['title']){?>style="font-weight:bold"<?}?>><td><?=$v1['name']?></td>
+							<?if($v1['rowspan']!=1){?><td style="text-align:center" <?if($v1['rowspan']){?>rowspan="<?=$v1['rowspan']?>"<?}?>><?=$v1['name1']?></td><?}?>
+						</tr>
+						<?}?>
+					<?}?>
+				</table>
+				<p>&nbsp;</p>
+				
+				<?}?>
+				
+			<?}?>
+			
+		<?if($cure['type']==1 && count(@$subcure['subcure_list'])){?>
+			<p>&nbsp;</p>
+			<table class="zebra">
+				<?foreach($subcure['subcure_list'] as $k=>$v){?>
+					<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td>
+					</tr>
+				<?}?>
+			</table>
+			<p>&nbsp;</p>
+		<?}?>
+		
+			</div>
+        </div>
+
+        <?if(count($curehotel) && $cure['type']!=4 && !count(@$subcure['subcure_list'])){?>
+		<div class="medicine-sanatorium-services section">
+            <div class="title">
+                <?=$cure['inhotel']?>
+            </div>
+            <div class="grid">
+                <?foreach($curehotel as $v){?>
+                <div class="items">
+                    <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
+                    <!--<?=$v['name']?> <br /><?=$v['city']?> <br />--><?=$v['price']?>
+                </div>
+                <?}?>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+		<?}?>
+		
+			<?if($cure['cure_id']==1){?><?=$subcure['description']?><?}?>
+
+<?}elseif($cure_id){?>
+
+	<?if($cure['type']==1 || $cure['type']==4){?>
+        <!-- Profiles page -->
+		<?if(($cure['cure_id']==1 || $cure['cure_id']==90) && !$extrasite_id){?>
+
+            <style>
+                .cure-locator input,.cure-locator textarea{
+                    box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    -webkit-box-sizing: border-box;
+                }
+                .cure-locator a{
+                    color: #008c95;
+                }
+                .cure-locator .lc{
+                    float: left;
+                    width: 350px;
+                }
+                .cure-locator .alert{
+                    position: relative;
+                    padding: 14px 20px 15px;
+                    margin-bottom: 15px;
+                    background-color: #009745;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                    color: #fff;
+                }
+                .cure-locator .alert a{
+                    color: inherit;
+                }
+                .cure-locator .alert p{
+                    text-align: left;
+                }
+                .cure-locator .alert p.centered{
+                    text-align: center;
+                }
+                .cure-locator .alert .close{
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    width: 1.5em;
+                    height: 1.4em;
+                    padding-top: 0.1em;
+                    background: #fff;
+                    border-radius: 1.5em;
+                    font-size: 12px;
+                    line-height: 1em;
+                    text-align: center;
+                    color: #000;
+                    cursor: pointer;
+                }
+                .cure-locator .search-area{
+                    position: relative;
+                    margin-bottom: 15px;
+                }
+                .cure-locator .search-area ul{
+                    position: absolute;
+                    top: 30px;
+                    left: 10px;
+                    padding: 15px;
+                    background-color: #fff;
+                    box-shadow: 0 1px 3px 2px #bbb;
+                }
+                .cure-locator .search-area li{
+                    margin-bottom: 5px;
+                }
+                .cure-locator .search-area li:last-child{
+                    margin-bottom: 0;
+                }
+                .cure-locator .search-area input[type="text"]{
+                    width: 100%;
+                    padding: 8px;
+                    border: 1px solid #008c95;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                }
+                .cure-locator .search-area input[type="image"]{
+                    position: absolute;
+                    top: 2px;
+                    right: 4px;
+                }
+                .cure-locator .teaser{
+                    margin-bottom: 10px;
+                }
+                .cure-locator .found{
+                    max-height: 605px;
+                    overflow-y: auto;
+                }
+                .cure-locator .found li{
+                    padding: 4px 10px;
+                }
+                .cure-locator .found li:nth-child(2n){
+                    background-color: #eee;
+                }
+                .cure-locator .rc{
+                    float: right;
+                    width: 189px;
+                }
+            </style>
+            <script language="javascript">
+                $(document).ready(function(){
+                    $('#popup-link').click();
+
+                    var containers = $('.cure-locator .alert');
+                    var container = containers.eq(0);
+                    var container1 = containers.eq(1);
+
+                    if($.cookie("cureAlertClosed")) {
+                        //container.show();
+                    }else{
+                        //container1.show();
+                    }
+                });
+                function openCureAlert()
+                {
+                    var containers = $('.cure-locator .alert');
+                    var container = containers.eq(0);
+                    var container1 = containers.eq(1);
+
+                    $.cookie("cureAlertClosed", 0, { expires: 1 });
+
+                    container.slideUp('fast');
+                    container1.slideDown('fast');
+                }
+
+                function closeCureAlert()
+                {
+                    var containers = $('.cure-locator .alert');
+                    var container = containers.eq(0);
+                    var container1 = containers.eq(1);
+
+                    $.cookie("cureAlertClosed", 1, { expires: 1 });
+
+                    container.slideDown('fast');
+                    container1.slideUp('fast');
+                }
+            </script>
+            <div class="cure-locator clearfix">
+                <a id="popup-link" href="/cure_alert.php" class="fancybox"></a>
+                <div class="alert">
+                    <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
+                    <p>&nbsp;</p>
+                    <p><?php
+                        $limit = 180;
+                        $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
+                        $limited = explode(' ', $limited);
+                        array_pop($limited);
+                        echo implode(' ', $limited).'...';
+                     ?><a href="/medicine/14" target="_blank"><b>далее</b></a></p>
+                    <p>&nbsp;</p>
+                    <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
+                </div>
+			</div>
+			
+			<?if($cure['cure_id'] == 90){?>
+            <div class="cure-locator clearfix">
+                <div class="search-area">
+                    <!--ul>
+                        <li><a href="">При наборе: Результат поиска 1</a></li>
+                        <li><a href="">При наборе: Результат поиска 2</a></li>
+                        <li><a href="">При наборе: Результат поиска 3</a></li>
+                    </ul-->
+                    <form action="" method="get">
+                        <input type="image" src="/img/for_loop.png">
+                        <input name="" type="text" />
+                    </form>
+                </div>
+            </div>
+			<?}?>
+
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div>
+		
+		<div class="plofiles-list" style="width:100%; margin-top:20px">
+            <ul>
+                <?foreach($cure_list as $k=>$v){?>
+				<li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
+				<?}?>
+            </ul>
+        </div>
+		
+		
+		<?}else{?>
+		
+		<?if($cure['type']==4 || $cure['type']==1){?><div id="pdescription" style="width:auto"><?=$cure['description']?>
+		
+			<?if($cure_id==14){?>
+			<div class="clear" style="margin-bottom:20px"></div>
+			<ul class="contraindications">
+				<?foreach($cure['att_list'] as $v){?>
+				<li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>				
+				<?}?>
+			</ul>
+	
+			
+			<?}?>
+		
+		</div>
+		<div class="clear" style="margin-bottom:20px"></div><?}?>
+		
+		<?if($cure['type']==4 && !$cure['description']){?>
+			  <ul class="news_list clearfix">
+			    <?foreach($cure_list as $k=>$v){?>
+				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
+				  <div  class="news_block clearfix">
+					<div class="left_news ld"> 
+					  <?if($v['photo']){?><img width="170" src="<?=$v['photo']?>" /> 
+					  <?}else{?><div style="width:170px; height:86px;"></div><?}?>
+					  
+					</div><!--left_news-->
+					<div class="right_news">
+					  <a class="title_news" <?if($cure['type']==4){?>href="javascript://" onclick="var obj = document.getElementById('descr<?=$v['cure_id']?>'); obj.style.display = obj.style.display=='none' ? '' : 'none'"<?}else{?>href="<?=$v['url']?>"<?}?>><?=$v['name']?></a>  
+					  
+					  <!--p class="more_news"><br /><?=$lang_phrases['more']?></p-->
+					</div><!--right_news-->				
+				  </div><!--news_block-->	
+				  <div style="margin: 20px 20px 0 20px;display:none" id="descr<?=$v['cure_id']?>"><?=$v['description']?></div>			  
+				</li>
+				<?}?>
+			  </ul><!--news_list-->
+		
+        <!-- Cure progs list -->
+
+
+        <?}elseif($cure['type']!=4 && $cure['cure_id']!=14){?>
+            <div class="cure-progs">
+                <?foreach($cure_list as $k=>$v){?>
+                <div class="items">
+                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a><?if(@$v['price']){?><br /><?=$v['price']?><?}?></div>
+                    <div class="teaser"><?=$v['teaser']?>
+					<?foreach($v['podrazdel'] as $k=>$v1){?><br /><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}?>
+					</div>
+                </div>
+                <?}?>
+            </div>
+        <?}?>
+		<?}?>
+		
+		
+	<?}elseif($cure['type']==2 && !@$curestr_id){?>
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div>
+		
+		<?if($pdf){?>
+		<table class="zebra1">
+			<thead>
+			<tr><td><strong><span style="color: #159fa7;">Стоимость медицинских услуг</span></strong></td></tr>
+			</thead>
+			<tr><td><a href="<?=$pdf?>" target="_blank">Скачать файл</a></td></tr>
+		</table>
+		
+		<?}elseif($extrasite_id){?>
+		
+		<?foreach($cure_list as $k=>$v){?>
+		<table class="zebra1">
+			<thead>
+			<tr><td><strong><span style="color: #159fa7;"><?=$v['name']?></span></strong></td>
+			<td width="108"><div align="center"><strong><?=$lang_phrases['price']?></strong></div></td></tr>
+			</thead>
+			<?foreach($v['list'] as $v1){?>
+			<tr><td colspan="2"><strong><?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
+					<?}else{?><?=$v1['name']?><?}?></strong></td></tr>
+				<?foreach($v1['uslugi'] as $v2){?>
+			<tr <?if(@$v2['title']){?>style="font-weight:bold"<?}?> <?if($v2['sel']){?>class="sel"<?}?>>
+				<td style="padding-left:<?if(@$v2['tab']){?>0<?}else{?>0<?}?>px;<?if($v2['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v2['title']){?>font-weight:bold;<?}?>" 
+					<?if($v2['sel']){?>id="pr<?if(@$v2['table_id']) echo $v2['table_id']; else echo $v2['cure_id'];?>"<?}?>>
+					<?if($v2['url']){?><a href="<?=$v2['url']?>"><?=$v2['name']?></a><?}else{?><?=$v2['name']?><?}?></td>
+				<td width="108"<?if($v2['sel']){?> style="background-color:#159fa7!important;color:#FFFFFF!important;"<?}?>>
+					<div align="center"><strong><?=$v2['price']?></strong></div></td>
+			</tr>
+				<?}?>
+			<?}?>
+			<?foreach($v['uslugi'] as $v1){?>
+			<tr <?if($v1['sel']){?>class="sel"<?}?> <?if(@$v1['title']){?>style="font-weight:bold"<?}?>>
+				<td style="padding-left:<?if(@$v1['tab']){?>0<?}elseif(!count($v['list'])){?>0<?}else{?>0<?}?>px;<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?><?if(@$v1['title']){?>font-weight:bold;<?}?>" 
+					<?if($v1['sel']){?>id="pr<?if(@$v1['table_id']) echo $v1['table_id']; else echo $v1['cure_id'];?>"<?}?> >
+					<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}else{?><?=$v1['name']?><?}?></td>
+				<td width="108" style="<?if($v1['sel']){?>background-color:#159fa7!important;color:#FFFFFF!important;<?}?>"><div align="center"><strong><?=$v1['price']?></strong></div></td>
+			</tr>
+			<?}?>
+		</table><p>&nbsp;</p>
+		<?}?>
+		<?if($sid){?>
+		<div id="prlink" style="position:absolute;top:0;left:0;"><a name="price"></a></div>
+		<script language="javascript">
+		var pos = GetPos('pr<?=$sid?>');
+		var prtop = pos.top - 900;	
+		document.getElementById('prlink').style.top = prtop+'px';		
+		</script>
+		<?}?>
+			
+		
+		<?}else{?>
+		
+		<script language="javascript">
+		var CureList = new Array();
+        <?$i=0;foreach($cure_list as $k=>$v){?>
+            <?if(count($v['uslugi']) || count($v['list'])){?>		CureList[<?=$i?>] = <?=$v['curestr_id']?>;
+            <?$i++;}?>
+            <?foreach($v['list'] as $v1){?>
+            <?if(count($v1['uslugi'])){?>		CureList[<?=$i?>] = <?=$v1['curestr_id']?>;
+            <?$i++;}?>
+            <?}?>
+        <?}?>
+		</script>
+		 <?if($showall){?><p>&nbsp;</p>
+		 <?}else{?>
+		<div align="right" style="margin-bottom:5px" id="raskr"><a href="javascript:ShowAllCureList(1)">Раскрыть все</a></div>	
+		<div align="right" style="margin-bottom:5px; display:none" id="skr"><a href="javascript:ShowAllCureList(0)" id="raskr">Скрыть все</a></div>
+		<?}?>
+		<?foreach($cure_list as $k=>$v){?>
+		<ul class="drevo">
+			<li class="top">
+				<?if(count($v['uslugi']) || count($v['list'])){?><a href="javascript:ShowCureList(<?=$v['curestr_id']?>)"><?=$v['name']?></a>
+				<?}else{?><a href="<?=$v['url']?>"><?=$v['name']?></a><?}?>
+			</li>
+			<?if(count($v['list'])){?>
+			<ul id="l<?=$v['curestr_id']?>" <?if(!$showall){?>style="display:none"<?}?>>
+			<?foreach($v['list'] as $v1){?>
+			<li <?if(count($v['list']) || count($v['uslugi'])){?>style="font-weight:bold;"<?}?>> 
+				<?if($v1['url']){?><a href="<?=$v1['url']?>"><?=$v1['name']?></a>
+				<?}elseif(count($v1['uslugi'])){?><a href="javascript:ShowCureList(<?=$v1['curestr_id']?>)"><?=$v1['name']?></a>
+				<?}else{?><?=$v1['name']?><?}?>
+			</li>	
+				<?if(count($v1['uslugi'])){?>
+			<ul id="u<?=$v1['curestr_id']?>" <?if(!$showall){?>style="display:none"<?}?>>
+				<?foreach($v1['uslugi'] as $v2){?>
+			<li><a href="<?=$v2['url']?>"><?=$v2['name']?></a></li>
+				<?}?>
+			</ul>
+				<?}?>
+			
+			<?}?>
+			</ul>
+			<?}?>
+			<?if(count($v['uslugi'])){?>
+			<ul id="u<?=$v['curestr_id']?>"  <?if(!$showall){?>style="display:none"<?}?>>
+			<?foreach($v['uslugi'] as $i=>$v1){?>
+			<li <?if(count($v['list'])){?>style="font-weight:bold;"<?}?>><a href="<?=$v1['url']?>"><?=$v1['name']?></a></li>
+			<?}?>
+			</ul>
+			<?}?>
+		</ul><p>&nbsp;</p>
+		<?}?>
+			
+		
+		<?}?>
+			
+		
+				
+	<?}elseif($cure['type']==3 || ($cure['type']==2 && @$curestr_id)){?>		
+		
+		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
+		<div class="clear"></div>
+		<p>&nbsp;</p>
+		
+		<?if($cure['cure_id']==8 && !$extrasite_id && @count($curestr)){?>	
+            <div class="medicine-main-grid">
+                <?foreach($curestr as $k=>$v){?>
+				<div class="items" style="background-image:url(<?=$v['photo']?>)">
+                    <div class="title"><a href="<?=$v['link']?>"><?=$v['name']?></a></div>
+                </div>
+				<?}?>
+            </div>	
+			<p>&nbsp;</p>
+		<?}?>
+		
+        <?if(@count($curehotel)){?>
+		<div class="medicine-sanatorium-services section">
+            <div class="title">
+                <?=$cure['inhotel']?>
+            </div>
+            <div class="grid">
+                <?foreach($curehotel as $v){?>
+                <div class="items">
+                    <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
+                    <!--<?=$v['name']?> <br /><?=$v['city']?> -->
+                </div>
+                <?}?>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+		<?}?>
+		
+		<?if($extrasite_id && @count($cure_list)){?>
+		<table class="zebra">
+			<?foreach($cure_list as $k=>$v){?>
+			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td></tr>
+			<?}?>
+			
+		</table>
+		<p>&nbsp;</p>
+		<?}?>
+		
+	<?}elseif($cure['type']==5){?>
+			  <ul class="news_list clearfix">
+			    <?foreach($list as $k=>$v){?>
+				<li <?if(!(($k+1)%2)){?>class="for_gr"<?}?>>
+				  <a href="<?=$v['link']?>" class="news_block clearfix">
+					<div class="left_news ld">
+					  <p class="date_news"><?=$v['date']?></p>    
+					  <?if($v['photo']){?><img width="170" src="<?=$v['photo']?>" /> 
+					  <?}else{?><div style="width:170px; height:90px;"></div><?}?>
+					  
+					</div><!--left_news-->
+					<div class="right_news">
+					  <p class="title_news"><?=$v['name']?></p>  
+					  <p><?=$v['descr']?></p>
+					  <p class="more_news"><?=$lang_phrases['more']?></p>
+					</div><!--right_news-->				
+				  </a><!--news_block-->				  
+				</li>
+				<?}?>
+			  </ul><!--news_list-->
+			
+		 <?=$pages?>
+	<?}elseif($cure['type']==7){?>
+
+		<?if($extrasite_id){?>
+		<div id="pdescription"><?=$cure['description']?></div>
+		 <?if($cure['pdf_photo']){?>
+		 <a href="<?=$cure['pdf_link']?>"><img src="<?=$cure['pdf_photo']?>" /></a>
+			<?if($cure['license_link']){?>
+			<div class="download"><a href="<?=$cure['license_link']?>" style="width:163px"><span>Скачать</span></a></div>
+			<?}?>
+		<?}?>
+		<?}else{?>
+		<div id="pdescription"><?=$cure['description']?></div>
+			<div class="medicine-sanatorium-services section">
+                <div class="grid">
+                    <?foreach($curehotel as $v){?>
+					<div class="items" style="height:365px">
+                        <a href="<?=$v['page_link']?>">
+							<img src="<?=$v['photo_logo']?>" />
+							<?if($v['photo_license']){?><img src="<?=$v['photo_license']?>" height="223" width="163" />
+							<?}else{?><!--<?=$v['name']?> <br /><?=$v['city']?> --><?}?>
+						</a>
+						<?if($v['license_link']){?>
+						<div class="download"><a href="<?=$v['license_link']?>" style="width:100%"><span>Скачать</span></a></div>
+						<?}?>
+                    </div>
+					<?}?>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+		<?}?>
+    <?}else{?>
+
+    <?}?>
+<?}else{?>
+		<?if($extrasite_id){?>
+		<p style="color: #008C95;"><b><?=$lang_phrases['cureprofile']?></b></p>
+		<table class="zebra">
+			<?foreach($cure_list as $k=>$v){?>
+			<tr><td><a href="<?=$v['url']?>"><?=$v['name']?></a></td></tr>
+			<?}?>
+			
+		</table>
+		<p>&nbsp;</p>
+		<?}?>
+		
+            <div class="medicine-main-grid">
+                <?foreach($blocks as $k=>$v){?>
+				<div class="items" style="background-image:url(<?=$v['photo']?>)">
+                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a></div>
+                </div>
+				<?}?>
+            </div>	
+<?}?>
+  
+	 

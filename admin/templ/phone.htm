@@ -1,0 +1,26 @@
+
+<?if(count($list)){?>
+<p><b>База телефонов</b></p>
+<table border="1" style="border-collapse: collapse;" cellpadding="2" width="400">
+<tr align="center">
+	<td>№</td>
+	<td>Имя</td>
+	<td>Телефон</td>
+	<td>&nbsp;</td>
+</tr>
+
+<?foreach($list as $v){?>
+<tr align="center" >
+	<td width="20" valign=center><?=$v['i']?></td>
+	<td valign=center><?=$v['name']?></td>
+	<td valign=center><?=$v['phone']?></td>
+	<td><a href="<?=$v['del_link']?>"  onclick="return delete_confirm('телефон');"><img src="images/del.gif" border="0" alt="Удалить"></a></td>
+</tr>
+<?}?>
+</table>
+<?}?>
+<p>Всего адресов: <b><?=$all?></b> &nbsp;&nbsp; 
+ <?=$pages?></p>
+</td>
+</tr>
+</table>

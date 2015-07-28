@@ -1,0 +1,41 @@
+<p><b>Лечение</b></p>
+<P><a href="?p=site&addcure=0">Добавить раздел ›››</a></P>
+<?if(count($cures)){?>
+<table border="1" style="border-collapse: collapse;" cellpadding="4">
+<tr align="center">
+	<td>№</td>
+	<td>Название</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+<?foreach($cures as $v){?>
+<FORM method="post" enctype="multipart/form-data">
+<tr align="center" class="maincure">
+	<td width="20"><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
+	<td><input type="text" name="name" value="<?=$v['name']?>" size="50" maxlength="255"></td>
+	<td><input type="submit" name="savecure" value="Сохранить" class="button"></td>
+	<td><input type="submit" name="delcure" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
+</tr>
+<input type="hidden" name="cure_id" value="<?=$v['cure_id']?>">
+<input type="hidden" name="p" value="site">
+</FORM>
+<tr>
+	<td></td>
+	<td colspan="3"><a href="?p=site&addcure=<?=$v['cure_id']?>">Добавить подраздел ›››</a></td>
+</tr>
+<?foreach($v['list'] as $v1){?>
+<FORM method="post" enctype="multipart/form-data">
+<tr align="center">
+	<td></td>
+	<td><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
+		<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
+	<td><input type="submit" name="savecure" value="Сохранить" class="button"></td>
+	<td><input type="submit" name="delcure" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>
+</tr>
+<input type="hidden" name="cure_id" value="<?=$v1['cure_id']?>">
+<input type="hidden" name="p" value="site">
+</FORM>
+<?}?>
+<?}?>
+</table>
+<?}?>

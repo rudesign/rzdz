@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<title>Опрос</title>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<table align="center" style="margin-top:50px"><tr><td>
+
+<p align="center"><b><?=$quest_name?></b></p>
+
+			<?if($sendorder){?>
+			<p class="o_mess"><strong>Ваше сообщение принято и будет обработано в ближайшее время.</strong></p>
+			<?}else{?>
+	   
+			<?if($err){?>
+			<p class="o_error">Обратите внимание на выделенные поля, они заполнены неверно!</p>
+			<?}?>
+			
+			<form name="fls" method="post" action="<?=$order_url?>" class="all-forms"> 
+              <table class="all-form-table"  >
+			<?foreach($fields as $v){?>	
+			<tr> 
+				<td width="100" align="right" style="width:200px; vertical-align:top" <?if($v['err']){?>class="failed"<?}?>>
+				<?if($v['name']){?><?=$v['name']?><?if($v['checkfield']){?><span>*</span><?}?><?}?></td>
+                        
+				<td   >
+				<?if($v['type']==0){?><input  type="text" name="value_<?=$v['field_id']?>" value="<?=$v['value']?>"  >
+				<?}elseif($v['type']==1){?><textarea name="value_<?=$v['field_id']?>" rows="10" ><?=$v['value']?></textarea>
+				<?}elseif($v['type']==2){?><select name="value_<?=$v['field_id']?>">
+					<?=$v['value']?></select>
+				<?}elseif($v['type']==3){?>
+				   <SCRIPT language=JavaScript>
+						<!--
+							// класс LSCalendar должен присутствовать в системе, массив LSCalendars объявлен
+							LSCalendars["value_<?=$v['field_id']?>"]=new LSCalendar();
+							LSCalendars["value_<?=$v['field_id']?>"].SetFormat("dd.mm.yy");
+						//-->
+					</SCRIPT>
+				<input type="text" name="value_<?=$v['field_id']?>" value="<?=$v['value']?>" style="width:120px"  > 
+										<input type="button" name=""  value=">>" class="butt"
+										onclick="setCalendarDateByStr('value_<?=$v['field_id']?>', fls.value_<?=$v['field_id']?>.value); showCalendarForElement('value_<?=$v['field_id']?>', event); return false;">
+										<DIV id=value_<?=$v['field_id']?>Ptr style="WIDTH: 1px; HEIGHT: 1px"><SPACER height="1" 
+									      width="1" type="block" /></DIV>
+				<?}elseif($v['type']==4){?>
+					<table><tr><td>
+					<?foreach($v['value'] as $ch){?>
+				    <input type="checkbox" id="value_<?=$v['field_id']?>_<?=$ch['i']?>"
+					 name="value_<?=$v['field_id']?>[<?=$ch['i']?>]" 
+					 value="1" <?=$ch['checked']?>> <?=$ch['name']?><br>
+				    <?}?>
+					</td></tr></table>
+				<?}elseif($v['type']==5){?><select name="value_<?=$v['field_id']?>">
+					<?=$v['value']?></select>
+					
+				<?}?>
+				</td>
+			</tr>
+			<?}?>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="<?=$button?>" id="send" class="e-grad-butt"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="mode" value="send">
+		<input type="hidden" name="oid" value="<?=$oid?>">
+		<input type="hidden" name="qid" value="<?=$qid?>">
+		</form>
+		<?}?>
+		
+<p>* Поля, помеченные звездочкой, обязательны для заполнения</p>
+</td></tr></table>
+			
+</body>
+</html>

@@ -1,0 +1,158 @@
+<script language="javascript" src="/js/rateit/jquery.rateit.min.js"></script>
+<script language="JavaScript">
+    $(document).ready(function(){
+        var sets = $('.rateit');
+
+        sets.on('click', function(){
+            alert('Набор ' + $(this).parent().index() + ': оценка ' + $(this).rateit('value'));
+        });
+
+        LSCalendars["date_from"]=new LSCalendar();
+        LSCalendars["date_from"].SetFormat("dd.mm.yyyy");
+        LSCalendars["date_to"]=new LSCalendar();
+        LSCalendars["date_to"].SetFormat("dd.mm.yyyy");
+    });
+</script>
+
+<link rel="stylesheet" href="/js/rateit/rateit.css" type="text/css" media="screen" />
+<style>
+    .poll .userdata{
+        padding: 14px;
+        background-color: #008c95;
+        color: #fff;
+        border-radius: 7px;
+        -moz-border-radius: 7px;
+        -webkit-border-radius: 7px;
+    }
+    .poll .userdata .row{
+        margin-bottom: 10px;
+    }
+    .poll .userdata .row:last-child{
+        margin-bottom: 0;
+    }
+    .poll .userdata .datepicker{
+        background: url("../img/for_date_fixed_1.png") 100% 50% no-repeat;
+    }
+    .poll .userdata input,
+    .poll .userdata select,
+    .poll .userdata textarea {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+
+    }
+    .poll .userdata input[type="text"]{
+        width: 100%;
+        border: 1px solid #008c95;
+        padding: 7px;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        background-color: #fff;
+    }
+    .poll .userdata .title{
+        margin-bottom: 3px;
+    }
+    .poll .rate{
+        margin-top: 20px;
+    }
+    .poll .rate .row{
+        padding: 5px;
+    }
+    .poll .rate .row:nth-child(2n){
+        background-color: #ebebeb;
+    }
+    .poll .rate .row > div{
+        float: left;
+    }
+    .poll .rate .row > div:first-child{
+        padding: 5px 10px;
+        color: #008c95;
+    }
+    .poll .rate .row > div:last-child{
+        float: right;
+    }
+    .poll .rateit{
+        height: 28px;
+    }
+    .poll .bigstars .rateit-range {
+        background: url(js/rateit/star_green.png);
+        cursor: pointer;
+    }
+
+    .poll .bigstars .rateit-hover {
+        background: url(js/rateit/star_green_active.png);
+    }
+
+    .poll .bigstars .rateit-selected {
+        background: url(js/rateit/star_green_active.png);
+    }
+    .poll button{
+        padding: 7px 45px 7px 15px;
+        margin-top: 30px;
+        border: none;
+        border-bottom: 1px #bbb solid;
+        background: #e0e0e0 url("../img/rarr.png") 82% 50% no-repeat;
+        color: #008c95;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: 1.15em;
+        cursor: pointer;
+        border-radius: 30px;
+        -moz-border-radius: 30px;
+        -webkit-border-radius: 30px;
+    }
+    .poll button:hover{
+        background-color: #008c95;
+        background-image: url("../img/rarrWhite.png");
+        color: #fff;
+    }
+</style>
+
+<div class="poll">
+    <form method="post" id="poll">
+        <div class="userdata">
+            <div class="row clearfix">
+                <div class="title">Ф.И.О</div>
+                <input name="" placeholder="Фамилия" type="text" style="display:inline-block; float: left; width: 32%; margin-right: 2%; " />
+                <input name="" placeholder="Имя" type="text" style="display:inline-block; float: left; width: 32%; margin-right: 2%;" />
+                <input name="" placeholder="Отчество" type="text" style="display:inline-block; float: left; width: 32%;" />
+            </div>
+            <div class="row clearfix">
+                <div class="title">Номер комнаты</div>
+                <input name="" type="text" style="display:inline-block; float: left; width: 32%; " />
+            </div>
+            <div class="row clearfix">
+                <div class="title">Даты проживания</div>
+                <div style="display:inline-block; float: left; width: 32%; margin-right: 2%; ">
+                    <div id=date_fromPtr></div>
+                    <input name="date_from" class="datepicker" placeholder="с" onclick="setCalendarDateByStr('date_from', poll.date_from.value); showCalendarForElement('date_from', event); return false;" type="text" />
+                </div>
+                <div style="display:inline-block; float: left; width: 32%; ">
+                    <div id=date_toPtr></div>
+                    <input name="date_to" class="datepicker" placeholder="по" onclick="setCalendarDateByStr('date_from', poll.date_to.value); showCalendarForElement('date_to', event); return false;" type="text" />
+
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="title">E-mail</div>
+                <input name="" type="text" style="display:inline-block; float: left; width: 49%; " />
+            </div>
+            <div class="row clearfix">
+                <div class="title">Мобильный телефон</div>
+                <input name="" type="text" style="display:inline-block; float: left; width: 49%; " />
+            </div>
+        </div>
+        <div class="rate">
+            <div class="row clearfix">
+                <div>Как Вы оцениваете пребывание у нас?</div>
+                <div class="rateit bigstars" data-rateit-resetable="false" data-rateit-starwidth="28" data-rateit-starheight="28"></div>
+            </div>
+            <div class="row clearfix">
+                <div>Понравилось ли?</div>
+                <div class="rateit bigstars" data-rateit-resetable="false" data-rateit-starwidth="28" data-rateit-starheight="28"></div>
+            </div>
+        </div>
+        <button onclick="return false;">Отправить</button>
+    </form>
+</div>

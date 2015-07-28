@@ -1,0 +1,303 @@
+<?if(!$subcure_id){?>
+
+<?if(!@$service){?>
+<form name="edit-form" method="post" enctype="multipart/form-data">
+<table><tr><td>
+	<table cellpadding="2">
+	<tr><td>Отображать на сайте? </td><td><?=$public_select?></td></tr>
+	<tr><td>Тип раздела</td><td><?=$type_select?></td></tr>
+	<?if($partof_select){?><tr><td>Часть раздела</td><td><?=$partof_select?></td></tr><?}?>
+	<tr><td>Название: </td><td><input type="text" name="name" value="<?=$name?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$name_en?>" maxlength="255" size="50"></td></tr>
+	<?if($type<3 || $cure_id==5 || $cure_id==8){?><tr><td>Заголовок для санаториев: </td><td><input type="text" name="inhotel" value="<?=$inhotel?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Заголовок для санаториев eng: </td><td><input type="text" name="inhotel_en" value="<?=$inhotel_en?>" maxlength="255" size="50"></td></tr><?}?>
+	<tr><td>Порядок отображения</td><td><?=$ord_select?></td></tr>
+    <?if(!$partof){?><tr><td>отображать на главной<br /> сайтов-спутников: </td><td><input type="checkbox" name="inmenu" value="1" <?if($inmenu){?>checked="checked"<?}?>></td></tr>
+	<tr><td>Название для спутников: </td><td><input type="text" name="name_extra" value="<?=$name_extra?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название для спутников eng: </td><td><input type="text" name="name_extra_en" value="<?=$name_extra_en?>" maxlength="255" size="50"></td></tr>
+	
+	<?}?>
+	<?if($type==4 || $cure_id==5 || $cure_id==8){?><tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$description?></textarea> </td></tr>
+	<tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$description_en?></textarea> </td></tr><?}?>
+	
+	<?if($cure_id==5 || $cure_id==8){?><tr><td>Санатории:</td><td>
+	<table>
+	<tr><td>Наличие</td></tr>
+	<?foreach($page_box as $k=>$v){?>
+		<tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
+		<input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+		</td>
+		</tr>
+	<?}?>
+	</table>
+	</td></tr>
+	<?}?>
+	
+    </table>
+</td>
+<?if(!$partof){?><td style="padding-left:20px">
+    <p>Картинка для главной<br />
+    <?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
+    <a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+    <?}else{?>(размер 262px * 144px)<br /><input type="file" name="photo" size="5"><?}?>
+    </p>
+</td><?}?>
+</tr>
+    <tr><td align="right"><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+</table>
+    <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+    <input type="hidden" name="p" value="cure">
+</form>
+<?}?>
+
+<?if($type==2){?>
+	<?if($service){?>
+	
+	<p><a href="?p=cure&cure_id=<?=$cure_id?>">Структура</a> &nbsp;&nbsp; <b>Услуги</b></p>
+	<p>Выберите раздел: <?=$curestr_select?>
+		<?if($curestr_id){?> &nbsp;&nbsp;<a href="?p=cure&addcure=<?=$cure_id?>&curestr_id=<?=$curestr_id?>">Добавить услугу ›››</a>
+		<!--br />
+		<form method="post">
+		<?=$san_select?><br />
+		<textarea name="text" cols="50" rows="5"></textarea><br />
+		<input type="submit" name="loadcure" value="Добавить" class="button">
+    <input type="hidden" name="curestr_id" value="<?=$curestr_id?>">
+    <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+    <input type="hidden" name="p" value="cure">
+		</form-->
+		<?}?>
+	</p>
+	
+		
+		<?foreach($cure_list as $v){?>
+			<p <?if($v['inmenu']){?>style="font-weight:bold"<?}?>>
+				<a href="<?=$v['inmenu_link']?>" title="<?=$v['inmenu_alt']?>"><img src="images/<?if(!$v['inmenu']){?>n<?}?>gal.png" border="0"></a>
+				<a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
+	
+				<?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+				<?}else{?><font class="hid"><?=$v['icount']?></font><?}?>
+			</p>
+		<?}?>
+	
+		
+	<?}else{?>
+	
+	<p><b>Структура</b> &nbsp;&nbsp; <a href="?p=cure&service&cure_id=<?=$cure_id?>"><strong>Услуги</strong></a></p>
+	<P><a href="?p=cure&addcurestr=0&cure_id=<?=$cure_id?>">Добавить раздел ›››</a></P>
+	<?if(count($curestrs)){?>
+	<table border="1" style="border-collapse: collapse;" cellpadding="4">
+	<tr align="center">
+		<td>№</td>
+		<td>Название</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<?foreach($curestrs as $v){?>
+	<FORM method="post" enctype="multipart/form-data">
+	<tr align="center" class="maincure">
+		<td width="20"><a name="link<?=$v['curestr_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
+		<td><input type="text" name="name" value="<?=$v['name']?>" size="50" maxlength="255"></td>
+		<td><input type="submit" name="savecurestr" value="Сохранить" class="button"></td>
+		<td><input type="submit" name="delcurestr" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
+	</tr>
+	<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+	<input type="hidden" name="curestr_id" value="<?=$v['curestr_id']?>">
+	<input type="hidden" name="p" value="cure">
+	</FORM>
+	<tr>
+		<td></td>
+		<td colspan="3"><a href="?p=cure&addcurestr=<?=$v['curestr_id']?>&cure_id=<?=$cure_id?>">Добавить подраздел ›››</a></td>
+	</tr>
+	<?foreach($v['list'] as $v1){?>
+	<FORM method="post" enctype="multipart/form-data">
+	<tr align="center">
+		<td></td>
+		<td><a name="link<?=$v1['curestr_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
+			<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
+		<td><input type="submit" name="savecurestr" value="Сохранить" class="button"></td>
+		<td><input type="submit" name="delcurestr" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>
+	</tr>
+	<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+	<input type="hidden" name="curestr_id" value="<?=$v1['curestr_id']?>">
+	<input type="hidden" name="p" value="cure">
+	</FORM>
+	<?}?>
+	<?}?>
+	</table>
+	<P><a href="?p=cure&addcurestr=0&cure_id=<?=$cure_id?>">Добавить раздел ›››</a></P>
+	<p>&nbsp;</p>
+	<?}?>
+	<?}?>
+<?}elseif($type==1 || $type==4 || $type==7){?>
+<P><a href="?p=cure&addcure=<?=$cure_id?>">Добавить подраздел ›››</a></P>
+    <table cellpadding="2" border="0">
+    <tr><td>
+    <?foreach($cure_list as $v){?>
+        <?if($v['title']){?><p><strong><?=$v['title']?></strong></p><?}?>
+		<p>
+            <a href="<?=$v['edit_link']?>" <?if($subcure_id==$v['cure_id']){?>style="font-weight: bold;"<?}?>><?=$v['name']?></a>
+
+            <?if($v['del_link']){?><a href="<?=$v['del_link']?>" onclick="return delete_confirm('раздел \'<?=$v['name']?>\'');"><img src="images/del.gif" border="0"></a>
+            <?}else{?><font class="hid"><?=$v['icount']?></font><?}?>
+        </p>
+    <?}?>
+    </td></tr>
+    </table>
+	<p>&nbsp;</p>
+<?}?>
+<?}else{?>
+<P><a href="<?=$subcure['list_link']?>">к списку разделов</a>
+<?if(@$descr){?>&nbsp;&nbsp; <a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>">к описанию услуги <?=$subcure['name']?></a>
+&nbsp;&nbsp; <strong><?=$subcure['pname']?></strong>
+<?}?>
+</P>
+    <?if(@$descr){?>
+<form name="edit-form" method="post">
+    <table cellpadding="2">
+
+	<tr><td>Название для прайса (заполнять поле,<br /> если отличается от названия услуги): </td>
+		<td><input type="text" name="name" value="<?=$subcure['prname']?>" maxlength="255" size="50"></td></tr>
+	<tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['prname_en']?>" maxlength="255" size="50"></td></tr>
+    <tr><td>Цена для филиала: </td><td><input type="text" name="price" value="<?=$subcure['price']?>" maxlength="255" size="50"></td></tr>
+    <tr><td>Цена для филиала eng: </td><td><input type="text" name="price_en" value="<?=$subcure['price_en']?>" maxlength="255" size="50"></td></tr>
+    <tr><td>Цена для основного сайта: </td><td><input type="text" name="price1" value="<?=$subcure['price1']?>" maxlength="255" size="50"></td></tr>
+    <tr><td>Цена для основного сайта eng: </td><td><input type="text" name="price1_en" value="<?=$subcure['price1_en']?>" maxlength="255" size="50"></td></tr>
+        <tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$subcure['description']?></textarea> 
+        </td></tr>
+        <tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$subcure['description_en']?></textarea>
+        </td></tr>
+        <tr><td></td><td><input type="submit" name="savedescr" value="Сохранить" class="button"></td></tr>
+        </table>
+        <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+        <input type="hidden" name="subcure_id" value="<?=$subcure_id?>">
+        <input type="hidden" name="page_id" value="<?=$subcure['page_id']?>">
+        <input type="hidden" name="p" value="cure">
+        </form>
+		
+		<p>&nbsp;<br /><b>Таблицы</b></p>
+		
+		<P><a href="?p=cure&addtable=0&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить таблицу ›››</a></P>
+		<?if(count($tables)){?>
+		<table border="1" style="border-collapse: collapse;" cellpadding="4">
+		<tr align="center">
+			<td>№</td>
+			<td colspan="2">Название</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<?foreach($tables as $v){?>
+		<FORM method="post" enctype="multipart/form-data">
+		<tr align="center" class="maincure">
+			<td width="20"><a name="link<?=$v['table_id']?>"></a><input type="text" name="ord" value="<?=$v['ord']?>" maxlength="7" style="width: 35px;"></td>
+			<td colspan="2"><input type="text" name="name" value="<?=$v['name']?>" size="100" maxlength="255"></td>
+			<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
+			<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('раздел');"></td>
+		</tr>
+		<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+		<input type="hidden" name="subcure_id" value="<?=$subcure_id?>">
+		<input type="hidden" name="page_id" value="<?=$descr?>">
+		<input type="hidden" name="table_id" value="<?=$v['table_id']?>">
+		<input type="hidden" name="p" value="cure">
+		</FORM>
+		<tr>
+			<td>Заголовок</td>
+			<td colspan="4"><a href="?p=cure&addtable=<?=$v['table_id']?>&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&page_id=<?=$descr?>">Добавить строку ›››</a></td>
+		</tr>
+		<?foreach($v['list'] as $v1){?>
+		<FORM method="post" enctype="multipart/form-data">
+		<tr align="center">
+			<td><input type="checkbox" name="title" value="1" <?if($v1['title']){?>checked="checked"<?}?> /></td>
+			<td><a name="link<?=$v1['table_id']?>"></a><input type="text" name="ord" value="<?=$v1['ord']?>" maxlength="7" style="width: 35px;">
+				<input type="text" name="name" value="<?=$v1['name']?>" size="42" maxlength="255"></td>
+			<td><input type="text" name="name1" value="<?=$v1['name1']?>" size="42" maxlength="255"></td>
+			<td><input type="submit" name="savetable" value="Сохранить" class="button"></td>
+			<td><input type="submit" name="deltable" value="Удалить" class="button" onclick="return delete_confirm('подраздел');"></td>
+		</tr>
+		<input type="hidden" name="cure_id" value="<?=$cure_id?>">
+		<input type="hidden" name="subcure_id" value="<?=$subcure_id?>">
+		<input type="hidden" name="page_id" value="<?=$descr?>">
+		<input type="hidden" name="table_id" value="<?=$v1['table_id']?>">
+		<input type="hidden" name="p" value="cure">
+		</FORM>
+		<?}?>
+		<?}?>
+		</table>
+	<?}?>
+		<p>&nbsp;</p>
+		
+        <?}else{?>
+    <form name="edit-form" method="post" enctype="multipart/form-data">
+        <table cellpadding="2" >
+        <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td>
+		<?if($type==7){?><td style="padding-left:20px" rowspan="4">
+			<p>Иконка<br />
+			<?if($photo){?><img src="<?=$photo?>" border=0 <?=$smallsize?>><br>
+			<a href="<?=$photo_del_link?>" onclick="javascript: return delete_confirm('фото')">Удалить</a>
+			<?}else{?>(размер  262px x 144px)<br /><input type="file" name="photo" size="5"><?}?>
+			</p>
+		</td><?}?>
+			</tr><?}?>
+        <?if($type==7){?><tr><td>Привязка к санаторию: </td><td><?=$subcure['san_select']?></td></tr><?}?>
+        <tr><td>Название: </td><td><input type="text" name="name" value="<?=$subcure['name']?>" maxlength="255" size="50"></td></tr>
+        <tr><td>Название eng: </td><td><input type="text" name="name_en" value="<?=$subcure['name_en']?>" maxlength="255" size="50"></td></tr>
+        <?if($type<3){?><tr><td>Заголовок: </td><td><input type="text" name="anons" value="<?=$subcure['anons']?>"  size="50"/></td></tr>
+        <tr><td>Заголовок eng: </td><td><input type="text" name="anons_en" value="<?=$subcure['anons_en']?>" size="50" /></td></tr><?}?>
+            <?if($cure_id==1){?><tr><td>Текст для выбора профиля: </td><td><textarea name="profile" cols="48" rows="5"><?=$subcure['profile']?></textarea></td></tr>
+            <tr><td>Текст для выбора профиля eng: </td><td><textarea name="profile_en" cols="48" rows="5"><?=$subcure['profile_en']?></textarea></td></tr><?}?>
+            <?if($type==2 || $type==4 || $type==7){?>
+            <tr><td>отображать в меню: </td><td><input type="checkbox" name="inmenu" value="1" <?if($subcure['inmenu']){?>checked="checked"<?}?>></td></tr>
+            <?}?>
+            <tr><td>Описание: </td><td colspan="2"><textarea name="description" class="edit" rows="15" cols="80" ><?=$subcure['description']?></textarea> 
+            </td></tr>
+            <tr><td>Описание eng: </td><td colspan="2"><textarea name="description_en" class="edit" rows="15" cols="80" ><?=$subcure['description_en']?></textarea>
+            </td></tr>
+
+			<?if($type<3){?><tr><td>Санатории:</td><td colspan="2">
+            <table>
+            <tr><td>Наличие</td><td>Цена (филиал)</td><td>Цена (осн.сайт)</td></tr>
+            <?foreach($subcure['page_box'] as $k=>$v){?>
+                <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>>
+				<td>
+                <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none';var obj1=document.getElementById('price1<?=$v['page_id']?>'); obj1.style.display = this.checked ? '' : 'none'"
+                value="<?=$v['page_id']?>" <?=$v['checked']?> >
+					<?if($v['checked']){?><a href="?p=cure&cure_id=<?=$cure_id?>&subcure_id=<?=$subcure_id?>&descr=<?=$v['page_id']?>"><?}?>
+					<?=$v['name']?>
+					<?if($v['checked']){?></a><?}?>
+                </td>
+                <td><input type="text" name="price[<?=$v['page_id']?>]" id="price<?=$v['page_id']?>" value="<?=$v['price']?>" maxlength="255" size="20" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
+                </td>
+                <td><input type="text" name="price1[<?=$v['page_id']?>]" id="price1<?=$v['page_id']?>" value="<?=$v['price1']?>" maxlength="255" size="20" style="<?if($k%2){?>background:#E9E9E9;<?}?><?if(!$v['checked']){?>display:none;<?}?>">
+                </td>
+                </tr>
+            <?}?>
+            </table>
+            </td></tr>
+            <?}elseif($type==4){?><tr><td>Таблица:</td><td>
+            <table>
+            <tr><td>Санаторий</td><td>Значения (русские и английские)</td></tr>
+            <?foreach($subcure['page_box'] as $k=>$v){?>
+                <tr <?if($k%2){?>style="background:#E9E9E9"<?}?>><td>
+                <input type="checkbox" class="chb_input" name="sanat[<?=$v['i']?>]" onclick="var obj=document.getElementById('price<?=$v['page_id']?>'); obj.style.display = this.checked ? '' : 'none'"
+                value="<?=$v['page_id']?>" <?=$v['checked']?> ><?=$v['name']?><br>
+                </td>
+                <td  id="price<?=$v['page_id']?>" style="<?if(!$v['checked']){?>display:none;<?}?>">
+				<textarea name="descr[<?=$v['page_id']?>]" cols="30" rows="5" 
+					style="<?if($k%2){?>background:#E9E9E9;<?}?>"><?=$v['description']?></textarea>  
+				<textarea name="descr_en[<?=$v['page_id']?>]" cols="30" rows="5" 
+					style="<?if($k%2){?>background:#E9E9E9;<?}?>"><?=$v['description_en']?></textarea>              
+                </td>
+                </tr>
+            <?}?>
+            </table>
+            </td></tr>
+            <?}?>
+            <tr><td></td><td><input type="submit" name="save" value="Сохранить" class="button"></td></tr>
+            </table>
+            <input type="hidden" name="cure_id" value="<?=$cure_id?>">
+            <input type="hidden" name="subcure_id" value="<?=$subcure_id?>">
+            <input type="hidden" name="p" value="cure">
+        </form>
+            <?}?>
+        <?}?>
+
+
