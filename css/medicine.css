@@ -256,14 +256,14 @@
     /*float: left;*/
     width: 362px;
 }
-.simple_content .plofiles-list{
+.simple_content .plofiles-list, .simple_content .plofiles-list-zelen{
     float: right;
     width: 170px;
 }
-.simple_content .plofiles-list li:nth-child(2n){
+.simple_content .plofiles-list li:nth-child(2n),.simple_content .plofiles-list-zelen li:nth-child(2n){
     background-color: #ebebeb;
 }
-.simple_content .plofiles-list a{
+.simple_content .plofiles-list a,.simple_content .plofiles-list-zelen a{
     display: block;
     padding: 3px 7px;
     text-decoration: none;
@@ -272,15 +272,21 @@
 .simple_content .plofiles-list li.active{
     background-color: #008c95;
 }
+.simple_content .plofiles-list-zelen li:hover,
+.simple_content .plofiles-list-zelen li.active{
+    background-color: #009745;
+}
 .simple_content .plofiles-list li:hover a,
-.simple_content .plofiles-list .active a{
+.simple_content .plofiles-list .active a,
+.simple_content .plofiles-list-zelen li:hover a,
+.simple_content .plofiles-list-zelen .active a{
     color: #fff;
 }
-.simple_content .plofiles-list li:first-child{
+.simple_content .plofiles-list li:first-child,.simple_content .plofiles-list-zelen li:first-child{
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
-.simple_content .plofiles-list li:last-child{
+.simple_content .plofiles-list li:last-child,.simple_content .plofiles-list-zelen li:last-child{
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
 }
