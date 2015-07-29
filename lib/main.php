@@ -45,7 +45,7 @@ $replace['sanatorii'] = $sanatorii;
 //print_r($sanatorii);
 
 
-$query = "SELECT petal_id, name$lprefix as name, url$lprefix as url  FROM ".TABLE_PETAL." WHERE public ORDER BY ord";
+$query = "SELECT petal_id, name$englang as name, url$englang as url  FROM ".TABLE_PETAL." WHERE public ORDER BY ord";
 $petals = array();
 $sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
 

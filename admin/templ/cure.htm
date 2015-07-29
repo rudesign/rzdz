@@ -417,6 +417,7 @@
         <?}else{?>
     <form name="edit-form" method="post" enctype="multipart/form-data">
         <table cellpadding="2" >
+	<tr><td>Отображать на сайте? </td><td><?=$subcure['public_select']?></td></tr>
         <?if($subcure['ord_select']){?><tr><td>Порядок отображения </td><td><?=$subcure['ord_select']?></td>
 		<?if($type==7){?><td style="padding-left:20px" rowspan="4">
 			<p>Иконка<br />

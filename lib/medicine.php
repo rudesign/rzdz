@@ -179,12 +179,18 @@ if($cure_id)
 	}
 	if($cure['cure_id']==14)
 	{
+        $q = "SELECT name$englang as name  FROM ".TABLE_CURE." WHERE cure_id=1";
+		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
+		$info = @mysql_fetch_array($sql1);		
+		$navig[] = array('name'=>$info['name'], 'link'=>$lprefix.'/medicine/1');
+		
 		$list = array();
-        $q = "SELECT cure_id, name$englang as name FROM ".TABLE_CURE." WHERE parent=14 ORDER BY ord";
+        $q = "SELECT cure_id, name$englang as name, description$englang as description  FROM ".TABLE_CURE." WHERE parent=14 and public ORDER BY ord";
 		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
 		while($info = @mysql_fetch_array($sql1))
 		{ 
-			$list[] = array('name'=>$info['name'], 'link'=>$link_medicine."14/".$info['cure_id']);
+			$link = $info['description'] ? $link_medicine."14/".$info['cure_id'] : '';
+			$list[] = array('name'=>$info['name'], 'link'=>$link);
 		}
 		$cure['att_list'] = $list;
 	}
@@ -886,7 +892,8 @@ if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
 }
 
 $replace['contra_indication_sm'] = $settings['contra_indication_sm'];
-$replace['contra_indication'] = $settings['contra_indication'];
+$replace['contra_indication'] = !@$_SESSION['vnimanie'] && $settings['contra_indication'] ? 1 : 0;
+$_SESSION['vnimanie'] = 1;
 
 $content = get_template("templ/page_medicine.htm", $replace);
 

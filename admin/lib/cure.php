@@ -81,10 +81,11 @@ if(@$save)
 		if($cure_type==2 || $cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
 		$page_id = (int)@$page_id;
 		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
+		$public = (int)@$public;
 
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en',
 			anons='$anons', anons_en='$anons_en',
-		    profile='$profile', profile_en='$profile_en', 
+		    profile='$profile', profile_en='$profile_en', public='$public',
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 		
@@ -1365,6 +1366,8 @@ if($cure_id)
 				}	
 			}	
 			
+			$subcure['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $subcure['public'], 0);
+		
 			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['ord_select'] = $cure_type==2 ? ord_select("SELECT name FROM ".TABLE_CURE.

@@ -242,7 +242,7 @@
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		
-		<div class="plofiles-list" style="width:100%; margin-top:20px">
+		<div class="plofiles-list-zelen" style="width:100%; margin-top:20px">
             <ul>
                 <?foreach($cure_list as $k=>$v){?>
 				<li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
@@ -259,7 +259,7 @@
 			<div class="clear" style="margin-bottom:20px"></div>
 			<ul class="contraindications">
 				<?foreach($cure['att_list'] as $v){?>
-				<li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>				
+				<li><?if($v['link']){?><a href="<?=$v['link']?>"><?}?><?=$v['name']?><?if($v['link']){?></a><?}?></li>				
 				<?}?>
 			</ul>
 	
