@@ -47,8 +47,9 @@
             </div><!--standart_land-->
 			<div class="landing_info clearfix for_flowers_li">
 			  <ul class="list_candle rd">
-			    <!--li><input type="submit" class="for_candle_a bat"  value="" onclick="window.location='<?=$lprefix?>/medicine/2/'" /></li-->
-				<li><input type="submit" class="for_candle_b bat" value="" onclick="window.location='<?=$lprefix?>/medicine/11/'"  /></li>
+			    <?foreach($petals as $k=>$v){?>
+				<li><input type="submit" class="for_candle bat"  value="<?=$v['name']?>" onclick="window.location='<?=$v['url']?>'" /></li>
+				<?}?>
               </ul><!--list_candle-->			  
 			</div><!--landing_info-->
           </div><!--landing_block-->
