@@ -3,7 +3,7 @@
 		
             <div id="pdescription" style="width:auto">
 			
-			<?if($cure['cure_id']==1){?><?=$subcure['profile']?><?}else{?><?=$subcure['description']?><?}?>
+			<?if($cure['cure_id']==1){?><?if(!$extrasite_id){?><?=$subcure['profile']?><?}?><?}else{?><?=$subcure['description']?><?}?>
 			
 			
             <?if(count(@$tables)){?>
