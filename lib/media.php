@@ -107,8 +107,8 @@ while($arr = @mysql_fetch_array($sql))
 		else $page['big'] =  '';
 	
 		if($medicine && !$page_id) $page['bigphoto'] = $link_medicine."?s_id=$page[page_id]";
-		//else $page['bigphoto'] = $page['mm']=='video' || ($page['mm']=='item' && $page['big']) ? "$lprefix/video/?photo_id=$page[photo_id]" : $f_big;
-		else $page['bigphoto'] = $page['mm']=='video' ? "$lprefix/video/?photo_id=$page[photo_id]" : $f_big;
+		else $page['bigphoto'] = $page['mm']=='video' || ($page['mm']=='item' && $page['big']) ? "$lprefix/video/?photo_id=$page[photo_id]" : $f_big;
+		//else $page['bigphoto'] = $page['mm']=='video' ? "$lprefix/video/?photo_id=$page[photo_id]" : $f_big;
 	}
 	
 	$page['fancy'] = $page['mm']=='item' || $page['mm']=='video' || ($page['mm']=='pdf' && !@$page['file']) || 
