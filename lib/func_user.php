@@ -660,6 +660,7 @@ function menu_medicine()
 		if($arr['cure_id']==1) $arr['name'] = str_replace("по", "<br>по", $arr['name']);
 		
 		$arr['link'] =  $link_medicine."$arr[cure_id]/";
+		if($arr['cure_id']==1 || $arr['cure_id']==90) $arr['link'] .= "?popup";
 		
 		if($arr['type']==3 && !( ($arr['cure_id']==5 || $arr['cure_id']==8) &&  !$extrasite_id ) )
 		{

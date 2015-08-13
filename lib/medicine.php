@@ -848,9 +848,12 @@ if(!$cure_id && !$subcure_id)
 		//$arr['name'] = htmlspecialchars($arr['name'], null, 'cp1251');
 		if($arr['cure_id']==1) $arr['name'] = str_replace("по", "<br>по", $arr['name']); 
 		
+		$arr['url'] = $link_medicine."$arr[cure_id]/";
+		if($arr['cure_id']==1 || $arr['cure_id']==90) $arr['url'] .= "?popup";
+		
 		$blocks[] = array(
 			'photo'=>$f,
-			'url'=>$link_medicine."$arr[cure_id]/",
+			'url'=>$arr['url'],
 			'name'=>$arr['name']
 		);
 	}
@@ -890,6 +893,8 @@ if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
 }else{
     $replace['profile'] = '';
 }
+
+if(isset($_GET['popup'])) $_SESSION['vnimanie'] = 0;
 
 $replace['contra_indication_sm'] = $settings['contra_indication_sm'];
 $replace['contra_indication'] = !@$_SESSION['vnimanie'] && $settings['contra_indication'] ? 1 : 0;
