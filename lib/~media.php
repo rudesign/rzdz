@@ -71,6 +71,7 @@ while($arr = @mysql_fetch_array($sql))
 	{
 		$f ="images/$photo_dir[$mm]/$arr[photo_id]-s.$arr[ext]";
 		if(!file_exists($f) && $page['mm']!='video') continue;
+        $f = '/'.$f;
 		list($page['w'], $page['h']) = @getimagesize($f);
 	}
 	
@@ -99,7 +100,7 @@ while($arr = @mysql_fetch_array($sql))
 	{
 		$f_big = "images/$photo_dir[$mm]/$arr[photo_id].$arr[ext_b]";
 		if(!file_exists($f_big) && $mm=='item') continue;
-		$page['photo'] = "/".$f; 
+		$page['photo'] = "/".$f;
 		if(!file_exists($f)) $page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 		//$page['photo'] = file_exists($fb="images/$photo_dir[brochure]/$arr[fb_id]-s.$arr[fb_ext]") ? "/".$fb : "/images/brochure.jpg";
 
@@ -108,7 +109,6 @@ while($arr = @mysql_fetch_array($sql))
 	
 		if($medicine && !$page_id) $page['bigphoto'] = $link_medicine."?s_id=$page[page_id]";
 		else $page['bigphoto'] = $page['mm']=='video' || ($page['mm']=='item' && $page['big']) ? "$lprefix/video/?photo_id=$page[photo_id]" : $f_big;
-		//else $page['bigphoto'] = $page['mm']=='video' ? "$lprefix/video/?photo_id=$page[photo_id]" : $f_big;
 	}
 	
 	$page['fancy'] = $page['mm']=='item' || $page['mm']=='video' || ($page['mm']=='pdf' && !@$page['file']) || 

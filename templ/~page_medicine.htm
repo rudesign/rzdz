@@ -1,9 +1,11 @@
+
+
 <?if($subcure_id){?>
         <div class="section clearfix">
 		
             <div id="pdescription" style="width:auto">
 			
-			<?if($cure['cure_id']==1){?><?if(!$extrasite_id){?><?=$subcure['profile']?><?}?><?}else{?><?=$subcure['description']?><?}?>
+			<?if($cure['cure_id']==1){?><?=$subcure['profile']?><?}else{?><?=$subcure['description']?><?}?>
 			
 			
             <?if(count(@$tables)){?>
@@ -70,8 +72,8 @@
 			<?if($cure['cure_id']==1){?><?=$subcure['description']?><?}?>
 
 <?}elseif($cure_id){?>
-	<?if($cure['develop']){?><p><?=$cure['description']?></p>
-	<?}elseif($cure['type']==1 || $cure['type']==4){?>
+
+	<?if($cure['type']==1 || $cure['type']==4){?>
         <!-- Profiles page -->
 		<?if(($cure['cure_id']==1 || $cure['cure_id']==90) && !$extrasite_id){?>
 
@@ -209,31 +211,34 @@
                     container1.slideUp('fast');
                 }
             </script>
-
-            <?if($contra_indication){?> <a id="popup-link" href="/cure_alert.php" class="fancybox"></a><?}?>
-            <?if($contra_indication_sm){?>
-			<div class="cure-locator clearfix">
+            <div class="cure-locator clearfix">
+                <a id="popup-link" href="/cure_alert.php" class="fancybox"></a>
                 <div class="alert">
                     <p class="centered" style="text-transform:uppercase"><b><?=$cure['att_name']?></b></p>
                     <p>&nbsp;</p>
-                    <p><?=$cure['att_description']?></p>
+                    <p><?php
+                        $limit = 180;
+                        $limited = mb_substr($cure['att_description'], 0, $limit, 'cp1251');
+                        $limited = explode(' ', $limited);
+                        array_pop($limited);
+                        echo implode(' ', $limited).'...';
+                     ?><a href="/medicine/14" target="_blank"><b>далее</b></a></p>
                     <p>&nbsp;</p>
+                    <p class="centered"><a href="/medicine/14" target="_blank"><b>Полный список противопоказаний</b></a></p>
                 </div>
 			</div>
-			<?}?>
 			
 			<?if($cure['cure_id'] == 90){?>
             <div class="cure-locator clearfix">
                 <div class="search-area">
-                    <form action="" method="get" >
+                    <!--ul>
+                        <li><a href="">При наборе: Результат поиска 1</a></li>
+                        <li><a href="">При наборе: Результат поиска 2</a></li>
+                        <li><a href="">При наборе: Результат поиска 3</a></li>
+                    </ul-->
+                    <form action="" method="get">
                         <input type="image" src="/img/for_loop.png">
-                        <input name="" type="text" id="autocomplete"/>
-        <div id="selection"></div>
-    <link href="js/autocomplete/styles.css" rel="stylesheet" />
-    <script type="text/javascript" src="js/autocomplete/jquery.autocomplete.js"></script>
-    <script type="text/javascript" src="js/autocomplete/objects.js"></script>
-    <script type="text/javascript" src="js/autocomplete/obj.js"></script>
-	<input type="hidden" name="object_id" value="0">
+                        <input name="" type="text" />
                     </form>
                 </div>
             </div>
@@ -242,7 +247,7 @@
 		<div id="pdescription" style="width:auto"><?=$cure['description']?></div>
 		<div class="clear"></div>
 		
-		<div class="plofiles-list-zelen" style="width:100%; margin-top:20px">
+		<div class="plofiles-list" style="width:100%; margin-top:20px">
             <ul>
                 <?foreach($cure_list as $k=>$v){?>
 				<li><a href="<?=$v['url']?>"><?=$v['name']?></a></li>
@@ -259,7 +264,7 @@
 			<div class="clear" style="margin-bottom:20px"></div>
 			<ul class="contraindications">
 				<?foreach($cure['att_list'] as $v){?>
-				<li><?if($v['link']){?><a href="<?=$v['link']?>"><?}?><?=$v['name']?><?if($v['link']){?></a><?}?></li>				
+				<li><a href="<?=$v['link']?>"><?=$v['name']?></a></li>				
 				<?}?>
 			</ul>
 	
@@ -297,8 +302,7 @@
             <div class="cure-progs">
                 <?foreach($cure_list as $k=>$v){?>
                 <div class="items">
-                    <div class="title"><?if(count(@$v['podrazdel'])){?><?=$v['name']?><?}else{?><a href="<?=$v['url']?>"><?=$v['name']?></a><?}?>
-						<?if(@$v['price']){?><br /><?=$v['price']?><?}?></div>
+                    <div class="title"><a href="<?=$v['url']?>"><?=$v['name']?></a><?if(@$v['price']){?><br /><?=$v['price']?><?}?></div>
                     <div class="teaser"><?=$v['teaser']?>
 					<?foreach($v['podrazdel'] as $k=>$v1){?><br /><a href="<?=$v1['url']?>"><?=$v1['name']?></a><?}?>
 					</div>
@@ -364,7 +368,6 @@
 		
 		<?}else{?>
 		
-			<?if(@$cure_list){?>
 		<script language="javascript">
 		var CureList = new Array();
         <?$i=0;foreach($cure_list as $k=>$v){?>
@@ -414,23 +417,8 @@
 			</ul>
 			<?}?>
 		</ul><p>&nbsp;</p>
-		
 		<?}?>
-		<?}?>
-		
-        <?if(@count($curehotel)){?>
-		<div class="medicine-sanatorium-services section">
-            <div class="grid">
-                <?foreach($curehotel as $v){?>
-                <div class="items">
-                    <a href="<?=$v['page_link']?>"><img src="<?=$v['photo']?>" /></a>
-                    <!--<?=$v['name']?> <br /><?=$v['city']?> -->
-                </div>
-                <?}?>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-		<?}?>
+			
 		
 		<?}?>
 			

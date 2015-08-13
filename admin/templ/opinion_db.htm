@@ -1,0 +1,15 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<title>База адресов из отзывов</title>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<table border="1" bordercolor="#C0C0C0" style="border-collapse: collapse;" cellpadding="5">
+	<?foreach($list as $v){?>
+	<tr><td><?=$v['client_name']?></td><td><?=$v['client_email']?></td><td><a href="<?=$v['link']?>">Отзыв</a></td></tr>
+	<?}?>
+</table>
+</body>
+</html>

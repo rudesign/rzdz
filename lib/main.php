@@ -44,6 +44,19 @@ $replace['sanatorii'] = $sanatorii;
 
 //print_r($sanatorii);
 
+
+$query = "SELECT petal_id, name$englang as name, url$englang as url  FROM ".TABLE_PETAL." WHERE public ORDER BY ord";
+$petals = array();
+$sql = mysql_query($query) or Error(1, __FILE__, __LINE__);
+
+while($arr = @mysql_fetch_array($sql, MYSQL_ASSOC))
+{
+    $petals[] = $arr;
+}
+
+$replace['petals'] = $petals;
+
+
 $content = get_template('templ/main.htm', $replace); 
 
 

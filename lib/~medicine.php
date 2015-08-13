@@ -137,7 +137,7 @@ $cure = array(); $subcure = array();
 if($cure_id)
 {
 	$fn = $extrasite_id ? "if(name_extra$englang!='',name_extra$englang,name$englang)" : "name$englang";
-	$fields = "cure_id, develop, $fn as name, type, inhotel$englang ";
+	$fields = "cure_id, $fn as name, type, inhotel$englang ";
 	if(!$subcure_id || $cure_id==11)  $fields .=  ", description$englang as description";
 	if($subcure_id && @$curestr_id)  $fields .=  ", inhotel$englang as inhotel";
 	  
@@ -179,18 +179,12 @@ if($cure_id)
 	}
 	if($cure['cure_id']==14)
 	{
-        $q = "SELECT name$englang as name  FROM ".TABLE_CURE." WHERE cure_id=1";
-		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
-		$info = @mysql_fetch_array($sql1);		
-		$navig[] = array('name'=>$info['name'], 'link'=>$lprefix.'/medicine/1');
-		
 		$list = array();
-        $q = "SELECT cure_id, name$englang as name, description$englang as description  FROM ".TABLE_CURE." WHERE parent=14 and public ORDER BY ord";
+        $q = "SELECT cure_id, name$englang as name FROM ".TABLE_CURE." WHERE parent=14 ORDER BY ord";
 		$sql1 = mysql_query($q) or Error(1, __FILE__, __LINE__);
 		while($info = @mysql_fetch_array($sql1))
 		{ 
-			$link = $info['description'] ? $link_medicine."14/".$info['cure_id'] : '';
-			$list[] = array('name'=>$info['name'], 'link'=>$link);
+			$list[] = array('name'=>$info['name'], 'link'=>$link_medicine."14/".$info['cure_id']);
 		}
 		$cure['att_list'] = $list;
 	}
@@ -203,8 +197,7 @@ if($cure_id)
 	
 	if(!$subcure_id || $cure['type']==1)  
 	{
-		if($cure['develop']) $cure['description'] = $lang_phrases['vrazrabotke'];
-		elseif($cure['type']==1 || $cure['type']==4)
+		if($cure['type']==1 || $cure['type']==4)
 		{ 
 			$ord = $cure['type']==2 ? 'c.name' : 'c.ord';
 			
@@ -264,7 +257,7 @@ if($cure_id)
 				$info['newcol'] = !(($k+$in_col)%$in_col) && $k!=$sql_count ? 1 : 0; 
 				
 				$price = (int)@$info['price'];
-				$info['price'] = $price>0 && @$info['price']==$price ? $price." ???." : htmlspecialchars(@$info['price']);
+				$info['price'] = $price>0 && @$info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars(@$info['price']);
 				
 				$f= @$info['photo_id'] ? "/images/$photo_dir[cure_part]/$info[photo_id]-s.$info[ext]" : '';
 				if($f && file_exists($f))
@@ -469,7 +462,7 @@ if($cure_id)
 			$cures =  array();
 			
 			$replace['pdf'] = '';
-			if($extrasite_id && !$settings['medservice'])
+			if($extrasite_id)
 			{
 				$sql = mysql_query("SELECT f.photo_id, f.ext
 					FROM ".TABLE_PHOTO."  f 
@@ -479,11 +472,10 @@ if($cure_id)
 				
 				$replace['pdf'] = file_exists($f="images/$photo_dir[cure_pdf]/$arr[photo_id]-s.$arr[ext]") ? "/".$f : "";
 			}
-			
-			if(!$extrasite_id && $cure_id==2 && !$settings['medservice'])
+			elseif($cure_id==2)
 			{
 				$curehotel = array();
-				$ord = 'p.ord';
+				$ord = 'p.name';
 				$sql = mysql_query("SELECT p.page_id, p.name$englang as name, ct.name$englang as city, 
 					fb.photo_id as fb_id, fb.ext as fb_ext, sd.dir as sp_dir
 					FROM ".TABLE_PAGE." p
@@ -510,10 +502,9 @@ if($cure_id)
 					$curehotel[] = $info;	
 				}
 				$replace['curehotel'] = $curehotel;
-				
 			}
 			
-			if((!$replace['pdf'] && $extrasite_id) || $settings['medservice'])
+			if(!$replace['pdf'])
 			{
 				$where = $curestr_id ? " AND curestr_id=$curestr_id" : '';
 				$replace['showall'] = $curestr_id ? 1 : 0;
@@ -750,7 +741,7 @@ if($subcure_id)
 			else 
 			{
 				$price = (int)$info['price'];
-				$info['price'] = $price>0 && $info['price']==$price ? $price." ???." : htmlspecialchars($info['price']);
+				$info['price'] = $price>0 && $info['price']==$price ? $price." пїЅпїЅпїЅ." : htmlspecialchars($info['price']);
 			}
 			$info['page_link'] = $info['sp_dir'] ?  
 				($cure['type']==2 ? $info['sp_dir']."/medicine/$cure_id/?sid=$subcure_id#price\" target=\"_blank"
@@ -844,14 +835,10 @@ if(!$cure_id && !$subcure_id)
 		}
 		else $f="/images/$photo_dir[cure_part]/$arr[photo_id]-s.$arr[ext]";
 		//list($w_small, $h_small) = @getimagesize($f);
-		
-		//$arr['name'] = htmlspecialchars($arr['name'], null, 'cp1251');
-		if($arr['cure_id']==1) $arr['name'] = str_replace("по", "<br>по", $arr['name']); 
-		
 		$blocks[] = array(
 			'photo'=>$f,
 			'url'=>$link_medicine."$arr[cure_id]/",
-			'name'=>$arr['name']
+			'name'=>htmlspecialchars($arr['name'], null, 'cp1251')
 		);
 	}
 	$replace['blocks'] = $blocks;
@@ -890,10 +877,6 @@ if(($cure_id==1 || (!$cure_id && !$subcure_id)) && !$extrasite_id) {
 }else{
     $replace['profile'] = '';
 }
-
-$replace['contra_indication_sm'] = $settings['contra_indication_sm'];
-$replace['contra_indication'] = !@$_SESSION['vnimanie'] && $settings['contra_indication'] ? 1 : 0;
-$_SESSION['vnimanie'] = 1;
 
 $content = get_template("templ/page_medicine.htm", $replace);
 

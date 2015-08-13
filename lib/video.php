@@ -76,7 +76,7 @@ if(@$other)
 		list($w, $h) = getimagesize($f_big);
 		
 		$bigphoto = "/".$f_big;
-		$superphoto = is_file($bf="images/big/$arr[photo_id].jpg") ?  "/".$bf : '';
+		$superphoto = is_file($bf="images/big/$arr[photo_id].jpg") ?  "/".$bf : ''; 
 		
 ?>
 <!DOCTYPE html>

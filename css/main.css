@@ -2009,6 +2009,22 @@ margin-top:20px;
 }
 
 
+.for_candle{
+background:url(../img/for_candle.png) no-repeat;
+display:block;
+width:232px;
+height:32px;
+font-weight:bold;
+font-size:13px;
+color:#008c95;
+line-height:32px;
+padding-bottom:5px;
+padding-right:5px;
+}
+.for_candle:hover{
+background:url(../img/for_candle_hover.png) no-repeat;
+color:#fff;
+}
 
 .for_candle_a{
 background:url(../img/for_candle_a.png) no-repeat;
@@ -2911,7 +2927,7 @@ border-radius: 5px;
 
 .bron {
     
-	background: url(../img/kbront.png) no-repeat scroll 0 0;
+	background: url(../img/kbront_.png) no-repeat scroll 0 0;
 	border: none;
 	outline: none;
 	display: block;

@@ -81,10 +81,11 @@ if(@$save)
 		if($cure_type==2 || $cure_type==4 || $cure_type==7) $sql_ord .= ", inmenu='$inmenu'";
 		$page_id = (int)@$page_id;
 		if($cure_type==7) $sql_ord .= ", page_id='$page_id'";
+		$public = (int)@$public;
 
 		mysql_query("UPDATE ".TABLE_CURE." SET  name='$name', name_en='$name_en',
 			anons='$anons', anons_en='$anons_en',
-		    profile='$profile', profile_en='$profile_en', 
+		    profile='$profile', profile_en='$profile_en', public='$public',
 			description='$description', description_en='$description_en' $sql_ord
 			WHERE cure_id='$subcure_id'") or Error(1, __FILE__, __LINE__);
 		
@@ -234,6 +235,77 @@ if(@$save)
 	}
 	
 	Header("Location: ".$url);
+	exit;
+}
+
+if(@$addpetal)
+{	
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_PETAL) or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr[0] + 1;
+	
+	mysql_query("INSERT INTO ".TABLE_PETAL." SET ord=$ord") or Error(1, __FILE__, __LINE__);
+	$id = mysql_insert_id();
+
+    if(is_object($log)) $log->store($log->getActionName('add').' регион', $id.'@'.TABLE_PETAL);
+		
+	Header("Location: ".ADMIN_URL."?p=$part&petals=1");
+	exit;
+}
+
+if(@$savepetal)
+{
+	$sql = mysql_query("SELECT COUNT(*) FROM ".TABLE_PETAL) or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$count = (int)@$arr[0];
+	
+	$sql = mysql_query("SELECT ord FROM ".TABLE_PETAL." WHERE petal_id='$petal_id'") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$oldord = (int)@$arr['ord'];
+	
+	$ord = (int)@$ord;
+	if($ord < 1 || $ord > $count) 
+	{
+		$_SESSION['message'] = "Неверное значение порядкового номера (от 1 до $count)";
+		Header("Location: ".ADMIN_URL."?p=$part&petals=1");
+		exit;
+	}
+	
+	$public = (int)@$public;
+	$name = escape_string(from_form(@$name));
+	$name_en = escape_string(from_form(@$name_en));
+	$url = escape_string(from_form(@$url));
+	$url_en = escape_string(from_form(@$url_en));
+	
+	mysql_query("UPDATE ".TABLE_PETAL." SET public='$public', name='$name', name_en='$name_en', url='$url', url_en='$url_en', ord='$ord' ".
+				"WHERE petal_id='$petal_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('edit').' регион', $id.'@'.TABLE_PETAL);
+				
+	if($ord > $oldord) mysql_query("UPDATE ".TABLE_PETAL." SET ord=ord-1 ".
+		"WHERE ord>'$oldord' AND ord<='$ord' AND petal_id!='$petal_id'") or Error(1, __FILE__, __LINE__);
+	elseif($ord < $oldord) mysql_query("UPDATE ".TABLE_PETAL." SET ord=ord+1 ".
+		"WHERE ord>='$ord' AND ord<'$oldord' AND petal_id!='$petal_id'") or Error(1, __FILE__, __LINE__);
+	
+	$url = ADMIN_URL."?p=$part&petals=1";
+	
+	Header("Location: ".$url);
+	exit;
+}
+
+if(@$delpetal)
+{
+	$sql = mysql_query("SELECT ord FROM ".TABLE_PETAL." WHERE petal_id=$petal_id") or Error(1, __FILE__, __LINE__);
+	$arr = @mysql_fetch_array($sql);
+	$ord = (int)@$arr['ord']; 
+	
+	mysql_query("DELETE FROM ".TABLE_PETAL." WHERE petal_id='$petal_id'") or Error(1, __FILE__, __LINE__);
+
+    if(is_object($log)) $log->store($log->getActionName('del').' регион', $id.'@'.TABLE_PETAL);
+
+	mysql_query("UPDATE ".TABLE_PETAL." SET ord=ord-1 WHERE ord>$ord") or Error(1, __FILE__, __LINE__);	
+		
+	Header("Location: ".ADMIN_URL."?p=$part&petals=1");
 	exit;
 }
 
@@ -770,6 +842,29 @@ $replace['cure_id'] = $cure_id;
 
 $left_menu = get_template('templ/cure_list.htm', $replace);
 
+if(isset($petals))
+{
+	$sql = mysql_query("SELECT * FROM ".TABLE_PETAL." ORDER BY ord") or Error(1, __FILE__, __LINE__);
+	
+	$petals = array(); 
+	while($info = @mysql_fetch_array($sql))
+	{ 
+		$info['name'] = HtmlSpecialChars($info['name'], ENT_COMPAT, 'cp1251');
+		$info['name_en'] = HtmlSpecialChars($info['name_en'], ENT_COMPAT, 'cp1251');
+		//if(!$info['name']) $info['name'] = NONAME;
+		
+		$info['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $info['public'], 0);
+	
+		$petals[] = $info;
+	}
+
+	$replace['petals'] = $petals;
+
+	$content = get_template('templ/petal_list.htm', $replace);
+
+	return;
+}
+
 if($cure_id)
 {		
 	$sql = mysql_query("SELECT * FROM ".TABLE_CURE." WHERE cure_id=$cure_id") 
@@ -1271,6 +1366,8 @@ if($cure_id)
 				}	
 			}	
 			
+			$subcure['public_select'] = array_select('public', array(0=>'Нет', 1=>'Да'), $subcure['public'], 0);
+		
 			$subcure['list_link'] = "?p=cure&cure_id=$cure_id";
 			if($subcure['curestr_id']) $subcure['list_link'] .= "&service&&curestr_id=".$subcure['curestr_id'];
 			$subcure['ord_select'] = $cure_type==2 ? ord_select("SELECT name FROM ".TABLE_CURE.

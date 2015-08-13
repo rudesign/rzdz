@@ -410,7 +410,7 @@ function getMetaTagsPostfix(){
         $postfix = ((($month >= 1) && ($month < $summerStarts)) || (($month <= 12) && ($month >= $summerEnds))) ? '1' : '';
 
         return $postfix;
-    }catch (\Exception $e){
+    }catch (Exception $e){
         return '';
     }
 }
