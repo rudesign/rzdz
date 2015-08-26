@@ -646,11 +646,14 @@ if($cure_id)
 	
 if($subcure_id)
 {
-	$sql = mysql_query("SELECT cure_id, parent, name$englang as name, profile$englang as profile, description$englang as description
-		FROM ".TABLE_CURE." WHERE cure_id=$subcure_id AND public") or Error(1, __FILE__, __LINE__);
+	$sql = mysql_query("SELECT 
+		c.cure_id, c.parent, c.name$englang as name, c.profile$englang as profile, c.description$englang as description, h.name$englang as ename
+		FROM ".TABLE_CURE." c 
+		LEFT JOIN ".TABLE_CUREHOTEL." h  ON (h.cure_id=c.cure_id AND h.page_id='$extrasite_id')
+		WHERE c.cure_id=$subcure_id AND c.public") or Error(1, __FILE__, __LINE__);
 	if(!($subcure = @mysql_fetch_array($sql))) {page404();return;}
 	
-	$subcure['name'] = htmlspecialchars($subcure['name']);
+	$subcure['name'] = $subcure['ename'] ? htmlspecialchars($subcure['ename']) : htmlspecialchars($subcure['name']);
 	$page_name = $subcure['name'];
 	
 	if(!$subcure['description'] && $extrasite_id) $subcure['description'] = $lang_phrases['development'];

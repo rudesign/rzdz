@@ -5,7 +5,7 @@ if(isset($pdf))
 
 	$name = @$name ? str_replace(" ","_", @$name) : $pdf;
 	$ext = @$ext;
-	$path = "/images/$photo_dir[license]/$pdf.$ext";
+	$path = "images/$photo_dir[license]/$pdf.$ext";
 	
 	if (file_exists($path)) {
 		if (ob_get_level()) {
@@ -20,8 +20,8 @@ if(isset($pdf))
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($path));
 		readfile($path);
-		exit;
 	}
+		exit;
 
 }
 
